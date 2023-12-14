@@ -37,4 +37,4 @@ workspace "%{game_project}" -- 게임 개발 작업 영역입니다.
 
     include "GameEngine/ThirdParty/thirdparty_config.lua"   -- 서드 파티 라이브러리 프로젝트 설정을 추가합니다.
     include "GameEngine/project_config.lua"                 -- 게임 엔진 프로젝트 설정을 추가합니다.
-    include "Breakout3D/project_config.lua"                 -- 시작 프로젝트 설정을 추가합니다.
+    include "ProjectA/project_config.lua"                   -- 시작 프로젝트 설정을 추가합니다.
