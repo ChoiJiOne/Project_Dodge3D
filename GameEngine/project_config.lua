@@ -38,6 +38,7 @@ project "GameEngine"    -- 게임 엔진 프로젝트입니다.
     
     disablewarnings { 
         "4996", -- C4996 경고를 비활성화합니다.
+        "4006", -- C4006 경고를 비활성화합니다.
     }
 
     filter "configurations:Debug" -- 프로젝트의 Debug 모드 설정을 수행합니다.
