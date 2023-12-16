@@ -4,6 +4,8 @@
 #include <string>
 #include <windows.h>
 
+#include "Macro.h"
+
 
 /**
  * @brief 윈도우 프로시저입니다.
@@ -27,6 +29,12 @@ public:
 	 * @brief 윈도우를 생성하고 관리하는 클래스의 가상 소멸자입니다.
 	 */
 	virtual ~Window();
+
+
+	/**
+	 * @brief 윈도우를 생성하고 관리하는 클래스의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 */
+	DISALLOW_COPY_AND_ASSIGN(Window);
 
 
 	/**
