@@ -4,12 +4,61 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include <windows.h>
 
 
 #if defined(DEBUG) || defined(RELEASE)
+/**
+ * @brief 에러 코드에 대응하는 메시지를 얻습니다.
+ * 
+ * @param errorCode 확인할 에러 코드입니다.
+ * 
+ * @return 에러 코드에 대응하는 메시지를 반환합니다.
+ */
+std::string GetErrorCodeMessageA(const uint32_t& errorCode)
+{
+	static const uint32_t MAX_BUFFER_SIZE = 1024;
+	static char buffer[MAX_BUFFER_SIZE];
+
+	uint32_t size = FormatMessageA(
+		FORMAT_MESSAGE_FROM_SYSTEM,
+		nullptr,
+		static_cast<DWORD>(errorCode),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		buffer,
+		MAX_BUFFER_SIZE,
+		nullptr
+	);
+
+	return std::string(buffer, size);
+}
 
 
+/**
+ * @brief 에러 코드에 대응하는 메시지를 얻습니다.
+ * 
+ * @param errorCode 확인할 에러 코드입니다.
+ *
+ * @return 에러 코드에 대응하는 메시지를 반환합니다.
+ */
+std::wstring GetErrorCodeMessageW(const uint32_t& errorCode)
+{
+	static const uint32_t MAX_BUFFER_SIZE = 1024;
+	static wchar_t buffer[MAX_BUFFER_SIZE];
+
+	uint32_t size = FormatMessageW(
+		FORMAT_MESSAGE_FROM_SYSTEM,
+		nullptr,
+		static_cast<DWORD>(errorCode),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		buffer,
+		MAX_BUFFER_SIZE,
+		nullptr
+	);
+
+	return std::wstring(buffer, size);
+}
 #endif
 
 
