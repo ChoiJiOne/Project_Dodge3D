@@ -77,6 +77,14 @@ public:
 
 
 	/**
+	 * @brief 윈도우 창이 표시되어 있는지 확인합니다.
+	 * 
+	 * @return 윈도우 창이 표시되어 있다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsVisible() const { return IsWindowVisible(windowHandle_); }
+
+
+	/**
 	 * @brief 윈도우 핸들을 얻습니다.
 	 * 
 	 * @return 윈도우 핸들을 반환합니다.
