@@ -1,11 +1,6 @@
 #pragma once
 
-#include <cstdarg>
-#include <cstdint>
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <windows.h>
+#include "Assertion.h"
 
 
 #if defined(DEBUG) || defined(RELEASE)
@@ -16,7 +11,7 @@
  * 
  * @return 에러 코드에 대응하는 메시지를 반환합니다.
  */
-std::string GetErrorCodeMessageA(const uint32_t& errorCode)
+std::string GetWindowsErrorCodeMessageA(const uint32_t& errorCode)
 {
 	static const uint32_t MAX_BUFFER_SIZE = 1024;
 	static char buffer[MAX_BUFFER_SIZE];
@@ -42,7 +37,7 @@ std::string GetErrorCodeMessageA(const uint32_t& errorCode)
  *
  * @return 에러 코드에 대응하는 메시지를 반환합니다.
  */
-std::wstring GetErrorCodeMessageW(const uint32_t& errorCode)
+std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
 {
 	static const uint32_t MAX_BUFFER_SIZE = 1024;
 	static wchar_t buffer[MAX_BUFFER_SIZE];
@@ -74,9 +69,34 @@ std::wstring GetErrorCodeMessageW(const uint32_t& errorCode)
  * - 디버거가 존재하지 않으면 크래시 덤프 파일을 생성합니다.
  */
 #if defined(DEBUG)
-
+#ifndef WINDOWS_ASSERT
+#define WINDOWS_ASSERT(Expression, ...)\
+{\
+	if(!(bool)(Expression))\
+	{\
+		AssertPrintF("\nWindows assertion check point failed!\nFile : %s\nLine : %d\nExpression : %s\nMessage : ", __FILE__, __LINE__, #Expression);\
+		AssertPrintF(__VA_ARGS__);\
+		AssertPrintF(L"\nWindows error message : %s\n", GetWindowsErrorCodeMessageW(GetLastError()).c_str());\
+		__debugbreak();\
+		ExitProcess(-1);\
+	}\
+}
+#endif
 #elif defined(RELEASE)
-
+#ifndef WINDOWS_ASSERT
+#define WINDOWS_ASSERT(Expression, ...)\
+{\
+	if(!(bool)(Expression))\
+	{\
+		AssertPrintF("\nWindows assertion check point failed!\nFile : %s\nLine : %d\nExpression : %s\nMessage : ", __FILE__, __LINE__, #Expression);\
+		AssertPrintF(__VA_ARGS__);\
+		AssertPrintF(L"\nWindows error message : %s\n", GetWindowsErrorCodeMessageW(GetLastError()).c_str());\
+		__debugbreak();\
+	}\
+}
+#endif
 #else // defined(SHIPPING)
-
+#ifndef WINDOWS_ASSERT
+#define WINDOWS_ASSERT(Expression, ...) ((void)(Expression))
+#endif
 #endif
