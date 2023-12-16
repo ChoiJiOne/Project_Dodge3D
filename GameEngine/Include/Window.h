@@ -51,7 +51,7 @@ public:
 	 * 
 	 * @return 윈도우 클래스를 등록했다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	static bool IsRegisterWindowClas() { return bIsRegisterWindowClass_; }
+	static bool IsRegisterWindowClass() { return bIsRegisterWindowClass_; }
 
 
 private:
