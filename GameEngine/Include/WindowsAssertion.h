@@ -11,7 +11,7 @@
  * 
  * @return 에러 코드에 대응하는 메시지를 반환합니다.
  */
-std::string GetWindowsErrorCodeMessageA(const uint32_t& errorCode)
+inline std::string GetWindowsErrorCodeMessageA(const uint32_t& errorCode)
 {
 	static const uint32_t MAX_BUFFER_SIZE = 1024;
 	static char buffer[MAX_BUFFER_SIZE];
@@ -37,7 +37,7 @@ std::string GetWindowsErrorCodeMessageA(const uint32_t& errorCode)
  *
  * @return 에러 코드에 대응하는 메시지를 반환합니다.
  */
-std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
+inline std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
 {
 	static const uint32_t MAX_BUFFER_SIZE = 1024;
 	static wchar_t buffer[MAX_BUFFER_SIZE];
