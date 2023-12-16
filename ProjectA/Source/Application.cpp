@@ -8,6 +8,9 @@ LRESULT CALLBACK WindowProc(HWND windowHandle, uint32_t message, WPARAM wParam, 
 {
 	switch (message)
 	{
+	case WM_CREATE:
+		break;
+
 	case WM_CLOSE:
 		DestroyWindow(windowHandle);
 		break;
