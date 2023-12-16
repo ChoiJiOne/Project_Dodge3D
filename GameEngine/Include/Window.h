@@ -46,6 +46,14 @@ public:
 	static void UnregisterWindowClass();
 
 
+	/**
+	 * @brief 윈도우 클래스를 등록했는지 확인합니다.
+	 * 
+	 * @return 윈도우 클래스를 등록했다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	static bool IsRegisterWindowClas() { return bIsRegisterWindowClass_; }
+
+
 private:
 	/**
 	 * @brief 윈도우 클래스를 등록했는지 확인합니다.
