@@ -48,10 +48,9 @@ public:
 	 * @param w 윈도우의 가로 크기입니다.
 	 * @param h 윈도우의 세로 크기입니다.
 	 * @param bIsResizable 윈도우의 크기 변환 여부입니다.
-	 * @param bIsVisible 윈도우를 표시할 시 여부입니다
 	 * @param bIsFullscreenMode 윈도우를 풀 스크린 모드로 설정할 지 여부입니다.
 	 */
-	void Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsVisible, bool bIsFullscreenMode);
+	void Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsFullscreenMode);
 
 
 	/**
@@ -59,7 +58,7 @@ public:
 	 */
 	void Destroy();
 
-
+	
 	/**
 	 * @brief 윈도우가 풀 스크린모드인지 확인합니다.
 	 * 
@@ -77,9 +76,9 @@ public:
 
 
 	/**
-	 * @brief 윈도우 창이 표시되어 있는지 확인합니다.
+	 * @brief 윈도우가 표시되어 있는지 확인합니다.
 	 * 
-	 * @return 윈도우 창이 표시되어 있다면 true, 그렇지 않으면 false를 반환합니다.
+	 * @return 윈도우가 표시되어 있다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
 	bool IsVisible() const { return IsWindowVisible(windowHandle_); }
 
@@ -90,6 +89,15 @@ public:
 	 * @return 윈도우 핸들을 반환합니다.
 	 */
 	HWND GetHandle() { return windowHandle_; }
+
+
+	/**
+	 * @brief 윈도우의 크기를 얻습니다.
+	 * 
+	 * @param outWidth 윈도우의 가로 크기입니다.
+	 * @param outHeight 윈도우의 세로 크기입니다.
+	 */
+	void GetSize(int32_t& outWidth, int32_t& outHeight);
 
 
 	/**

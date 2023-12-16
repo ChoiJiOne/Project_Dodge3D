@@ -11,7 +11,7 @@ Window::~Window()
 	Destroy();
 }
 
-void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsVisible, bool bIsFullscreenMode)
+void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsFullscreenMode)
 {
 	ASSERT(windowHandle_ == nullptr, "already create window...");
 	
@@ -19,7 +19,7 @@ void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, 
 	int32_t windowPosY = 0;
 	int32_t windowWidth = 0;
 	int32_t windowHeight = 0;
-	uint32_t windowStyle = 0;
+	uint32_t windowStyle = WS_VISIBLE;
 
 	if (bIsFullscreenMode)
 	{
@@ -30,7 +30,7 @@ void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, 
 		windowPosY = 0;
 		windowWidth = static_cast<int32_t>(GetSystemMetrics(SM_CXSCREEN));
 		windowHeight = static_cast<int32_t>(GetSystemMetrics(SM_CYSCREEN));
-		windowStyle = WS_POPUP;
+		windowStyle |= WS_POPUP;
 		
 		DEVMODEW devMode = {};
 		devMode.dmSize = sizeof(DEVMODEW);
@@ -53,12 +53,7 @@ void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, 
 		windowPosY = y;
 		windowWidth = windowRect.right - windowRect.left;
 		windowHeight = windowRect.bottom - windowRect.top;
-		windowStyle = bIsResizable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-	}
-
-	if (bIsVisible)
-	{
-		windowStyle |= WS_VISIBLE;
+		windowStyle |= bIsResizable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 	}
 
 	windowHandle_ = CreateWindowExW(
@@ -92,6 +87,15 @@ void Window::Destroy()
 
 	WINDOWS_ASSERT(DestroyWindow(windowHandle_), "failed to destroy window...");
 	windowHandle_ = nullptr;
+}
+
+void Window::GetSize(int32_t& outWidth, int32_t& outHeight)
+{
+	RECT windowRect;
+	WINDOWS_ASSERT(GetClientRect(windowHandle_, &windowRect), "failed to calculate window size...");
+
+	outWidth = static_cast<int32_t>(windowRect.right - windowRect.left);
+	outHeight = static_cast<int32_t>(windowRect.bottom - windowRect.top);
 }
 
 void Window::RegisterWindowClass(const std::wstring& windowClassName, WINDOWPROC windowProc)
