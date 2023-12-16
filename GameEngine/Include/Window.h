@@ -56,6 +56,54 @@ public:
 
 private:
 	/**
+	 * @brief 윈도우 핸들입니다.
+	 */
+	HWND windowHandle_ = nullptr;
+
+
+	/**
+	 * @brief 윈도우의 크기를 바꿀 수 있는지 확인합니다.
+	 */
+	bool bIsResizable_ = false;
+
+
+	/**
+	 * @brief 풀 스크린 모드인지 확인합니다.
+	 */
+	bool bIsFullscreenMode_ = false;
+
+
+	/**
+	 * @brief 윈도우를 숨기는지 확인합니다.
+	 */
+	bool bIsHide_ = false;
+
+
+	/**
+	 * @brief 윈도우 상단의 X좌표입니다.
+	 */
+	int32_t positionX_ = 0;
+
+
+	/**
+	 * @brief 윈도우 상단의 Y좌표입니다.
+	 */
+	int32_t positionY_ = 0;
+
+
+	/**
+	 * @brief 윈도우의 가로 크기입니다.
+	 */
+	int32_t width_ = 0;
+
+
+	/**
+	 * @brief 윈도우의 세로 크기입니다.
+	 */
+	int32_t height_ = 0;
+
+
+	/**
 	 * @brief 윈도우 클래스를 등록했는지 확인합니다.
 	 */
 	static bool bIsRegisterWindowClass_;
@@ -79,16 +127,4 @@ private:
 	 * - 참조 : https://learn.microsoft.com/ko-kr/windows/win32/winmsg/about-window-classes#types-of-window-classes
 	 */
 	static std::wstring windowClassName_;
-
-
-	/**
-	 * @brief 윈도우 핸들입니다.
-	 */
-	HWND windowHandle_ = nullptr;
-
-
-	/**
-	 * @brief 윈도우의 크기를 바꿀 수 있는지 확인합니다.
-	 */
-	bool bIsResizable_ = false;
 };
