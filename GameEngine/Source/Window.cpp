@@ -11,7 +11,7 @@ Window::~Window()
 	Destroy();
 }
 
-void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsShow, bool bIsFullscreenMode)
+void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsVisible, bool bIsFullscreenMode)
 {
 	ASSERT(windowHandle_ == nullptr, "already create window...");
 	
@@ -31,7 +31,7 @@ void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, 
 		windowWidth = static_cast<int32_t>(GetSystemMetrics(SM_CXSCREEN));
 		windowHeight = static_cast<int32_t>(GetSystemMetrics(SM_CYSCREEN));
 		windowStyle = WS_POPUP;
-
+		
 		DEVMODEW devMode = {};
 		devMode.dmSize = sizeof(DEVMODEW);
 		devMode.dmPelsWidth = static_cast<uint32_t>(windowWidth);
@@ -54,6 +54,11 @@ void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, 
 		windowWidth = windowRect.right - windowRect.left;
 		windowHeight = windowRect.bottom - windowRect.top;
 		windowStyle = bIsResizable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
+	}
+
+	if (bIsVisible)
+	{
+		windowStyle |= WS_VISIBLE;
 	}
 
 	windowHandle_ = CreateWindowExW(

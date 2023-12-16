@@ -48,10 +48,10 @@ public:
 	 * @param w 윈도우의 가로 크기입니다.
 	 * @param h 윈도우의 세로 크기입니다.
 	 * @param bIsResizable 윈도우의 크기 변환 여부입니다.
-	 * @param bIsShow 윈도우를 표시할 시 여부입니다
+	 * @param bIsVisible 윈도우를 표시할 시 여부입니다
 	 * @param bIsFullscreenMode 윈도우를 풀 스크린 모드로 설정할 지 여부입니다.
 	 */
-	void Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsShow, bool bIsFullscreenMode);
+	void Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsVisible, bool bIsFullscreenMode);
 
 
 	/**
