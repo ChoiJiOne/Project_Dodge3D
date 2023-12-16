@@ -30,8 +30,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 {
 	Window::RegisterWindowClass(L"ProjectA", WindowProc);
 
-	window.Create(L"ProjectA", 200, 200, 800, 600, true, true, true);
-	ShowWindow(window.GetHandle(), SW_SHOW);
+	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT)
