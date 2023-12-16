@@ -4,13 +4,13 @@
 SET exe_path=%~dp0..\..\Solution\bin\Win64
 
 @REM 실행할 파일 이름입니다.
-SET exe_file=%1
+SET exe_file_name=%1
 
 @REM 실행할 모드입니다.
 SET mode=%2
 
 @REM 실행할 파일 이름의 유효성을 검사합니다.
-if "%exe_file%" == "" (
+if "%exe_file_name%" == "" (
     echo execute file name is empty...
     GOTO:EOF
 )
@@ -27,4 +27,4 @@ if "%mode%" == "Debug" (
     GOTO:EOF
 )
 
-start %exe_path%\%mode%\%exe_file%.exe
+start %exe_path%\%mode%\%exe_file_name%.exe
