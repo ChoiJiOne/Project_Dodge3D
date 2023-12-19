@@ -98,3 +98,16 @@ void RenderManager::SetVsyncMode(bool bIsEnable)
 	bIsEnableVsync_ = bIsEnable;
 	WINDOWS_ASSERT(wglSwapIntervalEXT(static_cast<int32_t>(bIsEnableVsync_)), "failed to set vsync mode...");
 }
+
+void RenderManager::SetDepthMode(bool bIsEnable)
+{
+	bIsEnableDepth_ = bIsEnable;
+	if (bIsEnableDepth_)
+	{
+		GL_ASSERT(glEnable(GL_DEPTH_TEST), "failed to enable depth test mode...");
+	}
+	else
+	{
+		GL_ASSERT(glDisable(GL_DEPTH_TEST), "failed to disable depth test mode...");
+	}
+}

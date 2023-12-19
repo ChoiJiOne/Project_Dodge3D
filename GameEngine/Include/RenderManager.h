@@ -98,6 +98,14 @@ public:
 	void SetVsyncMode(bool bIsEnable);
 
 
+	/**
+	 * @brief 깊이 테스트 옵션을 설정합니다.
+	 * 
+	 * @param bIsEnable 깊이 테스트 옵션을 활성화 하려면 true, 비활성화하려면 false입니다.
+	 */
+	void SetDepthMode(bool bIsEnable);
+
+
 private:
 	/**
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
@@ -116,6 +124,12 @@ private:
 	 * @brief 수직 동기화 활성화 여부입니다. 기본 값은 비활성화입니다.
 	 */
 	bool bIsEnableVsync_ = false;
+
+
+	/**
+	 * @brief 깊이 테스트 활성화 여부입니다. 기본 값은 활성화입니다.
+	 */
+	bool bIsEnableDepth_ = true;
 
 
 	/**
