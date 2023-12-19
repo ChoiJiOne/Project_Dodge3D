@@ -126,3 +126,17 @@ void RenderManager::SetStencilMode(bool bIsEnable)
 		GL_ASSERT(glDisable(GL_STENCIL_TEST), "failed to disable stencil test mode...");
 	}
 }
+
+void RenderManager::SetAlphaBlendMode(bool bIsEnable)
+{
+	bIsEnableAlphaBlend_ = bIsEnable;
+	if (bIsEnableAlphaBlend_)
+	{
+		GL_ASSERT(glEnable(GL_BLEND), "failed to enable alpha blend mode...");
+		GL_ASSERT(glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO), "failed to separate blend func...");
+	}
+	else
+	{
+		GL_ASSERT(glDisable(GL_BLEND), "failed to disable alpha blend mode...");
+	}
+}
