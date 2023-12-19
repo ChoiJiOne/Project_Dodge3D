@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <windows.h>
 
 #include "IManager.h"
 
@@ -70,6 +71,25 @@ public:
 	Window* GetRenderTargetWindow() const { return renderTargetWindow_; }
 
 
+	/**
+	 * @brief 프레임 렌더링을 시작합니다.
+	 * 
+	 * @param red 색상 버퍼의 R 값입니다.
+	 * @param green 색상 버퍼의 G 값입니다.
+	 * @param blue 색상 버퍼의 B 값입니다.
+	 * @param alpha 색상 버퍼의 A 값입니다.
+	 * @param depth 깊이 버퍼의 초기화 값입니다.
+	 * @param stencil 스텐실 버퍼의 초기화 값입니다.
+	 */
+	void BeginFrame(float red, float green, float blue, float alpha, float depth = 1.0f, uint8_t stencil = 0);
+
+
+	/**
+	 * @brief 프레임 렌더링을 종료합니다.
+	 */
+	void EndFrame();
+
+
 private:
 	/**
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
@@ -82,4 +102,16 @@ private:
 	 * @brief 렌더링 대상이 되는 윈도우 포인터입니다.
 	 */
 	Window* renderTargetWindow_ = nullptr;
+
+
+	/**
+	 * @brief 렌더링이 수행될 디바이스 컨텍스트의 핸들입니다.
+	 */
+	HDC deviceContext_ = nullptr;
+
+
+	/**
+	 * @brief 렌더링이 수행될 OpenGL 컨텍스트의 핸들입니다.
+	 */
+	HGLRC glRenderContext_ = nullptr;
 };
