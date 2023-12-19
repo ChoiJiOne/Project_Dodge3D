@@ -62,6 +62,8 @@ void RenderManager::Startup()
 
 	ASSERT(gladLoadGL(), "failed to load OpenGL function...");
 
+	SetVsyncMode(bIsEnableVsync_);
+
 	bIsStartup_ = true;
 }
 
@@ -93,5 +95,6 @@ void RenderManager::EndFrame()
 
 void RenderManager::SetVsyncMode(bool bIsEnable)
 {
-	WINDOWS_ASSERT(wglSwapIntervalEXT(static_cast<int32_t>(bIsEnable)), "failed to set vsync mode...");
+	bIsEnableVsync_ = bIsEnable;
+	WINDOWS_ASSERT(wglSwapIntervalEXT(static_cast<int32_t>(bIsEnableVsync_)), "failed to set vsync mode...");
 }

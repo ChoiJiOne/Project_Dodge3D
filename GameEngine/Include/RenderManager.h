@@ -113,6 +113,12 @@ private:
 
 
 	/**
+	 * @brief 수직 동기화 활성화 여부입니다. 기본 값은 비활성화입니다.
+	 */
+	bool bIsEnableVsync_ = false;
+
+
+	/**
 	 * @brief 렌더링이 수행될 디바이스 컨텍스트의 핸들입니다.
 	 */
 	HDC deviceContext_ = nullptr;
