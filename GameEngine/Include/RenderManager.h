@@ -93,7 +93,7 @@ public:
 	/**
 	 * @brief 수직 동기화 옵션을 설정합니다.
 	 * 
-	 * @param bIsEnable 수직 동기화 옵션을 활성화 하려면 true, 비활성화하려면 false입니다.
+	 * @param bIsEnable 수직 동기화 옵션을 활성화하려면 true, 비활성화하려면 false입니다.
 	 */
 	void SetVsyncMode(bool bIsEnable);
 
@@ -101,9 +101,17 @@ public:
 	/**
 	 * @brief 깊이 테스트 옵션을 설정합니다.
 	 * 
-	 * @param bIsEnable 깊이 테스트 옵션을 활성화 하려면 true, 비활성화하려면 false입니다.
+	 * @param bIsEnable 깊이 테스트 옵션을 활성화하려면 true, 비활성화하려면 false입니다.
 	 */
 	void SetDepthMode(bool bIsEnable);
+
+
+	/**
+	 * @brief 스텐실 테스트 옵션을 설정합니다.
+	 * 
+	 * @param bIsEnable 스텐실 테스트 옵션을 활성화하려면 true, 비활성화하려면 false입니다.
+	 */
+	void SetStencilMode(bool bIsEnable);
 
 
 private:
@@ -130,6 +138,12 @@ private:
 	 * @brief 깊이 테스트 활성화 여부입니다. 기본 값은 활성화입니다.
 	 */
 	bool bIsEnableDepth_ = true;
+
+
+	/**
+	 * @brief 스텐실 테스트 활성화 여부입니다. 기본 값은 비활성화입니다.
+	 */
+	bool bIsEnableStencil_ = false;
 
 
 	/**
