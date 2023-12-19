@@ -65,6 +65,7 @@ void RenderManager::Startup()
 	SetVsyncMode(bIsEnableVsync_);
 	SetDepthMode(bIsEnableDepth_);
 	SetStencilMode(bIsEnableStencil_);
+	SetAlphaBlendMode(bIsEnableAlphaBlend_);
 
 	bIsStartup_ = true;
 }
