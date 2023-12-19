@@ -85,7 +85,7 @@ public:
 
 
 	/**
-	 * @brief 프레임 렌더링을 종료합니다.
+	 * @brief 백버퍼와 프론트 버퍼를 스왑합니다.
 	 */
 	void EndFrame();
 
