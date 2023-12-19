@@ -63,6 +63,7 @@ void RenderManager::Startup()
 	ASSERT(gladLoadGL(), "failed to load OpenGL function...");
 
 	SetVsyncMode(bIsEnableVsync_);
+	SetDepthMode(bIsEnableDepth_);
 
 	bIsStartup_ = true;
 }
