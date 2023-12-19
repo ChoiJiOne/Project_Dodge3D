@@ -90,3 +90,8 @@ void RenderManager::EndFrame()
 {
 	WINDOWS_ASSERT(SwapBuffers(deviceContext_), "failed to swap back and front buffer...");
 }
+
+void RenderManager::SetVsyncMode(bool bIsEnable)
+{
+	WINDOWS_ASSERT(wglSwapIntervalEXT(static_cast<int32_t>(bIsEnable)), "failed to set vsync mode...");
+}
