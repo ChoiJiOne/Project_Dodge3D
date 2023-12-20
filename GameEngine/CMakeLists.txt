@@ -11,6 +11,8 @@ add_subdirectory(ThirdParty/miniaudio)
 add_subdirectory(ThirdParty/stb)
 add_subdirectory(ThirdParty/imgui)
 
+set_target_properties(glad jsoncpp miniaudio stb imgui PROPERTIES FOLDER "ThirdParty")
+
 set(GAME_ENGINE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(GAME_ENGINE_INCLUDE "${GAME_ENGINE_PATH}/Include")
