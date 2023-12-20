@@ -1,0 +1,25 @@
+# CMake의 최소 버전을 명시합니다.
+cmake_minimum_required(VERSION 3.27)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CLIENT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(CLIENT_INCLUDE "${CLIENT_PATH}/Include")
+set(CLIENT_SOURCE "${CLIENT_PATH}/Source")
+
+file(GLOB_RECURSE CLIENT_INCLUDE_FILE "${CLIENT_INCLUDE}/*")
+file(GLOB_RECURSE CLIENT_SOURCE_FILE "${CLIENT_SOURCE}/*")
+
+add_executable(Client
+    WIN32
+    ${CLIENT_INCLUDE_FILE}
+    ${CLIENT_SOURCE_FILE}
+)
+
+target_include_directories(Client PUBLIC ${CLIENT_INCLUDE} ${GAME_ENGINE_INCLUDE})
+target_link_libraries(Client PUBLIC GameEngine)
+
+source_group(Include FILES ${CLIENT_INCLUDE_FILE})
+source_group(Source FILES ${CLIENT_SOURCE_FILE})
