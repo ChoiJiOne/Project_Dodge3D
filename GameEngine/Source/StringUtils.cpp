@@ -1,5 +1,7 @@
 #include "StringUtils.h"
 
+#include <algorithm>
+
 char StringUtils::charBuffer_[STRING_BUFFER_SIZE];
 wchar_t StringUtils::wcharBuffer_[STRING_BUFFER_SIZE];
 
@@ -65,4 +67,18 @@ std::string StringUtils::Convert(const std::wstring& text)
 {
 	std::size_t size = std::wcstombs(charBuffer_, text.c_str(), STRING_BUFFER_SIZE);
 	return std::string(charBuffer_, size);
+}
+
+std::string StringUtils::ToLower(const std::string& text)
+{
+	std::string lower = text;
+	std::transform(lower.begin(), lower.end(), lower.begin(), std::tolower);
+	return lower;
+}
+
+std::wstring StringUtils::ToLower(const std::wstring& text)
+{
+	std::wstring lower = text;
+	std::transform(lower.begin(), lower.end(), lower.begin(), std::tolower);
+	return lower;
 }

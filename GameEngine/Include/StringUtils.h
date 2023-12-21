@@ -91,6 +91,26 @@ public:
 	static std::string Convert(const std::wstring& text);
 
 
+	/**
+	 * @brief 문자열의 알파벳을 모두 소문자로 변환합니다.
+	 *
+	 * @param text 변환할 문자열입니다.
+	 *
+	 * @return 문자열 내의 알파벳이 모두 소문자로 변환된 전체 문자열을 반환합니다.
+	 */
+	static std::string ToLower(const std::string& text);
+
+
+	/**
+	 * @brief 문자열의 알파벳을 모두 소문자로 변환합니다.
+	 *
+	 * @param text 변환할 문자열입니다.
+	 *
+	 * @return 문자열 내의 알파벳이 모두 소문자로 변환된 전체 문자열을 반환합니다.
+	 */
+	static std::wstring ToLower(const std::wstring& text);
+
+
 private:
 	/**
 	 * @brief 문자열 버퍼의 크기입니다.
