@@ -1,30 +1,33 @@
 @echo off
 
-@REM 실행 파일 경로입니다.
-SET exe_path=%~dp0..\..\Solution\bin\Win64
-
-@REM 실행할 파일 이름입니다.
-SET exe_file_name=%1
+@REM 실행할 프로젝트 이름입니다.
+SET project=%1
 
 @REM 실행할 모드입니다.
 SET mode=%2
 
+@REM 실행 파일 경로입니다.
+SET path=%~dp0..\..\Solution\%project%\%mode%
+
 @REM 실행할 파일 이름의 유효성을 검사합니다.
-if "%exe_file_name%" == "" (
-    echo execute file name is empty...
+if %project% == "" (
+    echo Project name is empty...
     GOTO:EOF
+) else (
+    echo Project name is "%project%"...
 )
 
-@REM 빌드 모드의 유효성을 검사합니다.
 if "%mode%" == "Debug" (
-    echo Run %mode% mode game...
+    echo Run %mode% mode...
 ) else if "%mode%" == "Release" (
     echo Run %mode% mode game...
-) else if "%mode%" == "Shipping" (
+) else if "%mode%" == "RelWithDebInfo" (
+    echo Run %mode% mode game...
+) else if "%mode%" == "MinSizeRel" (
     echo Run %mode% mode game...
 ) else (
-    echo %mode% is illegal mode...
+    echo "%mode%" is illegal mode...
     GOTO:EOF
 )
 
-start %exe_path%\%mode%\%exe_file_name%.exe
+start %path%\%project%.exe
