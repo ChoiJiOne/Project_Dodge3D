@@ -128,3 +128,33 @@ bool StringUtils::ToInt(const std::wstring& integer, int32_t& outInteger)
 	outInteger = static_cast<int32_t>(ans);
 	return true;
 }
+
+bool StringUtils::ToFloat(const std::string& floating, float& outFloating)
+{
+	const char* strPtr = floating.c_str();
+	char* endPtr = nullptr;
+
+	const float ans = strtof(strPtr, &endPtr);
+	if (strPtr == endPtr)
+	{
+		return false;
+	}
+
+	outFloating = ans;
+	return true;
+}
+
+bool StringUtils::ToFloat(const std::wstring& floating, float& outFloating)
+{
+	const wchar_t* strPtr = floating.c_str();
+	wchar_t* endPtr = nullptr;
+
+	const float ans = wcstof(strPtr, &endPtr);
+	if (strPtr == endPtr)
+	{
+		return false;
+	}
+
+	outFloating = ans;
+	return true;
+}

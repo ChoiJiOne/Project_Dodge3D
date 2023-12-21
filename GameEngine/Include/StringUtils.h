@@ -7,6 +7,8 @@
 
 /**
  * @brief 표준 문자열(std::string, std::wstring)의 확장 기능을 제공합니다.
+ * 
+ * @note 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
  */
 class StringUtils
 {
@@ -155,6 +157,32 @@ public:
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtol-wcstol-strtol-l-wcstol-l?view=msvc-170
 	 */
 	static bool ToInt(const std::wstring& integer, int32_t& outInteger);
+
+
+	/**
+	 * @brief 부동 소수점으로 구성된 문자열을 부동 소수점 수 값으로 변환합니다.
+	 *
+	 * @param floating 부동 소수점으로 구성된 문자열입니다.
+	 * @param outFloating 변환된 부동 소수점 수 값을 저장할 참조 변수입니다.
+	 *
+	 * @return 변환에 성공하면 true, 그렇지 않으면 false를 반환합니다.
+	 *
+	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtof-strtof-l-wcstof-wcstof-l?view=msvc-170
+	 */
+	static bool ToFloat(const std::string& floating, float& outFloating);
+
+
+	/**
+	 * @brief 부동 소수점으로 구성된 문자열을 부동 소수점 수 값으로 변환합니다.
+	 *
+	 * @param floating 부동 소수점으로 구성된 문자열입니다.
+	 * @param outFloating 변환된 부동 소수점 수 값을 저장할 참조 변수입니다.
+	 *
+	 * @return 변환에 성공하면 true, 그렇지 않으면 false를 반환합니다.
+	 *
+	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtof-strtof-l-wcstof-wcstof-l?view=msvc-170
+	 */
+	static bool ToFloat(const std::wstring& floating, float& outFloating);
 
 
 private:
