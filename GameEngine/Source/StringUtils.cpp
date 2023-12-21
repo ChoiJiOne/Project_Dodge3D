@@ -54,3 +54,15 @@ std::vector<std::wstring> StringUtils::Split(const std::wstring& text, const std
 	tokens.push_back(remain);
 	return tokens;
 }
+
+std::wstring StringUtils::Convert(const std::string& text)
+{
+	std::size_t size = std::mbstowcs(wcharBuffer_, text.c_str(), STRING_BUFFER_SIZE);
+	return std::wstring(wcharBuffer_, size);
+}
+
+std::string StringUtils::Convert(const std::wstring& text)
+{
+	std::size_t size = std::wcstombs(charBuffer_, text.c_str(), STRING_BUFFER_SIZE);
+	return std::string(charBuffer_, size);
+}

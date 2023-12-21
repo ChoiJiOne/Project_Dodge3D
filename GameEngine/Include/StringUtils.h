@@ -67,6 +67,30 @@ public:
 	static std::vector<std::wstring> Split(const std::wstring& text, const std::wstring& delimiter);
 
 
+	/**
+	 * @brief char 문자열을 wchar_t 문자열로 변환합니다.
+	 *
+	 * @see https://en.cppreference.com/w/cpp/string/multibyte/mbstowcs
+	 *
+	 * @param text 변환할 표준 텍스트입니다.
+	 *
+	 * @return 변환된 문자열을 반환합니다.
+	 */
+	static std::wstring Convert(const std::string& text);
+
+
+	/**
+	 * @brief wchar_t 문자열을 char 문자열로 변환합니다.
+	 *
+	 * @see https://en.cppreference.com/w/cpp/string/multibyte/wcstombs
+	 *
+	 * @param text 변환할 표준 텍스트입니다.
+	 *
+	 * @return 변환된 문자열을 반환합니다.
+	 */
+	static std::string Convert(const std::wstring& text);
+
+
 private:
 	/**
 	 * @brief 문자열 버퍼의 크기입니다.
