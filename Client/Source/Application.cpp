@@ -17,11 +17,11 @@ LRESULT CALLBACK WindowProc(HWND windowHandle, uint32_t message, WPARAM wParam, 
 	case WM_CLOSE:
 		RenderManager::Get().Shutdown();
 		window.Destroy();
-		break;
+		return 0;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		break;
+		return 0;
 	}
 
 	return DefWindowProcW(windowHandle, message, wParam, lParam);
@@ -36,22 +36,19 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	RenderManager::Get().Startup();
 
-	while (true)
+	MSG msg = {};
+	while (msg.message != WM_QUIT)
 	{
-		MSG msg = {};
-		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+		if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
-
-		if (msg.message == WM_QUIT)
+		else
 		{
-			break;
+			RenderManager::Get().BeginFrame(1.0f, 0.0f, 0.0f, 1.0f);
+			RenderManager::Get().EndFrame();
 		}
-
-		RenderManager::Get().BeginFrame(1.0f, 0.0f, 0.0f, 1.0f);
-		RenderManager::Get().EndFrame();
 	}
 
 	Window::UnregisterWindowClass();
