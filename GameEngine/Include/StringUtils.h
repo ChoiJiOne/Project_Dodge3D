@@ -45,6 +45,28 @@ public:
 	static std::wstring PrintF(const wchar_t* format, ...);
 
 
+	/**
+	 * @brief 특정 문자열을 기준으로 텍스트를 분리합니다.
+	 *
+	 * @param text 분리할 대상 문자열입니다.
+	 * @param delimiter 분리를 위한 기준 문자열입니다.
+	 *
+	 * @return 분리된 문자열을 담고 있는 벡터(std::vector)를 반환합니다.
+	 */
+	static std::vector<std::string> Split(const std::string& text, const std::string& delimiter);
+
+
+	/**
+	 * @brief 특정 문자열을 기준으로 텍스트를 분리합니다.
+	 *
+	 * @param text 분리할 대상 문자열입니다.
+	 * @param delimiter 분리를 위한 기준 문자열입니다.
+	 *
+	 * @return 분리된 문자열을 담고 있는 벡터(std::vector)입니다.
+	 */
+	static std::vector<std::wstring> Split(const std::wstring& text, const std::wstring& delimiter);
+
+
 private:
 	/**
 	 * @brief 문자열 버퍼의 크기입니다.
