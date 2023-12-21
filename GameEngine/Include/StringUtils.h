@@ -131,6 +131,32 @@ public:
 	static std::wstring ToUpper(const std::wstring& text);
 
 
+	/**
+	 * @brief 정수로 구성된 문자열을 10진수 정수 값으로 변환합니다.
+	 *
+	 * @param integer 정수로 구성된 문자열입니다.
+	 * @param outInteger 변환된 정수 값을 저장할 참조 변수입니다.
+	 *
+	 * @return 변환에 성공하면 true, 그렇지 않으면 false를 반환합니다.
+	 *
+	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtol-wcstol-strtol-l-wcstol-l?view=msvc-170
+	 */
+	static bool ToInt(const std::string& integer, int32_t& outInteger);
+
+
+	/**
+	 * @brief 정수로 구성된 문자열을 10진수 정수 값으로 변환합니다.
+	 *
+	 * @param integer 정수로 구성된 문자열입니다.
+	 * @param outInteger 변환된 정수 값을 저장할 참조 변수입니다.
+	 *
+	 * @return 변환에 성공하면 true, 그렇지 않으면 false를 반환합니다.
+	 *
+	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtol-wcstol-strtol-l-wcstol-l?view=msvc-170
+	 */
+	static bool ToInt(const std::wstring& integer, int32_t& outInteger);
+
+
 private:
 	/**
 	 * @brief 문자열 버퍼의 크기입니다.

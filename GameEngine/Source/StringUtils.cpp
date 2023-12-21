@@ -96,3 +96,35 @@ std::wstring StringUtils::ToUpper(const std::wstring& text)
 	std::transform(upper.begin(), upper.end(), upper.begin(), std::toupper);
 	return upper;
 }
+
+bool StringUtils::ToInt(const std::string& integer, int32_t& outInteger)
+{
+	const char* strPtr = integer.c_str();
+	char* endPtr = nullptr;
+	const int32_t radix = 10; // 10진수 고정
+
+	const long ans = strtol(strPtr, &endPtr, radix);
+	if (strPtr == endPtr || ans < INT_MIN || ans > INT_MAX)
+	{
+		return false;
+	}
+
+	outInteger = static_cast<int32_t>(ans);
+	return true;
+}
+
+bool StringUtils::ToInt(const std::wstring& integer, int32_t& outInteger)
+{
+	const wchar_t* strPtr = integer.c_str();
+	wchar_t* endPtr = nullptr;
+	const int32_t radix = 10; // 10진수 고정
+
+	const long ans = wcstol(strPtr, &endPtr, radix);
+	if (strPtr == endPtr || ans < INT_MIN || ans > INT_MAX)
+	{
+		return false;
+	}
+
+	outInteger = static_cast<int32_t>(ans);
+	return true;
+}
