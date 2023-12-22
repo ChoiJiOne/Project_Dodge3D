@@ -71,7 +71,7 @@ public:
 
 
 	/**
-	 * @brief 윈도우 메시지를 처리합니다.
+	 * @brief 기본적인 윈도우 메시지를 처리합니다.
 	 * 
 	 * @param windowHandle 프로시저를 처리할 윈도우 핸들입니다.
 	 * @param message 메시지 식별자입니다.
@@ -84,7 +84,7 @@ public:
 	 * - https://learn.microsoft.com/ko-kr/windows/win32/winmsg/window-procedures
 	 * - ProcessWindowMessage 내부에서 메시지를 처리했을 경우는 0을 반환
 	 */
-	static LRESULT CALLBACK ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK WindowProc(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam);
 
 
 private:

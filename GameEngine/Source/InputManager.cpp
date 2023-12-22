@@ -20,7 +20,7 @@ void InputManager::Shutdown()
 	bIsStartup_ = false;
 }
 
-LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
+LRESULT InputManager::WindowProc(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

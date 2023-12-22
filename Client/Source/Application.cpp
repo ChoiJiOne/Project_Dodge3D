@@ -8,7 +8,7 @@
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
-	Window::RegisterWindowClass(L"ProjectA", InputManager::ProcessWindowMessage);
+	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
 
 	Window window;
 	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
