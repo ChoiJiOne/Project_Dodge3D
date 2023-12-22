@@ -24,16 +24,10 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 {
 	switch (message)
 	{
-	case WM_CREATE:
-		break;
-
-	case WM_CLOSE:
-		break;
-
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-	
+
 	default:
 		return DefWindowProcW(windowHandle, message, wParam, lParam);
 	}
