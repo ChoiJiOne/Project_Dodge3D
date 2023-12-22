@@ -4,11 +4,15 @@
 #include "Window.h"
 #include "WindowsAssertion.h"
 
+InputManager* inputManagerPtr = nullptr;
+
 void InputManager::Startup()
 {
 	ASSERT(!bIsStartup_, "already startup input manager...");
 	ASSERT(inputControlWindow_ != nullptr, "haven't set the input control window...");
+	ASSERT(!inputManagerPtr, "already setup input manager pointer...");
 
+	inputManagerPtr = this;
 	bIsStartup_ = true;
 }
 
@@ -16,6 +20,7 @@ void InputManager::Shutdown()
 {
 	ASSERT(bIsStartup_, "not startup before or has already been shutdowned...");
 
+	inputManagerPtr = nullptr;
 	inputControlWindow_ = nullptr;
 	bIsStartup_ = false;
 }
