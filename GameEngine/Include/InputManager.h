@@ -9,6 +9,18 @@ class Window;
 
 
 /**
+ * @brief 윈도우 이벤트입니다.
+ */
+enum class EWindowEvent : int32_t
+{
+	None = 0x0000,
+	Active = 0x01,
+	Inactive = 0x02,
+	Close = 0x03,
+};
+
+
+/**
  * @brief 입력 처리를 수행하는 매니저입니다.
  * 
  * @note 이 클래스는 싱글턴입니다.
@@ -116,4 +128,16 @@ private:
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
 	 */
 	Window* inputControlWindow_ = nullptr;
+
+
+	/**
+	 * @brief 윈도우가 활성화되었는지 확인합니다.
+	 */
+	bool bIsActiveWindow_ = true;
+
+
+	/**
+	 * @brief 윈도우가 종료되었는지 확인합니다.
+	 */
+	bool bIsCloseWindow_ = false;
 };
