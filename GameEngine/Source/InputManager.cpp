@@ -19,3 +19,24 @@ void InputManager::Shutdown()
 	inputControlWindow_ = nullptr;
 	bIsStartup_ = false;
 }
+
+LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_CREATE:
+		break;
+
+	case WM_CLOSE:
+		break;
+
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	
+	default:
+		return DefWindowProcW(windowHandle, message, wParam, lParam);
+	}
+
+	return 0;
+}
