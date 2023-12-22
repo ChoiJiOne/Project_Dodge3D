@@ -12,8 +12,10 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	Window window;
 	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
+	InputManager::Get().SetInputControlWindow(&window);
 	RenderManager::Get().SetRenderTargetWindow(&window);
 
+	InputManager::Get().Startup();
 	RenderManager::Get().Startup();
 
 	bool bIsDone = false;
@@ -39,6 +41,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	}
 
 	RenderManager::Get().Shutdown();
+	InputManager::Get().Shutdown();
 	window.Destroy();
 
 	Window::UnregisterWindowClass();
