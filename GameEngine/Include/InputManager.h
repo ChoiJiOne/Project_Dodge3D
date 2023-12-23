@@ -20,6 +20,9 @@ enum class EWindowEvent : int32_t
 	Inactive = 0x0002,
 	Close    = 0x0003,
 	Move     = 0x0004,
+	Resize   = 0x0005,
+	Minimize = 0x0006,
+	Maximize = 0x0007,
 };
 
 
