@@ -12,6 +12,8 @@ void InputManager::Startup()
 	ASSERT(inputControlWindow_ != nullptr, "haven't set the input control window...");
 	ASSERT(!inputManagerPtr, "already setup input manager pointer...");
 
+	windowEventActions_ = std::unordered_map<std::string, WindowEventAction>();
+
 	inputManagerPtr = this;
 	bIsStartup_ = true;
 }

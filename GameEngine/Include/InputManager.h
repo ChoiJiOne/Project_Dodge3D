@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
+#include <unordered_map>
 #include <windows.h>
 
 #include "IManager.h"
@@ -17,6 +19,17 @@ enum class EWindowEvent : int32_t
 	Active = 0x01,
 	Inactive = 0x02,
 	Close = 0x03,
+};
+
+
+/**
+ * @brief 윈도우 이벤트에 대응하는 액션입니다.
+ */
+struct WindowEventAction
+{
+	bool				  bIsActive;         // 윈도우 이벤트의 활성화 여부입니다.
+	EWindowEvent		  windowEvent;       // 윈도우 이벤트입니다.
+	std::function<void()> windowEventAction; // 윈도우 이벤트에 대응하는 액션입니다.
 };
 
 
@@ -131,13 +144,7 @@ private:
 
 
 	/**
-	 * @brief 윈도우가 활성화되었는지 확인합니다.
+	 * @brief 윈도우 이벤트에 대응하는 액션입니다.
 	 */
-	bool bIsActiveWindow_ = true;
-
-
-	/**
-	 * @brief 윈도우가 종료되었는지 확인합니다.
-	 */
-	bool bIsCloseWindow_ = false;
+	std::unordered_map<std::string, WindowEventAction> windowEventActions_;
 };
