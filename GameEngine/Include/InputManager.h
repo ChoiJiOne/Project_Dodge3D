@@ -15,14 +15,16 @@ class Window;
  */
 enum class EWindowEvent : int32_t
 {
-	None     = 0x0000,
-	Active   = 0x0001,
-	Inactive = 0x0002,
-	Close    = 0x0003,
-	Move     = 0x0004,
-	Resize   = 0x0005,
-	Minimize = 0x0006,
-	Maximize = 0x0007,
+	None        = 0x0000,
+	Active      = 0x0001,
+	Inactive    = 0x0002,
+	Close       = 0x0003,
+	Move        = 0x0004,
+	Resize      = 0x0005,
+	Minimize    = 0x0006,
+	Maximize    = 0x0007,
+	EnterResize = 0x0008,
+	ExitResize  = 0x0009
 };
 
 
