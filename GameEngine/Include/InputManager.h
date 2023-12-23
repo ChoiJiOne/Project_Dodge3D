@@ -419,13 +419,13 @@ private:
 	/**
 	 * @brief 업데이트(Tick) 이전의 가상 키 버퍼의 상태입니다.
 	 */
-	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> prevKeyboardState_;
+	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> prevKeyboardState_ = {};
 
 
 	/**
 	 * @brief 업데이트(Tick) 이후의 가상 키 버퍼의 상태입니다.
 	 */
-	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> currKeyboardState_;
+	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> currKeyboardState_ = {};
 
 	
 	/**

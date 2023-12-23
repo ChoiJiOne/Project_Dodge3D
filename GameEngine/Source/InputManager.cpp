@@ -33,6 +33,9 @@ void InputManager::Shutdown()
 void InputManager::Tick()
 {
 	PollWindowEvents();
+
+	std::copy(currKeyboardState_.begin(), currKeyboardState_.end(), prevKeyboardState_.begin());
+	ASSERT(GetKeyboardState(currKeyboardState_.data()), "failed to get current keyboard state...");
 }
 
 void InputManager::AddWindowEventAction(const std::string& signature, const EWindowEvent& windowEvent, const std::function<void()>& eventAction, bool bIsActive)
