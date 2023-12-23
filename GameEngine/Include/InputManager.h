@@ -15,16 +15,18 @@ class Window;
  */
 enum class EWindowEvent : int32_t
 {
-	None        = 0x0000,
-	Active      = 0x0001,
-	Inactive    = 0x0002,
-	Close       = 0x0003,
-	Move        = 0x0004,
-	Resize      = 0x0005,
-	Minimize    = 0x0006,
-	Maximize    = 0x0007,
-	EnterResize = 0x0008,
-	ExitResize  = 0x0009
+	None          = 0x0000,
+	Active        = 0x0001,
+	Inactive      = 0x0002,
+	Close         = 0x0003,
+	Move          = 0x0004,
+	Resize        = 0x0005,
+	EnterResize   = 0x0006,
+	ExitResize    = 0x0007,
+	EnterMinimize = 0x0008,
+	ExitMinimize  = 0x0009,
+	EnterMaximize = 0x0010,
+	ExitMaximize  = 0x0011,
 };
 
 
@@ -201,7 +203,19 @@ private:
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
 	 */
 	Window* inputControlWindow_ = nullptr;
-	
+
+
+	/**
+	 * @brief 윈도우 창이 최소화 상태인지 확인합니다.
+	 */
+	bool bIsMinimize_ = false;
+
+
+	/**
+	 * @brief 윈도우 창이 최대화 상태인지 확인합니다.
+	 */
+	bool bIsMaximize_ = false;
+
 	
 	/**
 	 * @brief 윈도우 이벤트에 대응하는 액션입니다.
