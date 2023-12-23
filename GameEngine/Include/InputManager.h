@@ -23,17 +23,6 @@ enum class EWindowEvent : int32_t
 
 
 /**
- * @brief 윈도우 이벤트에 대응하는 액션입니다.
- */
-struct WindowEventAction
-{
-	bool				  bIsActive;         // 윈도우 이벤트의 활성화 여부입니다.
-	EWindowEvent		  windowEvent;       // 윈도우 이벤트입니다.
-	std::function<void()> windowEventAction; // 윈도우 이벤트에 대응하는 액션입니다.
-};
-
-
-/**
  * @brief 입력 처리를 수행하는 매니저입니다.
  * 
  * @note 이 클래스는 싱글턴입니다.
@@ -80,6 +69,12 @@ public:
 
 
 	/**
+	 * @brief 입력 상태를 업데이트합니다.
+	 */
+	void Tick();
+
+
+	/**
 	 * @brief 입력 처리 대상이 되는 윈도우를 설정합니다.
 	 * 
 	 * @param window 입력 처리 대상이 되는 윈도우입니다.
@@ -93,6 +88,48 @@ public:
 	 * @return 입력 처리 대상이 되는 윈도우의 포인터를 얻습니다.
 	 */
 	Window* GetInputControlWindow() const { return inputControlWindow_; }
+
+
+	/**
+	 * @brief 윈도우 이벤트 액션을 추가합니다.
+	 *
+	 * @param signature 윈도우 이벤트 액션의 시그니처 값입니다.
+	 * @param windowEvent 동작할 액션에 대응하는 윈도우 이벤트입니다.
+	 * @param eventAction 이벤트 액션에 대응하는 액션입니다.
+	 * @param bIsActive 윈도우 이벤트 액션 활성화 여부입니다. 기본 값은 true입니다.
+	 *  
+	 * @note 시그니처 문자열의 값은 윈도우 이벤트 액션들에 대응하는 문자열 내에서 유일해야 합니다.
+	 */
+	void AddWindowEventAction(const std::string& signature, const EWindowEvent& windowEvent, const std::function<void()>& eventAction, bool bIsActive = true);
+
+
+	/**
+	 * @brief 윈도우 이벤트 액션을 삭제합니다.
+	 * 
+	 * @param signature 윈도우 이벤트 액션의 시그니처 값입니다.
+	 * 
+	 * @note 시그니처에 대응하는 윈도우 이벤트가 존재하지 않으면 아무 동작도 수행하지 않습니다.
+	 */
+	void DeleteWindowEventAction(const std::string& signature);
+
+
+	/**
+	 * @brief 윈도우 이벤트 액션의 활성화 여부를 설정합니다.
+	 * 
+	 * @param signature 윈도우 이벤트 액션의 시그니처 값입니다.
+	 * @param bIsActive 윈도우 이벤트의 활성화 여부입니다.
+	 * 
+	 * @note 시그니처에 대응하는 윈도우 이벤트가 존재하지 않으면 아무 동작도 수행하지 않습니다.
+	 */
+	void SetActiveWindowEventAction(const std::string& signature, bool bIsActive);
+
+
+	/**
+	 * @brief 윈도우 이벤트에 대응하는 액션들을 실행합니다.
+	 * 
+	 * @param signature 실행할 윈도우 이벤트입니다.
+	 */
+	void ExecuteWindowEventAction(const EWindowEvent& windowEvent);
 
 
 	/**
@@ -134,6 +171,23 @@ private:
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
 	 */
 	DEFAULT_CONSTRUCTOR_AND_VIRTUAL_DESTRUCTOR(InputManager);
+
+
+	/**
+	 * @brief 윈도우 이벤트에 대응하는 액션입니다.
+	 */
+	struct WindowEventAction
+	{
+		bool				  bIsActive;         // 윈도우 이벤트의 활성화 여부입니다.
+		EWindowEvent		  windowEvent;       // 윈도우 이벤트입니다.
+		std::function<void()> windowEventAction; // 윈도우 이벤트에 대응하는 액션입니다.
+	};
+
+
+	/**
+	 * @brief 윈도우 이벤트 풀링을 수행합니다.
+	 */
+	void PollWindowEvents();
 
 
 private:

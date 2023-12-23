@@ -27,10 +27,56 @@ void InputManager::Shutdown()
 	bIsStartup_ = false;
 }
 
+void InputManager::Tick()
+{
+	PollWindowEvents();
+}
+
+void InputManager::AddWindowEventAction(const std::string& signature, const EWindowEvent& windowEvent, const std::function<void()>& eventAction, bool bIsActive)
+{
+	ASSERT(windowEventActions_.find(signature) == windowEventActions_.end(), "already bind window event action : %s", signature.c_str());
+
+	WindowEventAction windowEventAction{ bIsActive, windowEvent, eventAction };
+	windowEventActions_.insert({ signature, windowEventAction });
+}
+
+void InputManager::DeleteWindowEventAction(const std::string& signature)
+{
+	if (windowEventActions_.find(signature) != windowEventActions_.end())
+	{
+		windowEventActions_.erase(signature);
+	}
+}
+
+void InputManager::SetActiveWindowEventAction(const std::string& signature, bool bIsActive)
+{
+	if (windowEventActions_.find(signature) != windowEventActions_.end())
+	{
+		windowEventActions_.at(signature).bIsActive = bIsActive;
+	}
+}
+
+void InputManager::ExecuteWindowEventAction(const EWindowEvent& windowEvent)
+{
+	for (auto& windowEventAction : windowEventActions_)
+	{
+		WindowEventAction& executeWindowEvent = windowEventAction.second;
+
+		if (executeWindowEvent.windowEvent == windowEvent && executeWindowEvent.bIsActive)
+		{
+			executeWindowEvent.windowEventAction();
+		}
+	}
+}
+
 LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_CLOSE:
+		ExecuteWindowEventAction(EWindowEvent::Close);
+		break;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -50,4 +96,14 @@ LRESULT InputManager::WindowProc(HWND windowHandle, uint32_t message, WPARAM wPa
 	}
 
 	return DefWindowProcW(windowHandle, message, wParam, lParam);
+}
+
+void InputManager::PollWindowEvents()
+{
+	MSG msg = {};
+	while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&msg);
+		DispatchMessageW(&msg);
+	}
 }
