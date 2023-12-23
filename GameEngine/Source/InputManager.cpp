@@ -107,6 +107,14 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 			break;
 		}
 		break;
+
+	case WM_ENTERSIZEMOVE:
+		windowEvent = EWindowEvent::EnterResize;
+		break;
+
+	case WM_EXITSIZEMOVE:
+		windowEvent = EWindowEvent::ExitResize;
+		break;
 		
 	case WM_DESTROY:
 		PostQuitMessage(0);

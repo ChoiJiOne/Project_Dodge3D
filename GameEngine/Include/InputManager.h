@@ -201,7 +201,7 @@ private:
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
 	 */
 	Window* inputControlWindow_ = nullptr;
-
+	
 	
 	/**
 	 * @brief 윈도우 이벤트에 대응하는 액션입니다.
