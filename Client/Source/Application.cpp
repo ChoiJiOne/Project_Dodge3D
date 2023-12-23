@@ -19,25 +19,14 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	RenderManager::Get().Startup();
 
 	bool bIsDone = false;
+	InputManager::Get().AddWindowEventAction("CloseLoop", EWindowEvent::Close, [&]() { bIsDone = true; }, true);
+
 	while (!bIsDone)
 	{
-		MSG msg = {};
-		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessageW(&msg);
+		InputManager::Get().Tick();
 
-			if (msg.message == WM_QUIT)
-			{
-				bIsDone = true;
-			}
-		}
-
-		if (!bIsDone)
-		{
-			RenderManager::Get().BeginFrame(1.0f, 0.0f, 0.0f, 1.0f);
-			RenderManager::Get().EndFrame();
-		}
+		RenderManager::Get().BeginFrame(1.0f, 0.0f, 0.0f, 1.0f);
+		RenderManager::Get().EndFrame();
 	}
 
 	RenderManager::Get().Shutdown();
