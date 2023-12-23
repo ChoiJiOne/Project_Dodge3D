@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <unordered_map>
@@ -8,6 +9,27 @@
 #include "IManager.h"
 
 class Window;
+
+
+/**
+ * @brief 입력 상태를 나타냅니다.
+ *
+ * --------------------------------------
+ * | 이전 프레임 | 현재 프레임 | 입력 상태 |
+ * --------------------------------------
+ * |     0      |     0      | NONE     |
+ * |     0      |     1      | PRESSED  |
+ * |     1      |     0      | RELEASED |
+ * |     1      |     1      | HELD     |
+ * --------------------------------------
+ */
+enum class EPressState
+{
+	None     = 0,
+	Pressed  = 1,
+	Released = 2,
+	Held     = 3
+};
 
 
 /**
@@ -203,7 +225,7 @@ private:
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
 	 */
 	Window* inputControlWindow_ = nullptr;
-
+	
 
 	/**
 	 * @brief 윈도우 창이 최소화 상태인지 확인합니다.
