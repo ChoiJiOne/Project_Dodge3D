@@ -403,6 +403,17 @@ private:
 	void PollWindowEvents();
 
 
+	/**
+	 * @brief 특정 가상 키가 눌렸는지 확인합니다.
+	 * 
+	 * @param keyBufferPtr 검사를 수행할 가상 키 버퍼의 포인터입니다.
+	 * @param virtualKey 눌렸는지 확인할 가상 키입니다.
+	 * 
+	 * @return 키가 눌렸다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsPressKey(const uint8_t* keyBufferPtr, const VirtualKey& virtualKey) const;
+
+
 private:
 	/**
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.

@@ -171,3 +171,8 @@ void InputManager::PollWindowEvents()
 		DispatchMessageW(&msg);
 	}
 }
+
+bool InputManager::IsPressKey(const uint8_t* keyBufferPtr, const VirtualKey& virtualKey) const
+{
+	return (keyBufferPtr[static_cast<int32_t>(virtualKey)] & 0x80);
+}
