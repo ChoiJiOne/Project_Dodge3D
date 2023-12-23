@@ -408,8 +408,26 @@ private:
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
 	 */
 	Window* inputControlWindow_ = nullptr;
-	
 
+
+	/**
+	 * @brief 가상 키 버퍼의 크기입니다.
+	 */
+	static const int32_t VIRTUAL_KEY_BUFFER_SIZE = 256;
+
+
+	/**
+	 * @brief 업데이트(Tick) 이전의 가상 키 버퍼의 상태입니다.
+	 */
+	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> prevKeyboardState_;
+
+
+	/**
+	 * @brief 업데이트(Tick) 이후의 가상 키 버퍼의 상태입니다.
+	 */
+	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> currKeyboardState_;
+
+	
 	/**
 	 * @brief 윈도우 창이 최소화 상태인지 확인합니다.
 	 */

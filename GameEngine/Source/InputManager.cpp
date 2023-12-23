@@ -12,6 +12,9 @@ void InputManager::Startup()
 	ASSERT(inputControlWindow_ != nullptr, "haven't set the input control window...");
 	ASSERT(!inputManagerPtr, "already setup input manager pointer...");
 
+	std::fill(prevKeyboardState_.begin(), prevKeyboardState_.end(), 0);
+	std::fill(currKeyboardState_.begin(), currKeyboardState_.end(), 0);
+
 	windowEventActions_ = std::unordered_map<std::string, WindowEventAction>();
 
 	inputManagerPtr = this;
