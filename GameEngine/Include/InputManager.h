@@ -333,6 +333,14 @@ public:
 
 
 	/**
+	 * @brief Tick 호출 이전과 이후의 커서 위치 차이를 얻습니다.
+	 * 
+	 * @return Tick 호출 이전과 이후의 커서 위치 차이값을 반환합니다.
+	 */
+	Vector2i GetDiffCursorPosition() const { return currCursorPosition_ - prevCursorPosition_; }
+
+
+	/**
 	 * @brief 윈도우 이벤트 액션을 추가합니다.
 	 *
 	 * @param signature 윈도우 이벤트 액션의 시그니처 값입니다.
