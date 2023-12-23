@@ -71,10 +71,16 @@ void InputManager::ExecuteWindowEventAction(const EWindowEvent& windowEvent)
 
 LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
 {
+	EWindowEvent windowEvent = EWindowEvent::None;
+
 	switch (message)
 	{
+	case WM_ACTIVATE:
+		windowEvent = (LOWORD(wParam) == WA_INACTIVE) ? EWindowEvent::Inactive : EWindowEvent::Active;
+		break;
+
 	case WM_CLOSE:
-		ExecuteWindowEventAction(EWindowEvent::Close);
+		windowEvent = EWindowEvent::Close;
 		break;
 
 	case WM_DESTROY:
@@ -85,6 +91,7 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 		return DefWindowProcW(windowHandle, message, wParam, lParam);
 	}
 
+	ExecuteWindowEventAction(windowEvent);
 	return 0;
 }
 
