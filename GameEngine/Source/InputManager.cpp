@@ -33,9 +33,9 @@ void InputManager::Shutdown()
 void InputManager::Tick()
 {
 	PollWindowEvents();
-
+	
 	std::copy(currKeyboardState_.begin(), currKeyboardState_.end(), prevKeyboardState_.begin());
-	ASSERT(GetKeyboardState(currKeyboardState_.data()), "failed to get current keyboard state...");
+	WINDOWS_ASSERT(GetKeyboardState(currKeyboardState_.data()), "failed to get current keyboard state...");
 }
 
 EPressState InputManager::GetVirtualKeyPressState(const EVirtualKey& virtualKey)
@@ -205,4 +205,14 @@ void InputManager::PollWindowEvents()
 bool InputManager::IsPressKey(const uint8_t* keyBufferPtr, const EVirtualKey& virtualKey) const
 {
 	return (keyBufferPtr[static_cast<int32_t>(virtualKey)] & 0x80);
+}
+
+Vector2i InputManager::GetCurrentCursorPosition()
+{
+	POINT cursorPos;
+
+	WINDOWS_ASSERT(GetCursorPos(&cursorPos), "failed to get cursor position...");
+	WINDOWS_ASSERT(ScreenToClient(inputControlWindow_->GetHandle(), &cursorPos), "failed to convert screen to client cursor position...");
+
+	return Vector2i(static_cast<int32_t>(cursorPos.x), static_cast<int32_t>(cursorPos.y));
 }

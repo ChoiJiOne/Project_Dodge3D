@@ -7,6 +7,7 @@
 #include <windows.h>
 
 #include "IManager.h"
+#include "Vector2.h"
 
 class Window;
 
@@ -426,6 +427,14 @@ private:
 	bool IsPressKey(const uint8_t* keyBufferPtr, const EVirtualKey& virtualKey) const;
 
 
+	/**
+	 * @brief 현재 마우스의 위치를 얻습니다.
+	 * 
+	 * @return 윈도우 좌표계 기준의 마우스 위치를 반환합니다.
+	 */
+	Vector2i GetCurrentCursorPosition();
+
+
 private:
 	/**
 	 * @brief 입력 처리 대상이 되는 윈도우입니다.
@@ -449,6 +458,18 @@ private:
 	 * @brief 업데이트(Tick) 이후의 가상 키 버퍼의 상태입니다.
 	 */
 	std::array<uint8_t, VIRTUAL_KEY_BUFFER_SIZE> currKeyboardState_ = {};
+
+
+	/**
+	 * @brief 업데이트(Tick) 이전의 커서 위치입니다.
+	 */
+	Vector2i prevCursorPosition_;
+
+
+	/**
+	 * @brief 업데이트(Tick) 이후의 커서 위치입니다.
+	 */
+	Vector2i currCursorPosition_;
 
 	
 	/**
