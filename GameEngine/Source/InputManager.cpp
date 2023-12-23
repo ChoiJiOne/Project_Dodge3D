@@ -83,6 +83,10 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 		windowEvent = EWindowEvent::Close;
 		break;
 
+	case WM_MOVE:
+		windowEvent = EWindowEvent::Move;
+		break;
+		
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
