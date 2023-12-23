@@ -36,6 +36,9 @@ void InputManager::Tick()
 	
 	std::copy(currKeyboardState_.begin(), currKeyboardState_.end(), prevKeyboardState_.begin());
 	WINDOWS_ASSERT(GetKeyboardState(currKeyboardState_.data()), "failed to get current keyboard state...");
+
+	prevCursorPosition_ = currCursorPosition_;
+	currCursorPosition_ = GetCurrentCursorPosition();
 }
 
 EPressState InputManager::GetVirtualKeyPressState(const EVirtualKey& virtualKey)
