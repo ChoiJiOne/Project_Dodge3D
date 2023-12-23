@@ -86,6 +86,27 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 	case WM_MOVE:
 		windowEvent = EWindowEvent::Move;
 		break;
+
+	case WM_SIZE:
+		switch (wParam)
+		{
+		case SIZE_RESTORED:
+			windowEvent = EWindowEvent::Resize;
+			break;
+		
+		case SIZE_MINIMIZED:
+			windowEvent = EWindowEvent::Minimize;
+			break;
+
+		case SIZE_MAXIMIZED:
+			windowEvent = EWindowEvent::Maximize;
+			break;
+
+		default:
+			windowEvent = EWindowEvent::None;
+			break;
+		}
+		break;
 		
 	case WM_DESTROY:
 		PostQuitMessage(0);

@@ -200,7 +200,7 @@ private:
 	 */
 	Window* inputControlWindow_ = nullptr;
 
-
+	
 	/**
 	 * @brief 윈도우 이벤트에 대응하는 액션입니다.
 	 */
