@@ -91,15 +91,33 @@ LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, 
 		switch (wParam)
 		{
 		case SIZE_RESTORED:
-			windowEvent = EWindowEvent::Resize;
+			if (bIsMinimize_)
+			{
+				windowEvent = EWindowEvent::ExitMinimize;
+			}
+			else if (bIsMaximize_)
+			{
+				windowEvent = EWindowEvent::ExitMaximize;
+			}
+			else
+			{
+				windowEvent = EWindowEvent::Resize;
+			}
+			
+			bIsMinimize_ = false;
+			bIsMaximize_ = false;
 			break;
 		
 		case SIZE_MINIMIZED:
-			windowEvent = EWindowEvent::Minimize;
+			bIsMinimize_ = true;
+			bIsMaximize_ = false;
+			windowEvent = EWindowEvent::EnterMinimize;
 			break;
 
 		case SIZE_MAXIMIZED:
-			windowEvent = EWindowEvent::Maximize;
+			bIsMinimize_ = false;
+			bIsMaximize_ = true;
+			windowEvent = EWindowEvent::EnterMaximize;
 			break;
 
 		default:
