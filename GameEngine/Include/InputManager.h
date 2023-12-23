@@ -34,8 +34,10 @@ enum class EPressState
 
 /**
  * @brief 가상 키의 값입니다.
+ * 
+ * @see https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
  */
-enum class VirtualKey : int32_t
+enum class EVirtualKey : int32_t
 {
 	VKEY_NONE = 0x00,
 	VKEY_LBUTTON = 0x01,
@@ -304,6 +306,16 @@ public:
 
 
 	/**
+	 * @brief 가상 키 값의 입력 상태를 얻습니다.
+	 * 
+	 * @param virtualKey 입력 상태를 얻을 가상 키 값입니다.
+	 * 
+	 * @return 키 값의 입력 상태를 반환합니다.
+	 */
+	EPressState GetVirtualKeyPressState(const EVirtualKey& virtualKey);
+
+
+	/**
 	 * @brief 윈도우 이벤트 액션을 추가합니다.
 	 *
 	 * @param signature 윈도우 이벤트 액션의 시그니처 값입니다.
@@ -411,7 +423,7 @@ private:
 	 * 
 	 * @return 키가 눌렸다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	bool IsPressKey(const uint8_t* keyBufferPtr, const VirtualKey& virtualKey) const;
+	bool IsPressKey(const uint8_t* keyBufferPtr, const EVirtualKey& virtualKey) const;
 
 
 private:

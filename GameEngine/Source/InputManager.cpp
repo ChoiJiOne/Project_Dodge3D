@@ -38,6 +38,36 @@ void InputManager::Tick()
 	ASSERT(GetKeyboardState(currKeyboardState_.data()), "failed to get current keyboard state...");
 }
 
+EPressState InputManager::GetVirtualKeyPressState(const EVirtualKey& virtualKey)
+{
+	EPressState pressState = EPressState::None;
+
+	if (IsPressKey(prevKeyboardState_.data(), virtualKey))
+	{
+		if (IsPressKey(currKeyboardState_.data(), virtualKey))
+		{
+			pressState = EPressState::Held;
+		}
+		else
+		{
+			pressState = EPressState::Released;
+		}
+	}
+	else
+	{
+		if (IsPressKey(currKeyboardState_.data(), virtualKey))
+		{
+			pressState = EPressState::Pressed;
+		}
+		else
+		{
+			pressState = EPressState::None;
+		}
+	}
+
+	return pressState;
+}
+
 void InputManager::AddWindowEventAction(const std::string& signature, const EWindowEvent& windowEvent, const std::function<void()>& eventAction, bool bIsActive)
 {
 	ASSERT(windowEventActions_.find(signature) == windowEventActions_.end(), "already bind window event action : %s", signature.c_str());
@@ -172,7 +202,7 @@ void InputManager::PollWindowEvents()
 	}
 }
 
-bool InputManager::IsPressKey(const uint8_t* keyBufferPtr, const VirtualKey& virtualKey) const
+bool InputManager::IsPressKey(const uint8_t* keyBufferPtr, const EVirtualKey& virtualKey) const
 {
 	return (keyBufferPtr[static_cast<int32_t>(virtualKey)] & 0x80);
 }
