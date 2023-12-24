@@ -15,7 +15,7 @@ bool bIsDone = false;
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
-	CommandLineUtils::Parse(pCmdLine);
+	CommandLineUtils::Parse();
 	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
 
 	Window window;
