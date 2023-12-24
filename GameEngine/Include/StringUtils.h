@@ -14,6 +14,13 @@ class StringUtils
 {
 public:
 	/**
+	 * @brief 문자열 버퍼의 크기입니다.
+	 */
+	static const int32_t STRING_BUFFER_SIZE = 1024;
+
+
+public:
+	/**
 	 * @brief 형식화된 문자열을 반환합니다.
 	 *
 	 * @note
@@ -186,12 +193,6 @@ public:
 
 
 private:
-	/**
-	 * @brief 문자열 버퍼의 크기입니다.
-	 */
-	static const int32_t STRING_BUFFER_SIZE = 1024;
-
-
 	/**
 	 * @brief char 문자열 버퍼입니다.
 	 */
