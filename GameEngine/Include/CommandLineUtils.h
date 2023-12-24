@@ -22,7 +22,7 @@ public:
 	 * 
 	 * @param commandLine 전체 명령행 문자열의 포인터입니다.
 	 */
-	void Parse(const wchar_t* commandLine);
+	static void Parse(const wchar_t* commandLine);
 
 
 private:
@@ -30,4 +30,16 @@ private:
 	 * @brief 초기화된 적이 있는지 확인합니다.
 	 */
 	static bool bIsInitialized_;
+
+
+	/**
+	 * @brief 실행 파일 경로입니다.
+	 */
+	static std::wstring executePath_;
+
+
+	/**
+	 * @brief 명령행 인자의 키-값 쌍입니다.
+	 */
+	static std::unordered_map<std::wstring, std::wstring> argumentMaps_;
 };
