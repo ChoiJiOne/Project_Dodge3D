@@ -75,6 +75,22 @@ bool CommandLineUtils::GetIntValue(const std::wstring& key, int32_t& value)
 	return StringUtils::ToInt(argumentMaps_.at(key), value);
 }
 
+bool CommandLineUtils::GetFloatValue(const std::string& key, float& value)
+{
+	std::wstring convertKey = StringUtils::Convert(key);
+	return GetFloatValue(convertKey, value);
+}
+
+bool CommandLineUtils::GetFloatValue(const std::wstring& key, float& value)
+{
+	if (!IsValid(key))
+	{
+		return false;
+	}
+
+	return StringUtils::ToFloat(argumentMaps_.at(key), value);
+}
+
 bool CommandLineUtils::IsValid(const std::wstring& key)
 {
 	return argumentMaps_.find(key) != argumentMaps_.end();
