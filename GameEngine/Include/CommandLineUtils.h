@@ -25,6 +25,43 @@ public:
 	static void Parse();
 
 
+	/**
+	 * @brief 키 값에 대응하는 불리언 타입 값을 얻습니다.
+	 * 
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 불리언 값입니다.
+	 * 
+	 * @return 키 값에 대응하는 불리언 타입 값을 얻는 데 성공했다면 true, 그렇지 않으면 false를 반환합니다.
+	 * 
+	 * @note boolean 값으로 true, True, TRUE, false, False, FALSE 모두 가능합니다.
+	 */
+	static bool GetBoolValue(const std::string& key, bool& value);
+
+
+	/**
+	 * @brief 키 값에 대응하는 불리언 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 불리언 값입니다.
+	 *
+	 * @return 키 값에 대응하는 불리언 타입 값을 얻는 데 성공했다면 true, 그렇지 않으면 false를 반환합니다.
+	 * 
+	 * @note boolean 값으로 true, True, TRUE, false, False, FALSE 모두 가능합니다.
+	 */
+	static bool GetBoolValue(const std::wstring& key, bool& value);
+
+
+private:
+	/**
+	 * @brief 키 값이 유효한지 확인합니다.
+	 * 
+	 * @param key 유효한지 확인할 키 값입니다.
+	 * 
+	 * @return 키 값이 유효하다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool IsValid(const std::wstring& key);
+
+	
 private:
 	/**
 	 * @brief 초기화된 적이 있는지 확인합니다.

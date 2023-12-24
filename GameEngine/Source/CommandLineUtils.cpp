@@ -27,3 +27,39 @@ void CommandLineUtils::Parse()
 
 	bIsInitialized_ = true;
 }
+
+bool CommandLineUtils::GetBoolValue(const std::string& key, bool& value)
+{
+	std::wstring convertKey = StringUtils::Convert(key);
+	return GetBoolValue(convertKey, value);
+}
+
+bool CommandLineUtils::GetBoolValue(const std::wstring& key, bool& value)
+{
+	if (!IsValid(key))
+	{
+		return false;
+	}
+
+	std::wstring valueStr = StringUtils::ToLower(argumentMaps_.at(key));
+	if (valueStr == L"true")
+	{
+		value = true;
+		return true;
+
+	}
+	else if (valueStr == L"false")
+	{
+		value = false;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool CommandLineUtils::IsValid(const std::wstring& key)
+{
+	return argumentMaps_.find(key) != argumentMaps_.end();
+}
