@@ -10,18 +10,13 @@
 bool CommandLineUtils::bIsInitialized_ = false;
 std::unordered_map<std::wstring, std::wstring> CommandLineUtils::argumentMaps_;
 
-void CommandLineUtils::Parse(const wchar_t* commandLine)
-{
-	std::vector<std::wstring> arguments = StringUtils::Split(commandLine, L" ");
-	ParseArguments(arguments);
-}
-
-void CommandLineUtils::ParseArguments(const std::vector<std::wstring>& arguments)
+void CommandLineUtils::Parse()
 {
 	ASSERT(!bIsInitialized_, "Parse method can only be called once after the program starts...");
 
+	std::vector<std::wstring> arguments = StringUtils::Split(GetCommandLineW(), L" ");
 	std::wregex pattern(L"^[^=]+=[^=]+$");
-	for (std::size_t index = 0; index < arguments.size(); ++index)
+	for (std::size_t index = 1; index < arguments.size(); ++index)
 	{
 		if (std::regex_match(arguments[index], pattern))
 		{

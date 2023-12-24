@@ -18,26 +18,11 @@ public:
 	/**
 	 * @brief 커맨드 라인(명령행)을 파싱합니다.
 	 * 
-	 * @note 
-	 * - 이 메서드는 프로그램 시작 후 단 한 번만 호출할 수 있습니다.
-	 * - 전체 커맨드 라인은 실행 파일 경로가 제외된 문자열을 전달해야 합니다.
-	 * 
-	 * @param commandLine 전체 명령행 문자열의 포인터입니다.
-	 */
-	static void Parse(const wchar_t* commandLine);
-
-
-	/**
-	 * @brief 커맨드 라인(명령행 인자)를 파싱합니다.
-	 * 
 	 * @note
 	 * - 이 메서드는 프로그램 시작 후 단 한 번만 호출할 수 있습니다.
-	 * - 전체 명령행의 인자를 벡터로 전달해야 합니다.
-	 * - 인자 형식은 "<key>=<value>" 형식만 지원합니다.
-	 * 
-	 * @param arguments 실행 파일 경로를 제외한 명령행 인자입니다.
+	 * - 내부에서 전체 명령행을 찾아 파싱을 수행합니다.
 	 */
-	static void ParseArguments(const std::vector<std::wstring>& arguments);
+	static void Parse();
 
 
 private:
