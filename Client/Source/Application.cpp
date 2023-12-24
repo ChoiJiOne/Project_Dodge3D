@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 
 #include "CommandLineUtils.h"
+#include "FileManager.h"
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "Vector3.h"
@@ -23,6 +24,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().SetInputControlWindow(&window);
 	RenderManager::Get().SetRenderTargetWindow(&window);
 
+	FileManager::Get().Startup();
 	InputManager::Get().Startup();
 	RenderManager::Get().Startup();
 
@@ -114,6 +116,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	
 	RenderManager::Get().Shutdown();
 	InputManager::Get().Shutdown();
+	FileManager::Get().Shutdown();
 	window.Destroy();
 
 	Window::UnregisterWindowClass();
