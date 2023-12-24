@@ -25,6 +25,14 @@ public:
 	static void Parse(const wchar_t* commandLine);
 
 
+	/**
+	 * @brief 실행 파일 경로를 얻습니다.
+	 * 
+	 * @return 실행 파일 경로를 반환합니다.
+	 */
+	static std::wstring GetExecutePath() { return executePath_; }
+
+
 private:
 	/**
 	 * @brief 초기화된 적이 있는지 확인합니다.
