@@ -91,6 +91,50 @@ bool CommandLineUtils::GetFloatValue(const std::wstring& key, float& value)
 	return StringUtils::ToFloat(argumentMaps_.at(key), value);
 }
 
+bool CommandLineUtils::GetStringValue(const std::string& key, std::string& value)
+{
+	std::wstring convertKey = StringUtils::Convert(key);
+	std::wstring convertValue;
+
+	if (!GetStringValue(convertKey, convertValue))
+	{
+		return false;
+	}
+
+	value = StringUtils::Convert(convertValue);
+	return true;
+}
+
+bool CommandLineUtils::GetStringValue(const std::string& key, std::wstring& value)
+{
+	std::wstring convertKey = StringUtils::Convert(key);
+	return GetStringValue(convertKey, value);
+}
+
+bool CommandLineUtils::GetStringValue(const std::wstring& key, std::string& value)
+{
+	std::wstring convertValue;
+
+	if (!GetStringValue(key, convertValue))
+	{
+		return false;
+	}
+
+	value = StringUtils::Convert(convertValue);
+	return true;
+}
+
+bool CommandLineUtils::GetStringValue(const std::wstring& key, std::wstring& value)
+{
+	if (!IsValid(key))
+	{
+		return false;
+	}
+	
+	value = argumentMaps_.at(key);
+	return true;
+}
+
 bool CommandLineUtils::IsValid(const std::wstring& key)
 {
 	return argumentMaps_.find(key) != argumentMaps_.end();

@@ -99,6 +99,50 @@ public:
 	static bool GetFloatValue(const std::wstring& key, float& value);
 
 
+	/**
+	 * @brief 키 값에 대응하는 문자열 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 문자열 값입니다.
+	 *
+	 * @return 키 값에 대응하는 문자열 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool GetStringValue(const std::string& key, std::string& value);
+
+
+	/**
+	 * @brief 키 값에 대응하는 문자열 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 문자열 값입니다.
+	 *
+	 * @return 키 값에 대응하는 문자열 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool GetStringValue(const std::string& key, std::wstring& value);
+
+
+	/**
+	 * @brief 키 값에 대응하는 문자열 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 문자열 값입니다.
+	 *
+	 * @return 키 값에 대응하는 문자열 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool GetStringValue(const std::wstring& key, std::string& value);
+
+
+	/**
+	 * @brief 키 값에 대응하는 문자열 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 문자열 값입니다.
+	 *
+	 * @return 키 값에 대응하는 문자열 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool GetStringValue(const std::wstring& key, std::wstring& value);
+
+
 private:
 	/**
 	 * @brief 키 값이 유효한지 확인합니다.
