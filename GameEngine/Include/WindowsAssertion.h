@@ -3,7 +3,7 @@
 #include "Assertion.h"
 
 
-#if defined(DEBUG) || defined(RELEASE)
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 /**
  * @brief 에러 코드에 대응하는 메시지를 얻습니다.
  * 
@@ -68,7 +68,7 @@ inline std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
  * - 디버거가 존재하면 브레이크 포인트가 걸립니다.
  * - 디버거가 존재하지 않으면 크래시 덤프 파일을 생성합니다.
  */
-#if defined(DEBUG)
+#if defined(DEBUG_MODE)
 #ifndef WINDOWS_ASSERT
 #define WINDOWS_ASSERT(Expression, ...)\
 {\
@@ -82,7 +82,7 @@ inline std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
 	}\
 }
 #endif
-#elif defined(RELEASE)
+#elif defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 #ifndef WINDOWS_ASSERT
 #define WINDOWS_ASSERT(Expression, ...)\
 {\
@@ -95,7 +95,7 @@ inline std::wstring GetWindowsErrorCodeMessageW(const uint32_t& errorCode)
 	}\
 }
 #endif
-#else // defined(SHIPPING)
+#else // defined(MIN_SIZE_REL_MODE)
 #ifndef WINDOWS_ASSERT
 #define WINDOWS_ASSERT(Expression, ...) ((void)(Expression))
 #endif

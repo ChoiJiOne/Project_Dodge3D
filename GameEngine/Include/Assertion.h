@@ -8,7 +8,7 @@
 #include <windows.h>
 
 
-#if defined(DEBUG) || defined(RELEASE)
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 /**
  * @brief 디버그 창에 형식화된 문자열을 출력합니다.
  *
@@ -69,7 +69,7 @@ inline void AssertPrintF(const wchar_t* format, ...)
  * - 디버거가 존재하면 브레이크 포인트가 걸립니다.
  * - 디버거가 존재하지 않으면 크래시 덤프 파일을 생성합니다.
  */
-#if defined(DEBUG)
+#if defined(DEBUG_MODE)
 #ifndef ASSERT
 #define ASSERT(Expression, ...)\
 {\
@@ -83,7 +83,7 @@ inline void AssertPrintF(const wchar_t* format, ...)
 	}\
 }
 #endif
-#elif defined(RELEASE)
+#elif defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 #ifndef ASSERT
 #define ASSERT(Expression, ...)\
 {\
@@ -96,7 +96,7 @@ inline void AssertPrintF(const wchar_t* format, ...)
 	}\
 }
 #endif
-#else // defined(SHIPPING)
+#else // defined(MIN_SIZE_REL_MODE)
 #ifndef ASSERT
 #define ASSERT(Expression, ...) ((void)(Expression))
 #endif

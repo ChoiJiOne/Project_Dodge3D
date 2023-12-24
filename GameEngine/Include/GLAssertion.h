@@ -6,7 +6,7 @@
 #include "Assertion.h"
 
 
-#if defined(DEBUG) || defined(RELEASE)
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 /**
  * @brief 에러 코드에 대응하는 메시지를 얻습니다.
  * 
@@ -141,7 +141,7 @@ inline std::wstring GetGLErrorCodeMessageW(const GLenum& errorCode)
  * - 디버거가 존재하면 브레이크 포인트가 걸립니다.
  * - 디버거가 존재하지 않으면 크래시 덤프 파일을 생성합니다.
  */
-#if defined(DEBUG)
+#if defined(DEBUG_MODE)
 #ifndef GL_ASSERT
 #define GL_ASSERT(X, ...)\
 X;\
@@ -157,7 +157,7 @@ X;\
 	}\
 }
 #endif
-#elif defined(RELEASE)
+#elif defined(RELEASE_MODE) || defined(REL_WITH_DEB_INFO_MODE)
 #ifndef GL_ASSERT
 #define GL_ASSERT(X, ...)\
 X;\
@@ -172,7 +172,7 @@ X;\
 	}\
 }
 #endif
-#else // defined(SHIPPING)
+#else // defined(MIN_SIZE_REL_MODE)
 #ifndef GL_ASSERT
 #define GL_ASSERT(X, ...)\
 X;
