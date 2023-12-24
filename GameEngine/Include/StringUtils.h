@@ -192,6 +192,22 @@ public:
 	static bool ToFloat(const std::wstring& floating, float& outFloating);
 
 
+	/**
+	 * @brief char 문자열 버퍼의 포인터를 얻습니다.
+	 * 
+	 * @return char 문자열 버퍼의 포인터를 반환합니다.
+	 */
+	static char* GetCharBufferPtr() { return charBuffer_; }
+
+
+	/**
+	 * @brief wchar_t 문자열 버퍼의 포인터를 얻습니다.
+	 * 
+	 * @return wchar_t 문자열 버퍼의 포인터를 반환합니다.
+	 */
+	static wchar_t* GetWideCharBufferPtr() { return wcharBuffer_; }
+
+
 private:
 	/**
 	 * @brief char 문자열 버퍼입니다.
