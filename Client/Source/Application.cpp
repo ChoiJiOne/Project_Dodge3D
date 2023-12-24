@@ -45,8 +45,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	std::wstring shaderPath;
 	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
 
-	std::vector<uint8_t> vertexShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"/Shader.vert");
-	std::vector<uint8_t> fragmentShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"/Shader.frag");
+	std::vector<uint8_t> vertexShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"Shader.vert");
+	std::vector<uint8_t> fragmentShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"Shader.frag");
 
 	std::string vertexShaderSource = std::string(vertexShaderBuffer.begin(), vertexShaderBuffer.end());
 	const char* vertexShaderSourcePtr = vertexShaderSource.c_str();
