@@ -86,6 +86,32 @@ public:
 	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-readfile
 	 */
 	std::vector<uint8_t> ReadBufferFromFile(const std::wstring& path);
+
+
+	/**
+	 * @brief 버퍼를 파일에 씁니다.
+	 * 
+	 * @param path 버퍼를 쓸 파일의 경로입니다.
+	 * @param buffer 파일에 쓸 버퍼입니다.
+	 * 
+	 * @see
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createfilea
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-writefile
+	 */
+	void WriteBufferToFile(const std::string& path, const std::vector<uint8_t>& buffer);
+
+
+	/**
+	 * @brief 버퍼를 파일에 씁니다.
+	 *
+	 * @param path 버퍼를 쓸 파일의 경로입니다.
+	 * @param buffer 파일에 쓸 버퍼입니다.
+	 *
+	 * @see
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createfilew
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-writefile
+	 */
+	void WriteBufferToFile(const std::wstring& path, const std::vector<uint8_t>& buffer);
 	
 
 private:
