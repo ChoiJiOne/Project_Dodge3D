@@ -42,25 +42,19 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().AddWindowEventAction("EnterMaximize", EWindowEvent::EnterMaximize, resizeEvent, true);
 	InputManager::Get().AddWindowEventAction("ExitMaximize",  EWindowEvent::ExitMaximize,  resizeEvent, true);
 
-	std::string vertexShaderSource =
-		"#version 460 core\n"
-		"layout(location = 0) in vec3 inPosition;\n"
-		"void main()\n"
-		"{\n"
-		"    gl_Position = vec4(inPosition, 1.0f);\n"
-		"}";
+	std::wstring shaderPath;
+	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
+
+	std::vector<uint8_t> vertexShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"/Shader.vert");
+	std::vector<uint8_t> fragmentShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"/Shader.frag");
+
+	std::string vertexShaderSource = std::string(vertexShaderBuffer.begin(), vertexShaderBuffer.end());
 	const char* vertexShaderSourcePtr = vertexShaderSource.c_str();
 	uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSourcePtr, nullptr);
 	glCompileShader(vertexShader);
 	
-	std::string fragmentShaderSource =
-		"#version 460 core\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"void main()\n"
-		"{\n"
-		"    outColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
-		"}";
+	std::string fragmentShaderSource = std::string(fragmentShaderBuffer.begin(), fragmentShaderBuffer.end());
 	const char* fragmentShaderSourcePtr = fragmentShaderSource.c_str();
 	uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSourcePtr, nullptr);
