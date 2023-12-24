@@ -45,6 +45,14 @@ target_link_libraries(
     stb
     imgui
 )
+target_compile_definitions(
+    GameEngine 
+    PUBLIC
+    $<$<CONFIG:Debug>:DEBUG_MODE>
+    $<$<CONFIG:Release>:RELEASE_MODE>
+    $<$<CONFIG:RelWithDebInfo>:REL_WITH_DEB_INFO_MODE>
+    $<$<CONFIG:MinSizeRel>:MIN_SIZE_REL_MODE>
+)
 
 source_group(Include FILES ${GAME_ENGINE_INCLUDE_FILE})
 source_group(Script FILES ${GAME_ENGINE_SCRIPT_FILE})
