@@ -51,9 +51,24 @@ public:
 	virtual void Shutdown() override;
 
 
+	/**
+	 * @brief 실행 파일 경로를 얻습니다.
+	 * 
+	 * @return 실행 파일 경로를 반환합니다.
+	 */
+	const std::wstring& GetExecutePath() const { return executePath_; }
+
+
 private:
 	/**
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
 	 */
 	DEFAULT_CONSTRUCTOR_AND_VIRTUAL_DESTRUCTOR(FileManager);
+
+
+private:
+	/**
+	 * @brief 실행 파일 경로입니다.
+	 */
+	std::wstring executePath_;
 };
