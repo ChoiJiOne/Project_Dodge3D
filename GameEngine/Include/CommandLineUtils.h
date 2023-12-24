@@ -51,6 +51,32 @@ public:
 	static bool GetBoolValue(const std::wstring& key, bool& value);
 
 
+	/**
+	 * @brief 키 값에 대응하는 정수 타입 값을 얻습니다.
+	 * 
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 정수 값입니다.
+	 * 
+	 * @return 키 값에 대응하는 정수 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 * 
+	 * @note 음의 정수도 가능합니다.
+	 */
+	static bool GetIntValue(const std::string& key, int32_t& value);
+
+
+	/**
+	 * @brief 키 값에 대응하는 정수 타입 값을 얻습니다.
+	 *
+	 * @param key 값에 대응하는 키 값입니다.
+	 * @param value 키 값에 대응하는 정수 값입니다.
+	 *
+	 * @return 키 값에 대응하는 정수 타입 값을 얻는 데 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 *
+	 * @note 음의 정수도 가능합니다.
+	 */
+	static bool GetIntValue(const std::wstring& key, int32_t& value);
+
+
 private:
 	/**
 	 * @brief 키 값이 유효한지 확인합니다.
