@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 #include <windows.h>
 
 #include "IManager.h"
@@ -58,6 +59,34 @@ public:
 	 */
 	const std::wstring& GetExecutePath() const { return executePath_; }
 
+
+	/**
+	 * @brief 파일을 읽고 버퍼에 저장합니다.
+	 * 
+	 * @param path 파일의 경로입니다.
+	 * 
+	 * @return 파일의 버퍼 벡터를 반환합니다.
+	 * 
+	 * @see 
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createfilea
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-readfile
+	 */
+	std::vector<uint8_t> ReadBufferFromFile(const std::string& path);
+
+
+	/**
+	 * @brief 파일을 읽고 버퍼에 저장합니다.
+	 * 
+	 * @param path 파일의 경로입니다.
+	 * 
+	 * @return 파일의 버퍼 벡터를 반환합니다.
+	 * 
+	 * @see
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createfilew
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-readfile
+	 */
+	std::vector<uint8_t> ReadBufferFromFile(const std::wstring& path);
+	
 
 private:
 	/**
