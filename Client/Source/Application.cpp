@@ -4,18 +4,22 @@
 
 #include <glad/glad.h>
 
+#include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileManager.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "Shader.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Window.h"
+#include "WindowsCrashUtils.h"
 
 bool bIsDone = false;
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
+	WindowsCrashUtils::RegisterExceptionFilter();
 	CommandLineUtils::Parse();
 	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
 
@@ -23,6 +27,9 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
 	InputManager::Get().SetInputControlWindow(&window);
 	RenderManager::Get().SetRenderTargetWindow(&window);
+
+	int* a = nullptr;
+	ASSERT(a != nullptr, "Failed to ...");
 
 	FileManager::Get().Startup();
 	InputManager::Get().Startup();
@@ -45,28 +52,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	std::wstring shaderPath;
 	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
 
-	std::vector<uint8_t> vertexShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"Shader.vert");
-	std::vector<uint8_t> fragmentShaderBuffer = FileManager::Get().ReadBufferFromFile(shaderPath + L"Shader.frag");
-
-	std::string vertexShaderSource = std::string(vertexShaderBuffer.begin(), vertexShaderBuffer.end());
-	const char* vertexShaderSourcePtr = vertexShaderSource.c_str();
-	uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSourcePtr, nullptr);
-	glCompileShader(vertexShader);
-	
-	std::string fragmentShaderSource = std::string(fragmentShaderBuffer.begin(), fragmentShaderBuffer.end());
-	const char* fragmentShaderSourcePtr = fragmentShaderSource.c_str();
-	uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSourcePtr, nullptr);
-	glCompileShader(fragmentShader);
-
-	uint32_t shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	Shader shader;
+	shader.Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
 	std::vector<Vector3f> vertices = {
 		Vector3f(-0.5f, -0.5f, 0.0f),
@@ -94,19 +81,23 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		{
-			glUseProgram(shaderProgram);
+			shader.Bind();
+
 			glBindVertexArray(vao);
 			glDrawArrays(GL_TRIANGLES, 0, static_cast<uint32_t>(vertices.size()));
 
 			glBindVertexArray(0);
 			glUseProgram(0);
+
+			shader.Unbind();
 		}
 		RenderManager::Get().EndFrame();
 	}
 
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
-	glDeleteProgram(shaderProgram);
+
+	shader.Release();
 	
 	RenderManager::Get().Shutdown();
 	InputManager::Get().Shutdown();
@@ -114,5 +105,6 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	window.Destroy();
 
 	Window::UnregisterWindowClass();
+	WindowsCrashUtils::UnregisterExceptionFilter();
 	return 0;
 }
