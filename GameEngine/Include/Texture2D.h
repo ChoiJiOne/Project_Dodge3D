@@ -51,7 +51,7 @@ public:
 	 * - DXT 압축 형식은 반드시 texconv.exe를 이용해서 생성한 파일이여야 합니다.
 	 * - DXT 압축 형식의 확장자는 .dds로 되어 있어야 합니다.
 	 */
-	void Initialize(const std::string& path);
+	void Initialize(const std::wstring& path);
 
 
 	/**
@@ -66,6 +66,17 @@ public:
 	 * @param unit 활성화 할 텍스처 유닛입니다.
 	 */
 	void Active(uint32_t unit) const;
+
+
+private:
+	/**
+	 * @brief 이미지 파일의 확장자가 지원 가능한 파일인지 검사합니다.
+	 * 
+	 * @param 지원 가능한 파일인지 검사할 텍스처 파일 경로입니다.
+	 * 
+	 * @return 텍스처 파일이 지원 가능하다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsSupportExtension(const std::wstring& path);
 
 
 private:

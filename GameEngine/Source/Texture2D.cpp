@@ -19,7 +19,7 @@ Texture2D::~Texture2D()
 	}
 }
 
-void Texture2D::Initialize(const std::string& path)
+void Texture2D::Initialize(const std::wstring& path)
 {
 	ASSERT(!bIsInitialized_, "already initialize 2d texture resource...");
 
@@ -35,4 +35,28 @@ void Texture2D::Release()
 
 void Texture2D::Active(uint32_t unit) const
 {
+}
+
+bool Texture2D::IsSupportExtension(const std::wstring& path)
+{
+	static const std::array<std::wstring, 7> supportExtensions = {
+		L"jpeg",
+		L"jpg",
+		L"png",
+		L"tga",
+		L"bmp",
+		L"astc", // ¾ÐÃà Æ÷¸ä
+		L"dds",  // ¾ÐÃà Æ÷¸ä
+	};
+
+	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
+	for (const auto& supportExtension : supportExtensions)
+	{
+		if (extension == supportExtension)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
