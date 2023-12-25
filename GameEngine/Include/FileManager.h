@@ -112,7 +112,27 @@ public:
 	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-writefile
 	 */
 	void WriteBufferToFile(const std::wstring& path, const std::vector<uint8_t>& buffer);
+
+
+	/**
+	 * @brief 파일 혹은 디렉토리가 유효한지 확인합니다.
+	 * 
+	 * @param path 유효한지 확인할 파일 혹은 디렉토리 경로입니다.
+	 * 
+	 * @return 파일 혹은 디렉토리가 유효하다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsValidPath(const std::string& path);
 	
+
+	/**
+	 * @brief 파일 혹은 디렉토리가 유효한지 확인합니다.
+	 *
+	 * @param path 유효한지 확인할 파일 혹은 디렉토리 경로입니다.
+	 *
+	 * @return 파일 혹은 디렉토리가 유효하다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	bool IsValidPath(const std::wstring& path);
+
 
 private:
 	/**

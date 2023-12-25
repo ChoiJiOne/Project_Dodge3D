@@ -1,5 +1,7 @@
 #include "FileManager.h"
 
+#include <shlwapi.h>
+
 #include "Assertion.h"
 #include "StringUtils.h"
 #include "WindowsAssertion.h"
@@ -71,4 +73,14 @@ void FileManager::WriteBufferToFile(const std::wstring& path, const std::vector<
 	DWORD writeByteSize = 0;
 	WINDOWS_ASSERT(WriteFile(fileHandle, &buffer[0], static_cast<DWORD>(buffer.size()), &writeByteSize, nullptr), L"failed to write %s...", path.c_str());
 	WINDOWS_ASSERT(CloseHandle(fileHandle), L"failed to close %s...", path.c_str());
+}
+
+bool FileManager::IsValidPath(const std::string& path)
+{
+	return PathFileExistsA(path.c_str());
+}
+
+bool FileManager::IsValidPath(const std::wstring& path)
+{
+	return PathFileExistsW(path.c_str());
 }
