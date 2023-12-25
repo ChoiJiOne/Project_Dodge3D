@@ -103,6 +103,38 @@ bool Texture2D::IsSupportExtension(const std::wstring& path)
 	return false;
 }
 
+uint32_t Texture2D::FindAstcBlockSizeFromFile(const std::wstring& path)
+{
+	static const std::unordered_map<EASTCBlockSize, std::wstring> blockSizeMaps = {
+		{ EASTCBlockSize::ASTC_4x4,   L"4x4"   },
+		{ EASTCBlockSize::ASTC_5x4,   L"5x4"   },
+		{ EASTCBlockSize::ASTC_5x5,   L"5x5"   },
+		{ EASTCBlockSize::ASTC_6x5,   L"6x5"   },
+		{ EASTCBlockSize::ASTC_6x6,   L"6x6"   },
+		{ EASTCBlockSize::ASTC_8x5,   L"8x5"   },
+		{ EASTCBlockSize::ASTC_8x6,   L"8x6"   },
+		{ EASTCBlockSize::ASTC_8x8,   L"8x8"   },
+		{ EASTCBlockSize::ASTC_10x5,  L"10x5"  },
+		{ EASTCBlockSize::ASTC_10x6,  L"10x6"  },
+		{ EASTCBlockSize::ASTC_10x8,  L"10x8"  },
+		{ EASTCBlockSize::ASTC_10x10, L"10x10" },
+		{ EASTCBlockSize::ASTC_12x10, L"12x10" },
+		{ EASTCBlockSize::ASTC_12x12, L"12x12" },
+	};
+
+	std::wstring filename = FileManager::Get().RemoveBasePath(path);
+
+	for (const auto& blockSize : blockSizeMaps)
+	{
+		if (filename.find(blockSize.second) != std::wstring::npos)
+		{
+			return static_cast<uint32_t>(blockSize.first);
+		}
+	}
+
+	return static_cast<uint32_t>(EASTCBlockSize::None);
+}
+
 uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 {
 	std::string convertPath = StringUtils::Convert(path);
@@ -152,5 +184,6 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 
 uint32_t Texture2D::CreateASTCCompressionTexture(const std::wstring& path)
 {
+
 	return uint32_t();
 }
