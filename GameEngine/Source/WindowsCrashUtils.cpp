@@ -5,6 +5,7 @@
 
 #include <dbghelp.h>
 #include <pathcch.h>
+#include <Shlwapi.h>
 
 std::wstring WindowsCrashUtils::crashInfoSavePath_;
 
@@ -19,6 +20,10 @@ void WindowsCrashUtils::RegisterExceptionFilter()
 	ASSERT(SUCCEEDED(PathCchRemoveFileSpec(bufferPtr, StringUtils::STRING_BUFFER_SIZE)), "failed to remove execute file name...");
 
 	crashInfoSavePath_ = StringUtils::PrintF(L"%s\\Crash\\", bufferPtr);
+	if (!PathFileExistsW(crashInfoSavePath_.c_str()))
+	{
+		WINDOWS_ASSERT(CreateDirectoryW(crashInfoSavePath_.c_str(), nullptr), "failed to create %s directory...", crashInfoSavePath_.c_str());
+	}
 }
 
 void WindowsCrashUtils::UnregisterExceptionFilter()
