@@ -172,3 +172,27 @@ std::wstring FileManager::GetFileExtension(const std::wstring& path)
 
 	return (offset == std::wstring::npos) ? L"" : filename.substr(offset + 1);
 }
+
+Json::Value FileManager::ReadJsonFromFile(const std::string& path)
+{
+	std::vector<uint8_t> jsonBuffer = ReadBufferFromFile(path);
+	std::string jsonString(jsonBuffer.begin(), jsonBuffer.end());
+
+	Json::Value root;
+	Json::Reader reader;
+	ASSERT(reader.parse(jsonString, root), "failed to parse %s json file...", path.c_str());
+
+	return root;
+}
+
+Json::Value FileManager::ReadJsonFromFile(const std::wstring& path)
+{
+	std::vector<uint8_t> jsonBuffer = ReadBufferFromFile(path);
+	std::string jsonString(jsonBuffer.begin(), jsonBuffer.end());
+
+	Json::Value root;
+	Json::Reader reader;
+	ASSERT(reader.parse(jsonString, root), L"failed to parse %s json file...", path.c_str());
+
+	return root;
+}

@@ -5,6 +5,8 @@
 #include <vector>
 #include <windows.h>
 
+#include <json/json.h>
+
 #include "IManager.h"
 
 
@@ -216,6 +218,26 @@ public:
 	 * - 파일 경로가 "D:/AAA/BBB/CCC.a"라면, 반환하는 값은 "a" 입니다.
 	 */
 	std::wstring GetFileExtension(const std::wstring& path);
+
+
+	/**
+	 * @brief Json 파일의 Json 객체를 얻습니다.
+	 * 
+	 * @param path 파일의 경로입니다.
+	 * 
+	 * @return Json 객체를 반환합니다.
+	 */
+	Json::Value ReadJsonFromFile(const std::string& path);
+
+
+	/**
+	 * @brief Json 파일의 Json 객체를 얻습니다.
+	 *
+	 * @param path 파일의 경로입니다.
+	 *
+	 * @return Json 객체를 반환합니다.
+	 */
+	Json::Value ReadJsonFromFile(const std::wstring& path);
 
 
 private:
