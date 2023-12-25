@@ -1,7 +1,6 @@
 @echo off
 
-SET project=Client
 SET mode=Release
-SET script=GameEngine\Script\Run.bat
+SET script=Client\Script\RunClient.bat
 
-%script% %project% %mode%
+%script% %mode%
