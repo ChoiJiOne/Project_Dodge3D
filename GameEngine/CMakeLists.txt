@@ -38,6 +38,7 @@ target_link_libraries(
     GameEngine 
     PUBLIC 
     Dbghelp.lib 
+    Pathcch.lib
     opengl32.lib 
     glad
     jsoncpp
