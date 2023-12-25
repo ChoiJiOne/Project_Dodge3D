@@ -28,9 +28,6 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().SetInputControlWindow(&window);
 	RenderManager::Get().SetRenderTargetWindow(&window);
 
-	int* a = nullptr;
-	ASSERT(a != nullptr, "Failed to ...");
-
 	FileManager::Get().Startup();
 	InputManager::Get().Startup();
 	RenderManager::Get().Startup();
