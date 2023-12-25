@@ -18,7 +18,7 @@ void WindowsCrashUtils::RegisterExceptionFilter()
 	WINDOWS_ASSERT(GetModuleFileNameW(nullptr, bufferPtr, StringUtils::STRING_BUFFER_SIZE), "failed to get execute file name...");
 	ASSERT(SUCCEEDED(PathCchRemoveFileSpec(bufferPtr, StringUtils::STRING_BUFFER_SIZE)), "failed to remove execute file name...");
 
-	crashInfoSavePath_ = StringUtils::PrintF(L"%s\\", bufferPtr);
+	crashInfoSavePath_ = StringUtils::PrintF(L"%s\\Crash\\", bufferPtr);
 }
 
 void WindowsCrashUtils::UnregisterExceptionFilter()
