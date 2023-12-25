@@ -29,6 +29,30 @@ struct ASTCFileHeader
 	uint8_t zsize[3];
 };
 
+/**
+ * @brief ASTC 블록 크기를 나타내는 열거형입니다.
+ *
+ * @note OpenGL의 GL_COMPRESSED_RGBA_ASTC_<SIZE>x<SIZE>_KHR 상수와 일대일 대응합니다.
+ */
+enum class EASTCBlockSize
+{
+	ASTC_4x4 = 0x93B0,
+	ASTC_5x4 = 0x93B1,
+	ASTC_5x5 = 0x93B2,
+	ASTC_6x5 = 0x93B3,
+	ASTC_6x6 = 0x93B4,
+	ASTC_8x5 = 0x93B5,
+	ASTC_8x6 = 0x93B6,
+	ASTC_8x8 = 0x93B7,
+	ASTC_10x5 = 0x93B8,
+	ASTC_10x6 = 0x93B9,
+	ASTC_10x8 = 0x93BA,
+	ASTC_10x10 = 0x93BB,
+	ASTC_12x10 = 0x93BC,
+	ASTC_12x12 = 0x93BD,
+	None = 0xFFFF,
+};
+
 Texture2D::~Texture2D()
 {
 	if (bIsInitialized_)
