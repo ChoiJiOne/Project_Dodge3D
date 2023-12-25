@@ -111,6 +111,16 @@ private:
 	uint32_t CreateAstcCompressionTexture(const std::wstring& path);
 
 
+	/**
+	 * @brief DXT 압축 텍스처 리소스를 생성합니다.
+	 * 
+	 * @param path 이미지 파일의 경로입니다.
+	 * 
+	 * @return 텍스처 리소스의 ID를 반환합니다.
+	 */
+	uint32_t CreateDxtCompressionTexture(const std::wstring& path);
+
+
 private:
 	/**
 	 * @brief 텍스처 리소스의 ID입니다.

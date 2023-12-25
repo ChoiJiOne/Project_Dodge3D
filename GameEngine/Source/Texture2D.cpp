@@ -33,7 +33,6 @@ struct AstcFileHeader
 	uint8_t zsize[3];
 };
 
-
 /**
  * @brief DDS 파일의 헤더입니다.
  *
@@ -64,7 +63,6 @@ struct DDSFileHeader
 	uint32_t dwCaps4;
 	uint32_t dwReserved2;
 };
-
 
 /**
  * @brief ASTC 블록 크기를 나타내는 열거형입니다.
@@ -199,7 +197,7 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 		break;
 
 	default:
-		ASSERT(false, "%d is not support image channel", channels);
+		ASSERT(false, "%d is not support image channel...", channels);
 	}
 
 	uint32_t textureID;
@@ -222,7 +220,7 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 {
 	EAstcBlockSize blockSize = static_cast<EAstcBlockSize>(FindAstcBlockSizeFromFile(path));
-	ASSERT(blockSize != EAstcBlockSize::None, L"%s can't find astc block size", path.c_str());
+	ASSERT(blockSize != EAstcBlockSize::None, L"%s can't find astc block size...", path.c_str());
 
 	std::vector<uint8_t> astcData = FileManager::Get().ReadBufferFromFile(path);
 	AstcFileHeader* astcDataPtr = reinterpret_cast<AstcFileHeader*>(astcData.data());
@@ -246,6 +244,77 @@ uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR), "failed to set texture object mag filter...");
 	GL_ASSERT(glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressionFormat, xsize, ysize, 0, byteToRead, reinterpret_cast<const void*>(&astcDataPtr[1])), "failed to compress texture...");
 	GL_ASSERT(glGenerateMipmap(GL_TEXTURE_2D), "failed to generate texture mipmap...");
+	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0), "failed to unbind texture object...");
+
+	return textureID;
+}
+
+uint32_t Texture2D::CreateDxtCompressionTexture(const std::wstring& path)
+{
+	std::vector<uint8_t> dxtData = FileManager::Get().ReadBufferFromFile(path);
+	DDSFileHeader* dxtDataPtr = reinterpret_cast<DDSFileHeader*>(dxtData.data());
+
+	std::string ddsFileCode;
+	for (std::size_t index = 0; index < 4; ++index)
+	{
+		ddsFileCode += dxtDataPtr->magic[index];
+	}
+	ASSERT(ddsFileCode == "DDS ", L"invalid  %s dds file code...", path.c_str());
+
+	uint32_t width = dxtDataPtr->dwWidth;
+	uint32_t height = dxtDataPtr->dwHeight;
+	uint32_t linearSize = dxtDataPtr->dwPitchOrLinearSize;
+	uint32_t mipMapCount = dxtDataPtr->dwMipMapCount;
+	uint32_t fourCC = dxtDataPtr->dwFourCC;
+	uint32_t bufferSize = mipMapCount > 1 ? linearSize * 2 : linearSize;
+	uint8_t* bufferPtr = reinterpret_cast<uint8_t*>(&dxtDataPtr[1]);
+
+	GLenum format;
+	uint32_t blockSize;
+	switch (fourCC)
+	{
+	case FOURCC_DXT1:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		blockSize = 8;
+		break;
+	case FOURCC_DXT3:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		blockSize = 16;
+		break;
+	case FOURCC_DXT5:
+		format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		blockSize = 16;
+		break;
+	default:
+		ASSERT(false, " %d is not support DXT format or invalid DDS file format...", fourCC);
+		return 0;
+	}
+
+	uint32_t textureID;
+	GL_ASSERT(glGenTextures(1, &textureID), "failed to generate texture object...");
+	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, textureID), "failed to bind texture object...");
+	GL_ASSERT(glPixelStorei(GL_UNPACK_ALIGNMENT, 1), "failed to set pixel storage modes...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE), "failed to set texture object warp s...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE), "failed to set texture object warp t...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR), "failed to set texture object min filter...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR), "failed to set texture object mag filter...");
+
+	for (uint32_t level = 0, offset = 0; level < mipMapCount; ++level)
+	{
+		if (width == 0 || height == 0)
+		{
+			mipMapCount--;
+			continue;
+		}
+
+		uint32_t size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
+		GL_ASSERT(glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height, 0, size, bufferPtr + offset), "failed to compression texture...");
+
+		offset += size;
+		width /= 2;
+		height /= 2;
+	}
+
 	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0), "failed to unbind texture object...");
 
 	return textureID;
