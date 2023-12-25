@@ -34,30 +34,10 @@ void WindowsCrashUtils::UnregisterExceptionFilter()
 LONG WINAPI WindowsCrashUtils::DetectApplicationCrash(EXCEPTION_POINTERS* exceptionPtr)
 {
 	std::wstring systemTime = GetCrashSystemTime();
-	std::wstring minidump = StringUtils::PrintF(L"%sWindows-%s-Minidump.dmp", crashInfoSavePath_.c_str(), systemTime.c_str());
+	std::wstring minidumpPath = StringUtils::PrintF(L"%sWindows-%s-Minidump.dmp", crashInfoSavePath_.c_str(), systemTime.c_str());
 
-	HANDLE dumpFileHandle = CreateFileW(minidump.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (dumpFileHandle == INVALID_HANDLE_VALUE)
-	{
-		return EXCEPTION_EXECUTE_HANDLER;
-	}
+	CreateMinidumpFile(minidumpPath, exceptionPtr);
 
-	_MINIDUMP_EXCEPTION_INFORMATION exception;
-	exception.ThreadId = GetCurrentThreadId();
-	exception.ExceptionPointers = exceptionPtr;
-	exception.ClientPointers = FALSE;
-
-	MiniDumpWriteDump(
-		GetCurrentProcess(),
-		GetCurrentProcessId(),
-		dumpFileHandle,
-		MiniDumpWithFullMemory,
-		&exception,
-		nullptr,
-		nullptr
-	);
-
-	CloseHandle(dumpFileHandle);
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
@@ -75,4 +55,27 @@ std::wstring WindowsCrashUtils::GetCrashSystemTime()
 		static_cast<int32_t>(currentSystemTime.wMinute),
 		static_cast<int32_t>(currentSystemTime.wSecond)
 	);
+}
+
+bool WindowsCrashUtils::CreateMinidumpFile(const std::wstring& path, EXCEPTION_POINTERS* exceptionPtr)
+{
+	HANDLE fileHandle = CreateFileW(path.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (fileHandle == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	_MINIDUMP_EXCEPTION_INFORMATION exception;
+	exception.ThreadId = GetCurrentThreadId();
+	exception.ExceptionPointers = exceptionPtr;
+	exception.ClientPointers = FALSE;
+
+	bool bIsSuccessed = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), fileHandle, MiniDumpWithFullMemory, &exception, nullptr, nullptr);
+
+	if (!CloseHandle(fileHandle))
+	{
+		bIsSuccessed = false;
+	}
+
+	return bIsSuccessed;
 }

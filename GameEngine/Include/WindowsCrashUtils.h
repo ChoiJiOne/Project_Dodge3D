@@ -44,6 +44,17 @@ private:
 	 */
 	static std::wstring GetCrashSystemTime();
 
+
+	/**
+	 * @brief 크래시 덤프 파일을 생성합니다.
+	 * 
+	 * @param path 크래시 덤프 파일의 경로입니다.
+	 * @param exceptionPtr 예외와 컨텍스트 레코드입니다.
+	 * 
+	 * @return 덤프 파일 생성에 성공했다면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool CreateMinidumpFile(const std::wstring& path, EXCEPTION_POINTERS* exceptionPtr);
+	
 	
 private:
 	/**
