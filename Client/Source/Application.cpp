@@ -9,6 +9,7 @@
 #include "FileManager.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 #include "Shader.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -22,8 +23,8 @@ void RunApplication()
 	std::wstring shaderPath;
 	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
 
-	Shader shader;
-	shader.Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
+	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
+	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
 	std::vector<Vector3f> vertices = {
 		Vector3f(-0.5f, -0.5f, 0.0f),
@@ -51,7 +52,7 @@ void RunApplication()
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		{
-			shader.Bind();
+			shader->Bind();
 
 			glBindVertexArray(vao);
 			glDrawArrays(GL_TRIANGLES, 0, static_cast<uint32_t>(vertices.size()));
@@ -59,15 +60,13 @@ void RunApplication()
 			glBindVertexArray(0);
 			glUseProgram(0);
 
-			shader.Unbind();
+			shader->Unbind();
 		}
 		RenderManager::Get().EndFrame();
 	}
 
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
-
-	shader.Release();
 }
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
@@ -84,6 +83,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	FileManager::Get().Startup();
 	InputManager::Get().Startup();
 	RenderManager::Get().Startup();
+	ResourceManager::Get().Startup();
 	
 	auto quitEvent = [&]() { bIsDone = true; };
 	auto resizeEvent = [&]() {
@@ -101,6 +101,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	RunApplication();
 	
+	ResourceManager::Get().Shutdown();
 	RenderManager::Get().Shutdown();
 	InputManager::Get().Shutdown();
 	FileManager::Get().Shutdown();
