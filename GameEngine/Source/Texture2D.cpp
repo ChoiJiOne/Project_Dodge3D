@@ -99,6 +99,21 @@ Texture2D::~Texture2D()
 void Texture2D::Initialize(const std::wstring& path)
 {
 	ASSERT(!bIsInitialized_, "already initialize 2d texture resource...");
+	ASSERT(IsSupportExtension(path), L"%s is not support extension...", path.c_str());
+
+	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
+	if (extension == L"astc")
+	{
+		textureID_ = CreateAstcCompressionTexture(path);
+	}
+	else if (extension == L"dds")
+	{
+		textureID_ = CreateDxtCompressionTexture(path);
+	}
+	else
+	{
+		textureID_ = CreateNonCompressionTexture(path);
+	}
 
 	bIsInitialized_ = true;
 }
@@ -107,11 +122,15 @@ void Texture2D::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
+	GL_ASSERT(glDeleteTextures(1, &textureID_), "failed to delete texture object...");
+
 	bIsInitialized_ = false;
 }
 
 void Texture2D::Active(uint32_t unit) const
 {
+	GL_ASSERT(glActiveTexture(GL_TEXTURE0 + unit), "failed to active %d texture unit...", (GL_TEXTURE0 + unit));
+	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, textureID_), "failed to bind texture...");
 }
 
 bool Texture2D::IsSupportExtension(const std::wstring& path)
