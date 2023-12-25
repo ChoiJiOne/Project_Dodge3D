@@ -11,6 +11,7 @@
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "Shader.h"
+#include "Texture2D.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Window.h"
@@ -18,31 +19,61 @@
 
 bool bIsDone = false;
 
+struct Vertex
+{
+	Vector3f position;
+	Vector4f color;
+	Vector2f tex;
+};
+
+
 void RunApplication()
 {
 	std::wstring shaderPath;
 	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
 
+	std::wstring resourcePath;
+	CommandLineUtils::GetStringValue(L"resourcePath", resourcePath);
+
 	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
 	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
-	std::vector<Vector3f> vertices = {
-		Vector3f(-0.5f, -0.5f, 0.0f),
-		Vector3f(+0.5f, -0.5f, 0.0f),
-		Vector3f(+0.0f, +0.5f, 0.0f),
+	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("Texture");
+	texture->Initialize(resourcePath + L"awesomeface.png");
+
+	std::vector<Vertex> vertices = {
+		Vertex{ Vector3f(+1.0f, +1.0f, 0.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(1.0f, 1.0f) },
+		Vertex{ Vector3f(+1.0f, -1.0f, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector2f(1.0f, 0.0f) },
+		Vertex{ Vector3f(-1.0f, -1.0f, 0.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector2f(0.0f, 0.0f) },
+		Vertex{ Vector3f(-1.0f, +1.0f, 0.0f), Vector4f(1.0f, 1.0f, 0.0f, 1.0f), Vector2f(0.0f, 1.0f) },
+	};
+
+	std::vector<uint32_t> indices = {
+		0, 1, 3,
+		1, 2, 3,
 	};
 
 	uint32_t vbo;
 	uint32_t vao;
+	uint32_t ebo;
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * sizeof(Vector3f), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<uint32_t>(indices.size()) * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3f), (void*)(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(0));
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(7 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 
@@ -53,9 +84,10 @@ void RunApplication()
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		{
 			shader->Bind();
+			texture->Active(0);
 
 			glBindVertexArray(vao);
-			glDrawArrays(GL_TRIANGLES, 0, static_cast<uint32_t>(vertices.size()));
+			glDrawElements(GL_TRIANGLES, static_cast<uint32_t>(indices.size()), GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);
 			glUseProgram(0);
@@ -65,6 +97,7 @@ void RunApplication()
 		RenderManager::Get().EndFrame();
 	}
 
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
 }
