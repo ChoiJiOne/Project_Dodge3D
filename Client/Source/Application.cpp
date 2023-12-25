@@ -17,35 +17,8 @@
 
 bool bIsDone = false;
 
-int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
+void RunApplication()
 {
-	WindowsCrashUtils::RegisterExceptionFilter();
-	CommandLineUtils::Parse();
-	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
-
-	Window window;
-	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
-	InputManager::Get().SetInputControlWindow(&window);
-	RenderManager::Get().SetRenderTargetWindow(&window);
-
-	FileManager::Get().Startup();
-	InputManager::Get().Startup();
-	RenderManager::Get().Startup();
-
-	auto quitEvent = [&]() { bIsDone = true; };
-	auto resizeEvent = [&]() {
-		int32_t width;
-		int32_t height;
-		window.GetSize(width, height);
-		glViewport(0, 0, width, height);
-	};
-		
-	InputManager::Get().AddWindowEventAction("CloseLoop",     EWindowEvent::Close,         quitEvent,   true);
-	InputManager::Get().AddWindowEventAction("Resize",        EWindowEvent::Resize,        resizeEvent, true);
-	InputManager::Get().AddWindowEventAction("ExitMinimize",  EWindowEvent::ExitMinimize,  resizeEvent, true);
-	InputManager::Get().AddWindowEventAction("EnterMaximize", EWindowEvent::EnterMaximize, resizeEvent, true);
-	InputManager::Get().AddWindowEventAction("ExitMaximize",  EWindowEvent::ExitMaximize,  resizeEvent, true);
-
 	std::wstring shaderPath;
 	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
 
@@ -95,6 +68,38 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	glDeleteVertexArrays(1, &vao);
 
 	shader.Release();
+}
+
+int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
+{
+	WindowsCrashUtils::RegisterExceptionFilter();
+	CommandLineUtils::Parse();
+	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
+
+	Window window;
+	window.Create(L"ProjectA", 200, 200, 800, 600, true, false);
+	InputManager::Get().SetInputControlWindow(&window);
+	RenderManager::Get().SetRenderTargetWindow(&window);
+
+	FileManager::Get().Startup();
+	InputManager::Get().Startup();
+	RenderManager::Get().Startup();
+	
+	auto quitEvent = [&]() { bIsDone = true; };
+	auto resizeEvent = [&]() {
+		int32_t width;
+		int32_t height;
+		window.GetSize(width, height);
+		glViewport(0, 0, width, height);
+	};
+		
+	InputManager::Get().AddWindowEventAction("CloseLoop",     EWindowEvent::Close,         quitEvent,   true);
+	InputManager::Get().AddWindowEventAction("Resize",        EWindowEvent::Resize,        resizeEvent, true);
+	InputManager::Get().AddWindowEventAction("ExitMinimize",  EWindowEvent::ExitMinimize,  resizeEvent, true);
+	InputManager::Get().AddWindowEventAction("EnterMaximize", EWindowEvent::EnterMaximize, resizeEvent, true);
+	InputManager::Get().AddWindowEventAction("ExitMaximize",  EWindowEvent::ExitMaximize,  resizeEvent, true);
+
+	RunApplication();
 	
 	RenderManager::Get().Shutdown();
 	InputManager::Get().Shutdown();
