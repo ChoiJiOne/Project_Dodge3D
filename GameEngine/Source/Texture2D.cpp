@@ -182,9 +182,34 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 	return textureID;
 }
 
-uint32_t Texture2D::CreateASTCCompressionTexture(const std::wstring& path)
+uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 {
 	EAstcBlockSize blockSize = static_cast<EAstcBlockSize>(FindAstcBlockSizeFromFile(path));
-	
-	return uint32_t();
+	ASSERT(blockSize != EAstcBlockSize::None, L"%s can't find astc block size", path.c_str());
+
+	std::vector<uint8_t> astcData = FileManager::Get().ReadBufferFromFile(path);
+	AstcFileHeader* astcDataPtr = reinterpret_cast<AstcFileHeader*>(astcData.data());
+
+	int32_t xsize = astcDataPtr->xsize[0] + (astcDataPtr->xsize[1] << 8) + (astcDataPtr->xsize[2] << 16);
+	int32_t ysize = astcDataPtr->ysize[0] + (astcDataPtr->ysize[1] << 8) + (astcDataPtr->ysize[2] << 16);
+	int32_t zsize = astcDataPtr->zsize[0] + (astcDataPtr->zsize[1] << 8) + (astcDataPtr->zsize[2] << 16);
+	int32_t xblocks = (xsize + astcDataPtr->blockdimX - 1) / astcDataPtr->blockdimX;
+	int32_t yblocks = (ysize + astcDataPtr->blockdimY - 1) / astcDataPtr->blockdimY;
+	int32_t zblocks = (zsize + astcDataPtr->blockdimZ - 1) / astcDataPtr->blockdimZ;
+	GLenum compressionFormat = static_cast<GLenum>(blockSize);
+
+	uint32_t byteToRead = (xblocks * yblocks * zblocks) << 4;
+
+	uint32_t textureID;
+	GL_ASSERT(glGenTextures(1, &textureID), "failed to generate texture object...");
+	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, textureID), "failed to bind texture object...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE), "failed to set texture object warp s...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE), "failed to set texture object warp t...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR), "failed to set texture object min filter...");
+	GL_ASSERT(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR), "failed to set texture object mag filter...");
+	GL_ASSERT(glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressionFormat, xsize, ysize, 0, byteToRead, reinterpret_cast<const void*>(&astcDataPtr[1])), "failed to compress texture...");
+	GL_ASSERT(glGenerateMipmap(GL_TEXTURE_2D), "failed to generate texture mipmap...");
+	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0), "failed to unbind texture object...");
+
+	return textureID;
 }

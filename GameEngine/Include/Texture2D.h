@@ -108,7 +108,7 @@ private:
 	 *
 	 * @return 텍스처 리소스의 ID를 반환합니다.
 	 */
-	uint32_t CreateASTCCompressionTexture(const std::wstring& path);
+	uint32_t CreateAstcCompressionTexture(const std::wstring& path);
 
 
 private:
