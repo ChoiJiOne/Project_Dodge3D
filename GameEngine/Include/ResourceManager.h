@@ -53,6 +53,56 @@ public:
 	virtual void Shutdown() override;
 
 
+	/**
+	 * @brief 빈 리소스를 생성합니다.
+	 *
+	 * @note
+	 * - 리소스 매니저는 초기화를 수행하지 않으므로, 반환하는 포인터 변수를 이용해서 초기화를 따로 수행해야 합니다.
+	 * - 리소스의 시그니처 값은 중복을 허용하지 않습니다.
+	 *
+	 * @param signature 매니저 내부에서 리소스들을 구분할 시그니처 값입니다.
+	 *
+	 * @return 생성된 리소스의 포인터를 반환합니다.
+	 */
+	template <typename TResource>
+	TResource* CreateResource(const std::string& signature)
+	{
+		ASSERT(!IsValidResourceKey(signature), "already exist resource signature key : %s", signature.c_str());
+
+		std::unique_ptr<TResource> resource = std::make_unique<TResource>();
+		resourceCache_.insert({ signature, std::move(resource) });
+
+		return reinterpret_cast<TResource*>(resourceCache_.at(signature).get());
+	}
+
+
+	/**
+	 * @brief 리소스 매니저가 관리하는 리소스를 얻습니다.
+	 *
+	 * @param signature 매니저 내부에서 리소스들을 구분할 시그니처 값입니다.
+	 *
+	 * @return 시그니처에 대응하는 리소스의 포인터를 얻습니다. 시그니처 값에 대응하는 리소스가 없으면 널 포인터를 반환합니다.
+	 */
+	template <typename TResource>
+	TResource* GetResource(const std::string& signature)
+	{
+		if (!IsValidResourceKey(signature))
+		{
+			return nullptr;
+		}
+
+		return reinterpret_cast<TResource*>(resourceCache_.at(signature).get());
+	}
+
+
+	/**
+	 * @brief 리소스 매니저가 관리하는 리소스를 삭제합니다.
+	 *
+	 * @param signature 삭제할 리소스의 시그니처 값입니다.
+	 */
+	void DestroyResource(const std::string& signature);
+
+
 private:
 	/**
 	 * @brief 리소스 관리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
