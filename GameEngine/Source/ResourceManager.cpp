@@ -15,3 +15,8 @@ void ResourceManager::Shutdown()
 
 	bIsStartup_ = false;
 }
+
+bool ResourceManager::IsValidResourceKey(const std::string& key)
+{
+	return resourceCache_.find(key) != resourceCache_.end();
+}

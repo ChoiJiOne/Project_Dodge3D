@@ -60,6 +60,16 @@ private:
 	DEFAULT_CONSTRUCTOR_AND_VIRTUAL_DESTRUCTOR(ResourceManager);
 
 
+	/**
+	 * @brief 키 값이 유효한지 확인합니다.
+	 * 
+	 * @param key 유효한지 확인할 키 값입니다.
+	 * 
+	 * @return 키 값에 대응하는 리소스가 존재하면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsValidResourceKey(const std::string& key);
+
+
 private:
 	/**
 	 * @brief 리소스 매니저 내의 리소스 캐시입니다.
