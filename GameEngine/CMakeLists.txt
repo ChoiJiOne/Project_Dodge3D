@@ -39,6 +39,7 @@ target_link_libraries(
     PUBLIC 
     Dbghelp.lib 
     Pathcch.lib
+    Shlwapi.lib
     opengl32.lib 
     glad
     jsoncpp
