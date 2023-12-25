@@ -190,6 +190,34 @@ public:
 	std::wstring RemoveBasePath(const std::wstring& path);
 
 
+	/**
+	 * @brief 전체 파일 경로에서 파일 확장자를 얻습니다.
+	 *
+	 * @param path 파일 확장자를 얻을 전체 파일 경로입니다.
+	 *
+	 * @return 전체 파일 경로의 파일 확장자를 반환합니다.
+	 *
+	 * @example
+	 * - 파일 경로가 "D:\\AAA\\BBB\\CCC.a"라면, 반환하는 값은 "a" 입니다.
+	 * - 파일 경로가 "D:/AAA/BBB/CCC.a"라면, 반환하는 값은 "a" 입니다.
+	 */
+	std::string GetFileExtension(const std::string& path);
+
+
+	/**
+	 * @brief 전체 파일 경로에서 파일 확장자를 얻습니다.
+	 *
+	 * @param path 파일 확장자를 얻을 전체 파일 경로입니다.
+	 *
+	 * @return 전체 파일 경로의 파일 확장자를 반환합니다.
+	 *
+	 * @example
+	 * - 파일 경로가 "D:\\AAA\\BBB\\CCC.a"라면, 반환하는 값은 "a" 입니다.
+	 * - 파일 경로가 "D:/AAA/BBB/CCC.a"라면, 반환하는 값은 "a" 입니다.
+	 */
+	std::wstring GetFileExtension(const std::wstring& path);
+
+
 private:
 	/**
 	 * @brief 파일 및 디렉토리 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
