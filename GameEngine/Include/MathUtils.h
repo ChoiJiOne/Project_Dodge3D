@@ -627,4 +627,34 @@ public:
 			0.0f, 0.0f, 0.0f, 1.0f
 		);
 	}
+
+
+	/**
+	 * @brief 직교 투영 행렬을 생성합니다.
+	 *
+	 * @param left   투영 공간의 좌측 경계 평면 값
+	 * @param right  투영 공간의 우측 경계 평면 값
+	 * @param bottom 투영 공간의 하단 경계 평면 값
+	 * @param top    투영 공간의 상단 경계 평면 값
+	 * @param zNear  투영 공간의 전방 경계 평면 값
+	 * @param zFar   투영 공간의 후방 경계 평면 값
+	 *
+	 * @return 생성된 직교 투영 행렬을 반환합니다.
+	 */
+	inline Matrix4x4f CreateOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+	{
+		float diffRL = (right - left);
+		float addRL = (right + left);
+		float diffTB = (top - bottom);
+		float addTB = (top + bottom);
+		float diffFN = (zFar - zNear);
+		float addFN = (zFar + zNear);
+
+		return Matrix4x4f(
+			  2.0f / diffRL,            0.0f,            0.0f, 0.0f,
+			           0.0f,   2.0f / diffTB,            0.0f, 0.0f,
+			           0.0f,            0.0f,  -2.0f / diffFN, 0.0f,
+			-addRL / diffRL, -addTB / diffTB, -addFN / diffFN, 1.0f
+		);
+	}
 };
