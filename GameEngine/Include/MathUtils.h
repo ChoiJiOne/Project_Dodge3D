@@ -675,10 +675,34 @@ public:
 		float tanHalfFovy = Sin(halfFov) / Cos(halfFov);
 		
 		return Matrix4x4f(
-			1.0f / (aspect * tanHalfFovy),                 0.0f,                                   0.0f, 0.0f,
+			1.0f / (aspect * tanHalfFovy),                 0.0f,                                    0.0f, 0.0f,
 			                         0.0f, 1.0f / (tanHalfFovy),                                    0.0f, 0.0f,
 			                         0.0f,                 0.0f,        -(farZ + nearZ) / (farZ - nearZ), 1.0f,
 			                         0.0f,                 0.0f, -(2.0f * farZ * nearZ) / (farZ - nearZ), 1.0f
+		);
+	}
+
+
+	/**
+	 * @brief 시야 행렬을 생성합니다.
+	 * 
+	 * @param eyePosition 카메라의 위치입니다.
+	 * @param focusPosition 초점의 위치입니다.
+	 * @param upDirection 카메라의 위쪽 방향입니다. 일반적으로 <0.0f, 1.0f, 0.0f> 입니다.
+	 * 
+	 * @return 생성된 시야 행렬을 반환합니다.
+	 */
+	static inline Matrix4x4f CreateLookAt(const Vector3f& eyePosition, const Vector3f& focusPosition, const Vector3f& upDirection)
+	{
+		Vector3f f = Normalize(focusPosition - eyePosition);
+		Vector3f s = Normalize(CrossProduct(f, upDirection));
+		Vector3f u = Normalize(CrossProduct(s, f));
+
+		return Matrix4x4f(
+			                        s.x,                         u.x,                       -f.x, 0.0f,
+			                        s.y,                         u.y,                       -f.y, 0.0f,
+			                        s.z,                         u.z,                       -f.z, 0.0f,
+			-DotProduct(s, eyePosition), -DotProduct(u, eyePosition), DotProduct(f, eyePosition), 1.0f
 		);
 	}
 };
