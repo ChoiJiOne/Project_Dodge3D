@@ -8,6 +8,7 @@
 #include "CommandLineUtils.h"
 #include "FileManager.h"
 #include "InputManager.h"
+#include "MathUtils.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "Shader.h"
@@ -18,14 +19,6 @@
 #include "WindowsCrashUtils.h"
 
 bool bIsDone = false;
-
-struct Vertex
-{
-	Vector3f position;
-	Vector4f color;
-	Vector2f tex;
-};
-
 
 void RunApplication()
 {
@@ -38,42 +31,67 @@ void RunApplication()
 	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
 	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
-	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("Texture");
-	texture->Initialize(resourcePath + L"awesomeface.png");
+	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("container");
+	texture->Initialize(resourcePath + L"container.png");
 
-	std::vector<Vertex> vertices = {
-		Vertex{ Vector3f(+1.0f, +1.0f, 0.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f), Vector2f(1.0f, 1.0f) },
-		Vertex{ Vector3f(+1.0f, -1.0f, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f), Vector2f(1.0f, 0.0f) },
-		Vertex{ Vector3f(-1.0f, -1.0f, 0.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f), Vector2f(0.0f, 0.0f) },
-		Vertex{ Vector3f(-1.0f, +1.0f, 0.0f), Vector4f(1.0f, 1.0f, 0.0f, 1.0f), Vector2f(0.0f, 1.0f) },
+	std::vector<float> vertices = {
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
-
-	std::vector<uint32_t> indices = {
-		0, 1, 3,
-		1, 2, 3,
-	};
-
+	
 	uint32_t vbo;
 	uint32_t vao;
-	uint32_t ebo;
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<uint32_t>(indices.size()) * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5.0f * sizeof(float), (void*)(0));
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5.0f * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(7 * sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 
@@ -86,18 +104,26 @@ void RunApplication()
 			shader->Bind();
 			texture->Active(0);
 
-			glBindVertexArray(vao);
-			glDrawElements(GL_TRIANGLES, static_cast<uint32_t>(indices.size()), GL_UNSIGNED_INT, 0);
+			shader->SetMatrix4x4fParameter("model", Matrix4x4f::GetIdentity());
+			
+			static float time = 0.0f;
+			time += 0.0005f;
+
+			Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(5.0f * MathUtils::Cos(time), 0.0f, 5.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+			shader->SetMatrix4x4fParameter("view", view);
+
+			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
+			shader->SetMatrix4x4fParameter("projection", projection);
+
+			glBindVertexArray(vao); 
+			glDrawArrays(GL_TRIANGLES, 0, 36);
 
 			glBindVertexArray(0);
-			glUseProgram(0);
-
 			shader->Unbind();
 		}
 		RenderManager::Get().EndFrame();
 	}
 
-	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
 }

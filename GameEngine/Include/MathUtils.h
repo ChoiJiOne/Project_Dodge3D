@@ -694,15 +694,15 @@ public:
 	 */
 	static inline Matrix4x4f CreateLookAt(const Vector3f& eyePosition, const Vector3f& focusPosition, const Vector3f& upDirection)
 	{
-		Vector3f f = Normalize(focusPosition - eyePosition);
-		Vector3f s = Normalize(CrossProduct(f, upDirection));
-		Vector3f u = Normalize(CrossProduct(s, f));
+		Vector3f d = Normalize(eyePosition - focusPosition);
+		Vector3f r = Normalize(CrossProduct(upDirection, d));
+		Vector3f u = CrossProduct(d, r);
 
 		return Matrix4x4f(
-			                        s.x,                         u.x,                       -f.x, 0.0f,
-			                        s.y,                         u.y,                       -f.y, 0.0f,
-			                        s.z,                         u.z,                       -f.z, 0.0f,
-			-DotProduct(s, eyePosition), -DotProduct(u, eyePosition), DotProduct(f, eyePosition), 1.0f
+			                        r.x,                         u.x,                       d.x, 0.0f,
+			                        r.y,                         u.y,                       d.y, 0.0f,
+			                        r.z,                         u.z,                       d.z, 0.0f,
+			-DotProduct(r, eyePosition), -DotProduct(u, eyePosition), -DotProduct(d, eyePosition), 1.0f
 		);
 	}
 };
