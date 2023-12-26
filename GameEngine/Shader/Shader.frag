@@ -9,5 +9,5 @@ layout(binding = 0) uniform sampler2D textureMap;
 
 void main()
 {
-	outColor = texture(textureMap, inTexCoord) * inColor;
+	outColor = texture(textureMap, inTexCoord);
 }
