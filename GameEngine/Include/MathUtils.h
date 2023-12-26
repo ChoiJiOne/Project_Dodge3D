@@ -410,4 +410,46 @@ public:
 		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
 		return std::sqrtf(lengthSquare);
 	}
+
+
+	/**
+	 * @brief 2차원 벡터를 정규화합니다.
+	 *
+	 * @param v 정규화 할 벡터입니다.
+	 *
+	 * @return 정규화된 벡터를 반환합니다.
+	 */
+	static inline Vector2f Normalize(const Vector2f& v)
+	{
+		float length = Length(v);
+		return Vector2f(v.x / length, v.y / length);
+	}
+
+
+	/**
+	 * @brief 3차원 벡터를 정규화합니다.
+	 *
+	 * @param v 정규화 할 벡터입니다.
+	 *
+	 * @return 정규화된 벡터를 반환합니다.
+	 */
+	static inline Vector3f Normalize(const Vector3f& v)
+	{
+		float length = Length(v);
+		return Vector3f(v.x / length, v.y / length, v.z / length);
+	}
+
+
+	/**
+	 * @brief 4차원 벡터를 정규화합니다.
+	 *
+	 * @param v 정규화 할 벡터입니다.
+	 *
+	 * @return 정규화된 벡터를 반환합니다.
+	 */
+	static inline Vector4f Normalize(const Vector4f& v)
+	{
+		float length = Length(v);
+		return Vector4f(v.x / length, v.y / length, v.z / length, v.w / length);
+	}
 };
