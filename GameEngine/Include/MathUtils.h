@@ -365,4 +365,49 @@ public:
 	{
 		return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
 	}
+
+
+	/**
+	 * @brief 2차원 벡터의 크기를 얻습니다.
+	 *
+	 * @param v 크기를 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline float Length(const Vector2<T>& v)
+	{
+		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
+		return std::sqrtf(lengthSquare);
+	}
+
+
+	/**
+	 * @brief 3차원 벡터의 크기를 얻습니다.
+	 *
+	 * @param v 크기를 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline float Length(const Vector3<T>& v)
+	{
+		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
+		return std::sqrtf(lengthSquare);
+	}
+
+
+	/**
+	 * @brief 4차원 벡터의 크기를 얻습니다.
+	 *
+	 * @param v 크기를 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline float Length(const Vector4<T>& v)
+	{
+		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
+		return std::sqrtf(lengthSquare);
+	}
 };
