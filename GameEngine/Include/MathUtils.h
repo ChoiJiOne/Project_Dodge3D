@@ -641,7 +641,7 @@ public:
 	 *
 	 * @return 생성된 직교 투영 행렬을 반환합니다.
 	 */
-	inline Matrix4x4f CreateOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+	static inline Matrix4x4f CreateOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
 		float diffRL = (right - left);
 		float addRL = (right + left);
@@ -655,6 +655,30 @@ public:
 			           0.0f,   2.0f / diffTB,            0.0f, 0.0f,
 			           0.0f,            0.0f,  -2.0f / diffFN, 0.0f,
 			-addRL / diffRL, -addTB / diffTB, -addFN / diffFN, 1.0f
+		);
+	}
+
+
+	/**
+	 * @brief 원근 투영 행렬을 생성합니다.
+	 * 
+	 * @param fov 라디안 단위의 시야 각도입니다.
+	 * @param aspect 뷰 공간의 가로/세로 비율입니다.
+	 * @param nearZ 가까운 클리핑 평면 사이의 거리입니다. 0보다 커야 합니다.
+	 * @param farZ 원거리 클리핑 평면 사이의 거리입니다. 0보다 커야 합니다.
+	 * 
+	 * @return 생성된 원근 투영 행렬을 반환합니다.
+	 */
+	static inline Matrix4x4f CreatePerspective(float fov, float aspect, float nearZ, float farZ)
+	{
+		float halfFov = fov / 2.0f;
+		float tanHalfFovy = Sin(halfFov) / Cos(halfFov);
+		
+		return Matrix4x4f(
+			1.0f / (aspect * tanHalfFovy),                 0.0f,                                   0.0f, 0.0f,
+			                         0.0f, 1.0f / (tanHalfFovy),                                    0.0f, 0.0f,
+			                         0.0f,                 0.0f,        -(farZ + nearZ) / (farZ - nearZ), 1.0f,
+			                         0.0f,                 0.0f, -(2.0f * farZ * nearZ) / (farZ - nearZ), 1.0f
 		);
 	}
 };
