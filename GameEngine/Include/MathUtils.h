@@ -242,4 +242,49 @@ public:
 	{
 		return Min(upper, Max(lower, value));
 	}
+
+
+	/**
+	 * @brief 2차원 백터의 내적 연산을 수행합니다.
+	 *
+	 * @param lhs 백터의 내적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 내적 연산을 수행할 우측 피연산자입니다.
+	 *
+	 * @return 내적 연산 결과를 반환합니다.
+	 */
+	template <typename T>
+	inline T DotProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y;
+	}
+
+
+	/**
+	 * @brief 3차원 백터의 내적 연산을 수행합니다.
+	 *
+	 * @param lhs 백터의 내적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 내적 연산을 수행할 우측 피연산자입니다.
+	 *
+	 * @return 내적 연산 결과를 반환합니다.
+	 */
+	template <typename T>
+	inline T DotProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+	}
+
+
+	/**
+	 * @brief 4차원 백터의 내적 연산을 수행합니다.
+	 *
+	 * @param lhs 백터의 내적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 내적 연산을 수행할 우측 피연산자입니다.
+	 *
+	 * @return 내적 연산 결과를 반환합니다.
+	 */
+	template <typename T>
+	inline T DotProduct(const Vector4<T>& lhs, const Vector4<T>& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
+	}
 };
