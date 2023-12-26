@@ -537,7 +537,7 @@ public:
 	 *
 	 * @return 생성된 스케일 변환 행렬을 반환합니다.
 	 */
-	inline Matrix4x4f CreateScale(float xScale, float yScale, float zScale)
+	static inline Matrix4x4f CreateScale(float xScale, float yScale, float zScale)
 	{
 		return Matrix4x4f(
 			xScale, 0.0f, 0.0f, 0.0f,
@@ -555,12 +555,75 @@ public:
 	 *
 	 * @return 생성된 스케일 변환 행렬을 반환합니다.
 	 */
-	inline Matrix4x4f CreateScale(const Vector3f& scale)
+	static inline Matrix4x4f CreateScale(const Vector3f& scale)
 	{
 		return Matrix4x4f(
 			scale.x, 0.0f, 0.0f, 0.0f,
 			0.0f, scale.y, 0.0f, 0.0f,
 			0.0f, 0.0f, scale.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
+
+
+	/**
+	 * @brief X축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline Matrix4x4f CreateRotateX(float radian)
+	{
+		float s = Sin(radian);
+		float c = Cos(radian);
+
+		return Matrix4x4f(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f,    c,    s, 0.0f,
+			0.0f,   -s,    c, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
+
+
+	/**
+	 * @brief Y축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline Matrix4x4f CreateRotateY(float radian)
+	{
+		float s = Sin(radian);
+		float c = Cos(radian);
+
+		return Matrix4x4f(
+			   c, 0.0f,   -s, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			   s, 0.0f,    c, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
+
+
+	/**
+	 * @brief Z축으로 회전시키는 회전 행렬을 생성합니다.
+	 *
+	 * @param radian 회전할 라디안 각도입니다.
+	 *
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 */
+	static inline Matrix4x4f CreateRotateZ(float radian)
+	{
+		float s = Sin(radian);
+		float c = Cos(radian);
+
+		return Matrix4x4f(
+			   c,    s, 0.0f, 0.0f,
+			  -s,    c, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f
 		);
 	}
