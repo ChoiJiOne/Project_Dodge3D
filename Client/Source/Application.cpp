@@ -19,15 +19,13 @@
 #include "WindowsCrashUtils.h"
 
 bool bIsDone = false;
+int32_t width = 800;
+int32_t height = 600;
+std::wstring shaderPath;
+std::wstring resourcePath;
 
 void RunApplication()
 {
-	std::wstring shaderPath;
-	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
-
-	std::wstring resourcePath;
-	CommandLineUtils::GetStringValue(L"resourcePath", resourcePath);
-
 	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
 	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
@@ -112,7 +110,7 @@ void RunApplication()
 			Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(2.0f * MathUtils::Cos(time), 2.0f, 2.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 			shader->SetMatrix4x4fParameter("view", view);
 
-			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
+			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 			shader->SetMatrix4x4fParameter("projection", projection);
 
 			glBindVertexArray(vao); 
@@ -146,8 +144,6 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	
 	auto quitEvent = [&]() { bIsDone = true; };
 	auto resizeEvent = [&]() {
-		int32_t width;
-		int32_t height;
 		window.GetSize(width, height);
 		glViewport(0, 0, width, height);
 	};
@@ -158,7 +154,11 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().AddWindowEventAction("EnterMaximize", EWindowEvent::EnterMaximize, resizeEvent, true);
 	InputManager::Get().AddWindowEventAction("ExitMaximize",  EWindowEvent::ExitMaximize,  resizeEvent, true);
 
-	RunApplication();
+	{
+		CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
+		CommandLineUtils::GetStringValue(L"resourcePath", resourcePath);
+		RunApplication();
+	}
 	
 	ResourceManager::Get().Shutdown();
 	RenderManager::Get().Shutdown();
