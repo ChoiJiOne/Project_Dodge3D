@@ -304,4 +304,23 @@ public:
 	{
 		return lhs.x * rhs.y - lhs.y * rhs.x;
 	}
+
+
+	/**
+	 * @brief 3차원 벡터의 외적 연산을 수행합니다.
+	 * 
+	 * @param lhs 백터의 외적 연산을 수행할 좌측 피연산자입니다.
+	 * @param rhs 백터의 외적 연산을 수행할 우측 피연산자입니다.
+	 * 
+	 * @return 외적 연산 결과를 반환합니다.
+	 */
+	template <typename T>
+	static inline Vector3<T> CrossProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	{
+		return Vector3<T>(
+			lhs.y * rhs.z - lhs.z * rhs.y,
+			lhs.z * rhs.x - lhs.x * rhs.z,
+			lhs.x * rhs.y - lhs.y * rhs.x
+		);
+	}
 };
