@@ -253,7 +253,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	inline T DotProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
+	static inline T DotProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y;
 	}
@@ -268,7 +268,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	inline T DotProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	static inline T DotProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
@@ -283,7 +283,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	inline T DotProduct(const Vector4<T>& lhs, const Vector4<T>& rhs)
+	static inline T DotProduct(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
 	}
