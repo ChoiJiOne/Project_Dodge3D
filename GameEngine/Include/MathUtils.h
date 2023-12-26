@@ -323,4 +323,46 @@ public:
 			lhs.x * rhs.y - lhs.y * rhs.x
 		);
 	}
+
+
+	/**
+	 * @brief 2차원 백터의 크기 제곱 값을 계산합니다.
+	 *
+	 * @param v 크기 제곱을 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 제곱 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline T LengthSquare(const Vector2<T>& v)
+	{
+		return v.x * v.x + v.y * v.y;
+	}
+
+
+	/**
+	 * @brief 3차원 백터의 크기 제곱 값을 계산합니다.
+	 *
+	 * @param v 크기 제곱을 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 제곱 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline T LengthSquare(const Vector3<T>& v)
+	{
+		return v.x * v.x + v.y * v.y + v.z * v.z;
+	}
+
+
+	/**
+	 * @brief 4차원 백터의 크기 제곱 값을 계산합니다.
+	 *
+	 * @param v 크기 제곱을 계산할 벡터입니다.
+	 *
+	 * @return 계산된 크기 제곱 값을 반환합니다.
+	 */
+	template <typename T>
+	static inline T LengthSquare(const Vector4<T>& v)
+	{
+		return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
+	}
 };
