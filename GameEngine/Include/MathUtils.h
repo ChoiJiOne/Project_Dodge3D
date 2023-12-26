@@ -73,4 +73,28 @@ const float Epsilon = std::numeric_limits<float>::epsilon();
 class MathUtils
 {
 public:
+	/**
+	 * @brief 라디안 각을 육십분법 각으로 변환합니다.
+	 *
+	 * @param radian 변환할 라디안 각입니다.
+	 *
+	 * @return 변환된 육십분법 각입니다.
+	 */
+	static inline float ToDegree(float radian)
+	{
+		return (radian * 180.0f) / Pi;
+	}
+
+
+	/**
+	 * @brief 육십분법 각을 라디안 각으로 변환합니다.
+	 *
+	 * @param degree 변환할 육십분법 각입니다.
+	 *
+	 * @return 변환된 라디안 각입니다.
+	 */
+	static inline float ToRadian(float degree)
+	{
+		return (degree * Pi) / 180.0f;
+	}
 };
