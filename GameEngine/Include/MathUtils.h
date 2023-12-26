@@ -546,4 +546,22 @@ public:
 			0.0f, 0.0f, 0.0f, 1.0f
 		);
 	}
+
+
+	/**
+	 * @brief 스케일 변환 행렬을 생성합니다.
+	 *
+	 * @param scale 변환할 스케일 벡터입니다.
+	 *
+	 * @return 생성된 스케일 변환 행렬을 반환합니다.
+	 */
+	inline Matrix4x4f CreateScale(const Vector3f& scale)
+	{
+		return Matrix4x4f(
+			scale.x, 0.0f, 0.0f, 0.0f,
+			0.0f, scale.y, 0.0f, 0.0f,
+			0.0f, 0.0f, scale.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		);
+	}
 };
