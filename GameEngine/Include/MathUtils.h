@@ -141,4 +141,44 @@ public:
 	{
 		return (lhs < rhs ? lhs : rhs);
 	}
+
+
+	/**
+	 * @brief 라디안 각도에 대응하는 사인 값을 얻습니다.
+	 * 
+	 * @param radian 사인 값을 얻을 라디안 각도입니다.
+	 * 
+	 * @return 라디안 각도에 대응하는 사인값을 반환합니다.
+	 * 
+	 * @note
+	 * - DirectXMath의 XMScalarSin 참조
+	 * - 알고리즘은 11차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
+	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
+	 */
+	static inline float Sin(float radian)
+	{
+		float quotient = OneDivTwoPi * radian;
+		if (radian >= 0.0f)
+		{
+			quotient = static_cast<float>(static_cast<int>(quotient + 0.5f));
+		}
+		else
+		{
+			quotient = static_cast<float>(static_cast<int>(quotient - 0.5f));
+		}
+
+		float y = radian - TwoPi * quotient;
+
+		if (y > PiDiv2)
+		{
+			y = Pi - y;
+		}
+		else if (y < -PiDiv2)
+		{
+			y = -Pi - y;
+		}
+
+		float y2 = y * y;
+		return (((((-2.3889859e-08f * y2 + 2.7525562e-06f) * y2 - 0.00019840874f) * y2 + 0.0083333310f) * y2 - 0.16666667f) * y2 + 1.0f) * y;
+	}
 };
