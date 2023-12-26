@@ -80,223 +80,313 @@ void Shader::Unbind()
 
 void Shader::SetBoolParameter(const std::string& name, bool value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
 	}
-	
-	int32_t location = uniformLocation->second;
+	else
+	{
+		location = uniformLocation->second;
+	}
+
 	GL_ASSERT(glUniform1i(location, static_cast<int32_t>(value)), "failed to set bool type uniform value : %d", static_cast<int32_t>(value));
 }
 
 void Shader::SetIntParameter(const std::string& name, int32_t value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform1i(location, static_cast<int32_t>(value)), "faild to set int type uniform value : %d", static_cast<int32_t>(value));
 }
 
 void Shader::SetFloatParameter(const std::string& name, float value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform1f(location, value), "failed to set float type uniform value : %f", value);
 }
 
 void Shader::SetVector2fParameter(const std::string& name, const Vector2f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const float* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform2fv(location, 1, valuePtr), "failed to set Vector2f type uniform value : (%f, %f)", value.x, value.y);
 }
 
 void Shader::SetVector2fParameter(const std::string& name, float x, float y)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform2f(location, x, y), "failed to set Vector2f type uniform value : (%f, %f)", x, y);
 }
 
 void Shader::SetVector2iParameter(const std::string& name, const Vector2i& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const int32_t* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform2iv(location, 1, valuePtr), "failed to set Vector2i type uniform value : (%d, %d)", value.x, value.y);
 }
 
 void Shader::SetVector2iParameter(const std::string& name, int32_t x, int32_t y)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform2i(location, x, y), "failed to set Vector2i type uniform value : (%d, %d)", x, y);
 }
 
 void Shader::SetVector3fParameter(const std::string& name, const Vector3f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const float* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform3fv(location, 1, valuePtr), "failed to set Vector3f type uniform value : (%f, %f, %f)", value.x, value.y, value.z);
 }
 
 void Shader::SetVector3fParameter(const std::string& name, float x, float y, float z)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform3f(location, x, y, z), "failed to set Vector3f type uniform value : (%f, %f, %f)", x, y, z);
 }
 
 void Shader::SetVector3iParameter(const std::string& name, const Vector3i& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const int32_t* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform3iv(location, 1, valuePtr), "failed to set Vector3i type uniform value : (%d, %d, %d)", value.x, value.y, value.z);
 }
 
 void Shader::SetVector3iParameter(const std::string& name, int32_t x, int32_t y, int32_t z)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform3i(location, x, y, z), "failed to set Vector3i type uniform value : (%d, %d, %d)", x, y, z);
 }
 
 void Shader::SetVector4fParameter(const std::string& name, const Vector4f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const float* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform4fv(location, 1, valuePtr), "failed to set Vector4f type uniform value : (%f, %f, %f, %f)", value.x, value.y, value.z, value.w);
 }
 
 void Shader::SetVector4fParameter(const std::string& name, float x, float y, float z, float w)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform4f(location, x, y, z, w), "failed to set Vector4f type uniform value : (%f, %f, %f, %f)", x, y, z, w);
 }
 
 void Shader::SetVector4iParameter(const std::string& name, const Vector4i& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	const int32_t* valuePtr = value.GetPtr();
 	GL_ASSERT(glUniform4iv(location, 1, valuePtr), "failed to set Vector4i type uniform value : (%d, %d, %d, %d)", value.x, value.y, value.z, value.w);
 }
 
 void Shader::SetVector4iParameter(const std::string& name, int32_t x, int32_t y, int32_t z, int32_t w)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniform4i(location, x, y, z, w), "failed to set Vector4i type uniform value : (%d, %d, %d, %d)", x, y, z, w);
 }
 
 void Shader::SetMatrix2x2fParameter(const std::string& name, const Matrix2x2f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniformMatrix2fv(location, 1, GL_FALSE, value.GetPtr()), "failed to set Matrix2x2f type uniform value...");
 }
 
 void Shader::SetMatrix3x3fParameter(const std::string& name, const Matrix3x3f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniformMatrix3fv(location, 1, GL_FALSE, value.GetPtr()), "failed to set Matrix3x3f type uniform value...");
 }
 
 void Shader::SetMatrix4x4fParameter(const std::string& name, const Matrix4x4f& value)
 {
+	int32_t location = -1;
 	std::map<std::string, uint32_t>::iterator uniformLocation = uniformLocationCache_.find(name);
 	if (uniformLocation == uniformLocationCache_.end())
 	{
-		uniformLocationCache_.insert({ name, GetUniformLocation(name) });
+		location = GetUniformLocation(name);
+		uniformLocationCache_.insert({ name, location });
+	}
+	else
+	{
+		location = uniformLocation->second;
 	}
 
-	int32_t location = uniformLocation->second;
 	GL_ASSERT(glUniformMatrix4fv(location, 1, GL_FALSE, value.GetPtr()), "failed to set Matrix4x4f type uniform value...");
 }
 
