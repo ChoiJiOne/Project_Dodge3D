@@ -32,7 +32,7 @@ void RunApplication()
 	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
 	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("container");
-	texture->Initialize(resourcePath + L"container.png");
+	texture->Initialize(resourcePath + L"container6x6.astc");
 
 	std::vector<float> vertices = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -107,9 +107,9 @@ void RunApplication()
 			shader->SetMatrix4x4fParameter("model", Matrix4x4f::GetIdentity());
 			
 			static float time = 0.0f;
-			time += 0.0005f;
+			time += 0.00005f;
 
-			Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(5.0f * MathUtils::Cos(time), 0.0f, 5.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+			Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(2.0f * MathUtils::Cos(time), 2.0f, 2.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 			shader->SetMatrix4x4fParameter("view", view);
 
 			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), 800.0f / 600.0f, 0.01f, 1000.0f);
