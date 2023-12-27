@@ -32,104 +32,23 @@ void RunApplication()
 	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("container");
 	texture->Initialize(resourcePath + L"container6x6.astc");
 
-	std::vector<float> vertices = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	
-	uint32_t vbo;
-	uint32_t vao;
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5.0f * sizeof(float), (void*)(0));
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5.0f * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindVertexArray(0);
-
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-		{
-			shader->Bind();
-			texture->Active(0);
-
-			shader->SetMatrix4x4fParameter("model", Matrix4x4f::GetIdentity());
-			
-			static float time = 0.0f;
-			time += 0.00005f;
-
-			Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(2.0f * MathUtils::Cos(time), 2.0f, 2.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
-			shader->SetMatrix4x4fParameter("view", view);
-
-			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
-			shader->SetMatrix4x4fParameter("projection", projection);
-
-			glBindVertexArray(vao); 
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-
-			glBindVertexArray(0);
-			shader->Unbind();
-		}
 		RenderManager::Get().EndFrame();
 	}
-
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
 }
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
 {
 	WindowsCrashUtils::RegisterExceptionFilter();
+
 	CommandLineUtils::Parse();
+	CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
+	CommandLineUtils::GetStringValue(L"resourcePath", resourcePath);
+
 	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
 
 	Window window;
@@ -145,7 +64,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	auto quitEvent = [&]() { bIsDone = true; };
 	auto resizeEvent = [&]() {
 		window.GetSize(width, height);
-		glViewport(0, 0, width, height);
+		RenderManager::Get().SetViewport(0, 0, width, height);
 	};
 		
 	InputManager::Get().AddWindowEventAction("CloseLoop",     EWindowEvent::Close,         quitEvent,   true);
@@ -154,11 +73,7 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 	InputManager::Get().AddWindowEventAction("EnterMaximize", EWindowEvent::EnterMaximize, resizeEvent, true);
 	InputManager::Get().AddWindowEventAction("ExitMaximize",  EWindowEvent::ExitMaximize,  resizeEvent, true);
 
-	{
-		CommandLineUtils::GetStringValue(L"shaderPath", shaderPath);
-		CommandLineUtils::GetStringValue(L"resourcePath", resourcePath);
-		RunApplication();
-	}
+	RunApplication();
 	
 	ResourceManager::Get().Shutdown();
 	RenderManager::Get().Shutdown();
