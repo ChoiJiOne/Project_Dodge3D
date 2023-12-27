@@ -9,6 +9,7 @@
 #include "FileManager.h"
 #include "InputManager.h"
 #include "MathUtils.h"
+#include "Mesh.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "Shader.h"
@@ -26,7 +27,7 @@ int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
 
-void CreateGrid(std::vector<VertexPositionColor>& vertices, uint32_t& vao, uint32_t& vbo)
+void CreateGrid(std::vector<VertexPositionColor>& vertices, std::vector<uint32_t>& indices)
 {
 	float minX = -100.0f;
 	float maxX = 100.0f;
@@ -37,12 +38,16 @@ void CreateGrid(std::vector<VertexPositionColor>& vertices, uint32_t& vao, uint3
 	float gap = 1.0f;
 	Vector4f color = Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
 
+	uint32_t index = 0;
 	for (float x = minX; x <= maxX; x += gap)
 	{
 		color = (x == 0.0f) ? Vector4f(0.0f, 0.0f, 1.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
 		
 		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, minZ), color));
+		indices.push_back(index++);
+
 		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, maxZ), color));
+		indices.push_back(index++);
 	}
 
 	for (float z = minZ; z <= maxZ; z += gap)
@@ -50,38 +55,31 @@ void CreateGrid(std::vector<VertexPositionColor>& vertices, uint32_t& vao, uint3
 		color = (z == 0.0f) ? Vector4f(1.0f, 0.0f, 0.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
 		
 		vertices.push_back(VertexPositionColor(Vector3f(minX, 0.0f, z), color));
+		indices.push_back(index++);
 		vertices.push_back(VertexPositionColor(Vector3f(maxX, 0.0f, z), color));
+		indices.push_back(index++);
 	}
 
 	vertices.push_back(VertexPositionColor(Vector3f(0.0f, minY, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+	indices.push_back(index++);
 	vertices.push_back(VertexPositionColor(Vector3f(0.0f, maxY, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+	indices.push_back(index++);
 	
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
 
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(vertices.size()) * VertexPositionColor::GetStride(), vertices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VertexPositionColor::GetStride(), (void*)(offsetof(VertexPositionColor, position)));
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, VertexPositionColor::GetStride(), (void*)(offsetof(VertexPositionColor, color)));
-	glEnableVertexAttribArray(1);
-
-	glBindVertexArray(0);
 }
 
 void RunApplication()
 {
+	std::vector<VertexPositionColor> vertices;
+	std::vector<uint32_t> indices;
+	CreateGrid(vertices, indices);
+
 	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
 	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
 
-	std::vector<VertexPositionColor> vertices;
-	uint32_t vao;
-	uint32_t vbo;
-	CreateGrid(vertices, vao, vbo);
-	
+	Mesh* mesh = ResourceManager::Get().CreateResource<Mesh>("Mesh");
+	mesh->Initialize(vertices, indices);
+
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
@@ -97,17 +95,14 @@ void RunApplication()
 			shader->SetMatrix4x4fParameter("view", view);
 			shader->SetMatrix4x4fParameter("projection", projection);
 
-			glBindVertexArray(vao);
-			glDrawArrays(GL_LINES, 0, static_cast<uint32_t>(vertices.size()));
+			glBindVertexArray(mesh->GetVertexArrayObject());
+			glDrawElements(GL_LINES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);
 			shader->Unbind();
 		}
 		RenderManager::Get().EndFrame();
 	}
-
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
 }
 
 int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int32_t nCmdShow)
