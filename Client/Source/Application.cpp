@@ -39,7 +39,7 @@ void CreateGrid(std::vector<VertexPositionColor>& vertices, uint32_t& vao, uint3
 
 	for (float x = minX; x <= maxX; x += gap)
 	{
-		color = (x == 0.0f) ? Vector4f(1.0f, 0.0f, 0.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
+		color = (x == 0.0f) ? Vector4f(0.0f, 0.0f, 1.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
 		
 		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, minZ), color));
 		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, maxZ), color));
@@ -47,7 +47,7 @@ void CreateGrid(std::vector<VertexPositionColor>& vertices, uint32_t& vao, uint3
 
 	for (float z = minZ; z <= maxZ; z += gap)
 	{
-		color = (z == 0.0f) ? Vector4f(0.0f, 0.0f, 1.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
+		color = (z == 0.0f) ? Vector4f(1.0f, 0.0f, 0.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
 		
 		vertices.push_back(VertexPositionColor(Vector3f(minX, 0.0f, z), color));
 		vertices.push_back(VertexPositionColor(Vector3f(maxX, 0.0f, z), color));
@@ -81,7 +81,7 @@ void RunApplication()
 	uint32_t vao;
 	uint32_t vbo;
 	CreateGrid(vertices, vao, vbo);
-
+	
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
