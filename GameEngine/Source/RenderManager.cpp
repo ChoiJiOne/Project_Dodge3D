@@ -96,6 +96,11 @@ void RenderManager::EndFrame()
 	WINDOWS_ASSERT(SwapBuffers(deviceContext_), "failed to swap back and front buffer...");
 }
 
+void RenderManager::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
+{
+	glViewport(x, y, width, height);
+}
+
 void RenderManager::SetVsyncMode(bool bIsEnable)
 {
 	bIsEnableVsync_ = bIsEnable;

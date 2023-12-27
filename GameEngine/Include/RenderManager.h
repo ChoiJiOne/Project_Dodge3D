@@ -91,6 +91,17 @@ public:
 
 
 	/**
+	 * @brief 뷰 포트를 설정합니다.
+	 * 
+	 * @param x 뷰포트 사각형의 왼쪽 아래 모서리(픽셀)입니다. 기본값은 (0,0)입니다.
+	 * @param y 뷰포트 사각형의 왼쪽 아래 모서리(픽셀)입니다. 기본값은 (0,0)입니다.
+	 * @param width 뷰포트의 너비입니다. OpenGL 컨텍스트가 창에 처음 연결되면 너비 와 높이 가 해당 창의 크기로 설정됩니다.
+	 * @param height 뷰포트의 높이입니다. OpenGL 컨텍스트가 창에 처음 연결되면 너비 와 높이 가 해당 창의 크기로 설정됩니다.
+	 */
+	void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
+
+
+	/**
 	 * @brief 수직 동기화 옵션을 설정합니다.
 	 * 
 	 * @param bIsEnable 수직 동기화 옵션을 활성화하려면 true, 비활성화하려면 false입니다.
