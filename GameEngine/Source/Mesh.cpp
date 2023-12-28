@@ -13,55 +13,37 @@ Mesh::~Mesh()
 	}
 }
 
-void Mesh::Initialize(const std::vector<VertexPosition>& vertices, const std::vector<uint32_t>& indices)
+void Mesh::Initialize(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices)
 {
 	ASSERT(!bIsInitialized_, "already initialize mesh resource...");
-
-	bHasVertexColor_ = false;
-	bHasVertexTexture_ = false;
-	bHasVertexNormal_ = false;
 
 	indexCount_ = static_cast<uint32_t>(indices.size());
 
 	const void* vertexBufferPtr = reinterpret_cast<const void*>(vertices.data());
-	uint32_t vertexBufferSize = static_cast<uint32_t>(vertices.size()) * VertexPosition::GetStride();
+	uint32_t vertexBufferSize = static_cast<uint32_t>(vertices.size()) * Vertex::GetStride();
 
 	const void* indexBufferPtr = reinterpret_cast<const void*>(indices.data());
 	uint32_t indexBufferSize = static_cast<uint32_t>(indices.size()) * sizeof(uint32_t);
 	
 	Initialize(vertexBufferPtr, vertexBufferSize, indexBufferPtr, indexBufferSize);
 
-	GL_ASSERT(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VertexPosition::GetStride(), (void*)(offsetof(VertexPosition, position))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, position))), "failed to define an array of generic vertex attribute data");
 	GL_ASSERT(glEnableVertexAttribArray(0), "failed to enable a generic vertex attribute array");
 
-	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
-
-	bIsInitialized_ = true;
-}
-
-void Mesh::Initialize(const std::vector<VertexPositionColor>& vertices, const std::vector<uint32_t>& indices)
-{
-	ASSERT(!bIsInitialized_, "already initialize mesh resource...");
-
-	bHasVertexColor_ = false;
-	bHasVertexTexture_ = false;
-	bHasVertexNormal_ = false;
-
-	indexCount_ = static_cast<uint32_t>(indices.size());
-
-	const void* vertexBufferPtr = reinterpret_cast<const void*>(vertices.data());
-	uint32_t vertexBufferSize = static_cast<uint32_t>(vertices.size()) * VertexPositionColor::GetStride();
-
-	const void* indexBufferPtr = reinterpret_cast<const void*>(indices.data());
-	uint32_t indexBufferSize = static_cast<uint32_t>(indices.size()) * sizeof(uint32_t);
-
-	Initialize(vertexBufferPtr, vertexBufferSize, indexBufferPtr, indexBufferSize);
-
-	GL_ASSERT(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VertexPositionColor::GetStride(), (void*)(offsetof(VertexPositionColor, position))), "failed to define an array of generic vertex attribute data");
-	GL_ASSERT(glEnableVertexAttribArray(0), "failed to enable a generic vertex attribute array");
-
-	GL_ASSERT(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, VertexPositionColor::GetStride(), (void*)(offsetof(VertexPositionColor, color))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, normal))), "failed to define an array of generic vertex attribute data");
 	GL_ASSERT(glEnableVertexAttribArray(1), "failed to enable a generic vertex attribute array");
+
+	GL_ASSERT(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, texture))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glEnableVertexAttribArray(2), "failed to enable a generic vertex attribute array");
+
+	GL_ASSERT(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, tangent))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glEnableVertexAttribArray(3), "failed to enable a generic vertex attribute array");
+
+	GL_ASSERT(glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, bitangent))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glEnableVertexAttribArray(4), "failed to enable a generic vertex attribute array");
+
+	GL_ASSERT(glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, color))), "failed to define an array of generic vertex attribute data");
+	GL_ASSERT(glEnableVertexAttribArray(5), "failed to enable a generic vertex attribute array");
 
 	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
 

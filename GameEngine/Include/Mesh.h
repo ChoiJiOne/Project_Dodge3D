@@ -40,16 +40,7 @@ public:
 	 * @param vertices 메시의 정점 목록입니다.
 	 * @param indices 메시의 인덱스 목록입니다.
 	 */
-	void Initialize(const std::vector<VertexPosition>& vertices, const std::vector<uint32_t>& indices);
-
-
-	/**
-	 * @brief 메시 리소스를 생성합니다.
-	 *
-	 * @param vertices 메시의 정점 목록입니다.
-	 * @param indices 메시의 인덱스 목록입니다.
-	 */
-	void Initialize(const std::vector<VertexPositionColor>& vertices, const std::vector<uint32_t>& indices);
+	void Initialize(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 
 
 	/**
@@ -57,31 +48,7 @@ public:
 	 */
 	virtual void Release() override;
 
-
-	/**
-	 * @brief 메시의 정점에 색상 정보를 포함했는지 확인합니다.
-	 * 
-	 * @return 메시의 정점에 색상 정보를 포함했다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool HasVertexColor() const { return bHasVertexColor_; }
-
-
-	/**
-	 * @brief 메시의 정점에 텍스처 정보를 포함했는지 확인합니다.
-	 * 
-	 * @return 메시의 정점에 텍스처 정보를 포함했다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool HasVertexTexture() const { return bHasVertexTexture_; }
-
-
-	/**
-	 * @brief 메시의 정점에 법선 정보를 포함했는지 확인합니다.
-	 * 
-	 * @return 메시의 정점에 법선 정보를 포함했다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool HasVertexNormal() const { return bHasVertexNormal_; }
-
-
+	
 	/**
 	 * @brief 메시의 인덱스 수를 얻습니다.
 	 * 
@@ -111,24 +78,6 @@ private:
 
 
 private:
-	/**
-	 * @brief 메시의 정점에 색상 정보를 포함했는지 확인합니다.
-	 */
-	bool bHasVertexColor_ = false;
-
-
-	/**
-	 * @brief 메시의 정점에 텍스처 정보를 포함했는지 확인합니다.
-	 */
-	bool bHasVertexTexture_ = false;
-
-
-	/**
-	 * @brief 메시의 정점에 법선 정보를 포함했는지 확인합니다.
-	 */
-	bool bHasVertexNormal_ = false;
-
-
 	/**
 	 * @brief 인덱스 버퍼의 수입니다.
 	 */
