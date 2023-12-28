@@ -7,7 +7,6 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileManager.h"
-#include "GeometryUtils.h"
 #include "InputManager.h"
 #include "MathUtils.h"
 #include "Mesh.h"
@@ -28,22 +27,66 @@ int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
 
+void CreateAxisGrid(const Vector3f& minPosition, const Vector3f& maxPosition, const float& gap, const Vector4f& color, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	static Vector4f xAxisColor = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+	static Vector4f yAxisColor = Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
+	static Vector4f zAxisColor = Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
+
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	uint32_t index = 0;
+	Vector4f axisColor;
+	for (float x = minPosition.x; x <= maxPosition.x; x += gap)
+	{
+		axisColor = (x == 0.0f) ? zAxisColor : color;
+
+		outVertices.push_back(Vertex(Vector3f(x, 0.0f, minPosition.z), Vector3f(), Vector2f(), Vector3f(), Vector3f(), axisColor));
+		outIndices.push_back(index++);
+
+		outVertices.push_back(Vertex(Vector3f(x, 0.0f, maxPosition.z), Vector3f(), Vector2f(), Vector3f(), Vector3f(), axisColor));
+		outIndices.push_back(index++);
+	}
+
+	for (float z = minPosition.z; z <= maxPosition.z; z += gap)
+	{
+		Vector4f axisColor = (z == 0.0f) ? xAxisColor : color;
+
+		outVertices.push_back(Vertex(Vector3f(minPosition.x, 0.0f, z), Vector3f(), Vector2f(), Vector3f(), Vector3f(), axisColor));
+		outIndices.push_back(index++);
+
+		outVertices.push_back(Vertex(Vector3f(maxPosition.x, 0.0f, z), Vector3f(), Vector2f(), Vector3f(), Vector3f(), axisColor));
+		outIndices.push_back(index++);
+	}
+
+	outVertices.push_back(Vertex(Vector3f(0.0f, minPosition.y, 0.0f), Vector3f(), Vector2f(), Vector3f(), Vector3f(), yAxisColor));
+	outIndices.push_back(index++);
+
+	outVertices.push_back(Vertex(Vector3f(0.0f, maxPosition.y, 0.0f), Vector3f(), Vector2f(), Vector3f(), Vector3f(), yAxisColor));
+	outIndices.push_back(index++);
+}
+
 void RunApplication()
 {
-	std::vector<VertexPositionColor> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
-	GeometryUtils::CreateAxisGrid(Vector3f(-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f), vertices, indices);
-
+	
 	Shader* shader = ResourceManager::Get().CreateResource<Shader>("MeshColor");
 	shader->Initialize(shaderPath + L"MeshColor.vert", shaderPath + L"MeshColor.frag");
 
-	Mesh* mesh = ResourceManager::Get().CreateResource<Mesh>("Mesh");
-	mesh->Initialize(vertices, indices);
-
+	Mesh* grid = ResourceManager::Get().CreateResource<Mesh>("Grid");
+	CreateAxisGrid(Vector3f(-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f), vertices, indices);
+	grid->Initialize(vertices, indices);
+		
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 
+		/*static float time = 0.0f;
+		time += 0.0001f;
+		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f * MathUtils::Cos(time), 10.0f, 10.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));*/
+		
 		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f, 10.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
@@ -55,8 +98,8 @@ void RunApplication()
 			shader->SetMatrix4x4fParameter("view", view);
 			shader->SetMatrix4x4fParameter("projection", projection);
 
-			glBindVertexArray(mesh->GetVertexArrayObject());
-			glDrawElements(GL_LINES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(grid->GetVertexArrayObject());
+			glDrawElements(GL_LINES, grid->GetIndexCount(), GL_UNSIGNED_INT, 0);
 
 			glBindVertexArray(0);
 			shader->Unbind();
