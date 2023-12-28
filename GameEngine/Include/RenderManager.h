@@ -5,8 +5,8 @@
 
 #include "IManager.h"
 
-
 class Window;
+class Shader;
 
 
 /**
