@@ -7,6 +7,7 @@
 
 #include "Assertion.h"
 #include "GLAssertion.h"
+#include "Shader.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
 
@@ -66,6 +67,8 @@ void RenderManager::Startup()
 	SetDepthMode(bIsEnableDepth_);
 	SetStencilMode(bIsEnableStencil_);
 	SetAlphaBlendMode(bIsEnableAlphaBlend_);
+
+	shaderCache_ = std::unordered_map<std::string, Shader*>();
 
 	bIsStartup_ = true;
 }

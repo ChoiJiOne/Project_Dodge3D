@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <unordered_map>
 #include <windows.h>
 
 #include "IManager.h"
@@ -181,4 +182,10 @@ private:
 	 * @brief 렌더링이 수행될 OpenGL 컨텍스트의 핸들입니다.
 	 */
 	HGLRC glRenderContext_ = nullptr;
+
+
+	/**
+	 * @brief 렌더 매니저에서 사용할 셰이더 캐시입니다.
+	 */
+	std::unordered_map<std::string, Shader*> shaderCache_;
 };
