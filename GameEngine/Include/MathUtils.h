@@ -69,6 +69,10 @@ const float Epsilon = std::numeric_limits<float>::epsilon();
 
 /**
  * @brief 수학 관련 확장 기능을 제공합니다.
+ * 
+ * @note
+ * - 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
+ * - 행렬 관련 기능은 OpenGL 기준입니다.
  */
 class MathUtils
 {
