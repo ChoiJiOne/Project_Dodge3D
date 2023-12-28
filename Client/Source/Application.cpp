@@ -67,30 +67,82 @@ void CreateAxisGrid(const Vector3f& minPosition, const Vector3f& maxPosition, co
 	outIndices.push_back(index++);
 }
 
+void CreateTriangle(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	outVertices = {
+		Vertex(Vector3f(-3.0f, -3.0f, 0.0f), Vector3f(), Vector2f(), Vector3f(), Vector3f(), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)),
+		Vertex(Vector3f(+3.0f, -3.0f, 0.0f), Vector3f(), Vector2f(), Vector3f(), Vector3f(), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)),
+		Vertex(Vector3f(+0.0f, +3.0f, 0.0f), Vector3f(), Vector2f(), Vector3f(), Vector3f(), Vector4f(0.0f, 0.0f, 1.0f, 1.0f)),
+	};
+
+	outIndices = {
+		0, 1, 2
+	};
+}
+
+void CreateQuad(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	outVertices = {
+		Vertex(Vector3f(-3.0f, -3.0f, 0.0f), Vector3f(), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f)),
+		Vertex(Vector3f(-3.0f, +3.0f, 0.0f), Vector3f(), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f)),
+		Vertex(Vector3f(+3.0f, +3.0f, 0.0f), Vector3f(), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f)),
+		Vertex(Vector3f(+3.0f, -3.0f, 0.0f), Vector3f(), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f)),
+	};
+
+	outIndices = {
+		0, 1, 2,
+		0, 2, 3
+	};
+}
+
 void RunApplication()
 {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	
-	Shader* shader = ResourceManager::Get().CreateResource<Shader>("MeshColor");
-	shader->Initialize(shaderPath + L"MeshColor.vert", shaderPath + L"MeshColor.frag");
+	Shader* shader = ResourceManager::Get().GetResource<Shader>("MeshColorPass");
 
 	Mesh* grid = ResourceManager::Get().CreateResource<Mesh>("Grid");
 	CreateAxisGrid(Vector3f(-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f), vertices, indices);
 	grid->Initialize(vertices, indices);
+
+	Mesh* triangle = ResourceManager::Get().CreateResource<Mesh>("Triangle");
+	CreateTriangle(vertices, indices);
+	triangle->Initialize(vertices, indices);
+
+	Mesh* quad = ResourceManager::Get().CreateResource<Mesh>("Quad");
+	CreateQuad(vertices, indices);
+	quad->Initialize(vertices, indices);
+
+	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("container");
+	texture->Initialize(resourcePath + L"container6x6.astc");
 		
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 
-		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f, 10.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+		//Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f, 10.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+
+		static float time = 0.0f;
+		time += 0.0001f;
+		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f * MathUtils::Cos(time), 10.0f, 10.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+		RenderManager::Get().RenderMesh3D(MathUtils::CreateTranslation(Vector3f(10.0f, 0.0f, 0.0f)), view, projection, triangle);
+		RenderManager::Get().RenderMesh3D(Matrix4x4f::GetIdentity(), view, projection, quad, texture);
+
 		{
 			shader->Bind();
 
-			shader->SetMatrix4x4fParameter("model", Matrix4x4f::GetIdentity());
+			shader->SetMatrix4x4fParameter("world", Matrix4x4f::GetIdentity());
 			shader->SetMatrix4x4fParameter("view", view);
 			shader->SetMatrix4x4fParameter("projection", projection);
 
