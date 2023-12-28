@@ -83,10 +83,6 @@ void RunApplication()
 	{
 		InputManager::Get().Tick();
 
-		/*static float time = 0.0f;
-		time += 0.0001f;
-		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f * MathUtils::Cos(time), 10.0f, 10.0f * MathUtils::Sin(time)), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));*/
-		
 		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f, 10.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
@@ -125,8 +121,8 @@ int32_t WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstan
 
 	FileManager::Get().Startup();
 	InputManager::Get().Startup();
-	RenderManager::Get().Startup();
 	ResourceManager::Get().Startup();
+	RenderManager::Get().Startup();
 	
 	auto quitEvent = [&]() { bIsDone = true; };
 	auto resizeEvent = [&]() {
