@@ -6,9 +6,11 @@
 
 
 /**
- * @brief 표준 문자열(std::string, std::wstring)의 확장 기능을 제공합니다.
+ * @brief 문자열의 확장 기능을 제공합니다.
  * 
- * @note 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
+ * @note 
+ * - 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
+ * - 문자열은 std::string, std::wstring 표준 문자열 기준입니다.
  */
 class StringUtils
 {
