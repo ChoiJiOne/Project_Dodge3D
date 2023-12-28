@@ -6,8 +6,12 @@
 #include <glad/glad.h>
 
 #include "Assertion.h"
+#include "CommandLineUtils.h"
 #include "GLAssertion.h"
+#include "Mesh.h"
+#include "ResourceManager.h"
 #include "Shader.h"
+#include "StringUtils.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
 
@@ -68,7 +72,19 @@ void RenderManager::Startup()
 	SetStencilMode(bIsEnableStencil_);
 	SetAlphaBlendMode(bIsEnableAlphaBlend_);
 
-	shaderCache_ = std::unordered_map<std::string, Shader*>();
+	ASSERT(CommandLineUtils::GetStringValue(L"shaderPath", shaderPath_), "can't find shader path...");
+
+	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
+
+	shaderCache_.insert({ L"MeshColorPass", ResourceManager::Get().CreateResource<Shader>("MeshColorPass") });
+
+	for (auto& shader : shaderCache_)
+	{
+		shader.second->Initialize(
+			StringUtils::PrintF(L"%s%s.vert", shaderPath_.c_str(), shader.first.c_str()),
+			StringUtils::PrintF(L"%s%s.frag", shaderPath_.c_str(), shader.first.c_str())
+		);
+	}
 
 	bIsStartup_ = true;
 }
@@ -148,4 +164,20 @@ void RenderManager::SetAlphaBlendMode(bool bIsEnable)
 	{
 		GL_ASSERT(glDisable(GL_BLEND), "failed to disable alpha blend mode...");
 	}
+}
+
+void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh)
+{
+	Shader* shader = shaderCache_.at(L"MeshColorPass");
+	shader->Bind();
+
+	shader->SetMatrix4x4fParameter("model", world);
+	shader->SetMatrix4x4fParameter("view", view);
+	shader->SetMatrix4x4fParameter("projection", projection);
+
+	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind mesh vertex array object...");
+	GL_ASSERT(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0), "failed to render mesh...");
+	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
+
+	shader->Unbind();
 }

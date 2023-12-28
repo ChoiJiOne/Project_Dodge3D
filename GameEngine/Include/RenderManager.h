@@ -5,9 +5,11 @@
 #include <windows.h>
 
 #include "IManager.h"
+#include "Matrix4x4.h"
 
 class Window;
 class Shader;
+class Mesh;
 
 
 /**
@@ -134,6 +136,17 @@ public:
 	void SetAlphaBlendMode(bool bIsEnable);
 
 
+	/**
+	 * @brief 3D 메시를 정점 색상을 이용해서 화면에 그립니다.
+	 * 
+	 * @param world 월드 행렬입니다.
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param mesh 화면에 그릴 메시 리소스입니다.
+	 */
+	void RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh);
+
+
 private:
 	/**
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
@@ -185,7 +198,13 @@ private:
 
 
 	/**
+	 * @brief 셰이더 리소스의 경로입니다.
+	 */
+	std::wstring shaderPath_;
+
+	
+	/**
 	 * @brief 렌더 매니저에서 사용할 셰이더 캐시입니다.
 	 */
-	std::unordered_map<std::string, Shader*> shaderCache_;
+	std::unordered_map<std::wstring, Shader*> shaderCache_;
 };
