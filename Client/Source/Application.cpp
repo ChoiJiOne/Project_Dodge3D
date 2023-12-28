@@ -7,6 +7,7 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileManager.h"
+#include "GeometryUtils.h"
 #include "InputManager.h"
 #include "MathUtils.h"
 #include "Mesh.h"
@@ -27,55 +28,14 @@ int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
 
-void CreateGrid(std::vector<VertexPositionColor>& vertices, std::vector<uint32_t>& indices)
-{
-	float minX = -100.0f;
-	float maxX = 100.0f;
-	float minY = -100.0f;
-	float maxY = 100.0f;
-	float minZ = -100.0f;
-	float maxZ = 100.0f;
-	float gap = 1.0f;
-	Vector4f color = Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	uint32_t index = 0;
-	for (float x = minX; x <= maxX; x += gap)
-	{
-		color = (x == 0.0f) ? Vector4f(0.0f, 0.0f, 1.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
-		
-		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, minZ), color));
-		indices.push_back(index++);
-
-		vertices.push_back(VertexPositionColor(Vector3f(x, 0.0f, maxZ), color));
-		indices.push_back(index++);
-	}
-
-	for (float z = minZ; z <= maxZ; z += gap)
-	{
-		color = (z == 0.0f) ? Vector4f(1.0f, 0.0f, 0.0f, 1.0f) : Vector4f(1.0f, 1.0f, 1.0f, 0.5f);
-		
-		vertices.push_back(VertexPositionColor(Vector3f(minX, 0.0f, z), color));
-		indices.push_back(index++);
-		vertices.push_back(VertexPositionColor(Vector3f(maxX, 0.0f, z), color));
-		indices.push_back(index++);
-	}
-
-	vertices.push_back(VertexPositionColor(Vector3f(0.0f, minY, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	indices.push_back(index++);
-	vertices.push_back(VertexPositionColor(Vector3f(0.0f, maxY, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	indices.push_back(index++);
-	
-
-}
-
 void RunApplication()
 {
 	std::vector<VertexPositionColor> vertices;
 	std::vector<uint32_t> indices;
-	CreateGrid(vertices, indices);
+	GeometryUtils::CreateAxisGrid(Vector3f(-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f), vertices, indices);
 
-	Shader* shader = ResourceManager::Get().CreateResource<Shader>("Shader");
-	shader->Initialize(shaderPath + L"Shader.vert", shaderPath + L"Shader.frag");
+	Shader* shader = ResourceManager::Get().CreateResource<Shader>("MeshColor");
+	shader->Initialize(shaderPath + L"MeshColor.vert", shaderPath + L"MeshColor.frag");
 
 	Mesh* mesh = ResourceManager::Get().CreateResource<Mesh>("Mesh");
 	mesh->Initialize(vertices, indices);
