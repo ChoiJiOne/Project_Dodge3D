@@ -171,7 +171,7 @@ void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view
 	Shader* shader = shaderCache_.at(L"MeshColorPass");
 	shader->Bind();
 
-	shader->SetMatrix4x4fParameter("model", world);
+	shader->SetMatrix4x4fParameter("world", world);
 	shader->SetMatrix4x4fParameter("view", view);
 	shader->SetMatrix4x4fParameter("projection", projection);
 
