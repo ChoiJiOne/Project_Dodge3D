@@ -7,6 +7,14 @@
 #include <glad/glad.h>
 
 
+GeometryShader2D::~GeometryShader2D()
+{
+	if (bIsInitialized_)
+	{
+		Release();
+	}
+}
+
 void GeometryShader2D::Initialize(const std::wstring& vsPath, const std::wstring& fsPath)
 {
 	ASSERT(!bIsInitialized_, "already initialize geometry shader 2d resource...");
