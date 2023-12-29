@@ -138,6 +138,200 @@ public:
 
 
 	/**
+	 * @brief 윈도우 크기 변경 시 내부에서 윈도우 크기와 관련된 요소를 업데이트합니다.
+	 */
+	void Resize();
+
+
+	/**
+	 * @brief 화면에 2D 점들을 그립니다.
+	 *
+	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
+	 *
+	 * @param positions 화면 상의 2D 점들입니다.
+	 * @param color 점들의 RGB 색상입니다.
+	 * @param pointSize 점의 크기입니다. 기본 값은 1.0f입니다.
+	 */
+	void RenderPoints2D(const std::vector<Vector2f>& positions, const Vector4f& color, float pointSize = 1.0f);
+
+
+	/**
+	 * @brief 화면에 점들을 연결한 2D 선을 그립니다.
+	 *
+	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
+	 *
+	 * @param positions 화면 상의 2D 점들입니다.
+	 * @param color 점들의 RGB 색상입니다.
+	 */
+	void RenderConnectPoints2D(const std::vector<Vector2f>& positions, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 선을 그립니다.
+	 *
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param color 선의 RGBA색상입니다.
+	 */
+	void RenderLine2D(const Vector2f& fromPosition, const Vector2f& toPosition, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 선을 그립니다.
+	 *
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param fromColor 선의 시작점 색상입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param toColor 선의 끝점 색상입니다.
+	 */
+	void RenderLine2D(const Vector2f& fromPosition, const Vector4f& fromColor, const Vector2f& toPosition, const Vector4f& toColor);
+
+
+	/**
+	 * @brief 화면에 2D 삼각형을 그립니다.
+	 *
+	 * @param fromPosition 삼각형 시작 점입니다.
+	 * @param byPosition 삼각형 중간 점입니다.
+	 * @param toPosition 삼각형 끝 점입니다.
+	 * @param color 삼각형의 RGBA색상입니다.
+	 */
+	void RenderTriangle2D(const Vector2f& fromPosition, const Vector2f& byPosition, const Vector2f& toPosition, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 삼각형을 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param fromPosition 삼각형 시작 점입니다.
+	 * @param fromColor 삼각형 시작 점의 색상입니다.
+	 * @param byPosition 삼각형 중간 점입니다.
+	 * @param byColor 삼각형 중간 점의 색상입니다.
+	 * @param toPosition 삼각형 끝 점입니다.
+	 * @param toColor 삼각형 끝 점의 색상입니다.
+	 */
+	void RenderTriangle2D(
+		const Vector2f& fromPosition, const Vector4f& fromColor,
+		const Vector2f& byPosition, const Vector4f& byColor,
+		const Vector2f& toPosition, const Vector4f& toColor
+	);
+
+
+	/**
+	 * @brief 화면에 2D 와이어 프레임 삼각형을 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param fromPosition 삼각형 시작 점입니다.
+	 * @param byPosition 삼각형 중간 점입니다.
+	 * @param toPosition 삼각형 끝 점입니다.
+	 * @param color 삼각형의 RGBA색상입니다.
+	 */
+	void RenderWireframeTriangle2D(const Vector2f& fromPosition, const Vector2f& byPosition, const Vector2f& toPosition, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 와이어 프레임 삼각형을 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param fromPosition 삼각형 시작 점입니다.
+	 * @param fromColor 삼각형 시작 점의 색상입니다.
+	 * @param byPosition 삼각형 중간 점입니다.
+	 * @param byColor 삼각형 중간 점의 색상입니다.
+	 * @param toPosition 삼각형 끝 점입니다.
+	 * @param toColor 삼각형 끝 점의 색상입니다.
+	 */
+	void RenderWireframeTriangle2D(
+		const Vector2f& fromPosition, const Vector4f& fromColor,
+		const Vector2f& byPosition, const Vector4f& byColor,
+		const Vector2f& toPosition, const Vector4f& toColor
+	);
+
+
+	/**
+	 * @brief 화면에 2D 직사각형을 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param center 직사각형의 중심 좌표입니다.
+	 * @param width 직사각형의 가로 크기입니다.
+	 * @param heigt 직사각형의 세로 크기입니다.
+	 * @param rotate 직사각형의 라디안 회전 각도입니다.
+	 * @param color 직사각형의 색상입니다.
+	 */
+	void RenderRectangle2D(const Vector2f& center, float width, float height, float rotate, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 와이어 프레임 직사각형을 그립니다.
+	 *
+	 * @param center 직사각형의 중심 좌표입니다.
+	 * @param width 직사각형의 가로 크기입니다.
+	 * @param heigt 직사각형의 세로 크기입니다.
+	 * @param rotate 직사각형의 라디안 회전 각도입니다.
+	 * @param color 직사각형의 색상입니다.
+	 */
+	void RenderWireframeRectangle2D(const Vector2f& center, float width, float height, float rotate, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 2D 원을 그립니다.
+	 *
+	 * @param center 원의 중심 좌표입니다.
+	 * @param radius 원의 반지름 길이입니다.
+	 * @param color 원의 색상입니다.
+	 * @param sliceCount 원의 둘레 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderCircle2D(const Vector2f& center, float radius, const Vector4f& color, int32_t sliceCount = 300);
+
+
+	/**
+	 * @brief 화면에 2D 와이어 프레임 원을 그립니다.
+	 *
+	 * @param center 원의 중심 좌표입니다.
+	 * @param radius 원의 반지름 길이입니다.
+	 * @param color 원의 색상입니다.
+	 * @param sliceCount 원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderWireframeCircle2D(const Vector2f& center, float radius, const Vector4f& color, int32_t sliceCount = 300);
+
+
+	/**
+	 * @brief 화면에 2D 타원을 그립니다.
+	 *
+	 * @param center 타원의 중심 좌표입니다.
+	 * @param xAxis 타원의 x축 길이입니다. 만약, 이 길이가 y축 길이보다 크다면 장축이 되고, 그렇지 않으면 단축이 됩니다.
+	 * @param yAxis 타원의 y축 길이입니다. 만약, 이 길이가 x축 길이보다 크다면 장축이 되고, 그렇지 않으면 단축이 됩니다.
+	 * @param color 타원의 색상입니다.
+	 * @param sliceCount 타원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderEllipse2D(const Vector2f& center, float xAxis, float yAxis, const Vector4f& color, int32_t sliceCount = 300);
+
+
+	/**
+	 * @brief 화면에 2D 와이어 프레임 타원을 그립니다.
+	 *
+	 * @param center 타원의 중심 좌표입니다.
+	 * @param xAxis 타원의 x축 길이입니다. 만약, 이 길이가 y축 길이보다 크다면 장축이 되고, 그렇지 않으면 단축이 됩니다.
+	 * @param yAxis 타원의 y축 길이입니다. 만약, 이 길이가 x축 길이보다 크다면 장축이 되고, 그렇지 않으면 단축이 됩니다.
+	 * @param color 타원의 색상입니다.
+	 * @param sliceCount 타원 둘레의 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderWireframeEllipse2D(const Vector2f& center, float xAxis, float yAxis, const Vector4f& color, int32_t sliceCount = 300);
+
+
+	/**
+	 * @brief 화면에 2D 격자를 그립니다.
+	 *
+	 * @param minX X좌표의 최소값입니다.
+	 * @param maxX X좌표의 최댓값입니다.
+	 * @param strideX 격차의 X축 방향으로의 간격입니다.
+	 * @param minY Y좌표의 최소값입니다.
+	 * @param maxY Y좌표의 최댓값입니다.
+	 * @param strideY 격차의 Y축 방향으로의 간격입니다.
+	 * @param color 격자의 색상입니다.
+	 */
+	void RenderGrid2D(float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color);
+
+
+	/**
 	 * @brief 3D 메시를 정점 색상을 이용해서 화면에 그립니다.
 	 * 
 	 * @param world 월드 행렬입니다.
@@ -220,4 +414,10 @@ private:
 	 * @brief 렌더 매니저에서 사용할 셰이더 캐시입니다.
 	 */
 	std::unordered_map<std::wstring, Shader*> shaderCache_;
+
+
+	/**
+	 * @brief 현재 스크린에 대응하는 직교 투영 행렬입니다.
+	 */
+	Matrix4x4f screenOrtho_;
 };
