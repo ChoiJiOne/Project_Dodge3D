@@ -81,7 +81,7 @@ void RenderManager::Startup()
 
 	shaderCache_.insert({ L"MeshColorPass", ResourceManager::Get().CreateResource<Shader>("MeshColorPass") });
 	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap") });
-	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<Shader>("Geometry2D") });
+	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
 
 	for (auto& shader : shaderCache_)
 	{
