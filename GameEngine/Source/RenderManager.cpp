@@ -373,6 +373,11 @@ void RenderManager::RenderText2D(const TTFont* font, const std::wstring& text, c
 
 void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh)
 {
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
 	Shader* shader = shaderCache_.at(L"MeshColorPass");
 	shader->Bind();
 
@@ -389,6 +394,11 @@ void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view
 
 void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh, const Texture2D* textureMap)
 {
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
 	Shader* shader = shaderCache_.at(L"MeshTextureMap");
 	shader->Bind();
 
