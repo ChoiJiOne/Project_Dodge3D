@@ -193,36 +193,66 @@ void RenderManager::Resize()
 
 void RenderManager::RenderPoints2D(const std::vector<Vector2f>& positions, const Vector4f& color, float pointSize)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawPoints2D(screenOrtho_, positions, color, pointSize);
 }
 
 void RenderManager::RenderConnectPoints2D(const std::vector<Vector2f>& positions, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawConnectPoints2D(screenOrtho_, positions, color);
 }
 
 void RenderManager::RenderLine2D(const Vector2f& fromPosition, const Vector2f& toPosition, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawLine2D(screenOrtho_, fromPosition, toPosition, color);
 }
 
 void RenderManager::RenderLine2D(const Vector2f& fromPosition, const Vector4f& fromColor, const Vector2f& toPosition, const Vector4f& toColor)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawLine2D(screenOrtho_, fromPosition, fromColor, toPosition, toColor);
 }
 
 void RenderManager::RenderTriangle2D(const Vector2f& fromPosition, const Vector2f& byPosition, const Vector2f& toPosition, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawTriangle2D(screenOrtho_, fromPosition, byPosition, toPosition, color);
 }
 
 void RenderManager::RenderTriangle2D(const Vector2f& fromPosition, const Vector4f& fromColor, const Vector2f& byPosition, const Vector4f& byColor, const Vector2f& toPosition, const Vector4f& toColor)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawTriangle2D(screenOrtho_,
 		fromPosition, fromColor,
@@ -233,60 +263,110 @@ void RenderManager::RenderTriangle2D(const Vector2f& fromPosition, const Vector4
 
 void RenderManager::RenderWireframeTriangle2D(const Vector2f& fromPosition, const Vector2f& byPosition, const Vector2f& toPosition, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeTriangle2D(screenOrtho_, fromPosition, byPosition, toPosition, color);
 }
 
 void RenderManager::RenderWireframeTriangle2D(const Vector2f& fromPosition, const Vector4f& fromColor, const Vector2f& byPosition, const Vector4f& byColor, const Vector2f& toPosition, const Vector4f& toColor)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeTriangle2D(screenOrtho_, fromPosition, fromColor, byPosition, byColor, toPosition, toColor);
 }
 
 void RenderManager::RenderRectangle2D(const Vector2f& center, float width, float height, float rotate, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawRectangle2D(screenOrtho_, center, width, height, rotate, color);
 }
 
 void RenderManager::RenderWireframeRectangle2D(const Vector2f& center, float width, float height, float rotate, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeRectangle2D(screenOrtho_, center, width, height, rotate, color);
 }
 
 void RenderManager::RenderCircle2D(const Vector2f& center, float radius, const Vector4f& color, int32_t sliceCount)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawCircle2D(screenOrtho_, center, radius, color, sliceCount);
 }
 
 void RenderManager::RenderWireframeCircle2D(const Vector2f& center, float radius, const Vector4f& color, int32_t sliceCount)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeCircle2D(screenOrtho_, center, radius, color, sliceCount);
 }
 
 void RenderManager::RenderEllipse2D(const Vector2f& center, float xAxis, float yAxis, const Vector4f& color, int32_t sliceCount)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawEllipse2D(screenOrtho_, center, xAxis, yAxis, color, sliceCount);
 }
 
 void RenderManager::RenderWireframeEllipse2D(const Vector2f& center, float xAxis, float yAxis, const Vector4f& color, int32_t sliceCount)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeEllipse2D(screenOrtho_, center, xAxis, yAxis, color, sliceCount);
 }
 
 void RenderManager::RenderGrid2D(float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawGrid2D(screenOrtho_, minX, maxX, strideX, minY, maxY, strideY, color);
 }
 
 void RenderManager::RenderText2D(const TTFont* font, const std::wstring& text, const Vector2f& center, const Vector4f& color)
 {
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
 	GlyphShader2D* shader = reinterpret_cast<GlyphShader2D*>(shaderCache_.at(L"Glyph2D"));
 	shader->DrawText2D(screenOrtho_, font, text, center, color);
 }
