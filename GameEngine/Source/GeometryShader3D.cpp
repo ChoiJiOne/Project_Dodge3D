@@ -49,6 +49,32 @@ void GeometryShader3D::Release()
 	GL_ASSERT(glDeleteVertexArrays(1, &vertexArrayObject_), "failed to delete 3d geometry vertex array object...");
 }
 
+void GeometryShader3D::DrawPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color)
+{
+	ASSERT(positions.size() <= MAX_VERTEX_SIZE, "overflow 3d point count : %d", static_cast<int32_t>(positions.size()));
+
+	for (std::size_t index = 0; index < positions.size(); ++index)
+	{
+		vertices_[index] = VertexPositionColor(positions[index], color);
+	}
+
+	const void* bufferPtr = reinterpret_cast<const void*>(vertices_.data());
+	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionColor::GetStride() * vertices_.size());
+	WriteDynamicVertexBuffer(vertexBufferObject_, bufferPtr, bufferByteSize);
+
+	Shader::Bind();
+
+	Shader::SetMatrix4x4fParameter("world", Matrix4x4f::GetIdentity());
+	Shader::SetMatrix4x4fParameter("view", view);
+	Shader::SetMatrix4x4fParameter("projection", projection);
+
+	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 3d geometry vertex array...");
+	GL_ASSERT(glDrawArrays(GL_POINTS, 0, positions.size()), "failed to draw 3d geometry...");
+	GL_ASSERT(glBindVertexArray(0), "failed to unbind 3d geometry vertex array...");
+
+	Shader::Unbind();
+}
+
 void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
 {
 	static Vector4f xAxisColor = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
