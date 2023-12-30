@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include <windows.h>
 
 #include "IManager.h"
@@ -347,6 +348,19 @@ public:
 	 * @param color 텍스트의 RGBA 색상입니다.
 	 */
 	void RenderText2D(const TTFont* font, const std::wstring& text, const Vector2f& center, const Vector4f& color);
+
+
+	/**
+	 * @brief 3D 점들을 화면에 그립니다.
+	 * 
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param positions 화면 상의 3D 점들입니다.
+	 * @param color 점들의 색상입니다.
+	 * 
+	 * @note 3D 점들의 개수는 10000개를 넘을 수 없습니다.
+	 */
+	void RenderPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color);
 
 
 	/**
