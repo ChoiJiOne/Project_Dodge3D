@@ -59,7 +59,7 @@ public:
 	 * 
 	 * @param ortho 직교 투영 행렬입니다.
 	 * @param positions 화면 상의 2D 점들입니다.
-	 * @param color 점들의 RGB 색상입니다.
+	 * @param color 점들의 색상입니다.
 	 * @param pointSize 점의 크기입니다. 기본 값은 1.0f입니다.
 	 * 
 	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
