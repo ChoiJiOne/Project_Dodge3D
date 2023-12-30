@@ -350,6 +350,21 @@ public:
 
 
 	/**
+	 * @brief 3D 좌표 공간을 화면에 그립니다.
+	 * 
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param minPosition 좌표 공간의 최소값입니다.
+	 * @param maxPosition 좌표 공간의 최대값입니다.
+	 * @param gap 격자 간 간격입니다.
+	 * @param color X,Y,Z 축 이외의 격자 색상입니다.
+	 *
+	 * @note X축의 색상은 Red, Y축의 색상은 Green, Z축의 색상은 Blue입니다.
+	 */
+	void RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color);
+
+
+	/**
 	 * @brief 3D 메시를 정점 색상을 이용해서 화면에 그립니다.
 	 * 
 	 * @param world 월드 행렬입니다.

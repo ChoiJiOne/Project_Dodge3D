@@ -9,6 +9,7 @@
 #include "CommandLineUtils.h"
 #include "GLAssertion.h"
 #include "GeometryShader2D.h"
+#include "GeometryShader3D.h"
 #include "GlyphShader2D.h"
 #include "Mesh.h"
 #include "MathUtils.h"
@@ -83,6 +84,7 @@ void RenderManager::Startup()
 	shaderCache_.insert({ L"MeshColorPass",  ResourceManager::Get().CreateResource<Shader>("MeshColorPass")        });
 	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap")       });
 	shaderCache_.insert({ L"Geometry2D",     ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
+	shaderCache_.insert({ L"Geometry3D",     ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
 	shaderCache_.insert({ L"Glyph2D",        ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
 
 	for (auto& shader : shaderCache_)
@@ -369,6 +371,17 @@ void RenderManager::RenderText2D(const TTFont* font, const std::wstring& text, c
 
 	GlyphShader2D* shader = reinterpret_cast<GlyphShader2D*>(shaderCache_.at(L"Glyph2D"));
 	shader->DrawText2D(screenOrtho_, font, text, center, color);
+}
+
+void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawAxisGrid3D(view, projection, minPosition, maxPosition, gap, color);
 }
 
 void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh)
