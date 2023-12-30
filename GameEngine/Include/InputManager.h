@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <functional>
+#include <string>
 #include <unordered_map>
 #include <windows.h>
 
