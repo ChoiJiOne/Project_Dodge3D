@@ -17,6 +17,7 @@ class Window;
 class Shader;
 class Mesh;
 class Texture2D;
+class TTFont;
 
 
 /**
@@ -335,6 +336,17 @@ public:
 	 * @param color 격자의 색상입니다.
 	 */
 	void RenderGrid2D(float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color);
+
+
+	/**
+	 * @brief 2D 텍스트를 화면에 그립니다.
+	 *
+	 * @param font 폰트 리소스입니다.
+	 * @param text 렌더링할 텍스트입니다.
+	 * @param center 텍스트의 중심 좌표입니다.
+	 * @param color 텍스트의 RGBA 색상입니다.
+	 */
+	void RenderText2D(const TTFont* font, const std::wstring& text, const Vector2f& center, const Vector4f& color);
 
 
 	/**

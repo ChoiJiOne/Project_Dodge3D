@@ -9,6 +9,7 @@
 #include "CommandLineUtils.h"
 #include "GLAssertion.h"
 #include "GeometryShader2D.h"
+#include "GlyphShader2D.h"
 #include "Mesh.h"
 #include "MathUtils.h"
 #include "ResourceManager.h"
@@ -79,9 +80,10 @@ void RenderManager::Startup()
 
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"MeshColorPass", ResourceManager::Get().CreateResource<Shader>("MeshColorPass") });
-	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap") });
-	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
+	shaderCache_.insert({ L"MeshColorPass",  ResourceManager::Get().CreateResource<Shader>("MeshColorPass")        });
+	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap")       });
+	shaderCache_.insert({ L"Geometry2D",     ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
+	shaderCache_.insert({ L"Glyph2D",        ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
 
 	for (auto& shader : shaderCache_)
 	{
@@ -281,6 +283,12 @@ void RenderManager::RenderGrid2D(float minX, float maxX, float strideX, float mi
 {
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawGrid2D(screenOrtho_, minX, maxX, strideX, minY, maxY, strideY, color);
+}
+
+void RenderManager::RenderText2D(const TTFont* font, const std::wstring& text, const Vector2f& center, const Vector4f& color)
+{
+	GlyphShader2D* shader = reinterpret_cast<GlyphShader2D*>(shaderCache_.at(L"Glyph2D"));
+	shader->DrawText2D(screenOrtho_, font, text, center, color);
 }
 
 void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh)
