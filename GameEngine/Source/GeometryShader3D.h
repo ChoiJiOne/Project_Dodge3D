@@ -212,6 +212,20 @@ private:
 	};
 
 
+	/**
+	 * @brief 기본 도형의 그리기 타입입니다.
+	 */
+	enum class EDrawType : int32_t
+	{
+		Points = 0x0000,
+		Lines = 0x0001,
+		LineStrip = 0x0003,
+		Triangles = 0x0004,
+		TriangleFan = 0x0006,
+		None = 0xFFFF,
+	};
+
+
 private:
 	/**
 	 * @brief 도형 정점 목록의 최대 크기입니다.
