@@ -24,4 +24,16 @@ public:
 	 * @param outIndices 생성한 큐브의 인덱스 목록입니다.
 	 */
 	static void CreateCube(float xsize, float ysize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief 3D 구를 생성합니다.
+	 * 
+	 * @param radius 구의 반지름 길이입니다.
+	 * @param sliceCount 구를 Y축과 평행한 방향으로 자를 횟수입니다.
+	 * @param stackCount 구를 XZ평면과 평행한 방향으로 자를 횟수입니다.
+	 * @param outVertices 생성한 구의 정점 목록입니다.
+	 * @param outIndices 생성한 구의 인덱스 목록입니다.	 
+	 */
+	static void CreateSphere(float radius, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };
