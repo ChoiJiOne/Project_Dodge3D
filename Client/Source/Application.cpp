@@ -29,80 +29,6 @@ int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
 
-void CreateSphere(float radius, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-{
-	outVertices.resize(0);
-	outIndices.resize(0);
-
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-
-	Vertex topVertex(Vector3f(0.0f, +radius, 0.0f), Vector3f(0.0f, +1.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f());
-	Vertex bottomVertex(Vector3f(0.0f, -radius, 0.0f), Vector3f(0.0f, -1.0f, 0.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f());
-
-	float phiStep = Pi / static_cast<float>(stackCount);
-	float thetaStep = TwoPi / static_cast<float>(sliceCount);
-
-	vertices.push_back(topVertex);
-	for (uint32_t i = 1; i <= stackCount - 1; ++i)
-	{
-		float phi = static_cast<float>(i) * phiStep;
-
-		for (uint32_t j = 0; j <= sliceCount; ++j)
-		{
-			float theta = static_cast<float>(j) * thetaStep;
-
-			Vector3f position;
-			position.x = radius * MathUtils::Sin(phi) * MathUtils::Cos(theta);
-			position.y = radius * MathUtils::Cos(phi);
-			position.z = radius * MathUtils::Sin(phi) * MathUtils::Sin(theta);
-
-			Vector3 normal = MathUtils::Normalize(position);
-			Vector2f texture = Vector2f(theta / TwoPi, phi / Pi);
-
-			vertices.push_back(Vertex(position, normal, texture, Vector3f(), Vector3f()));
-		}
-	}
-	vertices.push_back(bottomVertex);
-
-	for (uint32_t i = 1; i <= sliceCount; ++i)
-	{
-		indices.push_back(0);
-		indices.push_back(i + 1);
-		indices.push_back(i + 0);
-	}
-
-	UINT baseIndex = 1;
-	UINT ringVertexCount = sliceCount + 1;
-	for (UINT i = 0; i < stackCount - 2; ++i)
-	{
-		for (UINT j = 0; j < sliceCount; ++j)
-		{
-			indices.push_back(baseIndex + i * ringVertexCount + j);
-			indices.push_back(baseIndex + (i + 1) * ringVertexCount + j);
-			indices.push_back(baseIndex + i * ringVertexCount + j + 1);
-
-			indices.push_back(baseIndex + (i + 1) * ringVertexCount + j);
-			indices.push_back(baseIndex + (i + 1) * ringVertexCount + j + 1);
-			indices.push_back(baseIndex + i * ringVertexCount + j + 1);
-		}
-	}
-
-
-	UINT southPoleIndex = (UINT)vertices.size() - 1;
-	baseIndex = southPoleIndex - ringVertexCount;
-
-	for (UINT i = 0; i < sliceCount; ++i)
-	{
-		indices.push_back(southPoleIndex);
-		indices.push_back(baseIndex + i + 1);
-		indices.push_back(baseIndex + i);
-	}
-
-	outVertices = vertices;
-	outIndices = indices;
-}
-
 void RunApplication()
 {
 	std::vector<Vertex> vertices;
@@ -113,7 +39,7 @@ void RunApplication()
 	cube->Initialize(vertices, indices);
 
 	Mesh* sphere = ResourceManager::Get().CreateResource<Mesh>("Sphere");
-	CreateSphere(3.0f, 30, 30, vertices, indices);
+	GeometryGenerator::CreateSphere(3.0f, 30, 30, vertices, indices);
 	sphere->Initialize(vertices, indices);
 	
 	Texture2D* texture0 = ResourceManager::Get().CreateResource<Texture2D>("cubeTexture");
