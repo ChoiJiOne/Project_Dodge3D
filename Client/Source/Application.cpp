@@ -7,6 +7,7 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileManager.h"
+#include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "MathUtils.h"
 #include "Mesh.h"
@@ -27,68 +28,6 @@ int32_t width = 800;
 int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
-
-void CreateCube(float width, float height, float depth, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-{
-	outVertices.resize(0);
-	outIndices.resize(0);
-
-	float w2 = 0.5f * width;
-	float h2 = 0.5f * height;
-	float d2 = 0.5f * depth;
-
-	outVertices = {
-		Vertex(Vector3f(-w2, -h2, -d2), Vector3f(0.0f, 0.0f, -1.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, +h2, -d2), Vector3f(0.0f, 0.0f, -1.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, -d2), Vector3f(0.0f, 0.0f, -1.0f), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, -h2, -d2), Vector3f(0.0f, 0.0f, -1.0f), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-
-		Vertex(Vector3f(-w2, -h2, +d2), Vector3f(0.0f, 0.0f, 1.0f), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, -h2, +d2), Vector3f(0.0f, 0.0f, 1.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, +d2), Vector3f(0.0f, 0.0f, 1.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, +h2, +d2), Vector3f(0.0f, 0.0f, 1.0f), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-
-		Vertex(Vector3f(-w2, +h2, -d2), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, +h2, +d2), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, +d2), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, -d2), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-		
-		Vertex(Vector3f(-w2, -h2, -d2), Vector3f(0.0f, -1.0f, 0.0f), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, -h2, -d2), Vector3f(0.0f, -1.0f, 0.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, -h2, +d2), Vector3f(0.0f, -1.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, -h2, +d2), Vector3f(0.0f, -1.0f, 0.0f), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-
-		Vertex(Vector3f(-w2, -h2, +d2), Vector3f(-1.0f, 0.0f, 0.0f), Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, +h2, +d2), Vector3f(-1.0f, 0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, +h2, -d2), Vector3f(-1.0f, 0.0f, 0.0f), Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(-w2, -h2, -d2), Vector3f(-1.0f, 0.0f, 0.0f), Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-
-		Vertex(Vector3f(+w2, -h2, -d2), Vector3f(1.0f, 0.0f, 0.0f),  Vector2f(0.0f, 1.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, -d2), Vector3f(1.0f, 0.0f, 0.0f),  Vector2f(0.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, +h2, +d2), Vector3f(1.0f, 0.0f, 0.0f),  Vector2f(1.0f, 0.0f), Vector3f(), Vector3f()),
-		Vertex(Vector3f(+w2, -h2, +d2), Vector3f(1.0f, 0.0f, 0.0f),  Vector2f(1.0f, 1.0f), Vector3f(), Vector3f()),
-	};
-
-	outIndices = {
-		0, 2, 1,
-		0, 3, 2,
-
-		4, 6, 5,
-		4, 7, 6,
-
-		8, 10, 9,
-		8, 11, 10,
-
-		12, 14, 13,
-		12, 15, 14,
-
-		16, 18, 17,
-		16, 19, 18,
-
-		20, 22, 21,
-		20, 23, 22,
-	};
-}
 
 void CreateSphere(float radius, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
@@ -170,7 +109,7 @@ void RunApplication()
 	std::vector<uint32_t> indices;
 
 	Mesh* cube = ResourceManager::Get().CreateResource<Mesh>("Cube");
-	CreateCube(2.0f, 2.0f, 2.0f, vertices, indices);
+	GeometryGenerator::CreateCube(2.0f, 2.0f, 2.0f, vertices, indices);
 	cube->Initialize(vertices, indices);
 
 	Mesh* sphere = ResourceManager::Get().CreateResource<Mesh>("Sphere");
