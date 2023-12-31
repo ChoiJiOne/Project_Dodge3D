@@ -80,7 +80,7 @@ void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& proj
 	vertices_[vertexCount++] = VertexPositionColor(fromPosition, color);
 	vertices_[vertexCount++] = VertexPositionColor(toPosition, color);
 
-	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
 }
 
 void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
@@ -90,7 +90,7 @@ void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& proj
 	vertices_[vertexCount++] = VertexPositionColor(fromPosition, fromColor);
 	vertices_[vertexCount++] = VertexPositionColor(toPosition, toColor);
 
-	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
 }
 
 void GeometryShader3D::DrawAxisAlignedBoundingBox(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
