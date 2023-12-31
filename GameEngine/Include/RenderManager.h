@@ -442,17 +442,6 @@ public:
 
 
 	/**
-	 * @brief 3D 메시를 정점 색상을 이용해서 화면에 그립니다.
-	 * 
-	 * @param world 월드 행렬입니다.
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
-	 * @param mesh 화면에 그릴 메시 리소스입니다.
-	 */
-	void RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh);
-
-
-	/**
 	 * @brief 3D 메시를 텍스처를 이용해서 화면에 그립니다.
 	 *
 	 * @param world 월드 행렬입니다.

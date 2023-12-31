@@ -439,27 +439,6 @@ void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& p
 	shader->DrawAxisGrid3D(view, projection, minPosition, maxPosition, gap, color);
 }
 
-void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh)
-{
-	if (!bIsEnableDepth_)
-	{
-		SetDepthMode(true);
-	}
-
-	Shader* shader = shaderCache_.at(L"MeshColorPass");
-	shader->Bind();
-
-	shader->SetMatrix4x4fParameter("world", world);
-	shader->SetMatrix4x4fParameter("view", view);
-	shader->SetMatrix4x4fParameter("projection", projection);
-
-	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind mesh vertex array object...");
-	GL_ASSERT(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0), "failed to render mesh...");
-	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
-
-	shader->Unbind();
-}
-
 void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh, const Texture2D* textureMap)
 {
 	if (!bIsEnableDepth_)
