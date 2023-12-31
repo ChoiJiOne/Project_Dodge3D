@@ -73,6 +73,22 @@ void GeometryShader3D::DrawConnectPoints3D(const Matrix4x4f& view, const Matrix4
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, static_cast<uint32_t>(positions.size()));
 }
 
+void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color)
+{
+	vertices_[0] = VertexPositionColor(fromPosition, color);
+	vertices_[1] = VertexPositionColor(toPosition, color);
+
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
+}
+
+void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
+{
+	vertices_[0] = VertexPositionColor(fromPosition, fromColor);
+	vertices_[1] = VertexPositionColor(toPosition, toColor);
+
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
+}
+
 void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
 {
 	static Vector4f xAxisColor = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
