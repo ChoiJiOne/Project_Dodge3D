@@ -395,6 +395,28 @@ void RenderManager::RenderConnectPoints3D(const Matrix4x4f& view, const Matrix4x
 	shader->DrawConnectPoints3D(view, projection, positions, color);
 }
 
+void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawLine3D(view, projection, fromPosition, toPosition, color);
+}
+
+void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawLine3D(view, projection, fromPosition, fromColor, toPosition, toColor);
+}
+
 void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)

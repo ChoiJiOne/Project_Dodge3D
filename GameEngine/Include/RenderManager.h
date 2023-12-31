@@ -364,7 +364,7 @@ public:
 
 
 	/**
-	 * @brief 화면에 점들을 연결한 3D 선을 그립니다.
+	 * @brief 점들을 연결한 3D 선을 화면에 그립니다.
 	 *
 	 * @param view 시야 행렬입니다.
 	 * @param projection 투영 행렬입니다.
@@ -374,6 +374,38 @@ public:
 	 * @note 3D 점들의 개수는 10000개를 넘을 수 없습니다.
 	 */
 	void RenderConnectPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color);
+
+
+	/**
+	 * @brief 3D 선을 화면에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param color 선의 색상입니다.
+	 */
+	void RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color);
+
+
+	/**
+	 * @brief 3D 선을 화면에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param fromPosition 선의 시작점입니다.
+	 * @param fromColor 선의 시작점 색상입니다.
+	 * @param toPosition 선의 끝점입니다.
+	 * @param toColor 선의 끝점 색상입니다.
+	 */
+	void RenderLine3D(
+		const Matrix4x4f& view,
+		const Matrix4x4f& projection,
+		const Vector3f& fromPosition,
+		const Vector4f& fromColor,
+		const Vector3f& toPosition,
+		const Vector4f& toColor
+	);
 
 
 	/**
