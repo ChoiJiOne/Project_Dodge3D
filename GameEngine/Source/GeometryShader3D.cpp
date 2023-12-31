@@ -75,18 +75,65 @@ void GeometryShader3D::DrawConnectPoints3D(const Matrix4x4f& view, const Matrix4
 
 void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color)
 {
-	vertices_[0] = VertexPositionColor(fromPosition, color);
-	vertices_[1] = VertexPositionColor(toPosition, color);
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(fromPosition, color);
+	vertices_[vertexCount++] = VertexPositionColor(toPosition, color);
 
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
 }
 
 void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
 {
-	vertices_[0] = VertexPositionColor(fromPosition, fromColor);
-	vertices_[1] = VertexPositionColor(toPosition, toColor);
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(fromPosition, fromColor);
+	vertices_[vertexCount++] = VertexPositionColor(toPosition, toColor);
 
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, 2);
+}
+
+void GeometryShader3D::DrawAxisAlignedBoundingBox(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
+{
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, minPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, minPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, minPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, minPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, maxPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, maxPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, minPosition.y, minPosition.z), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, minPosition.z), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, minPosition.y, minPosition.z), color);
+
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Lines, vertexCount);
 }
 
 void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)

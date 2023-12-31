@@ -108,6 +108,24 @@ public:
 
 
 	/**
+	 * @brief 3D 축 정렬 경계 상자(Axis Aligned Bounding Box, AABB)를 화면에 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param minPosition 경계 영역의 최솟값입니다.
+	 * @param maxPosition 경계 영역의 최댓값입니다.
+	 * @param color 경계 상자의 색상입니다.
+	 */
+	void DrawAxisAlignedBoundingBox(
+		const Matrix4x4f& view, 
+		const Matrix4x4f& projection, 
+		const Vector3f& minPosition,
+		const Vector3f& maxPosition,
+		const Vector4f& color
+	);
+
+
+	/**
 	 * @brief 화면에 3D 좌표 공간을 그립니다.
 	 * 
 	 * @param view 시야 행렬입니다.
