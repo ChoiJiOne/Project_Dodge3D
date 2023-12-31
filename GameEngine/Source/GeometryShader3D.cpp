@@ -93,7 +93,7 @@ void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& proj
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
 }
 
-void GeometryShader3D::DrawAxisAlignedBoundingBox(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
+void GeometryShader3D::DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
 {
 	uint32_t vertexCount = 0;
 
