@@ -226,6 +226,18 @@ private:
 	};
 
 
+	/**
+	 * @brief 3D 기본 도형 그리기를 수행합니다.
+	 *
+	 * @param world 월드 행렬입니다.
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param drawType 그리기 타입입니다.
+	 * @param vertexCount 정점 수입니다.
+	 */
+	void DrawGeometry3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const EDrawType& drawType, uint32_t vertexCount);
+
+
 private:
 	/**
 	 * @brief 도형 정점 목록의 최대 크기입니다.

@@ -57,22 +57,8 @@ void GeometryShader3D::DrawPoints3D(const Matrix4x4f& view, const Matrix4x4f& pr
 	{
 		vertices_[index] = VertexPositionColor(positions[index], color);
 	}
-
-	const void* bufferPtr = reinterpret_cast<const void*>(vertices_.data());
-	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionColor::GetStride() * vertices_.size());
-	WriteDynamicVertexBuffer(vertexBufferObject_, bufferPtr, bufferByteSize);
-
-	Shader::Bind();
-
-	Shader::SetMatrix4x4fParameter("world", Matrix4x4f::GetIdentity());
-	Shader::SetMatrix4x4fParameter("view", view);
-	Shader::SetMatrix4x4fParameter("projection", projection);
-
-	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 3d geometry vertex array...");
-	GL_ASSERT(glDrawArrays(GL_POINTS, 0, positions.size()), "failed to draw 3d geometry...");
-	GL_ASSERT(glBindVertexArray(0), "failed to unbind 3d geometry vertex array...");
-
-	Shader::Unbind();
+	
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Points, static_cast<uint32_t>(positions.size()));
 }
 
 void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
@@ -81,42 +67,55 @@ void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& 
 	static Vector4f yAxisColor = Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
 	static Vector4f zAxisColor = Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
 
-	int32_t vertexIndex = 0;
+	int32_t vertexCount = 0;
 	Vector4f axisColor;
 	for (float x = minPosition.x; x <= maxPosition.x; x += gap)
 	{
 		axisColor = MathUtils::NearZero(x) ? zAxisColor : color;
 
-		ASSERT((0 <= vertexIndex && vertexIndex < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexIndex + 1);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(x, 0.0f, minPosition.z), axisColor);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(x, 0.0f, maxPosition.z), axisColor);
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, minPosition.z), axisColor);
+
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, maxPosition.z), axisColor);
 	}
 
 	for (float z = minPosition.z; z <= maxPosition.z; z += gap)
 	{
 		axisColor = MathUtils::NearZero(z) ? xAxisColor : color;
 
-		ASSERT((0 <= vertexIndex && vertexIndex < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexIndex + 1);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(minPosition.x, 0.0f, z), axisColor);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(maxPosition.x, 0.0f, z), axisColor);
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, 0.0f, z), axisColor);
+
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, 0.0f, z), axisColor);
 	}
 
-	ASSERT((0 <= vertexIndex && vertexIndex < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexIndex + 1);
-	vertices_[vertexIndex++] = VertexPositionColor(Vector3f(0.0f, minPosition.y, 0.0f), yAxisColor);
-	vertices_[vertexIndex++] = VertexPositionColor(Vector3f(0.0f, maxPosition.y, 0.0f), yAxisColor);
+	ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(0.0f, minPosition.y, 0.0f), yAxisColor);
+
+	ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(0.0f, maxPosition.y, 0.0f), yAxisColor);
+
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Lines, static_cast<uint32_t>(vertexCount));
+}
+
+void GeometryShader3D::DrawGeometry3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const EDrawType& drawType, uint32_t vertexCount)
+{
+	ASSERT(drawType != EDrawType::None, "invalid draw type...");
 
 	const void* bufferPtr = reinterpret_cast<const void*>(vertices_.data());
 	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionColor::GetStride() * vertices_.size());
 	WriteDynamicVertexBuffer(vertexBufferObject_, bufferPtr, bufferByteSize);
-	
+
 	Shader::Bind();
 
-	Shader::SetMatrix4x4fParameter("world", Matrix4x4f::GetIdentity());
+	Shader::SetMatrix4x4fParameter("world", world);
 	Shader::SetMatrix4x4fParameter("view", view);
 	Shader::SetMatrix4x4fParameter("projection", projection);
-	
+
 	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 3d geometry vertex array...");
-	GL_ASSERT(glDrawArrays(GL_LINES, 0, vertexIndex), "failed to draw 3d geometry...");
+	GL_ASSERT(glDrawArrays(static_cast<GLenum>(drawType), 0, vertexCount), "failed to draw 3d geometry...");
 	GL_ASSERT(glBindVertexArray(0), "failed to unbind 3d geometry vertex array...");
 
 	Shader::Unbind();
