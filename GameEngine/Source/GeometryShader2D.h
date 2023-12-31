@@ -72,7 +72,7 @@ public:
 	 *
 	 * @param ortho 직교 투영 행렬입니다.
 	 * @param positions 화면 상의 2D 점들입니다.
-	 * @param color 점들의 RGB 색상입니다.
+	 * @param color 점들의 색상입니다.
 	 * 
 	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
 	 */
@@ -85,7 +85,7 @@ public:
 	 * @param ortho 직교 투영 행렬입니다.
 	 * @param fromPosition 선의 시작점입니다.
 	 * @param toPosition 선의 끝점입니다.
-	 * @param color 선의 RGBA색상입니다.
+	 * @param color 선의 색상입니다.
 	 */
 	void DrawLine2D(const Matrix4x4f& ortho, const Vector2f& fromPosition, const Vector2f& toPosition, const Vector4f& color);
 
@@ -115,7 +115,7 @@ public:
 	 * @param fromPosition 삼각형 시작 점입니다.
 	 * @param byPosition 삼각형 중간 점입니다.
 	 * @param toPosition 삼각형 끝 점입니다.
-	 * @param color 삼각형의 RGBA색상입니다.
+	 * @param color 삼각형의 색상입니다.
 	 */
 	void DrawTriangle2D(
 		const Matrix4x4f& ortho,
@@ -155,7 +155,7 @@ public:
 	 * @param fromPosition 삼각형 시작 점입니다.
 	 * @param byPosition 삼각형 중간 점입니다.
 	 * @param toPosition 삼각형 끝 점입니다.
-	 * @param color 삼각형의 RGBA색상입니다.
+	 * @param color 삼각형의 색상입니다.
 	 */
 	void DrawWireframeTriangle2D(
 		const Matrix4x4f& ortho,
