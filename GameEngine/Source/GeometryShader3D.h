@@ -63,6 +63,19 @@ public:
 
 
 	/**
+	 * @brief 화면에 점들을 연결한 3D 선을 그립니다.
+	 *
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param positions 화면 상의 3D 점들입니다.
+	 * @param color 점들의 색상입니다.
+	 *
+	 * @note 2D 점들의 개수는 MAX_VERTEX_SIZE(10000)의 크기를 넘을 수 없습니다.
+	 */
+	void DrawConnectPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color);
+
+
+	/**
 	 * @brief 화면에 3D 좌표 공간을 그립니다.
 	 * 
 	 * @param view 시야 행렬입니다.
