@@ -417,7 +417,7 @@ public:
 	 * @param maxPosition 경계 영역의 최댓값입니다.
 	 * @param color 경계 상자의 색상입니다.
 	 */
-	void RenderAxisAlignedBoundingBox(
+	void RenderAxisAlignedBoundingBox3D(
 		const Matrix4x4f& view,
 		const Matrix4x4f& projection,
 		const Vector3f& minPosition,
