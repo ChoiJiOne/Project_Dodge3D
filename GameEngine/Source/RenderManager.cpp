@@ -81,7 +81,6 @@ void RenderManager::Startup()
 
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"MeshColorPass",  ResourceManager::Get().CreateResource<Shader>("MeshColorPass")        });
 	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap")       });
 	shaderCache_.insert({ L"Geometry2D",     ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
 	shaderCache_.insert({ L"Geometry3D",     ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
