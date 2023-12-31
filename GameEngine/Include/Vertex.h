@@ -18,8 +18,7 @@ struct Vertex
 		, normal(0.0f, 0.0f, 0.0f)
 		, texture(0.0f, 0.0f)
 		, tangent(0.0f, 0.0f, 0.0f)
-		, bitangent(0.0f, 0.0f, 0.0f)
-		, color(0.0f, 0.0f, 0.0f, 0.0f) {}
+		, bitangent(0.0f, 0.0f, 0.0f) {}
 
 
 	/**
@@ -30,15 +29,13 @@ struct Vertex
 	 * @param uv 정점의 텍셀입니다.
 	 * @param t 정점의 접선 벡터입니다.
 	 * @param b 정점의 쌍벡터입니다.
-	 * @param c 정점의 색상입니다.
 	 */
-	Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv, Vector3f&& t, Vector3f&& b, Vector4f&& c) noexcept
+	Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv, Vector3f&& t, Vector3f&& b) noexcept
 		: position(p) 
 		, normal(n)
 		, texture(uv)
 		, tangent(t)
-		, bitangent(b)
-		, color(c) {}
+		, bitangent(b) {}
 
 
 	/**
@@ -49,15 +46,13 @@ struct Vertex
 	 * @param uv 정점의 텍셀입니다.
 	 * @param t 정점의 접선 벡터입니다.
 	 * @param b 정점의 쌍벡터입니다.
-	 * @param c 정점의 색상입니다.
 	 */
-	Vertex(const Vector3f& p, const Vector3f& n, const Vector2f& uv, const Vector3f& t, const Vector3f& b, const Vector4f& c) noexcept
+	Vertex(const Vector3f& p, const Vector3f& n, const Vector2f& uv, const Vector3f& t, const Vector3f& b) noexcept
 		: position(p)
 		, normal(n)
 		, texture(uv)
 		, tangent(t)
-		, bitangent(b)
-		, color(c) {}
+		, bitangent(b) {}
 
 	
 	/**
@@ -70,8 +65,7 @@ struct Vertex
 		, normal(instance.normal)
 		, texture(instance.texture)
 		, tangent(instance.tangent)
-		, bitangent(instance.bitangent)
-		, color(instance.color) {}
+		, bitangent(instance.bitangent) {}
 
 
 	/**
@@ -84,8 +78,7 @@ struct Vertex
 		, normal(instance.normal)
 		, texture(instance.texture)
 		, tangent(instance.tangent)
-		, bitangent(instance.bitangent)
-		, color(instance.color) {}
+		, bitangent(instance.bitangent) {}
 
 
 	/**
@@ -104,7 +97,6 @@ struct Vertex
 		texture = instance.texture;
 		tangent = instance.tangent;
 		bitangent = instance.bitangent;
-		color = instance.color;
 
 		return *this;
 	}
@@ -126,7 +118,6 @@ struct Vertex
 		texture = instance.texture;
 		tangent = instance.tangent;
 		bitangent = instance.bitangent;
-		color = instance.color;
 
 		return *this;
 	}
@@ -171,10 +162,4 @@ struct Vertex
 	 * @brief 정점의 쌍벡터입니다.
 	 */
 	Vector3f bitangent;
-
-
-	/**
-	 * @brief 정점의 색상입니다.
-	 */
-	Vector4f color;
 };
