@@ -42,9 +42,6 @@ void Mesh::Initialize(const std::vector<Vertex>& vertices, const std::vector<uin
 	GL_ASSERT(glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, bitangent))), "failed to define an array of generic vertex attribute data");
 	GL_ASSERT(glEnableVertexAttribArray(4), "failed to enable a generic vertex attribute array");
 
-	GL_ASSERT(glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, color))), "failed to define an array of generic vertex attribute data");
-	GL_ASSERT(glEnableVertexAttribArray(5), "failed to enable a generic vertex attribute array");
-
 	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
 
 	bIsInitialized_ = true;
