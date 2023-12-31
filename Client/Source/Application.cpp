@@ -30,22 +30,16 @@ std::wstring resourcePath;
 
 void RunApplication()
 {
-	TTFont* font = ResourceManager::Get().CreateResource<TTFont>("Font");
-	font->Initialize(resourcePath + L"SeoulNamsanEB.ttf", 27, 128, 32.0f);
-		
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 
-		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(0.0f, 5.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(2.0f, 5.0f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-		{
-			RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
-			RenderManager::Get().RenderAxisAlignedBoundingBox(view, projection, Vector3f(-2.0f, -2.0f, -2.0f), Vector3f(+2.0f, +2.0f, +2.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
-			RenderManager::Get().RenderText2D(font, L"Hello, World", Vector2f(400.0f, 300.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
-		}
+		RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
+		
 		RenderManager::Get().EndFrame();
 	}
 }
