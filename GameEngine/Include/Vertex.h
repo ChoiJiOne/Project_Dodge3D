@@ -30,12 +30,42 @@ struct Vertex
 	 * @param t 정점의 접선 벡터입니다.
 	 * @param b 정점의 쌍벡터입니다.
 	 */
+	Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv) noexcept
+		: position(p)
+		, normal(n)
+		, texture(uv) {}
+
+
+	/**
+	 * @brief 위치 정보를 가진 정점의 생성자입니다.
+	 *
+	 * @param p 정점의 위치입니다.
+	 * @param n 정점의 법선 벡터입니다.
+	 * @param uv 정점의 텍셀입니다.
+	 * @param t 정점의 접선 벡터입니다.
+	 * @param b 정점의 쌍벡터입니다.
+	 */
 	Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv, Vector3f&& t, Vector3f&& b) noexcept
 		: position(p) 
 		, normal(n)
 		, texture(uv)
 		, tangent(t)
 		, bitangent(b) {}
+
+
+	/**
+	 * @brief 위치 정보를 가진 정점의 생성자입니다.
+	 *
+	 * @param p 정점의 위치입니다.
+	 * @param n 정점의 법선 벡터입니다.
+	 * @param uv 정점의 텍셀입니다.
+	 * @param t 정점의 접선 벡터입니다.
+	 * @param b 정점의 쌍벡터입니다.
+	 */
+	Vertex(const Vector3f& p, const Vector3f& n, const Vector2f& uv) noexcept
+		: position(p)
+		, normal(n)
+		, texture(uv) {}
 
 
 	/**
