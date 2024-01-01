@@ -39,6 +39,19 @@ public:
 
 
 	/**
+	 * @brief 3D 원기둥을 생성합니다.
+	 * 
+	 * @param radius 원기둥의 반지름 길입니다.
+	 * @param height 원기둥의 높이입니다.
+	 * @param sliceCount 원기둥을 Y축과 평행한 방향으로 자를 횟수입니다.
+	 * @param stackCount 원기둥을 XZ평면과 평행한 방향으로 자를 횟수입니다.
+	 * @param outVertices 생성한 원기둥의 정점 목록입니다.
+	 * @param outIndices 생성한 원기둥의 인덱스 목록입니다.
+	 */
+	static void CreateCylinder(float radius, float height, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
 	 * @brief XY 평면의 쿼드를 생성합니다.
 	 * 
 	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.

@@ -128,6 +128,47 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t sliceCount, uint32_t
 	ComputeTangent(outVertices, outIndices);
 }
 
+void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	for (uint32_t stack = 0; stack <= stackCount; ++stack)
+	{
+		float y = -0.5f * height + height * static_cast<float>(stack) / static_cast<float>(stackCount);
+		float theta = TwoPi / sliceCount;
+
+		for (uint32_t slice = 0; slice <= sliceCount; ++slice)
+		{
+			float c = MathUtils::Cos(static_cast<float>(slice) * theta);
+			float s = MathUtils::Sin(static_cast<float>(slice) * theta);
+			float u = static_cast<float>(slice) / static_cast<float>(sliceCount);
+			float v = static_cast<float>(stack) / static_cast<float>(stackCount);
+
+			Vector3f tangent = (Vector3f(-s, 0.0f, c));
+			Vector3f bitangent = MathUtils::Normalize(Vector3f(radius * c, -height, radius * s));
+			Vector3f normal = MathUtils::Normalize(MathUtils::CrossProduct(tangent, bitangent));
+			
+			outVertices.push_back(Vertex(Vector3f(radius * c, y, radius * s), normal, Vector2f(u, v), tangent, bitangent));
+		}
+	}
+
+	uint32_t ringVertexCount = sliceCount + 1;
+	for (uint32_t stack = 0; stack < stackCount; ++stack)
+	{
+		for (uint32_t slice = 0; slice < sliceCount; ++slice)
+		{
+			outIndices.push_back((stack + 0) * ringVertexCount + slice + 0);
+			outIndices.push_back((stack + 1) * ringVertexCount + slice + 1);
+			outIndices.push_back((stack + 1) * ringVertexCount + slice + 0);
+
+			outIndices.push_back((stack + 0) * ringVertexCount + slice + 0);
+			outIndices.push_back((stack + 0) * ringVertexCount + slice + 1);
+			outIndices.push_back((stack + 1) * ringVertexCount + slice + 1);
+		}
+	}
+}
+
 void GeometryGenerator::CreateXYQuad(float xsize, float ysize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	float x = 0.5f * xsize;
