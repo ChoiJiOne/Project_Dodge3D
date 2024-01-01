@@ -36,4 +36,47 @@ public:
 	 * @param outIndices 생성한 구의 인덱스 목록입니다.	 
 	 */
 	static void CreateSphere(float radius, uint32_t sliceCount, uint32_t stackCount, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief XY 평면의 쿼드를 생성합니다.
+	 * 
+	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
+	 * @param ysize 쿼드의 y축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateXYQuad(float xsize, float ysize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief YZ 평면의 쿼드를 생성합니다.
+	 * 
+	 * @param ysize 쿼드의 Y축 방향으로의 크기입니다.
+	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateYZQuad(float ysize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief XZ 평면의 쿼드를 생성합니다.
+	 * 
+	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
+	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateXZQuad(float xsize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+private:
+	/**
+	 * @brief 정점의 접선 벡터와 쌍벡터를 계산합니다.
+	 * 
+	 * @param outVertices 접선 벡터와 쌍벡터를 계산할 정점 목록입니다.
+	 * @param outIndices 접선 벡터와 쌍벡터를 계산할 인덱스 목록입니다.
+	 */
+	static void ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };
