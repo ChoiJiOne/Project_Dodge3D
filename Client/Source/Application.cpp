@@ -91,7 +91,7 @@ void RunApplication()
 	{
 		InputManager::Get().Tick();
 
-		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(0.0f, 50.0f, 50.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(0.0f, 30.0f, 30.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
