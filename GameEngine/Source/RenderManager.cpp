@@ -81,10 +81,10 @@ void RenderManager::Startup()
 
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"MeshTextureMap", ResourceManager::Get().CreateResource<Shader>("MeshTextureMap")       });
-	shaderCache_.insert({ L"Geometry2D",     ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
-	shaderCache_.insert({ L"Geometry3D",     ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
-	shaderCache_.insert({ L"Glyph2D",        ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
+	shaderCache_.insert({ L"TextureEffect", ResourceManager::Get().CreateResource<Shader>("TextureEffect")        });
+	shaderCache_.insert({ L"Geometry2D",    ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
+	shaderCache_.insert({ L"Geometry3D",    ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
+	shaderCache_.insert({ L"Glyph2D",       ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
 
 	for (auto& shader : shaderCache_)
 	{
@@ -445,7 +445,7 @@ void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view
 		SetDepthMode(true);
 	}
 
-	Shader* shader = shaderCache_.at(L"MeshTextureMap");
+	Shader* shader = shaderCache_.at(L"TextureEffect");
 	shader->Bind();
 
 	textureMap->Active(0);
