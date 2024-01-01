@@ -8,7 +8,6 @@ Solution
 *.vcxproj.filters
 *.vcxproj.user
 *.tlog
-*.obj
 *.pdb
 *.recipe
 *.ilk
