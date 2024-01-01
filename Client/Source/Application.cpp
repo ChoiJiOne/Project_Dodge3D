@@ -34,21 +34,15 @@ void RunApplication()
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 
-	Mesh* cube = ResourceManager::Get().CreateResource<Mesh>("Cube");
-	GeometryGenerator::CreateCube(2.0f, 2.0f, 2.0f, vertices, indices);
-	cube->Initialize(vertices, indices);
-
-	Mesh* sphere = ResourceManager::Get().CreateResource<Mesh>("Sphere");
-	GeometryGenerator::CreateSphere(3.0f, 30, 30, vertices, indices);
-	sphere->Initialize(vertices, indices);
+	Mesh* mesh = ResourceManager::Get().CreateResource<Mesh>("Mesh");
+	//GeometryGenerator::CreateXZQuad(2.0f, 2.0f, vertices, indices);
+	GeometryGenerator::CreateCylinder(2.0f, 2.0f, 30, 30, vertices, indices);
+	mesh->Initialize(vertices, indices);
 	
-	Texture2D* texture0 = ResourceManager::Get().CreateResource<Texture2D>("cubeTexture");
-	texture0->Initialize(resourcePath + L"container6x6.astc");
+	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("texture");
+	texture->Initialize(resourcePath + L"container6x6.astc");
 
-	Texture2D* texture1 = ResourceManager::Get().CreateResource<Texture2D>("sphereTexture");
-	texture1->Initialize(resourcePath + L"2k_earth_daymap.jpg");
-
-	Vector3f currentCameraPosition = Vector3f(0.0f, 5.0f, 10.0f);
+	Vector3f currentCameraPosition = Vector3f(0.0f, 0.0f, 10.0f);
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
@@ -67,9 +61,20 @@ void RunApplication()
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
-		RenderManager::Get().RenderMesh3D(MathUtils::CreateTranslation(-4.0f, 0.0f, 0.0f), view, projection, cube, texture0);
-		RenderManager::Get().RenderMesh3D(MathUtils::CreateTranslation(+4.0f, 0.0f, 0.0f), view, projection, sphere, texture1);
-		
+		RenderManager::Get().RenderMesh3D(Matrix4x4f::GetIdentity(), view, projection, mesh, texture);
+
+		for (std::size_t index = 0; index < 1; ++index)
+		{
+			const Vector3f& position = vertices[index].position;
+			const Vector3f& normal = vertices[index].normal * 0.5f;
+			const Vector3f& tangent = vertices[index].tangent * 0.5f;
+			const Vector3f& bitangent = vertices[index].bitangent * 0.5f;
+
+			RenderManager::Get().RenderLine3D(view, projection, position, position + tangent, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+			RenderManager::Get().RenderLine3D(view, projection, position, position + bitangent, Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
+			RenderManager::Get().RenderLine3D(view, projection, position, position + normal, Vector4f(0.0f, 0.0f, 1.0f, 1.0f));
+		}
+
 		RenderManager::Get().EndFrame();
 	}
 }
