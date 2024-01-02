@@ -4,11 +4,11 @@
 #include <windows.h>
 
 #include <glad/glad.h>
-#include <tiny_obj_loader.h>
 
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileManager.h"
+#include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "MathUtils.h"
 #include "Mesh.h"
@@ -33,16 +33,28 @@ std::wstring resourcePath;
 
 void RunApplication()
 {
+	std::vector<Vertex> vertices;
+	std::vector<uint32_t> indices;
+	
+	Mesh* cylinder = ResourceManager::Get().CreateResource<Mesh>("Cylinder");
+	GeometryGenerator::CreateCylinder(10.0f, 30.0f, 30, vertices, indices);
+	cylinder->Initialize(vertices, indices);
+
+	Texture2D* metal = ResourceManager::Get().CreateResource<Texture2D>("Metal");
+	metal->Initialize(resourcePath + L"Metal.jpg");
+	
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
 
-		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(1.0f, 5.0f, 5.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+		Matrix4x4f view = MathUtils::CreateLookAt(Vector3f(10.0f, 50.0f, 50.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-		RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
-
+		{
+			RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
+			RenderManager::Get().RenderMesh3D(Matrix4x4f::GetIdentity(), view, projection, cylinder, metal);
+		}
 		RenderManager::Get().EndFrame();
 	}
 }
