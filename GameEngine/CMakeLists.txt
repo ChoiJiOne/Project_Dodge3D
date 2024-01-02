@@ -10,9 +10,8 @@ add_subdirectory(ThirdParty/jsoncpp)
 add_subdirectory(ThirdParty/miniaudio)
 add_subdirectory(ThirdParty/stb)
 add_subdirectory(ThirdParty/imgui)
-add_subdirectory(ThirdParty/tinyobjloader)
 
-set_target_properties(glad jsoncpp miniaudio stb imgui tinyobjloader PROPERTIES FOLDER "ThirdParty")
+set_target_properties(glad jsoncpp miniaudio stb imgui PROPERTIES FOLDER "ThirdParty")
 
 set(GAME_ENGINE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -47,7 +46,6 @@ target_link_libraries(
     miniaudio
     stb
     imgui
-    tinyobjloader
 )
 target_compile_definitions(
     GameEngine 
