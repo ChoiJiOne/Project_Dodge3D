@@ -31,74 +31,8 @@ int32_t height = 600;
 std::wstring shaderPath;
 std::wstring resourcePath;
 
-void LoadWavefrontFile(const std::string& path, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-{
-	std::string basePath = FileManager::Get().GetBasePath(path);
-
-	tinyobj::attrib_t attrib;
-	std::vector<tinyobj::shape_t> shapes;
-	std::vector<tinyobj::material_t> materials;
-
-	tinyobj::LoadObj(&attrib, &shapes, &materials, nullptr, path.c_str(), basePath.c_str());
-
-	for (const auto& shape : shapes)
-	{
-		const tinyobj::mesh_t& mesh = shape.mesh;
-
-		for (std::size_t index = 0; index < mesh.indices.size(); ++index)
-		{
-			tinyobj::index_t idx = mesh.indices[index];
-
-			Vector3f position;
-			Vector3f normal;
-			Vector2f texture;
-
-			if (idx.vertex_index >= 0)
-			{
-				float x = attrib.vertices[idx.vertex_index * 3 + 0];
-				float y = attrib.vertices[idx.vertex_index * 3 + 1];
-				float z = attrib.vertices[idx.vertex_index * 3 + 2];
-
-				position = Vector3f(x, y, z);
-			}
-
-			if (idx.normal_index >= 0)
-			{
-				float nx = attrib.normals[idx.normal_index * 3 + 0];
-				float ny = attrib.normals[idx.normal_index * 3 + 1];
-				float nz = attrib.normals[idx.normal_index * 3 + 2];
-				
-				normal = Vector3f(nx, ny, nz);
-			}
-
-			if (idx.texcoord_index >= 0)
-			{
-				float u = attrib.texcoords[idx.texcoord_index * 2 + 0];
-				float v = attrib.texcoords[idx.texcoord_index * 2 + 1];
-
-				texture = Vector2f(u, v);
-			}
-
-			outVertices.push_back(Vertex(position, normal, texture));
-			outIndices.push_back(index);
-		}
-	}
-}
-
 void RunApplication()
 {
-	std::string objPath = StringUtils::Convert(resourcePath) + "Sphere.obj";
-	
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-	LoadWavefrontFile(objPath, vertices, indices);
-
-	Mesh* mesh = ResourceManager::Get().CreateResource<Mesh>("Sphere");
-	mesh->Initialize(vertices, indices);
-
-	Texture2D* texture = ResourceManager::Get().CreateResource<Texture2D>("Texture");
-	texture->Initialize(resourcePath + L"Magenta.png");
-
 	while (!bIsDone)
 	{
 		InputManager::Get().Tick();
@@ -108,7 +42,6 @@ void RunApplication()
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
-		RenderManager::Get().RenderMesh3D(Matrix4x4f::GetIdentity(), view, projection, mesh, texture);
 
 		RenderManager::Get().EndFrame();
 	}
