@@ -46,6 +46,18 @@ public:
 	static void CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
+	/**
+	 * @brief 3D 원뿔의 정점과 인덱스 목록을 생성합니다.
+	 * 
+	 * @param radius 3D 원뿔의 반지름 길이입니다.
+	 * @param height 3D 원뿔의 높이입니다.
+	 * @param tessellation 3D 원뿔의 분할 횟수입니다. 크기는 3이상이여야 합니다.
+	 * @param outVertices 생성한 원뿔의 정점 목록입니다.
+	 * @param outIndices  생성한 원뿔의 인덱스 목록입니다.
+	 */
+	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
 private:
 	/**
 	 * @brief 3D 원기둥 상단/하단의 정점과 인덱스 목록을 생성합니다.
@@ -58,4 +70,13 @@ private:
 	 * @param outIndices  생성한 원기둥 상단/하단의 인덱스 목록입니다.
 	 */
 	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief 정점의 접선 벡터와 쌍벡터를 계산합니다.
+	 *
+	 * @param outVertices 접선 벡터와 쌍벡터를 계산할 정점 목록입니다.
+	 * @param outIndices 접선 벡터와 쌍벡터를 계산할 인덱스 목록입니다.
+	 */
+	static void ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };

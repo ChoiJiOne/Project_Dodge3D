@@ -138,6 +138,44 @@ void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tess
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
 }
 
+void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	ASSERT(tessellation >= 3, "tesselation parameter must be at least 3...");
+
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	height *= 0.5f;
+
+	Vector3f topOffset(0.0f, height, 0.0f);
+	uint32_t stride = tessellation + 1;
+
+	for (uint32_t index = 0; index <= tessellation; ++index)
+	{
+		float angle = TwoPi * static_cast<float>(index) / static_cast<float>(tessellation);
+		float dx = MathUtils::Sin(angle);
+		float dz = MathUtils::Cos(angle);
+
+		float tangle = angle + PiDiv2;
+		float tdx = MathUtils::Sin(tangle);
+		float tdz = MathUtils::Cos(tangle);
+
+		Vector3f sideOffset(dx * radius, 0.0f, dz * radius);
+		Vector2f textureCoordinate(static_cast<float>(index) / static_cast<float>(tessellation), 0.0f);
+		Vector3f diff = sideOffset - topOffset;
+		Vector3f normal = MathUtils::Normalize(MathUtils::CrossProduct(Vector3f(tdx, 0.0f, tdz), topOffset - diff));
+
+		outVertices.push_back(Vertex(topOffset, normal, Vector2f(0.0f, 0.0f)));
+		outVertices.push_back(Vertex(diff, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
+
+		outIndices.push_back((index * 2 + 0));
+		outIndices.push_back((index * 2 + 1) % (stride * 2));
+		outIndices.push_back((index * 2 + 3) % (stride * 2));
+	}
+
+	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
+}
+
 void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	for (size_t index = 0; index < tessellation - 2; index++)
@@ -175,5 +213,37 @@ void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t t
 		Vector2f textureCoordinate = Vector2f(dx, dz) * textureScale + Vector2f(0.5f, 0.5f);
 
 		outVertices.push_back(Vertex(position, normal, textureCoordinate));
+	}
+}
+
+void GeometryGenerator::ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	for (std::size_t index = 0; index < outIndices.size(); index += 3)
+	{
+		const Vertex& v0 = outVertices[outIndices[index + 0]];
+		const Vertex& v1 = outVertices[outIndices[index + 1]];
+		const Vertex& v2 = outVertices[outIndices[index + 2]];
+
+		Vector3f e0 = v1.position - v0.position;
+		Vector3f e1 = v2.position - v0.position;
+		Vector2f deltaUV0 = v1.texture - v0.texture;
+		Vector2f deltaUV1 = v2.texture - v0.texture;
+
+		float f = 1.0f / MathUtils::CrossProduct(deltaUV0, deltaUV1);
+
+		Vector3f tangent = MathUtils::Normalize(Vector3f(
+			f * (deltaUV1.y * e0.x - deltaUV0.y * e1.x),
+			f * (deltaUV1.y * e0.y - deltaUV0.y * e1.y),
+			f * (deltaUV1.y * e0.z - deltaUV0.y * e1.z)
+		));
+
+		outVertices[outIndices[index + 0]].tangent = tangent;
+		outVertices[outIndices[index + 0]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v0.normal, tangent));
+
+		outVertices[outIndices[index + 1]].tangent = tangent;
+		outVertices[outIndices[index + 1]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v1.normal, tangent));
+
+		outVertices[outIndices[index + 2]].tangent = tangent;
+		outVertices[outIndices[index + 2]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v2.normal, tangent));
 	}
 }
