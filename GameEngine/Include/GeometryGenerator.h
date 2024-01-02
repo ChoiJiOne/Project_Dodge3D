@@ -58,6 +58,39 @@ public:
 	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
+	/**
+	 * @brief XY 평면의 쿼드를 생성합니다.
+	 *
+	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
+	 * @param ysize 쿼드의 y축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateXYQuad(float xsize, float ysize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief YZ 평면의 쿼드를 생성합니다.
+	 *
+	 * @param ysize 쿼드의 Y축 방향으로의 크기입니다.
+	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateYZQuad(float ysize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
+	/**
+	 * @brief XZ 평면의 쿼드를 생성합니다.
+	 *
+	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
+	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
+	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
+	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
+	 */
+	static void CreateXZQuad(float xsize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+
+
 private:
 	/**
 	 * @brief 3D 원기둥 상단/하단의 정점과 인덱스 목록을 생성합니다.

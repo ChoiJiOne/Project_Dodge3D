@@ -216,6 +216,65 @@ void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t t
 	}
 }
 
+void GeometryGenerator::CreateXYQuad(float xsize, float ysize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	float x = 0.5f * xsize;
+	float y = 0.5f * ysize;
+
+	outVertices = {
+		Vertex(Vector3f(-x, -y, 0.0f), Vector3f(0.0f, 0.0f, +1.0f), Vector2f(0.0f, 1.0f)),
+		Vertex(Vector3f(+x, -y, 0.0f), Vector3f(0.0f, 0.0f, +1.0f), Vector2f(1.0f, 1.0f)),
+		Vertex(Vector3f(+x, +y, 0.0f), Vector3f(0.0f, 0.0f, +1.0f), Vector2f(1.0f, 0.0f)),
+		Vertex(Vector3f(-x, +y, 0.0f), Vector3f(0.0f, 0.0f, +1.0f), Vector2f(0.0f, 0.0f)),
+	};
+
+	outIndices = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+
+	ComputeTangent(outVertices, outIndices);
+}
+
+void GeometryGenerator::CreateYZQuad(float ysize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	float y = 0.5f * ysize;
+	float z = 0.5f * zsize;
+
+	outVertices = {
+		Vertex(Vector3f(0.0f, -y, -z), Vector3f(+1.0f, 0.0f, 0.0f), Vector2f(0.0f, 1.0f)),
+		Vertex(Vector3f(0.0f, +y, -z), Vector3f(+1.0f, 0.0f, 0.0f), Vector2f(1.0f, 1.0f)),
+		Vertex(Vector3f(0.0f, +y, +z), Vector3f(+1.0f, 0.0f, 0.0f), Vector2f(1.0f, 0.0f)),
+		Vertex(Vector3f(0.0f, -y, +z), Vector3f(+1.0f, 0.0f, 0.0f), Vector2f(0.0f, 0.0f)),
+	};
+
+	outIndices = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+
+	ComputeTangent(outVertices, outIndices);
+}
+
+void GeometryGenerator::CreateXZQuad(float xsize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	float x = 0.5f * xsize;
+	float z = 0.5f * zsize;
+
+	outVertices = {
+		Vertex(Vector3f(-x, 0.0f, -z), Vector3f(0.0f, +1.0f, 0.0f), Vector2f(0.0f, 0.0f)),
+		Vertex(Vector3f(-x, 0.0f, +z), Vector3f(0.0f, +1.0f, 0.0f), Vector2f(0.0f, 1.0f)),
+		Vertex(Vector3f(+x, 0.0f, +z), Vector3f(0.0f, +1.0f, 0.0f), Vector2f(1.0f, 1.0f)),
+		Vertex(Vector3f(+x, 0.0f, -z), Vector3f(0.0f, +1.0f, 0.0f), Vector2f(1.0f, 0.0f)),
+	};
+
+	outIndices = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+
+	ComputeTangent(outVertices, outIndices);
+}
 void GeometryGenerator::ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	for (std::size_t index = 0; index < outIndices.size(); index += 3)
