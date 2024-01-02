@@ -98,3 +98,82 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::v
 		}
 	}
 }
+
+void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	ASSERT(tessellation >= 3, "tesselation parameter must be at least 3...");
+
+	outVertices.resize(0);
+	outIndices.resize(0);
+
+	height *= 0.5f;
+
+	Vector3f topOffset(0.0f, height, 0.0f);
+	uint32_t stride = tessellation + 1;
+
+	for (uint32_t index = 0; index <= tessellation; ++index)
+	{
+		float angle = TwoPi * static_cast<float>(index) / static_cast<float>(tessellation);
+		float dx = MathUtils::Sin(angle);
+		float dz = MathUtils::Cos(angle);
+
+		Vector3f normal(dx, 0.0f, dz);
+		Vector3f sideOffset(normal.x * radius, normal.y * radius, normal.z * radius);
+
+		Vector2f textureCoordinate(static_cast<float>(index) / static_cast<float>(tessellation), 0.0f);
+
+		outVertices.push_back(Vertex(sideOffset + topOffset, normal, textureCoordinate));
+		outVertices.push_back(Vertex(sideOffset - topOffset, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
+
+		outIndices.push_back((index * 2 + 0));
+		outIndices.push_back((index * 2 + 1));
+		outIndices.push_back((index * 2 + 2) % (stride * 2));
+
+		outIndices.push_back((index * 2 + 1));
+		outIndices.push_back((index * 2 + 3) % (stride * 2));
+		outIndices.push_back((index * 2 + 2) % (stride * 2));
+	}
+
+	CreateCylinderCap(radius, height, tessellation, true, outVertices, outIndices);
+	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
+}
+
+void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+{
+	for (size_t index = 0; index < tessellation - 2; index++)
+	{
+		size_t i1 = (index + 1) % tessellation;
+		size_t i2 = (index + 2) % tessellation;
+
+		if (bIsTop)
+		{
+			std::swap(i1, i2);
+		}
+
+		const size_t vbase = outVertices.size();
+		outIndices.push_back(vbase + 0);
+		outIndices.push_back(vbase + i2);
+		outIndices.push_back(vbase + i1);
+	}
+
+	Vector3f normal(0.0f, 1.0f, 0.0f);
+	Vector2f textureScale(-0.5f, -0.5f);
+
+	if (!bIsTop)
+	{
+		normal = Vector3f(0.0f, -1.0f, 0.0f);
+		textureScale = Vector2f(0.5f, -0.5f);
+	}
+
+	for (size_t index = 0; index < tessellation; ++index)
+	{
+		float angle = TwoPi * static_cast<float>(index) / static_cast<float>(tessellation);
+		float dx = MathUtils::Sin(angle);
+		float dz = MathUtils::Cos(angle);
+
+		Vector3f position = Vector3f(dx * radius, normal.y * height, dz * radius);
+		Vector2f textureCoordinate = Vector2f(dx, dz) * textureScale + Vector2f(0.5f, 0.5f);
+
+		outVertices.push_back(Vertex(position, normal, textureCoordinate));
+	}
+}
