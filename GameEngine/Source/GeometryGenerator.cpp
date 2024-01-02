@@ -49,6 +49,8 @@ void GeometryGenerator::CreateCube(const Vector3f& size, std::vector<Vertex>& ou
 		outVertices.push_back(Vertex(((normal + side1 + side2) * tsize), normal, textureCoordinates[2]));
 		outVertices.push_back(Vertex(((normal + side1 - side2) * tsize), normal, textureCoordinates[3]));
 	}
+
+	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -97,6 +99,8 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::v
 			outIndices.push_back((vertical + 1) * stride + (horizon + 0) % stride);
 		}
 	}
+
+	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -136,6 +140,8 @@ void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tess
 
 	CreateCylinderCap(radius, height, tessellation, true, outVertices, outIndices);
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
+
+	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -174,6 +180,8 @@ void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessella
 	}
 
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
+	
+	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -275,6 +283,7 @@ void GeometryGenerator::CreateXZQuad(float xsize, float zsize, std::vector<Verte
 
 	ComputeTangent(outVertices, outIndices);
 }
+
 void GeometryGenerator::ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	for (std::size_t index = 0; index < outIndices.size(); index += 3)
