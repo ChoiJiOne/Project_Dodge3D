@@ -29,7 +29,7 @@ void ClientApplication::Shutdown()
 
 void ClientApplication::Run()
 {
-	Skybox* skybox = ResourceManager::Get().CreateResource<Skybox>("Skybox0");
+	Skybox* skybox = ResourceManager::Get().CreateResource<Skybox>("SkyboxResource");
 	skybox->Initialize(
 		clientPath_ + L"Resource/Right.png",
 		clientPath_ + L"Resource/Left.png",
