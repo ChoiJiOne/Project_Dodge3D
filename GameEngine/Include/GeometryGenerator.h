@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Vertex.h"
+#include "StaticMesh.h"
 
 
 /**
@@ -20,7 +20,7 @@ public:
 	 * @param outVertices 생성한 큐브의 정점 목록입니다.
 	 * @param outIndices  생성한 큐브의 인덱스 목록입니다.
 	 */
-	static void CreateCube(const Vector3f& size, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCube(const Vector3f& size, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -31,7 +31,7 @@ public:
 	 * @param outVertices 생성한 구의 정점 목록입니다.
 	 * @param outIndices  생성한 구의 인덱스 목록입니다.
 	 */
-	static void CreateSphere(float radius, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateSphere(float radius, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -43,7 +43,7 @@ public:
 	 * @param outVertices 생성한 원기둥의 정점 목록입니다.
 	 * @param outIndices  생성한 원기둥의 인덱스 목록입니다.
 	 */
-	static void CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -55,40 +55,7 @@ public:
 	 * @param outVertices 생성한 원뿔의 정점 목록입니다.
 	 * @param outIndices  생성한 원뿔의 인덱스 목록입니다.
 	 */
-	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
-
-
-	/**
-	 * @brief XY 평면의 쿼드를 생성합니다.
-	 *
-	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
-	 * @param ysize 쿼드의 y축 방향으로의 크기입니다.
-	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
-	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
-	 */
-	static void CreateXYQuad(float xsize, float ysize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
-
-
-	/**
-	 * @brief YZ 평면의 쿼드를 생성합니다.
-	 *
-	 * @param ysize 쿼드의 Y축 방향으로의 크기입니다.
-	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
-	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
-	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
-	 */
-	static void CreateYZQuad(float ysize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
-
-
-	/**
-	 * @brief XZ 평면의 쿼드를 생성합니다.
-	 *
-	 * @param xsize 쿼드의 X축 방향으로의 크기입니다.
-	 * @param zsize 쿼드의 Z축 방향으로의 크기입니다.
-	 * @param outVertices 생성한 쿼드의 정점 목록입니다.
-	 * @param outIndices 생성한 쿼드의 인덱스 목록입니다.
-	 */
-	static void CreateXZQuad(float xsize, float zsize, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 private:
@@ -102,7 +69,7 @@ private:
 	 * @param outVertices 생성한 원기둥 상단/하단의 정점 목록입니다.
 	 * @param outIndices  생성한 원기둥 상단/하단의 인덱스 목록입니다.
 	 */
-	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -111,5 +78,5 @@ private:
 	 * @param outVertices 접선 벡터와 쌍벡터를 계산할 정점 목록입니다.
 	 * @param outIndices 접선 벡터와 쌍벡터를 계산할 인덱스 목록입니다.
 	 */
-	static void ComputeTangent(std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void ComputeTangent(std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };
