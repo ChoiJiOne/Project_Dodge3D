@@ -5,6 +5,10 @@
 #include <vector>
 
 
+#define FOURCC_DXT1 0x31545844
+#define FOURCC_DXT3 0x33545844
+#define FOURCC_DXT5 0x35545844
+
 
 /**
  * @brief ASTC 파일의 헤더입니다.
@@ -22,6 +26,38 @@ struct AstcFileHeader
 	uint8_t xsize[3];
 	uint8_t ysize[3];
 	uint8_t zsize[3];
+};
+
+
+/**
+ * @brief DDS 파일의 헤더입니다.
+ *
+ * @see https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-header
+ */
+struct DDSFileHeader
+{
+	uint8_t  magic[4];
+	uint32_t dwSize;
+	uint32_t dwFlags;
+	uint32_t dwHeight;
+	uint32_t dwWidth;
+	uint32_t dwPitchOrLinearSize;
+	uint32_t dwDepth;
+	uint32_t dwMipMapCount;
+	uint32_t dwReserved1[11];
+	uint32_t dwPixelSize;
+	uint32_t dwPixelFlags;
+	uint32_t dwFourCC;
+	uint32_t dwRGBBitCount;
+	uint32_t dwRBitMask;
+	uint32_t dwGBitMask;
+	uint32_t dwBBitMask;
+	uint32_t dwABitMask;
+	uint32_t dwCaps;
+	uint32_t dwCaps2;
+	uint32_t dwCaps3;
+	uint32_t dwCaps4;
+	uint32_t dwReserved2;
 };
 
 
