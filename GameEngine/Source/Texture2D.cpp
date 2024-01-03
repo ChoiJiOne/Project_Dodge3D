@@ -1,10 +1,10 @@
 #include "Texture2D.h"
 
 #include "Assertion.h"
-#include "AstcUtils.h"
 #include "FileManager.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
+#include "TextureUtils.h"
 
 #include <array>
 #include <unordered_map>
@@ -167,7 +167,7 @@ uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 {
 	std::vector<uint8_t> astcData;
 	EAstcBlockSize blockSize = EAstcBlockSize::None;
-	AstcUtils::LoadAstcFromFile(path, astcData, blockSize);
+	TextureUtils::LoadAstcFromFile(path, astcData, blockSize);
 
 	AstcFileHeader* astcDataPtr = reinterpret_cast<AstcFileHeader*>(astcData.data());
 

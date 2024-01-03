@@ -53,9 +53,9 @@ enum class EAstcBlockSize
 
 
 /**
- * @brief 텍스처 압축 포멧인 ASTC 압축 텍스처 포멧에 대한 확장 기능을 제공합니다.
+ * @brief 텍스처에 대한 확장 기능을 제공합니다.
  */
-class AstcUtils
+class TextureUtils
 {
 public:
 	/**

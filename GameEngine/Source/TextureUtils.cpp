@@ -1,4 +1,4 @@
-#include "AstcUtils.h"
+#include "TextureUtils.h"
 
 #include <unordered_map>
 
@@ -23,7 +23,7 @@ std::unordered_map<EAstcBlockSize, std::wstring> blockSizeMaps = {
 	{ EAstcBlockSize::ASTC_12x12, L"12x12" },
 };
 
-EAstcBlockSize AstcUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
+EAstcBlockSize TextureUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 {
 	std::wstring filename = FileManager::Get().RemoveBasePath(path);
 
@@ -38,7 +38,7 @@ EAstcBlockSize AstcUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 	return EAstcBlockSize::None;
 }
 
-void AstcUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize)
+void TextureUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize)
 {
 	outBlockSize = FindAstcBlockSizeFromFile(path);
 	ASSERT(outBlockSize != EAstcBlockSize::None, L"%s can't find astc block size...", path.c_str());
