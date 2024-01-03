@@ -136,42 +136,34 @@ void GeometryShader3D::DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, cons
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Lines, vertexCount);
 }
 
-void GeometryShader3D::DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
+void GeometryShader3D::DrawGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color)
 {
-	static Vector4f xAxisColor = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
-	static Vector4f yAxisColor = Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
-	static Vector4f zAxisColor = Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
+	ASSERT((strideX >= 1.0f && strideZ >= 1.0f), "The values of strideX and strideZ are too small : %f, %f", strideX, strideZ);
+
+	float minXPosition = MathUtils::Min<float>(minX, maxX);
+	float maxXPosition = MathUtils::Max<float>(minX, maxX);
+	float minZPosition = MathUtils::Min<float>(minZ, maxZ);
+	float maxZPosition = MathUtils::Max<float>(minZ, maxZ);
 
 	int32_t vertexCount = 0;
-	Vector4f axisColor;
-	for (float x = minPosition.x; x <= maxPosition.x; x += gap)
+	for (float x = minXPosition; x <= maxXPosition; x += strideX)
 	{
-		axisColor = MathUtils::NearZero(x) ? zAxisColor : color;
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, minZPosition), color);
 
 		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, minPosition.z), axisColor);
-
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, maxPosition.z), axisColor);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x, 0.0f, maxZPosition), color);
 	}
 
-	for (float z = minPosition.z; z <= maxPosition.z; z += gap)
+	for (float z = minZPosition; z <= maxZPosition; z += strideZ)
 	{
-		axisColor = MathUtils::NearZero(z) ? xAxisColor : color;
+		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(minXPosition, 0.0f, z), color);
 
 		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-		vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, 0.0f, z), axisColor);
-
-		ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-		vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, 0.0f, z), axisColor);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxXPosition, 0.0f, z), color);
 	}
-
-	ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-	vertices_[vertexCount++] = VertexPositionColor(Vector3f(0.0f, minPosition.y, 0.0f), yAxisColor);
-
-	ASSERT((0 <= vertexCount && vertexCount < MAX_VERTEX_SIZE), "overflow axis grid vertex count : %d", vertexCount);
-	vertices_[vertexCount++] = VertexPositionColor(Vector3f(0.0f, maxPosition.y, 0.0f), yAxisColor);
-
+	
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Lines, static_cast<uint32_t>(vertexCount));
 }
 

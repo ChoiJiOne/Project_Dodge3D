@@ -126,18 +126,19 @@ public:
 
 
 	/**
-	 * @brief 화면에 3D 좌표 공간을 그립니다.
+	 * @brief 화면에 XZ 평면의 격자를 그립니다.
 	 * 
 	 * @param view 시야 행렬입니다.
 	 * @param projection 투영 행렬입니다.
-	 * @param minPosition 좌표 공간의 최소값입니다.
-	 * @param maxPosition 좌표 공간의 최대값입니다.
-	 * @param gap 격자 간 간격입니다.
-	 * @param color X,Y,Z 축 이외의 격자 색상입니다.
-	 *
-	 * @note X축의 색상은 Red, Y축의 색상은 Green, Z축의 색상은 Blue입니다.
+	 * @param minX X좌표의 최소값입니다.
+	 * @param maxX X좌표의 최댓값입니다.
+	 * @param strideX X축 방향으로의 간격입니다.
+	 * @param minZ Z좌표의 최소값입니다.
+	 * @param maxZ Z좌표의 최댓값입니다.
+	 * @param strideZ Z축 방향으로의 간격입니다.
+	 * @param color 격자의 색상입니다.
 	 */
-	void DrawAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color);
+	void DrawGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color);
 
 	
 private:
