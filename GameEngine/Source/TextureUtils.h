@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -108,6 +110,22 @@ public:
 	 * - DXT 압축 포멧의 경우 반드시 texconv.exe를 이용해서 생성한 파일이여야 합니다.
 	 */
 	bool IsSupportExtension(const std::wstring& path);
+
+
+	/**
+	 * @brief 이미지 채널에 대응하는 OpenGL 텍스처 포멧의 enum 값을 찾습니다.
+	 * 
+	 * @param channel 이미지의 채널값입니다.
+	 * 
+	 * @return 텍스처 포멧의 정수 열겨형 값을 반환합니다.
+	 * 
+	 * @note
+	 * - channels 값이 1이면 GL_RED를 반환합니다.
+	 * - channels 값이 3이면 GL_RGB를 반환합니다.
+	 * - channels 값이 4이면 GL_RGBA를 반환합니다.
+	 * - channels 값이 2는 지원하지 않습니다.
+	 */
+	GLenum FindTextureFormatFromChannel(uint32_t channel);
 
 
 	/**

@@ -48,6 +48,31 @@ bool TextureUtils::IsSupportExtension(const std::wstring& path)
 	return false;
 }
 
+GLenum TextureUtils::FindTextureFormatFromChannel(uint32_t channel)
+{
+	GLenum format = 0;
+
+	switch (channel)
+	{
+	case 1:
+		format = static_cast<GLenum>(GL_RED);
+		break;
+
+	case 3:
+		format = static_cast<GLenum>(GL_RGB);
+		break;
+
+	case 4:
+		format = static_cast<GLenum>(GL_RGBA);
+		break;
+
+	default:
+		format = static_cast<GLenum>(0xFFFF);
+	}
+
+	return format;
+}
+
 EAstcBlockSize TextureUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 {
 	std::wstring filename = FileManager::Get().RemoveBasePath(path);
