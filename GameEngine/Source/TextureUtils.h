@@ -109,7 +109,7 @@ public:
 	 * - ASTC 압축 포멧의 경우 반드시 astcenc.exe를 이용해서 생성한 파일이여야 합니다.
 	 * - DXT 압축 포멧의 경우 반드시 texconv.exe를 이용해서 생성한 파일이여야 합니다.
 	 */
-	bool IsSupportExtension(const std::wstring& path);
+	static bool IsSupportExtension(const std::wstring& path);
 
 
 	/**
@@ -125,7 +125,7 @@ public:
 	 * - channels 값이 4이면 GL_RGBA를 반환합니다.
 	 * - channels 값이 2는 지원하지 않습니다.
 	 */
-	GLenum FindTextureFormatFromChannel(uint32_t channel);
+	static GLenum FindTextureFormatFromChannel(uint32_t channel);
 
 
 	/**
