@@ -427,7 +427,7 @@ void RenderManager::RenderAxisAlignedBoundingBox3D(const Matrix4x4f& view, const
 	shader->DrawAxisAlignedBoundingBox3D(view, projection, minPosition, maxPosition, color);
 }
 
-void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color)
+void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -435,5 +435,5 @@ void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& p
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawAxisGrid3D(view, projection, minPosition, maxPosition, gap, color);
+	shader->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
 }
