@@ -7,9 +7,9 @@
 
 
 /**
- * @brief OpenGL 파이프라인에 바인딩 가능한 메시 리소스입니다.
+ * @brief OpenGL 파이프라인에 바인딩 가능한 정적 메시 리소스입니다.
  */
-class Mesh : public IResource
+class StaticMesh : public IResource
 {
 public:
 	/**
@@ -17,7 +17,7 @@ public:
 	 * 
 	 * @note 생성자 이외의 메서드에서 적절한 초기화를 수행해야 합니다.
 	 */
-	Mesh() = default;
+	StaticMesh() = default;
 
 
 	/**
@@ -25,13 +25,13 @@ public:
 	 * 
 	 * @note 메시 내부에서 할당된 요소를 해제하기 위해서는 반드시 Release를 호출해야 합니다.
 	 */
-	virtual ~Mesh();
+	virtual ~StaticMesh();
 
 
 	/**
 	 * @brief 메시의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(Mesh);
+	DISALLOW_COPY_AND_ASSIGN(StaticMesh);
 
 
 	/**
@@ -74,7 +74,7 @@ private:
 	 * @param indexBufferPtr 인덱스 버퍼의 포인터입니다.
 	 * @param indexBufferSize 인덱스 버퍼의 크기입니다.
 	 */
-	void Initialize(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize);
+	void Setup(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize);
 
 
 private:
