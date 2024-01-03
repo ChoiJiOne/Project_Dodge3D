@@ -78,19 +78,7 @@ private:
 	 */
 	bool IsSupportExtension(const std::wstring& path);
 
-
-	/**
-	 * @brief 이미지 파일 이름에서 ASTC 블럭 크기를 찾습니다.
-	 * 
-	 * @param ASTC 블럭 크기를 찾을 이미지 파일의 경로입니다.
-	 * 
-	 * @return ASTC 블럭 크기를 반환합니다.
-	 * 
-	 * @note 이미지 파일(PNG, JPG ...)을 ASTC로 변환할 때 반드시 이름에 4x4, 6x6이 포함되도록 변환해야 합니다.
-	 */
-	uint32_t FindAstcBlockSizeFromFile(const std::wstring& path);
-
-
+	
 	/**
 	 * @brief 비압축 텍스처 리소스를 생성합니다.
 	 * 

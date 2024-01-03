@@ -1,6 +1,7 @@
 #include "Texture2D.h"
 
 #include "Assertion.h"
+#include "AstcUtils.h"
 #include "FileManager.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
@@ -14,24 +15,6 @@
 #define FOURCC_DXT1 0x31545844
 #define FOURCC_DXT3 0x33545844
 #define FOURCC_DXT5 0x35545844
-
-/**
- * @brief ASTC 파일의 헤더입니다.
- *
- * @note 
- * - astcenc.exe를 이용해서 생성한 파일 기준입니다.
- * - https://github.com/ARM-software/astc-encoder/blob/main/Docs/FileFormat.md
- */
-struct AstcFileHeader
-{
-	uint8_t magic[4];
-	uint8_t blockdimX;
-	uint8_t blockdimY;
-	uint8_t blockdimZ;
-	uint8_t xsize[3];
-	uint8_t ysize[3];
-	uint8_t zsize[3];
-};
 
 /**
  * @brief DDS 파일의 헤더입니다.
@@ -62,30 +45,6 @@ struct DDSFileHeader
 	uint32_t dwCaps3;
 	uint32_t dwCaps4;
 	uint32_t dwReserved2;
-};
-
-/**
- * @brief ASTC 블록 크기를 나타내는 열거형입니다.
- *
- * @note OpenGL의 GL_COMPRESSED_RGBA_ASTC_<SIZE>x<SIZE>_KHR 상수와 일대일 대응합니다.
- */
-enum class EAstcBlockSize
-{
-	ASTC_4x4 = 0x93B0,
-	ASTC_5x4 = 0x93B1,
-	ASTC_5x5 = 0x93B2,
-	ASTC_6x5 = 0x93B3,
-	ASTC_6x6 = 0x93B4,
-	ASTC_8x5 = 0x93B5,
-	ASTC_8x6 = 0x93B6,
-	ASTC_8x8 = 0x93B7,
-	ASTC_10x5 = 0x93B8,
-	ASTC_10x6 = 0x93B9,
-	ASTC_10x8 = 0x93BA,
-	ASTC_10x10 = 0x93BB,
-	ASTC_12x10 = 0x93BC,
-	ASTC_12x12 = 0x93BD,
-	None = 0xFFFF,
 };
 
 Texture2D::~Texture2D()
@@ -157,38 +116,6 @@ bool Texture2D::IsSupportExtension(const std::wstring& path)
 	return false;
 }
 
-uint32_t Texture2D::FindAstcBlockSizeFromFile(const std::wstring& path)
-{
-	static const std::unordered_map<EAstcBlockSize, std::wstring> blockSizeMaps = {
-		{ EAstcBlockSize::ASTC_4x4,   L"4x4"   },
-		{ EAstcBlockSize::ASTC_5x4,   L"5x4"   },
-		{ EAstcBlockSize::ASTC_5x5,   L"5x5"   },
-		{ EAstcBlockSize::ASTC_6x5,   L"6x5"   },
-		{ EAstcBlockSize::ASTC_6x6,   L"6x6"   },
-		{ EAstcBlockSize::ASTC_8x5,   L"8x5"   },
-		{ EAstcBlockSize::ASTC_8x6,   L"8x6"   },
-		{ EAstcBlockSize::ASTC_8x8,   L"8x8"   },
-		{ EAstcBlockSize::ASTC_10x5,  L"10x5"  },
-		{ EAstcBlockSize::ASTC_10x6,  L"10x6"  },
-		{ EAstcBlockSize::ASTC_10x8,  L"10x8"  },
-		{ EAstcBlockSize::ASTC_10x10, L"10x10" },
-		{ EAstcBlockSize::ASTC_12x10, L"12x10" },
-		{ EAstcBlockSize::ASTC_12x12, L"12x12" },
-	};
-
-	std::wstring filename = FileManager::Get().RemoveBasePath(path);
-
-	for (const auto& blockSize : blockSizeMaps)
-	{
-		if (filename.find(blockSize.second) != std::wstring::npos)
-		{
-			return static_cast<uint32_t>(blockSize.first);
-		}
-	}
-
-	return static_cast<uint32_t>(EAstcBlockSize::None);
-}
-
 uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 {
 	std::string convertPath = StringUtils::Convert(path);
@@ -238,10 +165,10 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 
 uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 {
-	EAstcBlockSize blockSize = static_cast<EAstcBlockSize>(FindAstcBlockSizeFromFile(path));
-	ASSERT(blockSize != EAstcBlockSize::None, L"%s can't find astc block size...", path.c_str());
+	std::vector<uint8_t> astcData;
+	EAstcBlockSize blockSize = EAstcBlockSize::None;
+	AstcUtils::LoadAstcFromFile(path, astcData, blockSize);
 
-	std::vector<uint8_t> astcData = FileManager::Get().ReadBufferFromFile(path);
 	AstcFileHeader* astcDataPtr = reinterpret_cast<AstcFileHeader*>(astcData.data());
 
 	int32_t xsize = astcDataPtr->xsize[0] + (astcDataPtr->xsize[1] << 8) + (astcDataPtr->xsize[2] << 16);
