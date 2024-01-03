@@ -36,12 +36,6 @@ void StaticMesh::Initialize(const std::vector<Vertex>& vertices, const std::vect
 	GL_ASSERT(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, texture))), "failed to define an array of generic vertex attribute data");
 	GL_ASSERT(glEnableVertexAttribArray(2), "failed to enable a generic vertex attribute array");
 
-	GL_ASSERT(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, tangent))), "failed to define an array of generic vertex attribute data");
-	GL_ASSERT(glEnableVertexAttribArray(3), "failed to enable a generic vertex attribute array");
-
-	GL_ASSERT(glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, bitangent))), "failed to define an array of generic vertex attribute data");
-	GL_ASSERT(glEnableVertexAttribArray(4), "failed to enable a generic vertex attribute array");
-
 	GL_ASSERT(glBindVertexArray(0), "failed to unbind static mesh vertex array object...");
 
 	bIsInitialized_ = true;

@@ -25,9 +25,7 @@ public:
 		Vertex() noexcept
 			: position(0.0f, 0.0f, 0.0f)
 			, normal(0.0f, 0.0f, 0.0f)
-			, texture(0.0f, 0.0f)
-			, tangent(0.0f, 0.0f, 0.0f)
-			, bitangent(0.0f, 0.0f, 0.0f) {}
+			, texture(0.0f, 0.0f) {}
 
 
 		/**
@@ -36,63 +34,25 @@ public:
 		 * @param p 정점의 위치입니다.
 		 * @param n 정점의 법선 벡터입니다.
 		 * @param uv 정점의 텍셀입니다.
-		 * @param t 정점의 접선 벡터입니다.
-		 * @param b 정점의 쌍벡터입니다.
 		 */
 		Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv) noexcept
 			: position(p)
 			, normal(n)
 			, texture(uv) {}
 
-
+		
 		/**
 		 * @brief 위치 정보를 가진 정점의 생성자입니다.
 		 *
 		 * @param p 정점의 위치입니다.
 		 * @param n 정점의 법선 벡터입니다.
 		 * @param uv 정점의 텍셀입니다.
-		 * @param t 정점의 접선 벡터입니다.
-		 * @param b 정점의 쌍벡터입니다.
-		 */
-		Vertex(Vector3f&& p, Vector3f&& n, Vector2f&& uv, Vector3f&& t, Vector3f&& b) noexcept
-			: position(p)
-			, normal(n)
-			, texture(uv)
-			, tangent(t)
-			, bitangent(b) {}
-
-
-		/**
-		 * @brief 위치 정보를 가진 정점의 생성자입니다.
-		 *
-		 * @param p 정점의 위치입니다.
-		 * @param n 정점의 법선 벡터입니다.
-		 * @param uv 정점의 텍셀입니다.
-		 * @param t 정점의 접선 벡터입니다.
-		 * @param b 정점의 쌍벡터입니다.
 		 */
 		Vertex(const Vector3f& p, const Vector3f& n, const Vector2f& uv) noexcept
 			: position(p)
 			, normal(n)
 			, texture(uv) {}
-
-
-		/**
-		 * @brief 위치 정보를 가진 정점의 생성자입니다.
-		 *
-		 * @param p 정점의 위치입니다.
-		 * @param n 정점의 법선 벡터입니다.
-		 * @param uv 정점의 텍셀입니다.
-		 * @param t 정점의 접선 벡터입니다.
-		 * @param b 정점의 쌍벡터입니다.
-		 */
-		Vertex(const Vector3f& p, const Vector3f& n, const Vector2f& uv, const Vector3f& t, const Vector3f& b) noexcept
-			: position(p)
-			, normal(n)
-			, texture(uv)
-			, tangent(t)
-			, bitangent(b) {}
-
+		
 
 		/**
 		 * @brief 위치 정보를 가진 정점의 생성자입니다.
@@ -102,9 +62,7 @@ public:
 		Vertex(Vertex&& instance) noexcept
 			: position(instance.position)
 			, normal(instance.normal)
-			, texture(instance.texture)
-			, tangent(instance.tangent)
-			, bitangent(instance.bitangent) {}
+			, texture(instance.texture) {}
 
 
 		/**
@@ -115,9 +73,7 @@ public:
 		Vertex(const Vertex& instance) noexcept
 			: position(instance.position)
 			, normal(instance.normal)
-			, texture(instance.texture)
-			, tangent(instance.tangent)
-			, bitangent(instance.bitangent) {}
+			, texture(instance.texture) {}
 
 
 		/**
@@ -134,8 +90,6 @@ public:
 			position = instance.position;
 			normal = instance.normal;
 			texture = instance.texture;
-			tangent = instance.tangent;
-			bitangent = instance.bitangent;
 
 			return *this;
 		}
@@ -155,8 +109,6 @@ public:
 			position = instance.position;
 			normal = instance.normal;
 			texture = instance.texture;
-			tangent = instance.tangent;
-			bitangent = instance.bitangent;
 
 			return *this;
 		}
@@ -189,18 +141,6 @@ public:
 		 * @brief 정점의 텍셀입니다.
 		 */
 		Vector2f texture;
-
-
-		/**
-		 * @brief 정점의 접선 벡터입니다.
-		 */
-		Vector3f tangent;
-
-
-		/**
-		 * @brief 정점의 쌍벡터입니다.
-		 */
-		Vector3f bitangent;
 	};
 
 
