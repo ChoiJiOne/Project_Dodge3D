@@ -11,7 +11,6 @@
 #include "GeometryShader2D.h"
 #include "GeometryShader3D.h"
 #include "GlyphShader2D.h"
-#include "Mesh.h"
 #include "MathUtils.h"
 #include "ResourceManager.h"
 #include "Shader.h"
