@@ -81,7 +81,6 @@ void RenderManager::Startup()
 
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"TextureEffect", ResourceManager::Get().CreateResource<Shader>("TextureEffect")        });
 	shaderCache_.insert({ L"Geometry2D",    ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
 	shaderCache_.insert({ L"Geometry3D",    ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
 	shaderCache_.insert({ L"Glyph2D",       ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
@@ -436,27 +435,4 @@ void RenderManager::RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& p
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
 	shader->DrawAxisGrid3D(view, projection, minPosition, maxPosition, gap, color);
-}
-
-void RenderManager::RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh, const Texture2D* textureMap)
-{
-	if (!bIsEnableDepth_)
-	{
-		SetDepthMode(true);
-	}
-
-	Shader* shader = shaderCache_.at(L"TextureEffect");
-	shader->Bind();
-
-	textureMap->Active(0);
-
-	shader->SetMatrix4x4fParameter("world", world);
-	shader->SetMatrix4x4fParameter("view", view);
-	shader->SetMatrix4x4fParameter("projection", projection);
-
-	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind mesh vertex array object...");
-	GL_ASSERT(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0), "failed to render mesh...");
-	GL_ASSERT(glBindVertexArray(0), "failed to unbind mesh vertex array object...");
-
-	shader->Unbind();
 }

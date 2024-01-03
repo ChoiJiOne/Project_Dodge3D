@@ -440,19 +440,7 @@ public:
 	 */
 	void RenderAxisGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, float gap, const Vector4f& color);
 
-
-	/**
-	 * @brief 3D 메시를 텍스처를 이용해서 화면에 그립니다.
-	 *
-	 * @param world 월드 행렬입니다.
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
-	 * @param mesh 화면에 그릴 메시 리소스입니다.
-	 * @param textureMap 화면에 그릴 메시의 텍스처 리소스입니다.
-	 */
-	void RenderMesh3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, const Mesh* mesh, const Texture2D* textureMap);
-
-
+	
 private:
 	/**
 	 * @brief 렌더링 처리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
