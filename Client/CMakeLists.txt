@@ -28,5 +28,5 @@ source_group(Include FILES ${CLIENT_INCLUDE_FILE})
 source_group(Source FILES ${CLIENT_SOURCE_FILE})
 source_group(Script FILES ${CLIENT_SCRIPT_FILE})
 
-set(COMMANDLINE "shaderPath=${CMAKE_SOURCE_DIR}/GameEngine/Shader/ resourcePath=${CMAKE_SOURCE_DIR}/Client/Resource/")
+set(COMMANDLINE "enginePath=${CMAKE_SOURCE_DIR}/GameEngine/ clientPath=${CMAKE_SOURCE_DIR}/Client/")
 set_target_properties(Client PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
