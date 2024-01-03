@@ -28,5 +28,5 @@ source_group(Include FILES ${CLIENT_INCLUDE_FILE})
 source_group(Source FILES ${CLIENT_SOURCE_FILE})
 source_group(Script FILES ${CLIENT_SCRIPT_FILE})
 
-set(COMMANDLINE "enginePath=${CMAKE_SOURCE_DIR}/GameEngine/ clientPath=${CMAKE_SOURCE_DIR}/Client/")
+set(COMMANDLINE "rootPath=${CMAKE_SOURCE_DIR}/ title=Dodge3D x=200 y=200 w=800 h=600 resize=true fullscreen=false")
 set_target_properties(Client PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
