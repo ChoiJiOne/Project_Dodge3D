@@ -70,16 +70,6 @@ public:
 
 private:
 	/**
-	 * @brief 이미지 파일의 확장자가 지원 가능한 파일인지 검사합니다.
-	 * 
-	 * @param 지원 가능한 파일인지 검사할 텍스처 파일 경로입니다.
-	 * 
-	 * @return 텍스처 파일이 지원 가능하다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool IsSupportExtension(const std::wstring& path);
-
-	
-	/**
 	 * @brief 비압축 텍스처 리소스를 생성합니다.
 	 * 
 	 * @param path 이미지 파일의 경로입니다.

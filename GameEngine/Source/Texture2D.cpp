@@ -12,41 +12,6 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
-#define FOURCC_DXT1 0x31545844
-#define FOURCC_DXT3 0x33545844
-#define FOURCC_DXT5 0x35545844
-
-/**
- * @brief DDS 파일의 헤더입니다.
- *
- * @see https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-header
- */
-struct DDSFileHeader
-{
-	uint8_t  magic[4];
-	uint32_t dwSize;
-	uint32_t dwFlags;
-	uint32_t dwHeight;
-	uint32_t dwWidth;
-	uint32_t dwPitchOrLinearSize;
-	uint32_t dwDepth;
-	uint32_t dwMipMapCount;
-	uint32_t dwReserved1[11];
-	uint32_t dwPixelSize;
-	uint32_t dwPixelFlags;
-	uint32_t dwFourCC;
-	uint32_t dwRGBBitCount;
-	uint32_t dwRBitMask;
-	uint32_t dwGBitMask;
-	uint32_t dwBBitMask;
-	uint32_t dwABitMask;
-	uint32_t dwCaps;
-	uint32_t dwCaps2;
-	uint32_t dwCaps3;
-	uint32_t dwCaps4;
-	uint32_t dwReserved2;
-};
-
 Texture2D::~Texture2D()
 {
 	if (bIsInitialized_)
@@ -58,7 +23,7 @@ Texture2D::~Texture2D()
 void Texture2D::Initialize(const std::wstring& path)
 {
 	ASSERT(!bIsInitialized_, "already initialize 2d texture resource...");
-	ASSERT(IsSupportExtension(path), L"%s is not support extension...", path.c_str());
+	ASSERT(TextureUtils::IsSupportExtension(path), L"%s is not support extension...", path.c_str());
 
 	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
 	if (extension == L"astc")
@@ -92,30 +57,6 @@ void Texture2D::Active(uint32_t unit) const
 	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, textureID_), "failed to bind texture...");
 }
 
-bool Texture2D::IsSupportExtension(const std::wstring& path)
-{
-	static const std::array<std::wstring, 7> supportExtensions = {
-		L"jpeg",
-		L"jpg",
-		L"png",
-		L"tga",
-		L"bmp",
-		L"astc", // 압축 포멧
-		L"dds",  // 압축 포멧
-	};
-
-	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
-	for (const auto& supportExtension : supportExtensions)
-	{
-		if (extension == supportExtension)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 {
 	std::string convertPath = StringUtils::Convert(path);
@@ -127,24 +68,8 @@ uint32_t Texture2D::CreateNonCompressionTexture(const std::wstring& path)
 	uint8_t* buffer = stbi_load(convertPath.c_str(), &width, &height, &channels, 0);
 	ASSERT(buffer != nullptr, "failed to load %s image resource...", convertPath.c_str());
 
-	GLenum format = 0;
-	switch (channels)
-	{
-	case 1:
-		format = static_cast<GLenum>(GL_RED);
-		break;
-
-	case 3:
-		format = static_cast<GLenum>(GL_RGB);
-		break;
-
-	case 4:
-		format = static_cast<GLenum>(GL_RGBA);
-		break;
-
-	default:
-		ASSERT(false, "%d is not support image channel...", channels);
-	}
+	GLenum format = TextureUtils::FindTextureFormatFromChannel(channels);
+	ASSERT(format != 0xFFFF, "%d is not support image channel...", channels);
 
 	uint32_t textureID;
 	GL_ASSERT(glGenTextures(1, &textureID), "failed to generate texture object...");
