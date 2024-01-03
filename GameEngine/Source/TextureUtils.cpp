@@ -1,5 +1,6 @@
 #include "TextureUtils.h"
 
+#include <array>
 #include <unordered_map>
 
 #include "Assertion.h"
@@ -22,6 +23,30 @@ std::unordered_map<EAstcBlockSize, std::wstring> blockSizeMaps = {
 	{ EAstcBlockSize::ASTC_12x10, L"12x10" },
 	{ EAstcBlockSize::ASTC_12x12, L"12x12" },
 };
+
+std::array<std::wstring, 7> supportExtensions = {
+	L"jpeg",
+	L"jpg",
+	L"png",
+	L"tga",
+	L"bmp",
+	L"astc", // ¾ÐÃà Æ÷¸ä
+	L"dds",  // ¾ÐÃà Æ÷¸ä
+};
+
+bool TextureUtils::IsSupportExtension(const std::wstring& path)
+{
+	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
+	for (const auto& supportExtension : supportExtensions)
+	{
+		if (extension == supportExtension)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 EAstcBlockSize TextureUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 {

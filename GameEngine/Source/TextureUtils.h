@@ -95,6 +95,22 @@ class TextureUtils
 {
 public:
 	/**
+	 * @brief 이미지 파일의 확장자가 지원 가능한 파일인지 검사합니다.
+	 *
+	 * @param 지원 가능한 파일인지 검사할 텍스처 파일 경로입니다.
+	 *
+	 * @return 텍스처 파일이 지원 가능하다면 true, 그렇지 않으면 false를 반환합니다.
+	 * 
+	 * @note
+	 * - 이미지 파일은 .jpeg, .jpg, .png, .tga, .bmp 를 지원합니다.
+	 * - 압축 포멧은 ASTC와 DXT(S3TC) 형식을 지원합니다.
+	 * - ASTC 압축 포멧의 경우 반드시 astcenc.exe를 이용해서 생성한 파일이여야 합니다.
+	 * - DXT 압축 포멧의 경우 반드시 texconv.exe를 이용해서 생성한 파일이여야 합니다.
+	 */
+	bool IsSupportExtension(const std::wstring& path);
+
+
+	/**
 	 * @brief 파일 이름으로부터 ASTC의 압축 블록 크기를 얻습니다.
 	 * 
 	 * @param path ASTC의 압축 블록 크기를 얻을 압축 텍스처 파일 경로입니다.
