@@ -1,4 +1,4 @@
-#include "CubeMap.h"
+#include "Skybox.h"
 
 #include "Assertion.h"
 #include "FileManager.h"
@@ -8,7 +8,7 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
-CubeMap::~CubeMap()
+Skybox::~Skybox()
 {
 	if (bIsInitialized_)
 	{
@@ -16,8 +16,10 @@ CubeMap::~CubeMap()
 	}
 }
 
-void CubeMap::Initialize(const std::wstring& rightPath, const std::wstring& leftPath, const std::wstring& topPath, const std::wstring& bottomPath, const std::wstring& frontPath, const std::wstring& backPath)
+void Skybox::Initialize(const std::wstring& rightPath, const std::wstring& leftPath, const std::wstring& topPath, const std::wstring& bottomPath, const std::wstring& frontPath, const std::wstring& backPath)
 {
+	ASSERT(!bIsInitialized_, "already initialize cube map texture resource...");
+
 	std::vector<std::string> resourcePaths = {
 		StringUtils::Convert(rightPath),
 		StringUtils::Convert(leftPath),
@@ -71,18 +73,78 @@ void CubeMap::Initialize(const std::wstring& rightPath, const std::wstring& left
 	GL_ASSERT(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE), "failed to set texture object warp r...");
 
 	GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, 0), "failed to unbind texture object...");
+
+	std::vector<float> vertices = {
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f
+	};
+	vertexCount_ = static_cast<uint32_t>(vertices.size());
+
+	GL_ASSERT(glGenVertexArrays(1, &vertexArrayObject_), "failed to generate skybox vertex array...");
+	GL_ASSERT(glGenBuffers(1, &vertexBufferObject_), "failed to generate skybox vertex buffer...");
+	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind skybox vertex array...");
+	GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject_), "failed to bind skybox vertex buffer...");
+	GL_ASSERT(glBufferData(GL_ARRAY_BUFFER, sizeof(float) * static_cast<uint32_t>(vertices.size()), vertices.data(), GL_STATIC_DRAW), "failed to create a new data store for a skybox vertex buffer object...");
+	
+	GL_ASSERT(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0)), "failed to specify the location and data format of the array of generic vertex attributes at index...");
+	GL_ASSERT(glEnableVertexAttribArray(0), "failed to enable vertex attrib array...");
+
+	GL_ASSERT(glBindVertexArray(0), "failed to unbind skybox vertex array...");
+
+	bIsInitialized_ = true;
 }
 
-void CubeMap::Release()
+void Skybox::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	GL_ASSERT(glDeleteTextures(1, &cubeMapID_), "failed to delete cube map texture object...");
+	GL_ASSERT(glDeleteBuffers(1, &vertexBufferObject_), "failed to delete skybox vertex buffer object...");
+	GL_ASSERT(glDeleteVertexArrays(1, &vertexArrayObject_), "failed to delete skybox vertex array object...");
 
 	bIsInitialized_ = false;
 }
 
-void CubeMap::Active(uint32_t unit) const
+void Skybox::Active(uint32_t unit) const
 {
 	GL_ASSERT(glActiveTexture(GL_TEXTURE0 + unit), "failed to active %d texture unit...", (GL_TEXTURE0 + unit));
 	GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapID_), "failed to bind cube map texture...");
