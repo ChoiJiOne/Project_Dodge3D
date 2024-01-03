@@ -70,13 +70,4 @@ private:
 	 * @param outIndices  생성한 원기둥 상단/하단의 인덱스 목록입니다.
 	 */
 	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
-
-
-	/**
-	 * @brief 정점의 접선 벡터와 쌍벡터를 계산합니다.
-	 *
-	 * @param outVertices 접선 벡터와 쌍벡터를 계산할 정점 목록입니다.
-	 * @param outIndices 접선 벡터와 쌍벡터를 계산할 인덱스 목록입니다.
-	 */
-	static void ComputeTangent(std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };

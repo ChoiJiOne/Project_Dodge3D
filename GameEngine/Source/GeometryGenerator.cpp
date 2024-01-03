@@ -49,8 +49,6 @@ void GeometryGenerator::CreateCube(const Vector3f& size, std::vector<StaticMesh:
 		outVertices.push_back(StaticMesh::Vertex(((normal + side1 + side2) * tsize), normal, textureCoordinates[2]));
 		outVertices.push_back(StaticMesh::Vertex(((normal + side1 - side2) * tsize), normal, textureCoordinates[3]));
 	}
-
-	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -99,8 +97,6 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::v
 			outIndices.push_back((vertical + 1) * stride + (horizon + 0) % stride);
 		}
 	}
-
-	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -140,8 +136,6 @@ void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tess
 
 	CreateCylinderCap(radius, height, tessellation, true, outVertices, outIndices);
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
-
-	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -180,8 +174,6 @@ void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessella
 	}
 
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
-	
-	ComputeTangent(outVertices, outIndices);
 }
 
 void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
@@ -221,37 +213,5 @@ void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t t
 		Vector2f textureCoordinate = Vector2f(dx, dz) * textureScale + Vector2f(0.5f, 0.5f);
 
 		outVertices.push_back(StaticMesh::Vertex(position, normal, textureCoordinate));
-	}
-}
-
-void GeometryGenerator::ComputeTangent(std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
-{
-	for (std::size_t index = 0; index < outIndices.size(); index += 3)
-	{
-		const StaticMesh::Vertex& v0 = outVertices[outIndices[index + 0]];
-		const StaticMesh::Vertex& v1 = outVertices[outIndices[index + 1]];
-		const StaticMesh::Vertex& v2 = outVertices[outIndices[index + 2]];
-
-		Vector3f e0 = v1.position - v0.position;
-		Vector3f e1 = v2.position - v0.position;
-		Vector2f deltaUV0 = v1.texture - v0.texture;
-		Vector2f deltaUV1 = v2.texture - v0.texture;
-
-		float f = 1.0f / MathUtils::CrossProduct(deltaUV0, deltaUV1);
-
-		Vector3f tangent = MathUtils::Normalize(Vector3f(
-			f * (deltaUV1.y * e0.x - deltaUV0.y * e1.x),
-			f * (deltaUV1.y * e0.y - deltaUV0.y * e1.y),
-			f * (deltaUV1.y * e0.z - deltaUV0.y * e1.z)
-		));
-
-		outVertices[outIndices[index + 0]].tangent = tangent;
-		outVertices[outIndices[index + 0]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v0.normal, tangent));
-
-		outVertices[outIndices[index + 1]].tangent = tangent;
-		outVertices[outIndices[index + 1]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v1.normal, tangent));
-
-		outVertices[outIndices[index + 2]].tangent = tangent;
-		outVertices[outIndices[index + 2]].bitangent = MathUtils::Normalize(MathUtils::CrossProduct(v2.normal, tangent));
 	}
 }
