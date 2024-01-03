@@ -12,7 +12,7 @@
 #include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "MathUtils.h"
-#include "Mesh.h"
+#include "StaticMesh.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "Shader.h"
