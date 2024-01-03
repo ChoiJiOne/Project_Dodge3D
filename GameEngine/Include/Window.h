@@ -20,6 +20,22 @@ class Window
 {
 public:
 	/**
+	 * @brief 윈도우 생성에 사용될 구조체입니다.
+	 */
+	struct WindowConstructParam
+	{
+		std::wstring title;
+		int32_t x;
+		int32_t y;
+		int32_t w;
+		int32_t h;
+		bool bIsResizable;
+		bool bIsFullscreenMode;
+	};
+
+
+public:
+	/**
 	 * @brief 윈도우를 생성하고 관리하는 클래스의 디폴트 생성자입니다.
 	 */
 	Window() = default;
@@ -35,6 +51,16 @@ public:
 	 * @brief 윈도우를 생성하고 관리하는 클래스의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
 	DISALLOW_COPY_AND_ASSIGN(Window);
+
+
+	/**
+	 * @brief 윈도우를 생성합니다.
+	 * 
+	 * @note 풀 스크린 모드 설정 시 일부 옵션은 무시됩니다.
+	 * 
+	 * @param windowConstructParam 윈도우 생성 파라미터입니다.
+	 */
+	void Create(const WindowConstructParam& windowConstructParam);
 
 
 	/**

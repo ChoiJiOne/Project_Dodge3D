@@ -11,6 +11,19 @@ Window::~Window()
 	Destroy();
 }
 
+void Window::Create(const WindowConstructParam& windowConstructParam)
+{
+	Create(
+		windowConstructParam.title,
+		windowConstructParam.x,
+		windowConstructParam.y,
+		windowConstructParam.w,
+		windowConstructParam.h,
+		windowConstructParam.bIsResizable,
+		windowConstructParam.bIsFullscreenMode
+	);
+}
+
 void Window::Create(const std::wstring& title, int32_t x, int32_t y, int32_t w, int32_t h, bool bIsResizable, bool bIsFullscreenMode)
 {
 	ASSERT(windowHandle_ == nullptr, "already create window...");
