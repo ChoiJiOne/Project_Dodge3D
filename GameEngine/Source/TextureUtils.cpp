@@ -1,11 +1,13 @@
 #include "TextureUtils.h"
 
-#include <array>
-#include <unordered_map>
-
 #include "Assertion.h"
 #include "FileManager.h"
 #include "StringUtils.h"
+
+#include <array>
+#include <unordered_map>
+
+#include <stb_image.h>
 
 std::unordered_map<EAstcBlockSize, std::wstring> blockSizeMaps = {
 	{ EAstcBlockSize::ASTC_4x4,   L"4x4"   },
@@ -86,6 +88,22 @@ EAstcBlockSize TextureUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 	}
 
 	return EAstcBlockSize::None;
+}
+
+void TextureUtils::LoadImageFromFile(const std::wstring& path, int32_t& outWidth, int32_t& outHeight, int32_t& outChannels, std::vector<uint8_t>& outBuffer)
+{
+	std::string convertPath = StringUtils::Convert(path);
+
+	uint8_t* bufferPtr = stbi_load(convertPath.c_str(), &outWidth, &outHeight, &outChannels, 0);
+	ASSERT(bufferPtr != nullptr, "failed to load %s image file...", convertPath.c_str());
+
+	std::size_t bufferSize = static_cast<std::size_t>(outWidth * outHeight * outChannels);
+	outBuffer.resize(bufferSize);
+
+	std::copy(bufferPtr, bufferPtr + bufferSize, &outBuffer[0]);
+
+	stbi_image_free(bufferPtr);
+	bufferPtr = nullptr;
 }
 
 void TextureUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize)

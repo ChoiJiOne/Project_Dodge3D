@@ -142,6 +142,20 @@ public:
 
 
 	/**
+	 * @brief 이미지 파일을 로딩합니다.
+	 * 
+	 * @param path 이미지 파일의 경로입니다.
+	 * @param outWidth 이미지의 가로 크기입니다.
+	 * @param outHeight 이미지의 세로 크기입니다.
+	 * @param outChannels 이미지의 픽셀 체널입니다.
+	 * @param outBuffer 이미지의 버퍼입니다.
+	 * 
+	 * @note 이미지 파일은 .jpeg, .jpg, .png, .tga, .bmp 를 지원합니다.
+	 */
+	static void LoadImageFromFile(const std::wstring& path, int32_t& outWidth, int32_t& outHeight, int32_t& outChannels, std::vector<uint8_t>& outBuffer);
+
+
+	/**
 	 * @brief ASTC 압축 텍스처 파일을 로딩합니다.
 	 * 
 	 * @param path ASTC 압축 텍스처 파일의 경로입니다.
