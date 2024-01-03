@@ -3,7 +3,6 @@
 #include <array>
 
 #include "Shader.h"
-#include "Vertex.h"
 
 class TTFont; // TTFont를 사용하기 위한 전방 선언입니다.
 
