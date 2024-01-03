@@ -255,23 +255,30 @@ void GeometryShader2D::DrawWireframeEllipse2D(const Matrix4x4f& ortho, const Vec
 void GeometryShader2D::DrawGrid2D(const Matrix4x4f& ortho, float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color)
 {
 	ASSERT((strideX >= 1.0f && strideY >= 1.0f), "The values of strideX and strideY are too small : %f, %f", strideX, strideY);
+	
+	float minXPosition = MathUtils::Min<float>(minX, maxX);
+	float maxXPosition = MathUtils::Max<float>(minX, maxX);
+	float minYPosition = MathUtils::Min<float>(minY, maxY);
+	float maxYPosition = MathUtils::Max<float>(minY, maxY);
 
-	uint32_t vertexIndex = 0;
-	for (float x = minX; x <= maxX; x += strideX)
+	uint32_t vertexCount = 0;
+	for (float x = minXPosition; x <= maxXPosition; x += strideX)
 	{
-		ASSERT(vertexIndex < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexIndex + 1);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(x + 0.5f, minY + 0.5f, 0.0f), color);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(x + 0.5f, maxY + 0.5f, 0.0f), color);
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x + 0.5f, minYPosition + 0.5f, 0.0f), color);
+		
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(x + 0.5f, maxYPosition + 0.5f, 0.0f), color);
 	}
 
-	for (float y = minY; y <= maxY; y += strideY)
+	for (float y = minYPosition; y <= maxYPosition; y += strideY)
 	{
-		ASSERT(vertexIndex < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexIndex + 1);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(minX + 0.5f, y + 0.5f, 0.0f), color);
-		vertices_[vertexIndex++] = VertexPositionColor(Vector3f(maxX + 0.5f, y + 0.5f, 0.0f), color);
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(minXPosition + 0.5f, y + 0.5f, 0.0f), color);
+		
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow grid vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxXPosition + 0.5f, y + 0.5f, 0.0f), color);
 	}
-
-	uint32_t vertexCount = vertexIndex + 1;
 
 	DrawGeometry2D(Matrix4x4f::GetIdentity(), ortho, EDrawType::Lines, vertexCount);
 }
