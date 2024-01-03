@@ -14,6 +14,7 @@
 #include "MathUtils.h"
 #include "ResourceManager.h"
 #include "Shader.h"
+#include "Skybox.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
 #include "Window.h"
@@ -85,7 +86,8 @@ void RenderManager::Startup()
 	shaderCache_.insert({ L"Geometry2D",    ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
 	shaderCache_.insert({ L"Geometry3D",    ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
 	shaderCache_.insert({ L"Glyph2D",       ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
-
+	shaderCache_.insert({ L"Skybox",        ResourceManager::Get().CreateResource<GlyphShader2D>("Skybox")        });
+	
 	for (auto& shader : shaderCache_)
 	{
 		shader.second->Initialize(
@@ -436,4 +438,28 @@ void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& proje
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
 	shader->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
+}
+
+void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	Shader* shader = reinterpret_cast<Shader*>(shaderCache_.at(L"Skybox"));
+	shader->Bind();
+	GL_ASSERT(glDepthFunc(GL_LEQUAL), "failed to set depth test GL_LEQUAL function...");
+
+	shader->SetMatrix4x4fParameter("view", view);
+	shader->SetMatrix4x4fParameter("projection", projection);
+
+	skybox->Active(0);
+
+	GL_ASSERT(glBindVertexArray(skybox->GetVertexArrayObject()), "failed to bind skybox vertex array...");
+	GL_ASSERT(glDrawArrays(GL_TRIANGLES, 0, skybox->GetVertexCount()), "failed to draw skybox...");
+	GL_ASSERT(glBindVertexArray(0), "failed to unbind skybox vertex array...");
+
+	GL_ASSERT(glDepthFunc(GL_LESS), "failed to set depth test GL_LESS function...");
+	shader->Unbind();
 }

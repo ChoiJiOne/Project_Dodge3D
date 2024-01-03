@@ -16,6 +16,7 @@
 
 class Window;
 class Shader;
+class Skybox;
 class Mesh;
 class Texture2D;
 class TTFont;
@@ -440,6 +441,16 @@ public:
 	 * @param color 격자의 색상입니다.
 	 */
 	void RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color);
+
+
+	/**
+	 * @brief 스카이 박스를 화면에 그립니다.
+	 * 
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param skybox 화면에 그릴 스카이 박스입니다.
+	 */
+	void RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox);
 
 	
 private:
