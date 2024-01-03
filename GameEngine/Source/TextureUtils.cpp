@@ -113,3 +113,35 @@ void TextureUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_
 
 	outAstcBuffer = FileManager::Get().ReadBufferFromFile(path);
 }
+
+void TextureUtils::LoadDxtFromFile(const std::wstring& path, std::vector<uint8_t>& outDxtBuffer, uint32_t& outFormat, uint32_t& outBlockSize)
+{
+	outDxtBuffer = FileManager::Get().ReadBufferFromFile(path);
+	DDSFileHeader* dxtDataPtr = reinterpret_cast<DDSFileHeader*>(outDxtBuffer.data());
+
+	std::string ddsFileCode;
+	for (std::size_t index = 0; index < 4; ++index)
+	{
+		ddsFileCode += dxtDataPtr->magic[index];
+	}
+	ASSERT(ddsFileCode == "DDS ", L"invalid  %s dds file code...", path.c_str());
+
+	switch (dxtDataPtr->dwFourCC)
+	{
+	case FOURCC_DXT1:
+		outFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		outBlockSize = 8;
+		return;
+
+	case FOURCC_DXT3:
+		outFormat = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+		outBlockSize = 16;
+		return;
+
+	case FOURCC_DXT5:
+		outFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		outBlockSize = 16;
+		return;
+	}
+	ASSERT(false, " %d is not support DXT format or invalid DDS file format...", dxtDataPtr->dwFourCC);
+}

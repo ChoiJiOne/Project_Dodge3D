@@ -168,4 +168,19 @@ public:
 	 * - 반드시 astcenc.exe 파일로 생성한 파일이여야 합니다.
 	 */
 	static void LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize);
+
+
+	/**
+	 * @brief DXT 압축 텍스처 파일을 로딩합니다.
+	 * 
+	 * @param path DXT 압축 텍스처 파일의 경로입니다.
+	 * @param outFormat DXT 압축 텍스처의 포멧입니다.
+	 * @param outBlockSize DXT 압축 텍스처의 블록 크기입니다.
+	 * 
+	 * @note
+	 * - 파일 이름 내부에 반드시 DXT 압축 형식이 포함되어 있어야 합니다.
+	 * - ex. example_dxt1.dds, example_dxt3.dds
+	 * - 반드시 texconv.exe 파일로 생성한 파일이여야 합니다.
+	 */
+	static void LoadDxtFromFile(const std::wstring& path, std::vector<uint8_t>& outDxtBuffer, uint32_t& outFormat, uint32_t& outBlockSize);
 };
