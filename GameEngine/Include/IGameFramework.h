@@ -22,6 +22,7 @@
 #include "Shader.h"
 #include "StaticMesh.h"
 #include "StringUtils.h"
+#include "Skybox.h"
 #include "Texture2D.h"
 #include "TTFont.h"
 #include "Window.h"
