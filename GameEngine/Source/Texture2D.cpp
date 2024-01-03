@@ -115,44 +115,18 @@ uint32_t Texture2D::CreateAstcCompressionTexture(const std::wstring& path)
 
 uint32_t Texture2D::CreateDxtCompressionTexture(const std::wstring& path)
 {
-	std::vector<uint8_t> dxtData = FileManager::Get().ReadBufferFromFile(path);
+	std::vector<uint8_t> dxtData;
+	GLenum format;
+	uint32_t blockSize;
+	TextureUtils::LoadDxtFromFile(path, dxtData, format, blockSize);
+
 	DDSFileHeader* dxtDataPtr = reinterpret_cast<DDSFileHeader*>(dxtData.data());
-
-	std::string ddsFileCode;
-	for (std::size_t index = 0; index < 4; ++index)
-	{
-		ddsFileCode += dxtDataPtr->magic[index];
-	}
-	ASSERT(ddsFileCode == "DDS ", L"invalid  %s dds file code...", path.c_str());
-
 	uint32_t width = dxtDataPtr->dwWidth;
 	uint32_t height = dxtDataPtr->dwHeight;
 	uint32_t linearSize = dxtDataPtr->dwPitchOrLinearSize;
 	uint32_t mipMapCount = dxtDataPtr->dwMipMapCount;
-	uint32_t fourCC = dxtDataPtr->dwFourCC;
 	uint32_t bufferSize = mipMapCount > 1 ? linearSize * 2 : linearSize;
 	uint8_t* bufferPtr = reinterpret_cast<uint8_t*>(&dxtDataPtr[1]);
-
-	GLenum format;
-	uint32_t blockSize;
-	switch (fourCC)
-	{
-	case FOURCC_DXT1:
-		format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-		blockSize = 8;
-		break;
-	case FOURCC_DXT3:
-		format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-		blockSize = 16;
-		break;
-	case FOURCC_DXT5:
-		format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		blockSize = 16;
-		break;
-	default:
-		ASSERT(false, " %d is not support DXT format or invalid DDS file format...", fourCC);
-		return 0;
-	}
 
 	uint32_t textureID;
 	GL_ASSERT(glGenTextures(1, &textureID), "failed to generate texture object...");
