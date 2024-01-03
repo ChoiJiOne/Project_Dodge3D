@@ -4,6 +4,7 @@
 #include "FileManager.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
+#include "TextureUtils.h"
 
 #include <glad/glad.h>
 #include <stb_image.h>
