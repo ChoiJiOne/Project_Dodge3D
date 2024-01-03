@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <vector>
+
 
 
 /**
@@ -66,4 +69,19 @@ public:
 	 * - 반드시 astcenc.exe 파일로 생성한 파일이여야 합니다.
 	 */
 	static EAstcBlockSize FindAstcBlockSizeFromFile(const std::wstring& path);
+
+
+	/**
+	 * @brief ASTC 압축 텍스처 파일을 로딩합니다.
+	 * 
+	 * @param path ASTC 압축 텍스처 파일의 경로입니다.
+	 * @param outAstcBuffer ASTC 압축 텍스처 파일의 버퍼입니다.
+	 * @param outBlockSize ASTC 압축 텍스처의 압축 블록 크기입니다.
+	 * 
+	 * @note 
+	 * - 파일 이름 내부에 반드시 압축 블럭 크기가 있어야 합니다.
+	 * - ex. example_4x4.astc, example_6x6.astc
+	 * - 반드시 astcenc.exe 파일로 생성한 파일이여야 합니다.
+	 */
+	static void LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize);
 };

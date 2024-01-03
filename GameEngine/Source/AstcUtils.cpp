@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "Assertion.h"
 #include "FileManager.h"
 #include "StringUtils.h"
 
@@ -35,4 +36,12 @@ EAstcBlockSize AstcUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 	}
 
 	return EAstcBlockSize::None;
+}
+
+void AstcUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_t>& outAstcBuffer, EAstcBlockSize& outBlockSize)
+{
+	outBlockSize = FindAstcBlockSizeFromFile(path);
+	ASSERT(outBlockSize != EAstcBlockSize::None, L"%s can't find astc block size...", path.c_str());
+
+	outAstcBuffer = FileManager::Get().ReadBufferFromFile(path);
 }
