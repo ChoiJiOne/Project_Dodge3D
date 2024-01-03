@@ -29,6 +29,16 @@ void ClientApplication::Shutdown()
 
 void ClientApplication::Run()
 {
+	Skybox* skybox = ResourceManager::Get().CreateResource<Skybox>("Skybox0");
+	skybox->Initialize(
+		clientPath_ + L"Resource/Right.png",
+		clientPath_ + L"Resource/Left.png",
+		clientPath_ + L"Resource/Top.png",
+		clientPath_ + L"Resource/Bottom.png",
+		clientPath_ + L"Resource/Front.png",
+		clientPath_ + L"Resource/Back.png"
+	);
+
 	timer_.Reset();
 	while (!bIsDoneLoop_)
 	{
@@ -43,7 +53,8 @@ void ClientApplication::Run()
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.01f, 1000.0f);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-		RenderManager::Get().RenderAxisGrid3D(view, projection, (-100.0f, -100.0f, -100.0f), Vector3f(+100.0f, +100.0f, +100.0f), 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
+		RenderManager::Get().RenderSkybox3D(view, projection, skybox);
+		RenderManager::Get().RenderGrid3D(view, projection, -10.0f, 10.0f, 1.0f, -10.0f, 10.0f, 1.0f, Vector4f(0.0f, 0.0f, 0.0f, 0.5f));
 		RenderManager::Get().EndFrame();
 	}
 }
