@@ -34,7 +34,7 @@ public:
 
 
 	/**
-	 * @brief 큐브맵 이미지 파일을 읽고 큐브맵 리소스를 생성합니다.
+	 * @brief 큐브맵 이미지 파일을 읽고 스카이 맵 리소스를 생성합니다.
 	 *
 	 * @param rightPath 큐브맵 RIGHT(+X) 부분의 텍스처 리소스 경로입니다.
 	 * @param leftPath 큐브맵 LEFT(-X) 부분의 텍스처 리소스 경로입니다.
@@ -54,13 +54,13 @@ public:
 
 
 	/**
-	 * @brief 큐브맵 내부 리소스를 할당 해제합니다.
+	 * @brief 스카이 박스 내부 리소스를 할당 해제합니다.
 	 */
 	virtual void Release() override;
 
 
 	/**
-	 * @brief 큐브맵을 활성화합니다.
+	 * @brief 스카이 박스의 큐브맵을 활성화합니다.
 	 * 
 	 * @param unit 활성화 할 텍스처 유닛입니다.
 	 */
