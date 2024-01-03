@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <string>
 
 #include "IResource.h"
@@ -81,6 +82,47 @@ public:
 	 * @return 스카이 박스의 정점 버퍼의 수를 반환합니다.
 	 */
 	uint32_t GetVertexCount() const { return vertexCount_; }
+
+
+private:
+	/**
+	 * @brief 텍스처 큐브맵의 확장자를 얻습니다.
+	 * 
+	 * @param resourcePaths 텍스처 리소스 목록입니다.
+	 * 
+	 * @return 텍스처 리소스들의 확장자를 반환합니다. 하나라도 다르면 none 문자열을 반환합니다.
+	 */
+	std::wstring GetCubemapExtension(const std::vector<std::wstring>& resourcePaths);
+
+
+	/**
+	 * @brief 비압축 포멧 텍스처 큐브맵을 생성합니다.
+	 * 
+	 * @param resourcePaths 비압축 포멧 큐브맵 목록입니다.
+	 */
+	uint32_t CreateNonCompressionCubemap(const std::vector<std::wstring>& resourcePaths);
+
+
+	/**
+	 * @brief ASTC 압축 포멧 텍스처 큐브맵을 생성합니다.
+	 * 
+	 * @param resourcePaths ASTC 압축 포멧 큐브맵 목록입니다.
+	 */
+	uint32_t CreateAstcCompressionCubemap(const std::vector<std::wstring>& resourcePaths);
+
+
+	/**
+	 * @brief DXT 압축 포멧 텍스처 큐브맵을 생성합니다.
+	 * 
+	 * @param resourcePaths DXT 압축 포멧 큐브맵 목록입니다.
+	 */
+	uint32_t CreateDxtCompressionCubemap(const std::vector<std::wstring>& resourcePaths);
+
+
+	/**
+	 * @brief 스카이 박스의 정점 오브젝트를 생성합니다.
+	 */
+	void CreateSkyboxVertexObject();
 
 
 private:
