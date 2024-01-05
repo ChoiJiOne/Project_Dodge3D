@@ -209,6 +209,32 @@ public:
 	);
 
 
+	/**
+	 * @brief 2D 텍스처의 외곽선을 화면에 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param texture 텍스처 리소스입니다.
+	 * @param center 텍스처의 중심 좌표입니다.
+	 * @param width 텍스처의 가로 크기입니다.
+	 * @param height 텍스처의 세로 크기입니다.
+	 * @param rotate 텍스처의 라디안 회전 각도입니다.
+	 * @param silhouetteRGB 텍스처 실루엣의 색상입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f 입니다.
+	 * 
+	 * @see https://github.com/gdquest-demos/godot-shaders/blob/master/godot/Shaders/outline2D_outer.shader
+	 */
+	void DrawOutlineTexture2D(
+		const Matrix4x4f& ortho,
+		const Texture2D* texture,
+		const Vector2f& center,
+		float width,
+		float height,
+		float rotate,
+		const Vector4f& outline,
+		float transparent = 1.0f
+	);
+
+
 private:
 	/**
 	 * @brief 2D 텍스처 그리기를 수행하는 셰이더 내부에서 사용하는 정점입니다.
@@ -349,9 +375,11 @@ private:
 	 * @param ortho 투영 행렬입니다.
 	 * @param texture 텍스처 리소스입니다.
 	 * @param vertexCount 정점 수입니다.
+	 * @param bIsActiveOutline 텍스처의 외곽선 활성화 여부입니다.
 	 * @param transparent 텍스처의 투명도입니다.
+	 * @param outline 텍스처의 외곽선 색상입니다. 기본 값은 흰색입니다.
 	 */
-	void DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4f& ortho, uint32_t vertexCount, const Texture2D* texture, float transparent);
+	void DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4f& ortho, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vector4f& outline = Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 
 private:

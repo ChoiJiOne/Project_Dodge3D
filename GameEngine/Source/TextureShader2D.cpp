@@ -65,7 +65,7 @@ void TextureShader2D::DrawTexture2D(const Matrix4x4f& ortho, const Texture2D* te
 		* MathUtils::CreateRotateZ(rotate)
 		* MathUtils::CreateTranslation(Vector3f(+center.x, +center.y, 0.0f));
 
-	DrawTexture2D(transform, ortho, vertexCount, texture, transparent);
+	DrawTexture2D(transform, ortho, vertexCount, texture, false, transparent);
 }
 
 void TextureShader2D::DrawTexture2D(const Texture2D* texture, float transparent)
@@ -79,7 +79,7 @@ void TextureShader2D::DrawTexture2D(const Texture2D* texture, float transparent)
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(-1.0f, -1.0f, 0.0f), Vector2f(0.0f, 1.0f));
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(+1.0f, -1.0f, 0.0f), Vector2f(1.0f, 1.0f));
 
-	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, transparent);
+	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, false, transparent);
 }
 
 void TextureShader2D::DrawHorizonScrollTexture2D(const Texture2D* texture, float rate, float transparent)
@@ -104,7 +104,7 @@ void TextureShader2D::DrawHorizonScrollTexture2D(const Texture2D* texture, float
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(   +x, -1.0f, 0.0f), Vector2f(0.0f, 1.0f));
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(+1.0f, -1.0f, 0.0f), Vector2f(rate, 1.0f));
 
-	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, transparent);
+	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, false, transparent);
 }
 
 void TextureShader2D::DrawHorizonScrollTexture2D(const Matrix4x4f& ortho, const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, float rate, float transparent)
@@ -139,7 +139,7 @@ void TextureShader2D::DrawHorizonScrollTexture2D(const Matrix4x4f& ortho, const 
 		* MathUtils::CreateRotateZ(rotate)
 		* MathUtils::CreateTranslation(Vector3f(+center.x, +center.y, 0.0f));
 	
-	DrawTexture2D(transform, ortho, vertexCount, texture, transparent);
+	DrawTexture2D(transform, ortho, vertexCount, texture, false, transparent);
 }
 
 void TextureShader2D::DrawVerticalScrollTexture2D(const Texture2D* texture, float rate, float transparent)
@@ -164,7 +164,7 @@ void TextureShader2D::DrawVerticalScrollTexture2D(const Texture2D* texture, floa
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(-1.0f, -1.0f, 0.0f), Vector2f(0.0f, 1.0f - rate));
 	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(+1.0f, -1.0f, 0.0f), Vector2f(1.0f, 1.0f - rate));
 	
-	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, transparent);
+	DrawTexture2D(Matrix4x4f::GetIdentity(), Matrix4x4f::GetIdentity(), vertexCount, texture, false, transparent);
 }
 
 void TextureShader2D::DrawVerticalScrollTexture2D(const Matrix4x4f& ortho, const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, float rate, float transparent)
@@ -199,10 +199,28 @@ void TextureShader2D::DrawVerticalScrollTexture2D(const Matrix4x4f& ortho, const
 		* MathUtils::CreateRotateZ(rotate)
 		* MathUtils::CreateTranslation(Vector3f(+center.x, +center.y, 0.0f));
 
-	DrawTexture2D(transform, ortho, vertexCount, texture, transparent);
+	DrawTexture2D(transform, ortho, vertexCount, texture, false, transparent);
 }
 
-void TextureShader2D::DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4f& ortho, uint32_t vertexCount, const Texture2D* texture, float transparent)
+void TextureShader2D::DrawOutlineTexture2D(const Matrix4x4f& ortho, const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, const Vector4f& outline, float transparent)
+{
+	uint32_t vertexCount = 0;
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x - width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f, 0.0f), Vector2f(0.0f, 0.0f));
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x - width / 2.0f + 0.5f, center.y + height / 2.0f + 0.5f, 0.0f), Vector2f(0.0f, 1.0f));
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f, 0.0f), Vector2f(1.0f, 0.0f));
+
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x + width / 2.0f + 0.5f, center.y - height / 2.0f + 0.5f, 0.0f), Vector2f(1.0f, 0.0f));
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x - width / 2.0f + 0.5f, center.y + height / 2.0f + 0.5f, 0.0f), Vector2f(0.0f, 1.0f));
+	vertices_[vertexCount++] = VertexPositionTexture(Vector3f(center.x + width / 2.0f + 0.5f, center.y + height / 2.0f + 0.5f, 0.0f), Vector2f(1.0f, 1.0f));
+
+	Matrix4x4f transform = MathUtils::CreateTranslation(Vector3f(-center.x, -center.y, 0.0f))
+		* MathUtils::CreateRotateZ(rotate)
+		* MathUtils::CreateTranslation(Vector3f(+center.x, +center.y, 0.0f));
+
+	DrawTexture2D(transform, ortho, vertexCount, texture, true, transparent, outline);
+}
+
+void TextureShader2D::DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4f& ortho, uint32_t vertexCount, const Texture2D* texture, bool bIsActiveOutline, float transparent, const Vector4f& outline)
 {
 	const void* bufferPtr = reinterpret_cast<const void*>(vertices_.data());
 	uint32_t bufferByteSize = static_cast<uint32_t>(VertexPositionTexture::GetStride() * vertices_.size());
@@ -214,7 +232,9 @@ void TextureShader2D::DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4
 
 	Shader::SetMatrix4x4fParameter("transform", transform);
 	Shader::SetMatrix4x4fParameter("ortho", ortho);
+	Shader::SetBoolParameter("bIsActiveOutline", bIsActiveOutline);
 	Shader::SetFloatParameter("transparent", transparent);
+	Shader::SetVector4fParameter("outlineRGBA", outline);
 
 	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 2d texture vertex array...");
 	GL_ASSERT(glDrawArrays(GL_TRIANGLES, 0, vertexCount), "failed to draw 2d texture...");
