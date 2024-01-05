@@ -230,11 +230,11 @@ void TextureShader2D::DrawTexture2D(const Matrix4x4f& transform, const Matrix4x4
 
 	texture->Active(0);
 
-	Shader::SetMatrix4x4fParameter("transform", transform);
-	Shader::SetMatrix4x4fParameter("ortho", ortho);
-	Shader::SetBoolParameter("bIsActiveOutline", bIsActiveOutline);
-	Shader::SetFloatParameter("transparent", transparent);
-	Shader::SetVector4fParameter("outlineRGBA", outline);
+	Shader::SetUniform("transform", transform);
+	Shader::SetUniform("ortho", ortho);
+	Shader::SetUniform("bIsActiveOutline", bIsActiveOutline);
+	Shader::SetUniform("transparent", transparent);
+	Shader::SetUniform("outlineRGBA", outline);
 
 	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 2d texture vertex array...");
 	GL_ASSERT(glDrawArrays(GL_TRIANGLES, 0, vertexCount), "failed to draw 2d texture...");

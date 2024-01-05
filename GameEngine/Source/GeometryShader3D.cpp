@@ -177,9 +177,9 @@ void GeometryShader3D::DrawGeometry3D(const Matrix4x4f& world, const Matrix4x4f&
 
 	Shader::Bind();
 
-	Shader::SetMatrix4x4fParameter("world", world);
-	Shader::SetMatrix4x4fParameter("view", view);
-	Shader::SetMatrix4x4fParameter("projection", projection);
+	Shader::SetUniform("world", world);
+	Shader::SetUniform("view", view);
+	Shader::SetUniform("projection", projection);
 
 	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 3d geometry vertex array...");
 	GL_ASSERT(glDrawArrays(static_cast<GLenum>(drawType), 0, vertexCount), "failed to draw 3d geometry...");

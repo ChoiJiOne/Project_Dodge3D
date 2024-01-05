@@ -71,8 +71,8 @@ void GlyphShader2D::DrawText2D(const Matrix4x4f& ortho, const TTFont* font, cons
 	GL_ASSERT(glActiveTexture(GL_TEXTURE0), "failed to active glyph texture atlas...");
 	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, font->GetGlyphAtlasID()), "failed to bind glyph texture atlas...");
 
-	Shader::SetMatrix4x4fParameter("ortho", ortho);
-	Shader::SetVector4fParameter("glyphColor", color);
+	Shader::SetUniform("ortho", ortho);
+	Shader::SetUniform("glyphColor", color);
 
 	glBindVertexArray(vertexArrayObject_);
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount);

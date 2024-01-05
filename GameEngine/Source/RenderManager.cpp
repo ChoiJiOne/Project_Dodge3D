@@ -530,8 +530,8 @@ void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& pro
 	shader->Bind();
 	GL_ASSERT(glDepthFunc(GL_LEQUAL), "failed to set depth test GL_LEQUAL function...");
 
-	shader->SetMatrix4x4fParameter("view", view);
-	shader->SetMatrix4x4fParameter("projection", projection);
+	shader->SetUniform("view", view);
+	shader->SetUniform("projection", projection);
 
 	skybox->Active(0);
 

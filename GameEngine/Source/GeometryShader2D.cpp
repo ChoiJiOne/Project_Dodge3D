@@ -294,11 +294,11 @@ void GeometryShader2D::DrawGeometry2D(const Matrix4x4f& transform, const Matrix4
 	Shader::Bind();
 	if (drawType == EDrawType::Points)
 	{
-		Shader::SetFloatParameter("pointSize", pointSize_);
+		Shader::SetUniform("pointSize", pointSize_);
 	}
 
-	Shader::SetMatrix4x4fParameter("transform", transform);
-	Shader::SetMatrix4x4fParameter("ortho", ortho);
+	Shader::SetUniform("transform", transform);
+	Shader::SetUniform("ortho", ortho);
 
 	GL_ASSERT(glBindVertexArray(vertexArrayObject_), "failed to bind 2d geometry vertex array...");
 	GL_ASSERT(glDrawArrays(static_cast<GLenum>(drawType), 0, vertexCount), "failed to draw 2d geometry...");
