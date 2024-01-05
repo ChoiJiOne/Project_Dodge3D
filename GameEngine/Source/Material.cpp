@@ -2,6 +2,14 @@
 
 #include "Assertion.h"
 
+Material::~Material()
+{
+	if (bIsInitialized_)
+	{
+		Release();
+	}
+}
+
 void Material::Initialize(const Vector3f& ambient, const Vector3f& diffuse, const Vector3f& specular, float shininess)
 {
 	ASSERT(!bIsInitialized_, "already initialize material resource...");
