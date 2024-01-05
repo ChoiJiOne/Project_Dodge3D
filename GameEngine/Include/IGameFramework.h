@@ -16,6 +16,7 @@
 #include "GLAssertion.h"
 #include "InputManager.h"
 #include "Macro.h"
+#include "Material.h"
 #include "MathUtils.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
