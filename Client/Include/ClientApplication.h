@@ -60,4 +60,9 @@ private:
 
 	Matrix4x4f view_;
 	Matrix4x4f projection_;
+	StaticMesh* floor_ = nullptr;
+	Material* chrome_ = nullptr;
+	StaticMesh* sphere_ = nullptr;
+	Material* gold_ = nullptr;
+	Shader* shader_ = nullptr;
 };
