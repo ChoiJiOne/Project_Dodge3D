@@ -45,9 +45,14 @@ void ClientApplication::Run()
 	{
 		timer_.Tick();
 		InputManager::Get().Tick();
+		{ // 업데이트 시작...
+
+		}
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+		{ // 렌더링 시작...
 
+		}
 		RenderManager::Get().EndFrame();
 	}
 }
