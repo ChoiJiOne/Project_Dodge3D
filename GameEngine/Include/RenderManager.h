@@ -476,6 +476,29 @@ public:
 
 
 	/**
+	 * @brief 2D 텍스처의 외곽선을 화면에 그립니다.
+	 *
+	 * @param ortho 직교 투영 행렬입니다.
+	 * @param texture 텍스처 리소스입니다.
+	 * @param center 텍스처의 중심 좌표입니다.
+	 * @param width 텍스처의 가로 크기입니다.
+	 * @param height 텍스처의 세로 크기입니다.
+	 * @param rotate 텍스처의 라디안 회전 각도입니다.
+	 * @param silhouetteRGB 텍스처 실루엣의 색상입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f 입니다.
+	 */
+	void RenderOutlineTexture2D(
+		const Texture2D* texture,
+		const Vector2f& center,
+		float width,
+		float height,
+		float rotate,
+		const Vector4f& outline,
+		float transparent = 1.0f
+	);
+
+
+	/**
 	 * @brief 화면에 2D 격자를 그립니다.
 	 *
 	 * @param minX X좌표의 최소값입니다.

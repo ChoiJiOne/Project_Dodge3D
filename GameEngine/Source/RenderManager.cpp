@@ -420,6 +420,17 @@ void RenderManager::RenderVerticalScrollTexture2D(const Texture2D* texture, cons
 	shader->DrawVerticalScrollTexture2D(screenOrtho_, texture, center, width, height, rotate, rate, transparent);
 }
 
+void RenderManager::RenderOutlineTexture2D(const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, const Vector4f& outline, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawOutlineTexture2D(screenOrtho_, texture, center, width, height, rotate, outline, transparent);
+}
+
 void RenderManager::RenderGrid2D(float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color)
 {
 	if (bIsEnableDepth_)
