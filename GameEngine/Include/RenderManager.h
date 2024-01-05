@@ -17,7 +17,6 @@
 class Window;
 class Shader;
 class Skybox;
-class Mesh;
 class Texture2D;
 class TTFont;
 
