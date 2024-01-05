@@ -56,4 +56,11 @@ private:
 	 * @brief 게임 타이머입니다.
 	 */
 	GameTimer timer_;
+
+
+	/**
+	 * @brief 아래의 멤버 변수는 기능 구현을 위한 멤버 변수입니다.
+	 */
+	Matrix4x4f view_;
+	Matrix4x4f projection_;
 };
