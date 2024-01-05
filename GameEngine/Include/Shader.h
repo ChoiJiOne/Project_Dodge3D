@@ -84,7 +84,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetBoolParameter(const std::string& name, bool value);
+	void SetUniform(const std::string& name, bool value);
 
 
 	/**
@@ -93,7 +93,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetIntParameter(const std::string& name, int32_t value);
+	void SetUniform(const std::string& name, int32_t value);
 	
 
 	/**
@@ -102,7 +102,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetFloatParameter(const std::string& name, float value);
+	void SetUniform(const std::string& name, float value);
 
 	
 	/**
@@ -111,7 +111,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector2fParameter(const std::string& name, const Vector2f& value);
+	void SetUniform(const std::string& name, const Vector2f& value);
 	
 
 	/**
@@ -121,7 +121,7 @@ public:
 	 * @param x 유니폼 변수의 x 값입니다.
 	 * @param y 유니폼 변수의 y 값입니다.
 	 */
-	void SetVector2fParameter(const std::string& name, float x, float y);
+	void SetUniform(const std::string& name, float x, float y);
 	
 
 	/**
@@ -130,7 +130,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector2iParameter(const std::string& name, const Vector2i& value);
+	void SetUniform(const std::string& name, const Vector2i& value);
 
 
 	/**
@@ -140,7 +140,7 @@ public:
 	 * @param x 유니폼 변수의 x 값입니다.
 	 * @param y 유니폼 변수의 y 값입니다.
 	 */
-	void SetVector2iParameter(const std::string& name, int32_t x, int32_t y);
+	void SetUniform(const std::string& name, int32_t x, int32_t y);
 
 
 	/**
@@ -149,7 +149,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector3fParameter(const std::string& name, const Vector3f& value);
+	void SetUniform(const std::string& name, const Vector3f& value);
 	
 
 	/**
@@ -160,7 +160,7 @@ public:
 	 * @param y 유니폼 변수의 y 값입니다.
 	 * @param z 유니폼 변수의 z 값입니다.
 	 */
-	void SetVector3fParameter(const std::string& name, float x, float y, float z);
+	void SetUniform(const std::string& name, float x, float y, float z);
 	
 
 	/**
@@ -169,7 +169,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector3iParameter(const std::string& name, const Vector3i& value);
+	void SetUniform(const std::string& name, const Vector3i& value);
 
 	
 	/**
@@ -180,7 +180,7 @@ public:
 	 * @param y 유니폼 변수의 y 값입니다.
 	 * @param z 유니폼 변수의 z 값입니다.
 	 */
-	void SetVector3iParameter(const std::string& name, int32_t x, int32_t y, int32_t z);
+	void SetUniform(const std::string& name, int32_t x, int32_t y, int32_t z);
 	
 
 	/**
@@ -189,7 +189,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector4fParameter(const std::string& name, const Vector4f& value);
+	void SetUniform(const std::string& name, const Vector4f& value);
 	
 
 	/**
@@ -201,7 +201,7 @@ public:
 	 * @param z 유니폼 변수의 z 값입니다.
 	 * @param w 유니폼 변수의 w 값입니다.
 	 */
-	void SetVector4fParameter(const std::string& name, float x, float y, float z, float w);
+	void SetUniform(const std::string& name, float x, float y, float z, float w);
 	
 
 	/**
@@ -210,7 +210,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetVector4iParameter(const std::string& name, const Vector4i& value);
+	void SetUniform(const std::string& name, const Vector4i& value);
 
 
 	/**
@@ -222,7 +222,7 @@ public:
 	 * @param z 유니폼 변수의 z 값입니다.
 	 * @param w 유니폼 변수의 w 값입니다.
 	 */
-	void SetVector4iParameter(const std::string& name, int32_t x, int32_t y, int32_t z, int32_t w);
+	void SetUniform(const std::string& name, int32_t x, int32_t y, int32_t z, int32_t w);
 
 
 	/**
@@ -231,7 +231,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetMatrix2x2fParameter(const std::string& name, const Matrix2x2f& value);
+	void SetUniform(const std::string& name, const Matrix2x2f& value);
 
 
 	/**
@@ -240,7 +240,7 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetMatrix3x3fParameter(const std::string& name, const Matrix3x3f& value);
+	void SetUniform(const std::string& name, const Matrix3x3f& value);
 
 
 	/**
@@ -249,10 +249,9 @@ public:
 	 * @param name 유니폼 변수의 이름입니다.
 	 * @param value 유니폼 변수의 설정 값입니다.
 	 */
-	void SetMatrix4x4fParameter(const std::string& name, const Matrix4x4f& value);
+	void SetUniform(const std::string& name, const Matrix4x4f& value);
 
 
-protected:
 	/**
 	 * @brief 셰이더 내 유니폼 객체의 위치를 얻습니다.
 	 *
@@ -265,6 +264,7 @@ protected:
 	int32_t GetUniformLocation(const std::string& uniformName);
 
 
+protected:
 	/**
 	 * @brief 버텍스로 부터 다이나믹 버텍스 버퍼를 씁니다.
 	 * 
