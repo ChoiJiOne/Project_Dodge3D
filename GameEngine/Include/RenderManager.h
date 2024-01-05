@@ -327,6 +327,155 @@ public:
 
 
 	/**
+	 * @brief 화면에 2D 텍스처를 그립니다.
+	 * 
+	 * @param texture 텍스처 리소스입니다.
+	 * @param center 텍스처의 중심 좌표입니다.
+	 * @param width 텍스처의 가로 크기입니다.
+	 * @param height 텍스처의 세로 크기입니다.
+	 * @param rotate 텍스처의 라디안 회전 각도입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderTexture2D(
+		const Texture2D* texture,
+		const Vector2f& center,
+		float width,
+		float height,
+		float rotate,
+		float transparent = 1.0f
+	);
+
+
+	/**
+	 * @brief 화면에 2D 텍스처를 그립니다.
+	 *
+	 * @note 2D 텍스처를 윈도우 전체에 채워지도록 그립니다.
+	 *
+	 * @param texture 텍스처 리소스입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderTexture2D(const Texture2D* texture, float transparent = 1.0f);
+
+
+	/**
+	 * @brief 가로로 스크롤된 2D 텍스처를 그립니다.
+	 *
+	 * @note
+	 * - 2D 텍스처를 윈도우 전체에 채워지도록 그립니다.
+	 * - 텍스처 분할 비율은 다음과 같습니다.
+	 * ┌────────────┬──────────────────┐
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │ 1.0f - rate│       rate       │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * └────────────┴──────────────────┘
+	 *
+	 * @param texture 텍스처 리소스입니다.
+	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderHorizonScrollTexture2D(const Texture2D* texture, float rate, float transparent = 1.0f);
+
+
+	/**
+	 * @brief 가로로 스크롤된 2D 텍스처를 그립니다.
+	 *
+	 * @note
+	 * - 텍스처 분할 비율은 다음과 같습니다.
+	 * ┌────────────┬──────────────────┐
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │ 1.0f - rate│       rate       │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * └────────────┴──────────────────┘
+	 *
+	 * @param texture 텍스처 리소스입니다.
+	 * @param center 텍스처의 중심 좌표입니다.
+	 * @param width 텍스처의 가로 크기입니다.
+	 * @param height 텍스처의 세로 크기입니다.
+	 * @param rotate 텍스처의 회전 각도입니다. 단위는 라디안입니다.
+	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderHorizonScrollTexture2D(
+		const Texture2D* texture,
+		const Vector2f& center,
+		float width,
+		float height,
+		float rotate,
+		float rate,
+		float transparent = 1.0f
+	);
+
+
+	/**
+	 * @brief 세로로 스크롤된 2D 텍스처를 그립니다.
+	 *
+	 * @note
+	 * - 2D 텍스처를 윈도우 전체에 채워지도록 그립니다.
+	 * - 텍스처 분할 비율은 다음과 같습니다.
+	 * ┌─────────────────────────────┐
+	 * │                             │
+	 * │                             │
+	 * │              rate           │
+	 * │                             │
+	 * ├─────────────────────────────┤
+	 * │                             │
+	 * │          1.0f - rate        │
+	 * │                             │
+	 * └─────────────────────────────┘
+	 *
+	 * @param texture 텍스처 리소스입니다.
+	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderVerticalScrollTexture2D(const Texture2D* texture, float rate, float transparent = 1.0f);
+
+
+	/**
+	 * @brief 세로로 스크롤된 2D 텍스처를 그립니다.
+	 *
+	 * @note
+	 * - 텍스처 분할 비율은 다음과 같습니다.
+	 * ┌─────────────────────────────┐
+	 * │                             │
+	 * │                             │
+	 * │              rate           │
+	 * │                             │
+	 * ├─────────────────────────────┤
+	 * │                             │
+	 * │          1.0f - rate        │
+	 * │                             │
+	 * └─────────────────────────────┘
+	 * 
+	 * @param texture 텍스처 리소스입니다.
+	 * @param center 텍스처의 중심 좌표입니다.
+	 * @param width 텍스처의 가로 크기입니다.
+	 * @param height 텍스처의 세로 크기입니다.
+	 * @param rotate 텍스처의 회전 각도입니다. 단위는 라디안입니다.
+	 * @param rate 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f 입니다.
+	 * @param transparent 텍스처의 투명도입니다. 기본 값은 1.0f(불투명)입니다.
+	 */
+	void RenderVerticalScrollTexture2D(
+		const Texture2D* texture,
+		const Vector2f& center,
+		float width,
+		float height,
+		float rotate,
+		float rate,
+		float transparent = 1.0f
+	);
+
+
+	/**
 	 * @brief 화면에 2D 격자를 그립니다.
 	 *
 	 * @param minX X좌표의 최소값입니다.

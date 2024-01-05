@@ -17,6 +17,7 @@
 #include "Skybox.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
+#include "TextureShader2D.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
 
@@ -83,10 +84,11 @@ void RenderManager::Startup()
 	shaderPath_ = rootPath + L"GameEngine/Shader/";
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"Geometry2D",    ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
-	shaderCache_.insert({ L"Geometry3D",    ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
-	shaderCache_.insert({ L"Glyph2D",       ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
-	shaderCache_.insert({ L"Skybox",        ResourceManager::Get().CreateResource<GlyphShader2D>("Skybox")        });
+	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D") });
+	shaderCache_.insert({ L"Geometry3D", ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D") });
+	shaderCache_.insert({ L"Glyph2D",    ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
+	shaderCache_.insert({ L"Texture2D",  ResourceManager::Get().CreateResource<TextureShader2D>("Texture2D")   });
+	shaderCache_.insert({ L"Skybox",     ResourceManager::Get().CreateResource<Shader>("Skybox")               });
 	
 	for (auto& shader : shaderCache_)
 	{
@@ -350,6 +352,72 @@ void RenderManager::RenderWireframeEllipse2D(const Vector2f& center, float xAxis
 
 	GeometryShader2D* shader = reinterpret_cast<GeometryShader2D*>(shaderCache_.at(L"Geometry2D"));
 	shader->DrawWireframeEllipse2D(screenOrtho_, center, xAxis, yAxis, color, sliceCount);
+}
+
+void RenderManager::RenderTexture2D(const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawTexture2D(screenOrtho_, texture, center, width, height, rotate, transparent);
+}
+
+void RenderManager::RenderTexture2D(const Texture2D* texture, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawTexture2D(texture, transparent);
+}
+
+void RenderManager::RenderHorizonScrollTexture2D(const Texture2D* texture, float rate, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawHorizonScrollTexture2D(texture, rate, transparent);
+}
+
+void RenderManager::RenderHorizonScrollTexture2D(const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, float rate, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawHorizonScrollTexture2D(screenOrtho_, texture, center, width, height, rotate, rate, transparent);
+}
+
+void RenderManager::RenderVerticalScrollTexture2D(const Texture2D* texture, float rate, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawVerticalScrollTexture2D(texture, rate, transparent);
+}
+
+void RenderManager::RenderVerticalScrollTexture2D(const Texture2D* texture, const Vector2f& center, float width, float height, float rotate, float rate, float transparent)
+{
+	if (bIsEnableDepth_)
+	{
+		SetDepthMode(false);
+	}
+
+	TextureShader2D* shader = reinterpret_cast<TextureShader2D*>(shaderCache_.at(L"Texture2D"));
+	shader->DrawVerticalScrollTexture2D(screenOrtho_, texture, center, width, height, rotate, rate, transparent);
 }
 
 void RenderManager::RenderGrid2D(float minX, float maxX, float strideX, float minY, float maxY, float strideY, const Vector4f& color)
