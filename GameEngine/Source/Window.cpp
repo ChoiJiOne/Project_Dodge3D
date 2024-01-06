@@ -102,13 +102,22 @@ void Window::Destroy()
 	windowHandle_ = nullptr;
 }
 
-void Window::GetSize(int32_t& outWidth, int32_t& outHeight)
+void Window::GetSize(int32_t& outWidth, int32_t& outHeight) const
 {
 	RECT windowRect;
 	WINDOWS_ASSERT(GetClientRect(windowHandle_, &windowRect), "failed to calculate window size...");
 
 	outWidth = static_cast<int32_t>(windowRect.right - windowRect.left);
 	outHeight = static_cast<int32_t>(windowRect.bottom - windowRect.top);
+}
+
+float Window::GetAspectSize() const
+{
+	int32_t windowWidth = 0;
+	int32_t windowHeight = 0;
+	GetSize(windowWidth, windowHeight);
+
+	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
 
 void Window::RegisterWindowClass(const std::wstring& windowClassName, WINDOWPROC windowProc)

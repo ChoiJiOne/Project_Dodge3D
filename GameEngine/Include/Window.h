@@ -123,7 +123,15 @@ public:
 	 * @param outWidth 윈도우의 가로 크기입니다.
 	 * @param outHeight 윈도우의 세로 크기입니다.
 	 */
-	void GetSize(int32_t& outWidth, int32_t& outHeight);
+	void GetSize(int32_t& outWidth, int32_t& outHeight) const;
+
+
+	/**
+	 * @brief 윈도우 크기의 가로/세로 값을 얻습니다.
+	 * 
+	 * @return 현재 윈도우 크기의 가로/세로 값을 반환합니다.
+	 */
+	float GetAspectSize() const;
 
 
 	/**
