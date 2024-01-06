@@ -49,13 +49,35 @@ void ClientApplication::Run()
 	Shader* lightView = ResourceManager::Get().CreateResource<Shader>("lightView");
 	lightView->Initialize(clientPath_ + L"Shader/LightView.vert", clientPath_ + L"Shader/LightView.frag");
 
+	std::vector<Vector3f> positions = {
+		Vector3f(-3.0f, +0.0f, -3.0f),
+		Vector3f(-1.0f, +0.0f, -3.0f),
+		Vector3f(+1.0f, +0.0f, -3.0f),
+		Vector3f(+3.0f, +0.0f, -3.0f),
+
+		Vector3f(-3.0f, +0.0f, -1.0f),
+		Vector3f(-1.0f, +0.0f, -1.0f),
+		Vector3f(+1.0f, +0.0f, -1.0f),
+		Vector3f(+3.0f, +0.0f, -1.0f),
+
+		Vector3f(-3.0f, +0.0f, +1.0f),
+		Vector3f(-1.0f, +0.0f, +1.0f),
+		Vector3f(+1.0f, +0.0f, +1.0f),
+		Vector3f(+3.0f, +0.0f, +1.0f),
+
+		Vector3f(-3.0f, +0.0f, +3.0f),
+		Vector3f(-1.0f, +0.0f, +3.0f),
+		Vector3f(+1.0f, +0.0f, +3.0f),
+		Vector3f(+3.0f, +0.0f, +3.0f),
+	};
+
 	timer_.Reset();
 	while (!bIsDoneLoop_)
 	{
 		timer_.Tick();
 		InputManager::Get().Tick();
 
-		lightPosition = Vector3f(1.0f * MathUtils::Sin(timer_.GetTotalSeconds()), 1.0f, 1.0f * MathUtils::Cos(timer_.GetTotalSeconds()));
+		//lightPosition = Vector3f(1.0f * MathUtils::Sin(timer_.GetTotalSeconds()), 1.0f, 1.0f * MathUtils::Cos(timer_.GetTotalSeconds()));
 
 		Matrix4x4f view = MathUtils::CreateLookAt(cameraPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window_->GetAspectSize(), 0.01f, 1000.0f);
@@ -63,38 +85,43 @@ void ClientApplication::Run()
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 		{
 			light->Bind();
-			light->SetUniform("world", Matrix4x4f::GetIdentity());
 			light->SetUniform("view", view);
 			light->SetUniform("projection", projection);
-			light->SetUniform("lightPosition", lightPosition);
-			light->SetUniform("lightColor", Vector3f(1.0f, 1.0f, 1.0f));
 			light->SetUniform("viewPosition", cameraPosition);
 			light->SetUniform("material.ambientRGB", Vector3f(0.329412f, 0.223529f, 0.027451f));
 			light->SetUniform("material.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
 			light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
 			light->SetUniform("material.shininess", 128.0f * 0.21794872f);
+			//light->SetUniform("light.direction", Vector3f(+0.0f, +0.0f, +0.0f));
+			light->SetUniform("light.direction", Vector3f(+0.0f, -1.0f, +0.0f));
+			light->SetUniform("light.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
+			light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
 
 			glBindVertexArray(cube->GetVertexArrayObject());
-			glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			for (const auto& position : positions)
+			{
+				light->SetUniform("world", MathUtils::CreateTranslation(position));
+				glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			}
 			glBindVertexArray(0);
-
 			light->Unbind();
 		}
 		{
-			lightView->Bind();
+			//lightView->Bind();
 
-			lightView->SetUniform("world", MathUtils::CreateTranslation(lightPosition));
-			lightView->SetUniform("view", view);
-			lightView->SetUniform("projection", projection);
+			//lightView->SetUniform("world", MathUtils::CreateTranslation(lightPosition));
+			//lightView->SetUniform("view", view);
+			//lightView->SetUniform("projection", projection);
 
-			glBindVertexArray(sphere->GetVertexArrayObject());
-			glDrawElements(GL_TRIANGLES, sphere->GetIndexCount(), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			//glBindVertexArray(sphere->GetVertexArrayObject());
+			//glDrawElements(GL_TRIANGLES, sphere->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			//glBindVertexArray(0);
 
-			lightView->Unbind();
+			//lightView->Unbind();
 		}
 
-		RenderManager::Get().RenderLine3D(view, projection, Vector3f(), lightPosition, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+		//RenderManager::Get().RenderLine3D(view, projection, Vector3f(), lightPosition, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
 		RenderManager::Get().RenderGrid3D(view, projection, -5.0f, 5.0f, 1.0f, -5.0f, 5.0f, 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.4f));
 		RenderManager::Get().EndFrame();
 	}
