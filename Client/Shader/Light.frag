@@ -7,11 +7,15 @@ layout(location = 0) out vec4 outColor;
 
 struct Light 
 {
-	vec3 direction;
+	vec3 position;
 
 	vec3 ambientRGB;
 	vec3 diffuseRGB;
 	vec3 specularRGB;
+
+	float constant;
+	float linear;
+	float quadratic;
 };
 
 struct Material
@@ -33,7 +37,7 @@ void main()
 
 	// diffuse
 	vec3 norm = normalize(inNormal);
-	vec3 lightDirection = normalize(-light.direction);
+	vec3 lightDirection = normalize(light.position - inWorldPosition);
 	float diff = max(dot(norm, lightDirection), 0.0f);
 	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
@@ -42,6 +46,13 @@ void main()
 	vec3 reflectDirection = reflect(-lightDirection, norm);
 	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
+
+	float dist = length(light.position - inWorldPosition);
+	float attenuation = 1.0f / (light.constant + light.linear * dist + light.quadratic * dist * dist);
+
+	ambientRGB *= attenuation;
+	diffuseRGB *= attenuation;
+	specularRGB *= attenuation;
 
 	vec3 colorRGB = ambientRGB + diffuseRGB + specularRGB;
 
