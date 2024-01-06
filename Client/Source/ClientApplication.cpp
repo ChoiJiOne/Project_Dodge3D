@@ -51,23 +51,59 @@ void ClientApplication::Run()
 
 	std::vector<Vector3f> positions = {
 		Vector3f(-3.0f, +0.0f, -3.0f),
+		Vector3f(-2.0f, +0.0f, -3.0f),
 		Vector3f(-1.0f, +0.0f, -3.0f),
+		Vector3f(+0.0f, +0.0f, -3.0f),
 		Vector3f(+1.0f, +0.0f, -3.0f),
+		Vector3f(+2.0f, +0.0f, -3.0f),
 		Vector3f(+3.0f, +0.0f, -3.0f),
 
+		Vector3f(-3.0f, +0.0f, -2.0f),
+		Vector3f(-2.0f, +0.0f, -2.0f),
+		Vector3f(-1.0f, +0.0f, -2.0f),
+		Vector3f(+0.0f, +0.0f, -2.0f),
+		Vector3f(+1.0f, +0.0f, -2.0f),
+		Vector3f(+2.0f, +0.0f, -2.0f),
+		Vector3f(+3.0f, +0.0f, -2.0f),
+
 		Vector3f(-3.0f, +0.0f, -1.0f),
+		Vector3f(-2.0f, +0.0f, -1.0f),
 		Vector3f(-1.0f, +0.0f, -1.0f),
+		Vector3f(+0.0f, +0.0f, -1.0f),
 		Vector3f(+1.0f, +0.0f, -1.0f),
+		Vector3f(+2.0f, +0.0f, -1.0f),
 		Vector3f(+3.0f, +0.0f, -1.0f),
 
+		Vector3f(-3.0f, +0.0f, +0.0f),
+		Vector3f(-2.0f, +0.0f, +0.0f),
+		Vector3f(-1.0f, +0.0f, +0.0f),
+		Vector3f(+0.0f, +0.0f, +0.0f),
+		Vector3f(+1.0f, +0.0f, +0.0f),
+		Vector3f(+2.0f, +0.0f, +0.0f),
+		Vector3f(+3.0f, +0.0f, +0.0f),
+
 		Vector3f(-3.0f, +0.0f, +1.0f),
+		Vector3f(-2.0f, +0.0f, +1.0f),
 		Vector3f(-1.0f, +0.0f, +1.0f),
+		Vector3f(+0.0f, +0.0f, +1.0f),
 		Vector3f(+1.0f, +0.0f, +1.0f),
+		Vector3f(+2.0f, +0.0f, +1.0f),
 		Vector3f(+3.0f, +0.0f, +1.0f),
 
+		Vector3f(-3.0f, +0.0f, +2.0f),
+		Vector3f(-2.0f, +0.0f, +2.0f),
+		Vector3f(-1.0f, +0.0f, +2.0f),
+		Vector3f(+0.0f, +0.0f, +2.0f),
+		Vector3f(+1.0f, +0.0f, +2.0f),
+		Vector3f(+2.0f, +0.0f, +2.0f),
+		Vector3f(+3.0f, +0.0f, +2.0f),
+
 		Vector3f(-3.0f, +0.0f, +3.0f),
+		Vector3f(-2.0f, +0.0f, +3.0f),
 		Vector3f(-1.0f, +0.0f, +3.0f),
+		Vector3f(+0.0f, +0.0f, +3.0f),
 		Vector3f(+1.0f, +0.0f, +3.0f),
+		Vector3f(+2.0f, +0.0f, +3.0f),
 		Vector3f(+3.0f, +0.0f, +3.0f),
 	};
 
@@ -93,6 +129,8 @@ void ClientApplication::Run()
 			light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
 			light->SetUniform("material.shininess", 128.0f * 0.21794872f);
 			light->SetUniform("light.position", lightPosition);
+			light->SetUniform("light.direction", Vector3f(0.0f, -1.0f, 0.0f));
+			light->SetUniform("light.cutOff", MathUtils::Cos(MathUtils::ToRadian(30.0f)));
 			light->SetUniform("light.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
 			light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
 			light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
