@@ -36,39 +36,36 @@ uniform Light light;
 
 void main()
 {
+	// ambient
+	vec3 ambientRGB = light.ambientRGB * material.ambientRGB;
+
+	// diffuse
+	vec3 norm = normalize(inNormal);
 	vec3 lightDirection = normalize(light.position - inWorldPosition);
+	float diff = max(dot(norm, lightDirection), 0.0f);
+	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
+
+	// specular
+	vec3 viewDirection = normalize(viewPosition - inWorldPosition);
+	vec3 reflectDirection = reflect(-lightDirection, norm);
+	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
+	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
+
 	float theta = dot(lightDirection, normalize(-light.direction));
-	vec3 colorRGB;
+	float epsilon = light.cutOff - light.outerCutOff;
+	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0f, 1.0f);
 
-	if(theta > light.cutOff)
-	{
-		// ambient
-		vec3 ambientRGB = light.ambientRGB * material.ambientRGB;
+	diffuseRGB *= intensity;
+	specularRGB *= intensity;
 
-		// diffuse
-		vec3 norm = normalize(inNormal);
-		float diff = max(dot(norm, lightDirection), 0.0f);
-		vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
+	float dist = length(light.position - inWorldPosition);
+	float attenuation = 1.0f / (light.constant + light.linear * dist + light.quadratic * dist * dist);
 
-		// specular
-		vec3 viewDirection = normalize(viewPosition - inWorldPosition);
-		vec3 reflectDirection = reflect(-lightDirection, norm);
-		float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
-		vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
+	ambientRGB *= attenuation;
+	diffuseRGB *= attenuation;
+	specularRGB *= attenuation;
 
-		float dist = length(light.position - inWorldPosition);
-		float attenuation = 1.0f / (light.constant + light.linear * dist + light.quadratic * dist * dist);
-
-		ambientRGB *= attenuation;
-		diffuseRGB *= attenuation;
-		specularRGB *= attenuation;
-
-		colorRGB = ambientRGB + diffuseRGB + specularRGB;
-	}
-	else
-	{
-		colorRGB = light.ambientRGB * material.ambientRGB;
-	}
+	vec3 colorRGB = ambientRGB + diffuseRGB + specularRGB;
 
 	outColor = vec4(colorRGB, 1.0f);
 }
