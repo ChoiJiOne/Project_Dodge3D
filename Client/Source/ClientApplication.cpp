@@ -30,7 +30,7 @@ void ClientApplication::Shutdown()
 void ClientApplication::Run()
 {
 	Vector3f cameraPosition = Vector3f(0.0f, 5.0f, 5.0f);
-	Vector3f lightPosition = Vector3f(1.2f, 1.0f, 2.0f);
+	Vector3f lightPosition;
 
 	std::vector<StaticMesh::Vertex> vertices;
 	std::vector<uint32_t> indices;
@@ -39,7 +39,7 @@ void ClientApplication::Run()
 	StaticMesh* cube = ResourceManager::Get().CreateResource<StaticMesh>("cube");
 	cube->Initialize(vertices, indices);
 
-	GeometryGenerator::CreateSphere(0.3f, 10, vertices, indices);
+	GeometryGenerator::CreateSphere(0.5f, 10, vertices, indices);
 	StaticMesh* sphere = ResourceManager::Get().CreateResource<StaticMesh>("sphere");
 	sphere->Initialize(vertices, indices);
 
@@ -77,7 +77,7 @@ void ClientApplication::Run()
 		timer_.Tick();
 		InputManager::Get().Tick();
 
-		//lightPosition = Vector3f(1.0f * MathUtils::Sin(timer_.GetTotalSeconds()), 1.0f, 1.0f * MathUtils::Cos(timer_.GetTotalSeconds()));
+		lightPosition = Vector3f(3.0f * MathUtils::Sin(timer_.GetTotalSeconds()), 3.0f, 3.0f * MathUtils::Cos(timer_.GetTotalSeconds()));
 
 		Matrix4x4f view = MathUtils::CreateLookAt(cameraPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window_->GetAspectSize(), 0.01f, 1000.0f);
@@ -92,33 +92,35 @@ void ClientApplication::Run()
 			light->SetUniform("material.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
 			light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
 			light->SetUniform("material.shininess", 128.0f * 0.21794872f);
-			//light->SetUniform("light.direction", Vector3f(+0.0f, +0.0f, +0.0f));
-			light->SetUniform("light.direction", Vector3f(+0.0f, -1.0f, +0.0f));
+			light->SetUniform("light.position", lightPosition);
 			light->SetUniform("light.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
 			light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
 			light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
+			light->SetUniform("light.constant", 1.0f);
+			light->SetUniform("light.linear", 0.09f);
+			light->SetUniform("light.quadratic", 0.032f);
 
-			glBindVertexArray(cube->GetVertexArrayObject());
+			glBindVertexArray(sphere->GetVertexArrayObject());
 			for (const auto& position : positions)
 			{
 				light->SetUniform("world", MathUtils::CreateTranslation(position));
-				glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
+				glDrawElements(GL_TRIANGLES, sphere->GetIndexCount(), GL_UNSIGNED_INT, 0);
 			}
 			glBindVertexArray(0);
 			light->Unbind();
 		}
 		{
-			//lightView->Bind();
+			lightView->Bind();
 
-			//lightView->SetUniform("world", MathUtils::CreateTranslation(lightPosition));
-			//lightView->SetUniform("view", view);
-			//lightView->SetUniform("projection", projection);
+			lightView->SetUniform("world", MathUtils::CreateTranslation(lightPosition));
+			lightView->SetUniform("view", view);
+			lightView->SetUniform("projection", projection);
 
-			//glBindVertexArray(sphere->GetVertexArrayObject());
-			//glDrawElements(GL_TRIANGLES, sphere->GetIndexCount(), GL_UNSIGNED_INT, 0);
-			//glBindVertexArray(0);
+			glBindVertexArray(sphere->GetVertexArrayObject());
+			glDrawElements(GL_TRIANGLES, sphere->GetIndexCount(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
 
-			//lightView->Unbind();
+			lightView->Unbind();
 		}
 
 		//RenderManager::Get().RenderLine3D(view, projection, Vector3f(), lightPosition, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
