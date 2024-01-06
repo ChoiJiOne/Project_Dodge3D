@@ -131,6 +131,7 @@ void ClientApplication::Run()
 			light->SetUniform("light.position", lightPosition);
 			light->SetUniform("light.direction", Vector3f(0.0f, -1.0f, 0.0f));
 			light->SetUniform("light.cutOff", MathUtils::Cos(MathUtils::ToRadian(30.0f)));
+			light->SetUniform("light.outerCutOff", MathUtils::Cos(MathUtils::ToRadian(45.0f)));
 			light->SetUniform("light.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
 			light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
 			light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
