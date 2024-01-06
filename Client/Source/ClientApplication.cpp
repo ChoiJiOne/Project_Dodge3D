@@ -69,7 +69,10 @@ void ClientApplication::Run()
 			light->SetUniform("lightPosition", lightPosition);
 			light->SetUniform("lightColor", Vector3f(1.0f, 1.0f, 1.0f));
 			light->SetUniform("viewPosition", cameraPosition);
-			light->SetUniform("objectColor", Vector3f(1.0f, 0.5f, 0.31f));
+			light->SetUniform("material.ambientRGB", Vector3f(0.329412f, 0.223529f, 0.027451f));
+			light->SetUniform("material.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
+			light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
+			light->SetUniform("material.shininess", 128.0f * 0.21794872f);
 
 			glBindVertexArray(cube->GetVertexArrayObject());
 			glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
