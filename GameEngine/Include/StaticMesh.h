@@ -207,7 +207,7 @@ private:
 	 * @param indexBufferPtr 인덱스 버퍼의 포인터입니다.
 	 * @param indexBufferSize 인덱스 버퍼의 크기입니다.
 	 */
-	void Setup(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize);
+	void SetupMesh(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize);
 
 
 private:

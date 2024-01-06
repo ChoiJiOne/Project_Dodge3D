@@ -25,7 +25,7 @@ void StaticMesh::Initialize(const std::vector<Vertex>& vertices, const std::vect
 	const void* indexBufferPtr = reinterpret_cast<const void*>(indices.data());
 	uint32_t indexBufferSize = static_cast<uint32_t>(indices.size()) * sizeof(uint32_t);
 	
-	Setup(vertexBufferPtr, vertexBufferSize, indexBufferPtr, indexBufferSize);
+	SetupMesh(vertexBufferPtr, vertexBufferSize, indexBufferPtr, indexBufferSize);
 
 	GL_ASSERT(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex::GetStride(), (void*)(offsetof(Vertex, position))), "failed to define an array of generic vertex attribute data");
 	GL_ASSERT(glEnableVertexAttribArray(0), "failed to enable a generic vertex attribute array");
@@ -52,7 +52,7 @@ void StaticMesh::Release()
 	bIsInitialized_ = false;
 }
 
-void StaticMesh::Setup(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize)
+void StaticMesh::SetupMesh(const void* vertexBufferPtr, uint32_t vertexBufferSize, const void* indexBufferPtr, uint32_t indexBufferSize)
 {
 	GL_ASSERT(glGenVertexArrays(1, &vertexArrayObject_), "failed to generate static mesh vertex array object...");
 	GL_ASSERT(glGenBuffers(1, &vertexBufferObject_), "failed to generate static mesh vertex buffer...");
