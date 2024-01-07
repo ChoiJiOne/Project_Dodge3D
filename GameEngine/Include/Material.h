@@ -20,9 +20,9 @@ public:
 	/**
 	 * @brief 재질(Material)의 생성자입니다.
 	 * 
-	 * @param ambientRGB 재질의 주변(Ambient) 요소입니다.
-	 * @param diffuseRGB 재질의 확산(Diffuse) 요소입니다.
-	 * @param specularRGB 재질의 반사(Specular) 요소입니다.
+	 * @param ambientRGB 재질의 주변(Ambient) 색상입니다.
+	 * @param diffuseRGB 재질의 확산(Diffuse) 색상입니다.
+	 * @param specularRGB 재질의 반사(Specular) 색상입니다.
 	 * @param shininess 재질의 밝기 요소입니다.
 	 */
 	Material(const Vector3f& ambientRGB, const Vector3f& diffuseRGB, const Vector3f& specularRGB, float shininess) noexcept
@@ -103,71 +103,71 @@ public:
 
 	
 	/**
-	 * @brief 재질의 주변(Ambient) 요소를 얻습니다.
+	 * @brief 재질의 주변(Ambient) 색상을 얻습니다.
 	 * 
-	 * @return 재질의 주변 요소를 반환합니다.
+	 * @return 재질의 주변 색상을 반환합니다.
 	 */
 	Vector3f GetAmbientRGB() { return ambientRGB_; }
 
 
 	/**
-	 * @brief 재질의 주변(Ambient) 요소를 얻습니다.
+	 * @brief 재질의 주변(Ambient) 색상을 얻습니다.
 	 *
-	 * @return 재질의 주변 요소를 반환합니다.
+	 * @return 재질의 주변 색상을 반환합니다.
 	 */
 	const Vector3f& GetAmbientRGB() const { return ambientRGB_; }
 
 
 	/**
-	 * @brief 재질의 확산(Diffuse) 요소를 얻습니다.
+	 * @brief 재질의 확산(Diffuse) 색상을 얻습니다.
 	 *
-	 * @return 재질의 확산 요소를 반환합니다.
+	 * @return 재질의 확산 색상을 반환합니다.
 	 */
 	Vector3f GetDiffuseRGB() { return diffuseRGB_; }
 
 
 	/**
-	 * @brief 재질의 확산(Diffuse) 요소를 얻습니다.
+	 * @brief 재질의 확산(Diffuse) 색상을 얻습니다.
 	 *
-	 * @return 재질의 확산 요소를 반환합니다.
+	 * @return 재질의 확산 색상을 반환합니다.
 	 */
 	const Vector3f& GetDiffuseRGB() const { return diffuseRGB_; }
 
 
 	/**
-	 * @brief 재질의 반사(Specular) 요소를 얻습니다.
+	 * @brief 재질의 반사(Specular) 색상을 얻습니다.
 	 *
-	 * @return 재질의 반사 요소를 반환합니다.
+	 * @return 재질의 반사 색상을 반환합니다.
 	 */
 	Vector3f GetSpecularRGB() { return specularRGB_; }
 
 
 	/**
-	 * @brief 재질의 반사(Specular) 요소를 얻습니다.
+	 * @brief 재질의 반사(Specular) 색상을 얻습니다.
 	 *
-	 * @return 재질의 반사 요소를 반환합니다.
+	 * @return 재질의 반사 색상을 반환합니다.
 	 */
 	const Vector3f& GetSpecularRGB() const { return specularRGB_; }
 
 
 	/**
-	 * @brief 재질의 밝기 요소를 얻습니다.
+	 * @brief 재질의 밝기 색상을 얻습니다.
 	 *
-	 * @return 재질의 밝기 요소를 반환합니다.
+	 * @return 재질의 밝기 색상을 반환합니다.
 	 */
 	float GetShininess() { return shininess_; }
 
 
 	/**
-	 * @brief 재질의 밝기 요소를 얻습니다.
+	 * @brief 재질의 밝기 색상을 얻습니다.
 	 *
-	 * @return 재질의 밝기 요소를 반환합니다.
+	 * @return 재질의 밝기 색상을 반환합니다.
 	 */
 	const float& GetShininess() const { return shininess_; }
 
 
 	/**
-	 * @brief 재질의 주변(Ambient) 요소를 설정합니다.
+	 * @brief 재질의 주변(Ambient) 색상을 설정합니다.
 	 * 
 	 * @param ambientRGB 설정할 주변(Ambient) 요소입니다.
 	 */
@@ -175,7 +175,7 @@ public:
 
 
 	/**
-	 * @brief 재질의 확산(Diffuse) 요소를 설정합니다.
+	 * @brief 재질의 확산(Diffuse) 색상을 설정합니다.
 	 * 
 	 * @param diffuseRGB 설정할 확산(Diffuse) 요소입니다.
 	 */
@@ -183,7 +183,7 @@ public:
 
 
 	/**
-	 * @brief 재질의 반사(Specular) 요소를 설정합니다.
+	 * @brief 재질의 반사(Specular) 색상을 설정합니다.
 	 * 
 	 * @param specular 설정할 반사(Specular) 요소입니다.
 	 */
@@ -191,7 +191,7 @@ public:
 
 
 	/**
-	 * @brief 재질의 밝기 요소를 설정합니다.
+	 * @brief 재질의 밝기 색상을 설정합니다.
 	 * 
 	 * @param shininess 설정할 밝기 요소입니다.
 	 */
@@ -200,19 +200,19 @@ public:
 
 private:
 	/**
-	 * @brief 재질의 주변(Ambient) 요소입니다.
+	 * @brief 재질의 주변(Ambient) 색상입니다.
 	 */
 	Vector3f ambientRGB_;
 
 
 	/**
-	 * @brief 재질의 확산(Diffuse) 요소입니다.
+	 * @brief 재질의 확산(Diffuse) 색상입니다.
 	 */
 	Vector3f diffuseRGB_;
 
 
 	/**
-	 * @brief 재질의 반사(Specular) 요소입니다.
+	 * @brief 재질의 반사(Specular) 색상입니다.
 	 */
 	Vector3f specularRGB_;
 
