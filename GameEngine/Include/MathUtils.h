@@ -634,6 +634,33 @@ public:
 
 
 	/**
+	 * @brief 임의의 벡터를 기준으로 회전 행렬을 생성합니다.
+	 * 
+	 * @param radian 회전할 회전 각도입니다.
+	 * @param axis 회전축입니다.
+	 * 
+	 * @return 생성된 회전 행렬을 반환합니다.
+	 * 
+	 * @see 
+	 * - 로드리게스 회전 공식 참조
+	 * - https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
+	 */
+	static inline Matrix4x4f CreateRotate(float radian, const Vector3f& axis)
+	{
+		float s = Sin(radian);
+		float c = Cos(radian);
+		Vector3f r = Normalize(axis);
+
+		return Matrix4x4f(
+		  	      c + r.x * r.x * (1.0f - c), r.y * r.x * (1.0f - c) + r.z * s, r.z * r.x * (1.0f - c) - r.y * s, 0.0f,
+			r.x * r.y * (1.0f - c) - r.z * s,       c + r.y * r.y * (1.0f - c), r.z * r.y * (1.0f - c) + r.x * s, 0.0f,
+			r.x * r.z * (1.0f - c) + r.y * s, r.y * r.z * (1.0f - c) - r.x * s,       c + r.z * r.z * (1.0f - c), 0.0f,
+			                            0.0f,                             0.0f,                             0.0f, 1.0f
+		);
+	}
+
+
+	/**
 	 * @brief 직교 투영 행렬을 생성합니다.
 	 *
 	 * @param left   투영 공간의 좌측 경계 평면 값
