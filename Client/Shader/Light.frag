@@ -15,11 +15,12 @@ struct Material
 
 struct DirectionalLight
 {
-   vec3 direction;
+	vec3 position;
+	vec3 direction;
 
-   vec3 ambientRGB;
-   vec3 diffuseRGB;
-   vec3 specularRGB;
+	vec3 ambientRGB;
+	vec3 diffuseRGB;
+	vec3 specularRGB;
 };
 
 struct PointLight
@@ -85,8 +86,8 @@ vec3 ComputeDirectionalLight(in DirectionalLight light, in Material material, in
 	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
 	// specular
-	vec3 reflectDirection = reflect(-lightDirection, normal);
-	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
+	vec3 halfDirection = normalize(lightDirection + viewDirection);
+	float spec = pow(max(dot(normal, halfDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
 
 	return (ambientRGB + diffuseRGB + specularRGB);
@@ -103,8 +104,8 @@ vec3 ComputePointLight(in PointLight light, in Material material, in vec3 normal
 	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
 	// specular
-	vec3 reflectDirection = reflect(-lightDirection, normal);
-	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
+	vec3 halfDirection = normalize(lightDirection + viewDirection);
+	float spec = pow(max(dot(normal, halfDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
 
 	// attenuation
@@ -129,8 +130,8 @@ vec3 ComputeSpotLight(in SpotLight light, in Material material, in vec3 normal, 
 	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
 	// specular
-	vec3 reflectDirection = reflect(-lightDirection, normal);
-	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
+	vec3 halfDirection = normalize(lightDirection + viewDirection);
+	float spec = pow(max(dot(normal, halfDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
 
 	// smooth
