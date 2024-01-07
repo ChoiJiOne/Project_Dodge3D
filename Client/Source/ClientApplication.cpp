@@ -80,9 +80,11 @@ void ClientApplication::Run()
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
@@ -99,9 +101,9 @@ void ClientApplication::Run()
 		InputManager::Get().Tick();
 
 		lightPosition = Vector3f(
-			2.0f * MathUtils::Sin(timer_.GetTotalSeconds()),
+			2.0f * MathUtils::Sin(timer_.GetTotalSeconds() / 10.0f),
 			4.0f, 
-			2.0f * MathUtils::Cos(timer_.GetTotalSeconds())
+			2.0f * MathUtils::Cos(timer_.GetTotalSeconds() / 10.0f)
 		);
 
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
@@ -119,7 +121,7 @@ void ClientApplication::Run()
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		depthShader->SetUniform("world", Matrix4x4f::GetIdentity());
+		depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -1.5f, 0.0f)));
 		glBindVertexArray(floor->GetVertexArrayObject());
 		glDrawElements(GL_TRIANGLES, floor->GetIndexCount(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -167,7 +169,7 @@ void ClientApplication::Run()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 
-		shadowShader->SetUniform("world", Matrix4x4f::GetIdentity());
+		shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -1.5f, 0.0f)));
 		glBindVertexArray(floor->GetVertexArrayObject());
 		glDrawElements(GL_TRIANGLES, floor->GetIndexCount(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -200,6 +202,7 @@ void ClientApplication::Run()
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(-10.0f,   0.0f,   0.0f), Vector3f(+10.0f,   0.0f,   0.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(  0.0f, -10.0f,   0.0f), Vector3f(  0.0f, +10.0f,   0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(  0.0f,   0.0f, -10.0f), Vector3f(  0.0f,   0.0f, +10.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f));
+		RenderManager::Get().RenderLine3D(view, projection, Vector3f(0.0f, 0.0f, 0.0f), lightPosition, Vector4f(0.0f, 1.0f, 1.0f, 1.0f));
 		RenderManager::Get().EndFrame();
 	}
 
