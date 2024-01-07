@@ -30,6 +30,7 @@ void ClientApplication::Shutdown()
 void ClientApplication::Run()
 {
 	Vector3f cameraPosition = Vector3f(0.0f, 5.0f, 5.0f);
+	Vector3f pointLight = Vector3f(0.0f, 5.0f, 0.0f);
 	Vector3f lightPosition;
 
 	std::vector<StaticMesh::Vertex> vertices;
@@ -39,7 +40,7 @@ void ClientApplication::Run()
 	StaticMesh* cube = ResourceManager::Get().CreateResource<StaticMesh>("cube");
 	cube->Initialize(vertices, indices);
 
-	GeometryGenerator::CreateSphere(0.5f, 10, vertices, indices);
+	GeometryGenerator::CreateSphere(0.5f, 30, vertices, indices);
 	StaticMesh* sphere = ResourceManager::Get().CreateResource<StaticMesh>("sphere");
 	sphere->Initialize(vertices, indices);
 
@@ -124,20 +125,35 @@ void ClientApplication::Run()
 			light->SetUniform("view", view);
 			light->SetUniform("projection", projection);
 			light->SetUniform("viewPosition", cameraPosition);
-			light->SetUniform("material.ambientRGB", Vector3f(0.329412f, 0.223529f, 0.027451f));
-			light->SetUniform("material.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
-			light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
-			light->SetUniform("material.shininess", 128.0f * 0.21794872f);
-			light->SetUniform("light.position", lightPosition);
-			light->SetUniform("light.direction", Vector3f(0.0f, -1.0f, 0.0f));
-			light->SetUniform("light.cutOff", MathUtils::Cos(MathUtils::ToRadian(30.0f)));
-			light->SetUniform("light.outerCutOff", MathUtils::Cos(MathUtils::ToRadian(45.0f)));
-			light->SetUniform("light.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
-			light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
-			light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
-			light->SetUniform("light.constant", 1.0f);
-			light->SetUniform("light.linear", 0.09f);
-			light->SetUniform("light.quadratic", 0.032f);
+
+			light->SetUniform("m.ambientRGB", Vector3f(0.329412f, 0.223529f, 0.027451f));
+			light->SetUniform("m.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
+			light->SetUniform("m.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
+			light->SetUniform("m.shininess", 128.0f * 0.21794872f);
+			
+			light->SetUniform("directionalLight.direction", Vector3f(-1.0f, -1.0f, +0.0f));
+			light->SetUniform("directionalLight.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
+			light->SetUniform("directionalLight.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("directionalLight.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
+			
+			light->SetUniform("pointLight.position", pointLight);
+			light->SetUniform("pointLight.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
+			light->SetUniform("pointLight.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("pointLight.specularRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("pointLight.constant", 1.0f);
+			light->SetUniform("pointLight.linear", 0.09f);
+			light->SetUniform("pointLight.quadratic", 0.032f);
+
+			light->SetUniform("spotLight.position", lightPosition);
+			light->SetUniform("spotLight.direction", Vector3f(0.0f, -1.0f, 0.0f));
+			light->SetUniform("spotLight.cutOff", MathUtils::Cos(MathUtils::ToRadian(15.0f)));
+			light->SetUniform("spotLight.outerCutOff", MathUtils::Cos(MathUtils::ToRadian(30.0f)));
+			light->SetUniform("spotLight.ambientRGB", Vector3f(0.2f, 0.2f, 0.2f));
+			light->SetUniform("spotLight.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("spotLight.specularRGB", Vector3f(0.5f, 0.5f, 0.5f));
+			light->SetUniform("spotLight.constant", 1.0f);
+			light->SetUniform("spotLight.linear", 0.09f);
+			light->SetUniform("spotLight.quadratic", 0.032f);
 
 			glBindVertexArray(sphere->GetVertexArrayObject());
 			for (const auto& position : positions)
@@ -162,7 +178,6 @@ void ClientApplication::Run()
 			lightView->Unbind();
 		}
 
-		//RenderManager::Get().RenderLine3D(view, projection, Vector3f(), lightPosition, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
 		RenderManager::Get().RenderGrid3D(view, projection, -5.0f, 5.0f, 1.0f, -5.0f, 5.0f, 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.4f));
 		RenderManager::Get().EndFrame();
 	}
