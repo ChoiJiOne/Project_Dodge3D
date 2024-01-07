@@ -114,6 +114,14 @@ public:
 
 
 	/**
+	 * @brief 윈도우 뷰포트를 설정합니다.
+	 * 
+	 * @note 기준은 렌더 타켓 윈도우 기준입니다.
+	 */
+	void SetWindowViewport();
+
+
+	/**
 	 * @brief 수직 동기화 옵션을 설정합니다.
 	 * 
 	 * @param bIsEnable 수직 동기화 옵션을 활성화하려면 true, 비활성화하려면 false입니다.

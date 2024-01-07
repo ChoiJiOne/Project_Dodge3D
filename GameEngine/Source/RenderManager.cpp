@@ -139,6 +139,15 @@ void RenderManager::SetViewport(int32_t x, int32_t y, int32_t width, int32_t hei
 	glViewport(x, y, width, height);
 }
 
+void RenderManager::SetWindowViewport()
+{
+	int32_t windowWidth;
+	int32_t windowHeight;
+	renderTargetWindow_->GetSize(windowWidth, windowHeight);
+
+	glViewport(0, 0, windowWidth, windowHeight);
+}
+
 void RenderManager::SetVsyncMode(bool bIsEnable)
 {
 	bIsEnableVsync_ = bIsEnable;
