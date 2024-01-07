@@ -20,15 +20,15 @@ public:
 	/**
 	 * @brief 재질(Material)의 생성자입니다.
 	 * 
-	 * @param ambient 재질의 주변(Ambient) 요소입니다.
-	 * @param diffuse 재질의 확산(Diffuse) 요소입니다.
-	 * @param specular 재질의 반사(Specular) 요소입니다.
+	 * @param ambientRGB 재질의 주변(Ambient) 요소입니다.
+	 * @param diffuseRGB 재질의 확산(Diffuse) 요소입니다.
+	 * @param specularRGB 재질의 반사(Specular) 요소입니다.
 	 * @param shininess 재질의 밝기 요소입니다.
 	 */
-	Material(const Vector3f& ambient, const Vector3f& diffuse, const Vector3f& specular, float shininess) noexcept
-		: ambient_(ambient)
-		, diffuse_(diffuse)
-		, specular_(specular)
+	Material(const Vector3f& ambientRGB, const Vector3f& diffuseRGB, const Vector3f& specularRGB, float shininess) noexcept
+		: ambientRGB_(ambientRGB)
+		, diffuseRGB_(diffuseRGB)
+		, specularRGB_(specularRGB)
 		, shininess_(shininess) {}
 
 
@@ -38,9 +38,9 @@ public:
 	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
 	 */
 	Material(Material&& instance) noexcept
-		: ambient_(instance.ambient_)
-		, diffuse_(instance.diffuse_)
-		, specular_(instance.specular_)
+		: ambientRGB_(instance.ambientRGB_)
+		, diffuseRGB_(instance.diffuseRGB_)
+		, specularRGB_(instance.specularRGB_)
 		, shininess_(instance.shininess_) {}
 
 
@@ -50,16 +50,16 @@ public:
 	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
 	 */
 	Material(const Material& instance) noexcept
-		: ambient_(instance.ambient_)
-		, diffuse_(instance.diffuse_)
-		, specular_(instance.specular_)
+		: ambientRGB_(instance.ambientRGB_)
+		, diffuseRGB_(instance.diffuseRGB_)
+		, specularRGB_(instance.specularRGB_)
 		, shininess_(instance.shininess_) {}
 
 
 	/**
 	 * @brief 재질의 가상 소멸자입니다.
 	 */
-	virtual ~Material();
+	virtual ~Material() {}
 
 
 	/**
@@ -73,9 +73,9 @@ public:
 	{
 		if (this == &instance) return *this;
 
-		ambient_ = instance.ambient_;
-		diffuse_ = instance.diffuse_;
-		specular_ = instance.specular_;
+		ambientRGB_ = instance.ambientRGB_;
+		diffuseRGB_ = instance.diffuseRGB_;
+		specularRGB_ = instance.specularRGB_;
 		shininess_ = instance.shininess_;
 
 		return *this;
@@ -93,9 +93,9 @@ public:
 	{
 		if (this == &instance) return *this;
 
-		ambient_ = instance.ambient_;
-		diffuse_ = instance.diffuse_;
-		specular_ = instance.specular_;
+		ambientRGB_ = instance.ambientRGB_;
+		diffuseRGB_ = instance.diffuseRGB_;
+		specularRGB_ = instance.specularRGB_;
 		shininess_ = instance.shininess_;
 
 		return *this;
@@ -107,7 +107,7 @@ public:
 	 * 
 	 * @return 재질의 주변 요소를 반환합니다.
 	 */
-	Vector3f GetAmbient() { return ambient_; }
+	Vector3f GetAmbientRGB() { return ambientRGB_; }
 
 
 	/**
@@ -115,7 +115,7 @@ public:
 	 *
 	 * @return 재질의 주변 요소를 반환합니다.
 	 */
-	const Vector3f& GetAmbient() const { return ambient_; }
+	const Vector3f& GetAmbientRGB() const { return ambientRGB_; }
 
 
 	/**
@@ -123,7 +123,7 @@ public:
 	 *
 	 * @return 재질의 확산 요소를 반환합니다.
 	 */
-	Vector3f GetDiffuse() { return diffuse_; }
+	Vector3f GetDiffuseRGB() { return diffuseRGB_; }
 
 
 	/**
@@ -131,7 +131,7 @@ public:
 	 *
 	 * @return 재질의 확산 요소를 반환합니다.
 	 */
-	const Vector3f& GetDiffuse() const { return diffuse_; }
+	const Vector3f& GetDiffuseRGB() const { return diffuseRGB_; }
 
 
 	/**
@@ -139,7 +139,7 @@ public:
 	 *
 	 * @return 재질의 반사 요소를 반환합니다.
 	 */
-	Vector3f GetSpecular() { return specular_; }
+	Vector3f GetSpecularRGB() { return specularRGB_; }
 
 
 	/**
@@ -147,7 +147,7 @@ public:
 	 *
 	 * @return 재질의 반사 요소를 반환합니다.
 	 */
-	const Vector3f& GetSpecular() const { return specular_; }
+	const Vector3f& GetSpecularRGB() const { return specularRGB_; }
 
 
 	/**
@@ -169,17 +169,17 @@ public:
 	/**
 	 * @brief 재질의 주변(Ambient) 요소를 설정합니다.
 	 * 
-	 * @param ambient 설정할 주변(Ambient) 요소입니다.
+	 * @param ambientRGB 설정할 주변(Ambient) 요소입니다.
 	 */
-	void SetAmbient(const Vector3f& ambient) { ambient_ = ambient; }
+	void SetAmbientRGB(const Vector3f& ambientRGB) { ambientRGB_ = ambientRGB; }
 
 
 	/**
 	 * @brief 재질의 확산(Diffuse) 요소를 설정합니다.
 	 * 
-	 * @param diffuse 설정할 확산(Diffuse) 요소입니다.
+	 * @param diffuseRGB 설정할 확산(Diffuse) 요소입니다.
 	 */
-	void SetDiffuse(const Vector3f& diffuse) { diffuse_ = diffuse; }
+	void SetDiffuseRGB(const Vector3f& diffuseRGB) { diffuseRGB_ = diffuseRGB; }
 
 
 	/**
@@ -187,7 +187,7 @@ public:
 	 * 
 	 * @param specular 설정할 반사(Specular) 요소입니다.
 	 */
-	void SetSpecular(const Vector3f& specular) { specular_ = specular; }
+	void SetSpecularRGB(const Vector3f& specularRGB) { specularRGB_ = specularRGB; }
 
 
 	/**
@@ -202,19 +202,19 @@ private:
 	/**
 	 * @brief 재질의 주변(Ambient) 요소입니다.
 	 */
-	Vector3f ambient_;
+	Vector3f ambientRGB_;
 
 
 	/**
 	 * @brief 재질의 확산(Diffuse) 요소입니다.
 	 */
-	Vector3f diffuse_;
+	Vector3f diffuseRGB_;
 
 
 	/**
 	 * @brief 재질의 반사(Specular) 요소입니다.
 	 */
-	Vector3f specular_;
+	Vector3f specularRGB_;
 
 
 	/**
