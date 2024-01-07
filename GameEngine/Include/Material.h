@@ -7,9 +7,9 @@
 
 
 /**
- * @brief 메시의 기본 재질 리소스입니다.
+ * @brief 메시의 기본 재질(Material)입니다.
  */
-class Material : public IResource
+class Material
 {
 public:
 	/**
@@ -19,34 +19,90 @@ public:
 
 
 	/**
-	 * @brief 재질의 가상 소멸자입니다.
-	 */
-	virtual ~Material();
-
-
-	/**
-	 * @brief 재질의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
-	 */
-	DISALLOW_COPY_AND_ASSIGN(Material);
-
-
-	/**
-	 * @brief 재질 리소스를 생성합니다.
+	 * @brief 재질(Material)의 생성자입니다.
 	 * 
 	 * @param ambient 재질의 주변(Ambient) 요소입니다.
 	 * @param diffuse 재질의 확산(Diffuse) 요소입니다.
 	 * @param specular 재질의 반사(Specular) 요소입니다.
 	 * @param shininess 재질의 밝기 요소입니다.
 	 */
-	void Initialize(const Vector3f& ambient, const Vector3f& diffuse, const Vector3f& specular, float shininess);
+	Material(const Vector3f& ambient, const Vector3f& diffuse, const Vector3f& specular, float shininess) noexcept
+		: ambient_(ambient)
+		, diffuse_(diffuse)
+		, specular_(specular)
+		, shininess_(shininess) {}
 
 
 	/**
-	 * @brief 재질 리소스를 할당 해제합니다.
+	 * @brief 재질(Material)의 복사 생성자입니다.
+	 * 
+	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
 	 */
-	virtual void Release() override;
+	Material(Material&& instance) noexcept
+		: ambient_(instance.ambient_)
+		, diffuse_(instance.diffuse_)
+		, specular_(instance.specular_)
+		, shininess_(instance.shininess_) {}
 
 
+	/**
+	 * @brief 재질(Material)의 복사 생성자입니다.
+	 *
+	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
+	 */
+	Material(const Material& instance) noexcept
+		: ambient_(instance.ambient_)
+		, diffuse_(instance.diffuse_)
+		, specular_(instance.specular_)
+		, shininess_(instance.shininess_) {}
+
+
+	/**
+	 * @brief 재질의 가상 소멸자입니다.
+	 */
+	virtual ~Material();
+
+
+	/**
+	 * @brief 재질의 대입 연산자입니다.
+	 * 
+	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
+	 * 
+	 * @return 대입한 재질의 참조자를 반환합니다.
+	 */
+	Material& operator=(Material&& instance) noexcept
+	{
+		if (this == &instance) return *this;
+
+		ambient_ = instance.ambient_;
+		diffuse_ = instance.diffuse_;
+		specular_ = instance.specular_;
+		shininess_ = instance.shininess_;
+
+		return *this;
+	}
+
+
+	/**
+	 * @brief 재질의 대입 연산자입니다.
+	 *
+	 * @param instance 재질의 내부 프로퍼티를 복사할 인스턴스입니다.
+	 *
+	 * @return 대입한 재질의 참조자를 반환합니다.
+	 */
+	Material& operator=(const Material& instance) noexcept
+	{
+		if (this == &instance) return *this;
+
+		ambient_ = instance.ambient_;
+		diffuse_ = instance.diffuse_;
+		specular_ = instance.specular_;
+		shininess_ = instance.shininess_;
+
+		return *this;
+	}
+
+	
 	/**
 	 * @brief 재질의 주변(Ambient) 요소를 얻습니다.
 	 * 
