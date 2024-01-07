@@ -15,6 +15,7 @@
 #include "ResourceManager.h"
 #include "Shader.h"
 #include "Skybox.h"
+#include "StaticMesh.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
 #include "TextureShader2D.h"
@@ -526,6 +527,18 @@ void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& proje
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
 	shader->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
+}
+
+void RenderManager::RenderStaticMesh3D(const StaticMesh* mesh)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind static mesh vertex array...");
+	GL_ASSERT(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0), "failed to draw static mesh...");
+	GL_ASSERT(glBindVertexArray(0), "failed to unbind static mesh vertex array...");
 }
 
 void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox)

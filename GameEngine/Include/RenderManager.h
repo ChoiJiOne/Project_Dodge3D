@@ -17,6 +17,7 @@
 class Window;
 class Shader;
 class Skybox;
+class StaticMesh;
 class Texture2D;
 class TTFont;
 
@@ -620,6 +621,16 @@ public:
 	 * @param color 격자의 색상입니다.
 	 */
 	void RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color);
+
+
+	/**
+	 * @brief StaticMesh를 화면에 그립니다.
+	 * 
+	 * @param mesh 화면에 그릴 정적 메시입니다.
+	 * 
+	 * @note 이 메서드 호출 시 적절한 셰이더가 파이프라인에 바인딩되어 있어야 합니다.
+	 */
+	void RenderStaticMesh3D(const StaticMesh* mesh);
 
 
 	/**
