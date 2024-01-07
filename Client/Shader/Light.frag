@@ -35,13 +35,32 @@ struct PointLight
 	float quadratic;
 };
 
+struct SpotLight
+{
+	vec3 position;
+	vec3 direction;
+
+	float cutOff;      // Cos Value
+	float outerCutOff; // Cos Value
+
+	vec3 ambientRGB;
+	vec3 diffuseRGB;
+	vec3 specularRGB;
+
+	float constant;
+	float linear;
+	float quadratic;
+};
+
 vec3 ComputeDirectionalLight(in DirectionalLight light, in Material material, in vec3 normal, in vec3 viewDirection);
 vec3 ComputePointLight(in PointLight light, in Material material, in vec3 normal, in vec3 worldPosition, in vec3 viewDirection);
+vec3 ComputeSpotLight(in SpotLight light, in Material material, in vec3 normal, in vec3 worldPosition, in vec3 viewDirection);
 
 uniform vec3 viewPosition;
 uniform Material m;
 uniform DirectionalLight directionalLight;
 uniform PointLight pointLight;
+uniform SpotLight spotLight;
 
 void main()
 {
@@ -50,6 +69,7 @@ void main()
 
 	vec3 outputRGB = ComputeDirectionalLight(directionalLight, m, norm, viewDirection);
 	outputRGB += ComputePointLight(pointLight, m, norm, inWorldPosition, viewDirection);
+	outputRGB += ComputeSpotLight(spotLight, m, norm, inWorldPosition, viewDirection);
 
 	outColor = vec4(outputRGB, 1.0f);
 }
@@ -86,6 +106,40 @@ vec3 ComputePointLight(in PointLight light, in Material material, in vec3 normal
 	vec3 reflectDirection = reflect(-lightDirection, normal);
 	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
+
+	// attenuation
+	float dist = length(light.position - worldPosition);
+	float attenuation = 1.0f / (light.constant + light.linear * dist + light.quadratic * dist * dist);
+
+	ambientRGB *= attenuation;
+	diffuseRGB *= attenuation;
+	specularRGB *= attenuation;
+
+	return (ambientRGB + diffuseRGB + specularRGB);
+}
+
+vec3 ComputeSpotLight(in SpotLight light, in Material material, in vec3 normal, in vec3 worldPosition, in vec3 viewDirection)
+{
+	// ambient
+	vec3 ambientRGB = light.ambientRGB * material.ambientRGB;
+
+	// diffuse
+	vec3 lightDirection = normalize(light.position - worldPosition);
+	float diff = max(dot(normal, lightDirection), 0.0f);
+	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
+
+	// specular
+	vec3 reflectDirection = reflect(-lightDirection, normal);
+	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0f), material.shininess);
+	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
+
+	// smooth
+	float theta = dot(lightDirection, normalize(-light.direction));
+	float epsilon = light.cutOff - light.outerCutOff;
+	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0f, 1.0f);
+
+	diffuseRGB *= intensity;
+	specularRGB *= intensity;
 
 	// attenuation
 	float dist = length(light.position - worldPosition);
