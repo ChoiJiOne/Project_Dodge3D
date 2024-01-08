@@ -31,68 +31,33 @@ void ClientApplication::Run()
 {
 	Vector3f cameraPosition = Vector3f(1.0f, 5.0f, 10.0f);
 
-	Shader* depthShader = ResourceManager::Get().CreateResource<Shader>("depth");
-	depthShader->Initialize(clientPath_ + L"Shader/Depth.vert", clientPath_ + L"Shader/Depth.frag");
+	Shader* depthShader = ResourceManager::Get().GetResource<Shader>("ShadowMap");
 
 	Shader* shadowShader = ResourceManager::Get().CreateResource<Shader>("shadow");
 	shadowShader->Initialize(clientPath_ + L"Shader/Shadow.vert", clientPath_ + L"Shader/Shadow.frag");
 
-	std::vector<StaticMesh::Vertex> vertices = {
-		StaticMesh::Vertex(Vector3f(-1.0f, -1.0f, 0.0f), Vector3f(), Vector2f(0.0f, 0.0f)),
-		StaticMesh::Vertex(Vector3f(+1.0f, -1.0f, 0.0f), Vector3f(), Vector2f(1.0f, 0.0f)),
-		StaticMesh::Vertex(Vector3f(+1.0f, +1.0f, 0.0f), Vector3f(), Vector2f(1.0f, 1.0f)),
-		StaticMesh::Vertex(Vector3f(-1.0f, +1.0f, 0.0f), Vector3f(), Vector2f(0.0f, 1.0f)),
-	};
+	std::vector<StaticMesh::Vertex> vertices;
+	std::vector<uint32_t> indices;;
 
-	std::vector<uint32_t> indices = {
-		0, 1, 2,
-		0, 2, 3,
-	};
-	StaticMesh* quad = ResourceManager::Get().CreateResource<StaticMesh>("quad");
-	quad->Initialize(vertices, indices);
-
-	vertices = {
-		StaticMesh::Vertex(Vector3f(-25.0f, -0.5f, -25.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 0.0f)),
-		StaticMesh::Vertex(Vector3f(+25.0f, -0.5f, -25.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f)),
-		StaticMesh::Vertex(Vector3f(+25.0f, -0.5f, +25.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 1.0f)),
-		StaticMesh::Vertex(Vector3f(-25.0f, -0.5f, +25.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f)),
-	};
-
-	indices = {
-		0, 1, 2,
-		0, 2, 3,
-	};
 	StaticMesh* floor = ResourceManager::Get().CreateResource<StaticMesh>("floor");
+	GeometryGenerator::CreateCube(Vector3f(50.0f, 1.0f, 50.0f), vertices, indices);
 	floor->Initialize(vertices, indices);
 
 	StaticMesh* cube = ResourceManager::Get().CreateResource<StaticMesh>("cube");
 	GeometryGenerator::CreateCube(Vector3f(2.0f, 2.0f, 2.0f), vertices, indices);
 	cube->Initialize(vertices, indices);
 
+	StaticMesh* sphere = ResourceManager::Get().CreateResource<StaticMesh>("sphere");
+	GeometryGenerator::CreateSphere(0.5f, 30, vertices, indices);
+	sphere->Initialize(vertices, indices);
+
 	const uint32_t SHADOW_WIDTH = 1024;
 	const uint32_t SHADOW_HEIGHT = 1024;
 
-	uint32_t depthMapFBO;
-	glGenFramebuffers(1, &depthMapFBO);
+	ShadowMap* shadowMap = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap");
+	shadowMap->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 
-	uint32_t depthMap;
-	glGenTextures(1, &depthMap);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	Vector3f lightPosition = Vector3f(-2.0f, 4.0f, -2.0f);
+	Vector3f lightPosition = Vector3f(-4.0f, 4.0f, +0.0f);
 
 	timer_.Reset();
 	while (!bIsDoneLoop_)
@@ -100,104 +65,74 @@ void ClientApplication::Run()
 		timer_.Tick();
 		InputManager::Get().Tick();
 
-		lightPosition = Vector3f(
-			2.0f * MathUtils::Sin(timer_.GetTotalSeconds() / 10.0f),
-			4.0f, 
-			2.0f * MathUtils::Cos(timer_.GetTotalSeconds() / 10.0f)
-		);
-
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 
-		float nearPlane = 1.0f;
-		float farPlane = 7.5f;
-		Matrix4x4f lightView = MathUtils::CreateLookAt(lightPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
-		Matrix4x4f lightProjection = MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, nearPlane, farPlane);
-
-		depthShader->Bind();
-		depthShader->SetUniform("lightView", lightView);
-		depthShader->SetUniform("lightProjection", lightProjection);
-
-		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-		glClear(GL_DEPTH_BUFFER_BIT);
-
-		depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -1.5f, 0.0f)));
-		glBindVertexArray(floor->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, floor->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
-		// 1.
-		Matrix4x4f world = MathUtils::CreateScale(Vector3f(0.5f, 0.5f, 0.5f)) * MathUtils::CreateTranslation(Vector3f(0.0f, 1.5f, 0.0f));
-		depthShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
-		// 2.
-		world = MathUtils::CreateScale(Vector3f(0.5f, 0.5f, 0.5f)) * MathUtils::CreateTranslation(Vector3f(2.0f, 0.0f, 1.0f));
-		depthShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
-		// 3.
-		world = MathUtils::CreateScale(Vector3f(0.25f, 0.25f, 0.25f))
-			  * MathUtils::CreateRotate(MathUtils::ToRadian(60.0f), Vector3f(1.0f, 0.0f, 1.0f)) 
-			  * MathUtils::CreateTranslation(Vector3f(-1.0f, 0.0f, 2.0f));
-		depthShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		depthShader->Unbind();
-
-		RenderManager::Get().SetWindowViewport();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		float nearPlane = 0.1f;
+		float farPlane = 100.0f;
 		Matrix4x4f view = MathUtils::CreateLookAt(cameraPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 		Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window_->GetAspectSize(), 0.1f, 100.0f);
+		Matrix4x4f lightView = MathUtils::CreateLookAt(lightPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+		Matrix4x4f lightProjection = MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, nearPlane, farPlane);
+		{
+			depthShader->Bind();
+			depthShader->SetUniform("lightView", lightView);
+			depthShader->SetUniform("lightProjection", lightProjection);
 
-		shadowShader->Bind();
-		shadowShader->SetUniform("view", view);
-		shadowShader->SetUniform("projection", projection);
-		shadowShader->SetUniform("lightView", lightView);
-		shadowShader->SetUniform("lightProjection", lightProjection);
-		shadowShader->SetUniform("lightPosition", lightPosition);
-		shadowShader->SetUniform("viewPosition", cameraPosition);
+			glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+			shadowMap->Bind();
+			shadowMap->Clear();
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, depthMap);
+			// 1. 
+			depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -3.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(floor);
 
-		shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -1.5f, 0.0f)));
-		glBindVertexArray(floor->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, floor->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			// 2.
+			depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(-1.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
 
-		// 1.
-		world = MathUtils::CreateScale(Vector3f(0.5f, 0.5f, 0.5f)) * MathUtils::CreateTranslation(Vector3f(0.0f, 1.5f, 0.0f));
-		shadowShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			// 3.
+			depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
 
-		// 2.
-		world = MathUtils::CreateScale(Vector3f(0.5f, 0.5f, 0.5f)) * MathUtils::CreateTranslation(Vector3f(2.0f, 0.0f, 1.0f));
-		shadowShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			// 4.
+			depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(+1.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
 
-		// 3.
-		world = MathUtils::CreateScale(Vector3f(0.25f, 0.25f, 0.25f))
-			* MathUtils::CreateRotate(MathUtils::ToRadian(60.0f), Vector3f(1.0f, 0.0f, 1.0f))
-			* MathUtils::CreateTranslation(Vector3f(-1.0f, 0.0f, 2.0f));
-		shadowShader->SetUniform("world", world);
-		glBindVertexArray(cube->GetVertexArrayObject());
-		glDrawElements(GL_TRIANGLES, cube->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+			shadowMap->Unbind();
+			depthShader->Unbind();
+		}
+		{
+			RenderManager::Get().SetWindowViewport();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shadowShader->Unbind();
+			shadowShader->Bind();
+			shadowShader->SetUniform("view", view);
+			shadowShader->SetUniform("projection", projection);
+			shadowShader->SetUniform("lightView", lightView);
+			shadowShader->SetUniform("lightProjection", lightProjection);
+			shadowShader->SetUniform("lightPosition", lightPosition);
+			shadowShader->SetUniform("viewPosition", cameraPosition);
+
+			shadowMap->Active(0);
+
+			// 1.
+			shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, -3.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(floor);
+
+			// 2.
+			shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(-1.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
+
+			// 3.
+			shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
+
+			// 4.
+			shadowShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(+1.0f, 1.0f, 0.0f)));
+			RenderManager::Get().RenderStaticMesh3D(sphere);
+
+			shadowShader->Unbind();
+		}
 
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(-10.0f,   0.0f,   0.0f), Vector3f(+10.0f,   0.0f,   0.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(  0.0f, -10.0f,   0.0f), Vector3f(  0.0f, +10.0f,   0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
@@ -205,7 +140,4 @@ void ClientApplication::Run()
 		RenderManager::Get().RenderLine3D(view, projection, Vector3f(0.0f, 0.0f, 0.0f), lightPosition, Vector4f(0.0f, 1.0f, 1.0f, 1.0f));
 		RenderManager::Get().EndFrame();
 	}
-
-	glDeleteTextures(1, &depthMap);
-	glDeleteFramebuffers(1, &depthMapFBO);
 }
