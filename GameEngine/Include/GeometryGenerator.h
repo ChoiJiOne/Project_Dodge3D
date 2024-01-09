@@ -20,7 +20,7 @@ public:
 	 * @param outVertices 생성한 큐브의 정점 목록입니다.
 	 * @param outIndices  생성한 큐브의 인덱스 목록입니다.
 	 */
-	static void CreateCube(const Vector3f& size, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCube(const Vector3f& size, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -31,7 +31,7 @@ public:
 	 * @param outVertices 생성한 구의 정점 목록입니다.
 	 * @param outIndices  생성한 구의 인덱스 목록입니다.
 	 */
-	static void CreateSphere(float radius, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateSphere(float radius, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -43,7 +43,7 @@ public:
 	 * @param outVertices 생성한 원기둥의 정점 목록입니다.
 	 * @param outIndices  생성한 원기둥의 인덱스 목록입니다.
 	 */
-	static void CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 	/**
@@ -55,7 +55,7 @@ public:
 	 * @param outVertices 생성한 원뿔의 정점 목록입니다.
 	 * @param outIndices  생성한 원뿔의 인덱스 목록입니다.
 	 */
-	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 
 
 private:
@@ -69,5 +69,5 @@ private:
 	 * @param outVertices 생성한 원기둥 상단/하단의 정점 목록입니다.
 	 * @param outIndices  생성한 원기둥 상단/하단의 인덱스 목록입니다.
 	 */
-	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices);
+	static void CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices);
 };

@@ -3,7 +3,7 @@
 #include "Assertion.h"
 #include "MathUtils.h"
 
-void GeometryGenerator::CreateCube(const Vector3f& size, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+void GeometryGenerator::CreateCube(const Vector3f& size, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	outVertices.resize(0);
 	outIndices.resize(0);
@@ -44,14 +44,14 @@ void GeometryGenerator::CreateCube(const Vector3f& size, std::vector<StaticMesh:
 		outIndices.push_back(vbase + 3);
 		outIndices.push_back(vbase + 2);
 
-		outVertices.push_back(StaticMesh::Vertex(((normal - side1 - side2) * tsize), normal, textureCoordinates[0]));
-		outVertices.push_back(StaticMesh::Vertex(((normal - side1 + side2) * tsize), normal, textureCoordinates[1]));
-		outVertices.push_back(StaticMesh::Vertex(((normal + side1 + side2) * tsize), normal, textureCoordinates[2]));
-		outVertices.push_back(StaticMesh::Vertex(((normal + side1 - side2) * tsize), normal, textureCoordinates[3]));
+		outVertices.push_back(Vertex(((normal - side1 - side2) * tsize), normal, textureCoordinates[0]));
+		outVertices.push_back(Vertex(((normal - side1 + side2) * tsize), normal, textureCoordinates[1]));
+		outVertices.push_back(Vertex(((normal + side1 + side2) * tsize), normal, textureCoordinates[2]));
+		outVertices.push_back(Vertex(((normal + side1 - side2) * tsize), normal, textureCoordinates[3]));
 	}
 }
 
-void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	ASSERT(tessellation >= 3, "tesselation parameter must be at least 3...");
 
@@ -79,7 +79,7 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::v
 			Vector3f normal(dx, dy, dz);
 			Vector2f texture(u, v);
 
-			outVertices.push_back(StaticMesh::Vertex(position, normal, texture));
+			outVertices.push_back(Vertex(position, normal, texture));
 		}
 	}
 
@@ -99,7 +99,7 @@ void GeometryGenerator::CreateSphere(float radius, uint32_t tessellation, std::v
 	}
 }
 
-void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	ASSERT(tessellation >= 3, "tesselation parameter must be at least 3...");
 
@@ -122,8 +122,8 @@ void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tess
 
 		Vector2f textureCoordinate(static_cast<float>(index) / static_cast<float>(tessellation), 0.0f);
 
-		outVertices.push_back(StaticMesh::Vertex(sideOffset + topOffset, normal, textureCoordinate));
-		outVertices.push_back(StaticMesh::Vertex(sideOffset - topOffset, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
+		outVertices.push_back(Vertex(sideOffset + topOffset, normal, textureCoordinate));
+		outVertices.push_back(Vertex(sideOffset - topOffset, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
 
 		outIndices.push_back((index * 2 + 0));
 		outIndices.push_back((index * 2 + 1));
@@ -138,7 +138,7 @@ void GeometryGenerator::CreateCylinder(float radius, float height, uint32_t tess
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
 }
 
-void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessellation, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessellation, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	ASSERT(tessellation >= 3, "tesselation parameter must be at least 3...");
 
@@ -165,8 +165,8 @@ void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessella
 		Vector3f diff = sideOffset - topOffset;
 		Vector3f normal = MathUtils::Normalize(MathUtils::CrossProduct(Vector3f(tdx, 0.0f, tdz), topOffset - diff));
 
-		outVertices.push_back(StaticMesh::Vertex(topOffset, normal, Vector2f(0.0f, 0.0f)));
-		outVertices.push_back(StaticMesh::Vertex(diff, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
+		outVertices.push_back(Vertex(topOffset, normal, Vector2f(0.0f, 0.0f)));
+		outVertices.push_back(Vertex(diff, normal, textureCoordinate + Vector2f(0.0f, 1.0f)));
 
 		outIndices.push_back((index * 2 + 0));
 		outIndices.push_back((index * 2 + 1) % (stride * 2));
@@ -176,7 +176,7 @@ void GeometryGenerator::CreateCone(float radius, float height, uint32_t tessella
 	CreateCylinderCap(radius, height, tessellation, false, outVertices, outIndices);
 }
 
-void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<StaticMesh::Vertex>& outVertices, std::vector<uint32_t>& outIndices)
+void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t tessellation, bool bIsTop, std::vector<Vertex>& outVertices, std::vector<uint32_t>& outIndices)
 {
 	for (size_t index = 0; index < tessellation - 2; index++)
 	{
@@ -212,6 +212,6 @@ void GeometryGenerator::CreateCylinderCap(float radius, float height, uint32_t t
 		Vector3f position = Vector3f(dx * radius, normal.y * height, dz * radius);
 		Vector2f textureCoordinate = Vector2f(dx, dz) * textureScale + Vector2f(0.5f, 0.5f);
 
-		outVertices.push_back(StaticMesh::Vertex(position, normal, textureCoordinate));
+		outVertices.push_back(Vertex(position, normal, textureCoordinate));
 	}
 }

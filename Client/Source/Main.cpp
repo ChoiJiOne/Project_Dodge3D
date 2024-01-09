@@ -60,7 +60,7 @@ public:
 		Shader* shadowShader = ResourceManager::Get().CreateResource<Shader>("shadow");
 		shadowShader->Initialize(clientPath_ + L"Shader/Shadow.vert", clientPath_ + L"Shader/Shadow.frag");
 
-		std::vector<StaticMesh::Vertex> vertices;
+		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;;
 
 		StaticMesh* floor = ResourceManager::Get().CreateResource<StaticMesh>("floor");
