@@ -1,4 +1,4 @@
-#include "FileManager.h"
+#include "FileUtils.h"
 
 #include <shlwapi.h>
 
@@ -6,26 +6,7 @@
 #include "StringUtils.h"
 #include "WindowsAssertion.h"
 
-void FileManager::Startup()
-{
-	ASSERT(!bIsStartup_, "already startup file manager...");
-
-	wchar_t* bufferPtr = StringUtils::GetWideCharBufferPtr();
-	WINDOWS_ASSERT(GetModuleFileNameW(nullptr, bufferPtr, StringUtils::STRING_BUFFER_SIZE), "failed to get execute file name...");
-
-	executePath_ = std::wstring(bufferPtr);
-
-	bIsStartup_ = true;
-}
-
-void FileManager::Shutdown()
-{
-	ASSERT(bIsStartup_, "not startup before or has already been shutdowned...");
-
-	bIsStartup_ = false;
-}
-
-std::vector<uint8_t> FileManager::ReadBufferFromFile(const std::string& path)
+std::vector<uint8_t> FileUtils::ReadBufferFromFile(const std::string& path)
 {
 	HANDLE fileHandle = CreateFileA(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, "failed to open %s...", path.c_str());
@@ -40,7 +21,7 @@ std::vector<uint8_t> FileManager::ReadBufferFromFile(const std::string& path)
 	return buffer;
 }
 
-std::vector<uint8_t> FileManager::ReadBufferFromFile(const std::wstring& path)
+std::vector<uint8_t> FileUtils::ReadBufferFromFile(const std::wstring& path)
 {
 	HANDLE fileHandle = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, L"failed to open %s...", path.c_str());
@@ -55,7 +36,7 @@ std::vector<uint8_t> FileManager::ReadBufferFromFile(const std::wstring& path)
 	return buffer;
 }
 
-void FileManager::WriteBufferToFile(const std::string& path, const std::vector<uint8_t>& buffer)
+void FileUtils::WriteBufferToFile(const std::string& path, const std::vector<uint8_t>& buffer)
 {
 	HANDLE fileHandle = CreateFileA(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, "failed to create %s...", path.c_str());
@@ -65,7 +46,7 @@ void FileManager::WriteBufferToFile(const std::string& path, const std::vector<u
 	WINDOWS_ASSERT(CloseHandle(fileHandle), "failed to close %s...", path.c_str());
 }
 
-void FileManager::WriteBufferToFile(const std::wstring& path, const std::vector<uint8_t>& buffer)
+void FileUtils::WriteBufferToFile(const std::wstring& path, const std::vector<uint8_t>& buffer)
 {
 	HANDLE fileHandle = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, L"failed to create %s...", path.c_str());
@@ -75,17 +56,17 @@ void FileManager::WriteBufferToFile(const std::wstring& path, const std::vector<
 	WINDOWS_ASSERT(CloseHandle(fileHandle), L"failed to close %s...", path.c_str());
 }
 
-bool FileManager::IsValidPath(const std::string& path)
+bool FileUtils::IsValidPath(const std::string& path)
 {
 	return PathFileExistsA(path.c_str());
 }
 
-bool FileManager::IsValidPath(const std::wstring& path)
+bool FileUtils::IsValidPath(const std::wstring& path)
 {
 	return PathFileExistsW(path.c_str());
 }
 
-std::string FileManager::GetBasePath(const std::string& path)
+std::string FileUtils::GetBasePath(const std::string& path)
 {
 	std::size_t lastSlash;
 
@@ -103,7 +84,7 @@ std::string FileManager::GetBasePath(const std::string& path)
 	}
 }
 
-std::wstring FileManager::GetBasePath(const std::wstring& path)
+std::wstring FileUtils::GetBasePath(const std::wstring& path)
 {
 	std::size_t lastSlash;
 
@@ -121,7 +102,7 @@ std::wstring FileManager::GetBasePath(const std::wstring& path)
 	}
 }
 
-std::string FileManager::RemoveBasePath(const std::string& path)
+std::string FileUtils::RemoveBasePath(const std::string& path)
 {
 	std::size_t lastSlash;
 
@@ -139,7 +120,7 @@ std::string FileManager::RemoveBasePath(const std::string& path)
 	}
 }
 
-std::wstring FileManager::RemoveBasePath(const std::wstring& path)
+std::wstring FileUtils::RemoveBasePath(const std::wstring& path)
 {
 	std::size_t lastSlash;
 
@@ -157,7 +138,7 @@ std::wstring FileManager::RemoveBasePath(const std::wstring& path)
 	}
 }
 
-std::string FileManager::GetFileExtension(const std::string& path)
+std::string FileUtils::GetFileExtension(const std::string& path)
 {
 	std::string filename = RemoveBasePath(path);
 	std::size_t offset = filename.rfind('.');
@@ -165,7 +146,7 @@ std::string FileManager::GetFileExtension(const std::string& path)
 	return (offset == std::string::npos) ? "" : filename.substr(offset + 1);
 }
 
-std::wstring FileManager::GetFileExtension(const std::wstring& path)
+std::wstring FileUtils::GetFileExtension(const std::wstring& path)
 {
 	std::wstring filename = RemoveBasePath(path);
 	std::size_t offset = filename.rfind('.');
@@ -173,7 +154,7 @@ std::wstring FileManager::GetFileExtension(const std::wstring& path)
 	return (offset == std::wstring::npos) ? L"" : filename.substr(offset + 1);
 }
 
-Json::Value FileManager::ReadJsonFromFile(const std::string& path)
+Json::Value FileUtils::ReadJsonFromFile(const std::string& path)
 {
 	std::vector<uint8_t> jsonBuffer = ReadBufferFromFile(path);
 	std::string jsonString(jsonBuffer.begin(), jsonBuffer.end());
@@ -185,7 +166,7 @@ Json::Value FileManager::ReadJsonFromFile(const std::string& path)
 	return root;
 }
 
-Json::Value FileManager::ReadJsonFromFile(const std::wstring& path)
+Json::Value FileUtils::ReadJsonFromFile(const std::wstring& path)
 {
 	std::vector<uint8_t> jsonBuffer = ReadBufferFromFile(path);
 	std::string jsonString(jsonBuffer.begin(), jsonBuffer.end());
