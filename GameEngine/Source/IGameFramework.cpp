@@ -10,7 +10,7 @@ IGameFramework::~IGameFramework()
 
 void IGameFramework::Setup()
 {
-	WindowsCrashUtils::RegisterExceptionFilter();
+	WindowsCrashUtils::RegisterWindowsExceptionFilter();
 
 	CommandLineUtils::Parse();
 	ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath_), "failed to get root path from command line...");
@@ -62,7 +62,7 @@ void IGameFramework::Shutdown()
 		window_.reset();
 
 		Window::UnregisterWindowClass();
-		WindowsCrashUtils::UnregisterExceptionFilter();
+		WindowsCrashUtils::UnregisterWindowsExceptionFilter();
 
 		bIsSetup_ = false;
 	}
