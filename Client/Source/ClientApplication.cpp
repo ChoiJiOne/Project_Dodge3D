@@ -60,6 +60,7 @@ void ClientApplication::Run()
 	Vector3f lightPosition = Vector3f(-4.0f, 4.0f, +0.0f);
 
 	timer_.Reset();
+	RenderManager::Get().SetVsyncMode(true);
 	while (!bIsDoneLoop_)
 	{
 		timer_.Tick();
