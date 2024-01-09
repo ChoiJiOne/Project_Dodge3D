@@ -70,13 +70,10 @@ const float Epsilon = std::numeric_limits<float>::epsilon();
 /**
  * @brief 수학 관련 확장 기능을 제공합니다.
  * 
- * @note
- * - 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
- * - 행렬 관련 기능은 OpenGL 기준입니다.
+ * @note 행렬 관련 기능은 OpenGL 기준입니다.
  */
-class MathUtils
+namespace MathUtils
 {
-public:
 	/**
 	 * @brief 라디안 각을 육십분법 각으로 변환합니다.
 	 *
@@ -84,7 +81,7 @@ public:
 	 *
 	 * @return 변환된 육십분법 각입니다.
 	 */
-	static inline float ToDegree(float radian)
+	inline float ToDegree(float radian)
 	{
 		return (radian * 180.0f) / Pi;
 	}
@@ -97,7 +94,7 @@ public:
 	 *
 	 * @return 변환된 라디안 각입니다.
 	 */
-	static inline float ToRadian(float degree)
+	inline float ToRadian(float degree)
 	{
 		return (degree * Pi) / 180.0f;
 	}
@@ -111,7 +108,7 @@ public:
 	 *
 	 * @return 부동 소수점 값이 0에 가깝다면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	static inline bool NearZero(float value, float epsilon = Epsilon)
+	inline bool NearZero(float value, float epsilon = Epsilon)
 	{
 		return (std::fabs(value) <= epsilon);
 	}
@@ -126,7 +123,7 @@ public:
 	 * @return 두 값 중 큰 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T Max(const T& lhs, const T& rhs)
+	inline T Max(const T& lhs, const T& rhs)
 	{
 		return (lhs < rhs ? rhs : lhs);
 	}
@@ -141,7 +138,7 @@ public:
 	 * @return 두 값 중 작은 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T Min(const T& lhs, const T& rhs)
+	inline T Min(const T& lhs, const T& rhs)
 	{
 		return (lhs < rhs ? lhs : rhs);
 	}
@@ -159,7 +156,7 @@ public:
 	 * - 알고리즘은 11차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	static inline float Sin(float radian)
+	inline float Sin(float radian)
 	{
 		float quotient = OneDivTwoPi * radian;
 		if (radian >= 0.0f)
@@ -199,7 +196,7 @@ public:
 	 * - 알고리즘은 10차원 미니맥스(Minimax) 근사치(1th-degree Minimax approximation) 사용
 	 * - https://gist.github.com/publik-void/067f7f2fef32dbe5c27d6e215f824c91
 	 */
-	static inline float Cos(float radian)
+	inline float Cos(float radian)
 	{
 		float quotient = OneDivTwoPi * radian;
 		if (radian >= 0.0f)
@@ -242,7 +239,7 @@ public:
 	 * @return 범위로 잘려 나간 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T Clamp(const T& value, const T& lower, const T& upper)
+	inline T Clamp(const T& value, const T& lower, const T& upper)
 	{
 		return Min(upper, Max(lower, value));
 	}
@@ -257,7 +254,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	static inline T DotProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
+	inline T DotProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y;
 	}
@@ -272,7 +269,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	static inline T DotProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	inline T DotProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
@@ -287,7 +284,7 @@ public:
 	 * @return 내적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	static inline T DotProduct(const Vector4<T>& lhs, const Vector4<T>& rhs)
+	inline T DotProduct(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
 	}
@@ -304,7 +301,7 @@ public:
 	 * @note 일반적인 3차원 외적 연산과 다릅니다.
 	 */
 	template <typename T>
-	static inline T CrossProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
+	inline T CrossProduct(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
 		return lhs.x * rhs.y - lhs.y * rhs.x;
 	}
@@ -319,7 +316,7 @@ public:
 	 * @return 외적 연산 결과를 반환합니다.
 	 */
 	template <typename T>
-	static inline Vector3<T> CrossProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
+	inline Vector3<T> CrossProduct(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
 		return Vector3<T>(
 			lhs.y * rhs.z - lhs.z * rhs.y,
@@ -337,7 +334,7 @@ public:
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T LengthSquare(const Vector2<T>& v)
+	inline T LengthSquare(const Vector2<T>& v)
 	{
 		return v.x * v.x + v.y * v.y;
 	}
@@ -351,7 +348,7 @@ public:
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T LengthSquare(const Vector3<T>& v)
+	inline T LengthSquare(const Vector3<T>& v)
 	{
 		return v.x * v.x + v.y * v.y + v.z * v.z;
 	}
@@ -365,7 +362,7 @@ public:
 	 * @return 계산된 크기 제곱 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline T LengthSquare(const Vector4<T>& v)
+	inline T LengthSquare(const Vector4<T>& v)
 	{
 		return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
 	}
@@ -379,7 +376,7 @@ public:
 	 * @return 계산된 크기 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline float Length(const Vector2<T>& v)
+	inline float Length(const Vector2<T>& v)
 	{
 		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
 		return std::sqrtf(lengthSquare);
@@ -394,7 +391,7 @@ public:
 	 * @return 계산된 크기 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline float Length(const Vector3<T>& v)
+	inline float Length(const Vector3<T>& v)
 	{
 		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
 		return std::sqrtf(lengthSquare);
@@ -409,7 +406,7 @@ public:
 	 * @return 계산된 크기 값을 반환합니다.
 	 */
 	template <typename T>
-	static inline float Length(const Vector4<T>& v)
+	inline float Length(const Vector4<T>& v)
 	{
 		float lengthSquare = static_cast<float>(LengthSquare<T>(v));
 		return std::sqrtf(lengthSquare);
@@ -423,7 +420,7 @@ public:
 	 *
 	 * @return 정규화된 벡터를 반환합니다.
 	 */
-	static inline Vector2f Normalize(const Vector2f& v)
+	inline Vector2f Normalize(const Vector2f& v)
 	{
 		float length = Length(v);
 		return Vector2f(v.x / length, v.y / length);
@@ -437,7 +434,7 @@ public:
 	 *
 	 * @return 정규화된 벡터를 반환합니다.
 	 */
-	static inline Vector3f Normalize(const Vector3f& v)
+	inline Vector3f Normalize(const Vector3f& v)
 	{
 		float length = Length(v);
 		return Vector3f(v.x / length, v.y / length, v.z / length);
@@ -451,7 +448,7 @@ public:
 	 *
 	 * @return 정규화된 벡터를 반환합니다.
 	 */
-	static inline Vector4f Normalize(const Vector4f& v)
+	inline Vector4f Normalize(const Vector4f& v)
 	{
 		float length = Length(v);
 		return Vector4f(v.x / length, v.y / length, v.z / length, v.w / length);
@@ -466,7 +463,7 @@ public:
 	 *
 	 * @return 생성된 임의의 정수를 반환합니다.
 	 */
-	static inline int32_t GenerateRandomInt(int32_t minValue, int32_t maxValue)
+	inline int32_t GenerateRandomInt(int32_t minValue, int32_t maxValue)
 	{
 		std::random_device randomDevice;
 		std::mt19937 generator(randomDevice());
@@ -484,7 +481,7 @@ public:
 	 *
 	 * @return 생성된 임의의 실수를 반환합니다.
 	 */
-	static inline float GenerateRandomFloat(float minValue, float maxValue)
+	inline float GenerateRandomFloat(float minValue, float maxValue)
 	{
 		std::random_device randomDevice;
 		std::mt19937 generator(randomDevice());
@@ -503,7 +500,7 @@ public:
 	 *
 	 * @return 생성된 이동 변환 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateTranslation(float x, float y, float z)
+	inline Matrix4x4f CreateTranslation(float x, float y, float z)
 	{
 		return Matrix4x4f(
 			1.0f, 0.0f, 0.0f, 0.0f,
@@ -521,7 +518,7 @@ public:
 	 *
 	 * @return 생성된 이동 변환 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateTranslation(const Vector3f& p)
+	inline Matrix4x4f CreateTranslation(const Vector3f& p)
 	{
 		return Matrix4x4f(
 			1.0f, 0.0f, 0.0f, 0.0f,
@@ -541,7 +538,7 @@ public:
 	 *
 	 * @return 생성된 스케일 변환 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateScale(float xScale, float yScale, float zScale)
+	inline Matrix4x4f CreateScale(float xScale, float yScale, float zScale)
 	{
 		return Matrix4x4f(
 			xScale, 0.0f, 0.0f, 0.0f,
@@ -559,7 +556,7 @@ public:
 	 *
 	 * @return 생성된 스케일 변환 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateScale(const Vector3f& scale)
+	inline Matrix4x4f CreateScale(const Vector3f& scale)
 	{
 		return Matrix4x4f(
 			scale.x, 0.0f, 0.0f, 0.0f,
@@ -577,7 +574,7 @@ public:
 	 *
 	 * @return 생성된 회전 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateRotateX(float radian)
+	inline Matrix4x4f CreateRotateX(float radian)
 	{
 		float s = Sin(radian);
 		float c = Cos(radian);
@@ -598,7 +595,7 @@ public:
 	 *
 	 * @return 생성된 회전 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateRotateY(float radian)
+	inline Matrix4x4f CreateRotateY(float radian)
 	{
 		float s = Sin(radian);
 		float c = Cos(radian);
@@ -619,7 +616,7 @@ public:
 	 *
 	 * @return 생성된 회전 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateRotateZ(float radian)
+	inline Matrix4x4f CreateRotateZ(float radian)
 	{
 		float s = Sin(radian);
 		float c = Cos(radian);
@@ -645,7 +642,7 @@ public:
 	 * - 로드리게스 회전 공식 참조
 	 * - https://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
 	 */
-	static inline Matrix4x4f CreateRotate(float radian, const Vector3f& axis)
+	inline Matrix4x4f CreateRotate(float radian, const Vector3f& axis)
 	{
 		float s = Sin(radian);
 		float c = Cos(radian);
@@ -672,7 +669,7 @@ public:
 	 *
 	 * @return 생성된 직교 투영 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
+	inline Matrix4x4f CreateOrtho(float left, float right, float bottom, float top, float zNear, float zFar)
 	{
 		float width = (right - left);
 		float sumLR = (right + left);
@@ -700,7 +697,7 @@ public:
 	 * 
 	 * @return 생성된 원근 투영 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreatePerspective(float fov, float aspect, float nearZ, float farZ)
+	inline Matrix4x4f CreatePerspective(float fov, float aspect, float nearZ, float farZ)
 	{
 		float halfFov = fov / 2.0f;
 		float tanHalfFovy = Sin(halfFov) / Cos(halfFov);
@@ -723,7 +720,7 @@ public:
 	 * 
 	 * @return 생성된 시야 행렬을 반환합니다.
 	 */
-	static inline Matrix4x4f CreateLookAt(const Vector3f& eyePosition, const Vector3f& focusPosition, const Vector3f& upDirection)
+	inline Matrix4x4f CreateLookAt(const Vector3f& eyePosition, const Vector3f& focusPosition, const Vector3f& upDirection)
 	{
 		Vector3f f = Normalize(focusPosition - eyePosition);
 		Vector3f s = Normalize(CrossProduct(f, upDirection));
