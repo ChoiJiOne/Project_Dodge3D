@@ -1,18 +1,18 @@
 #include "CommandLineUtils.h"
 
-#include "Assertion.h"
-#include "StringUtils.h"
-
 #include <array>
 #include <algorithm>
 #include <regex>
 
-bool CommandLineUtils::bIsInitialized_ = false;
-std::unordered_map<std::wstring, std::wstring> CommandLineUtils::argumentMaps_;
+#include "Assertion.h"
+#include "StringUtils.h"
+
+bool bIsInitialized = false;
+std::unordered_map<std::wstring, std::wstring> argumentMaps;
 
 void CommandLineUtils::Parse()
 {
-	ASSERT(!bIsInitialized_, "Parse method can only be called once after the program starts...");
+	ASSERT(!bIsInitialized, "Parse method can only be called once after the program starts...");
 
 	std::vector<std::wstring> arguments = StringUtils::Split(GetCommandLineW(), L" ");
 	std::wregex pattern(L"^[^=]+=[^=]+$");
@@ -21,11 +21,11 @@ void CommandLineUtils::Parse()
 		if (std::regex_match(arguments[index], pattern))
 		{
 			std::vector<std::wstring> keyValue = StringUtils::Split(arguments[index], L"=");
-			argumentMaps_.insert({ keyValue.front(), keyValue.back() });
+			argumentMaps.insert({ keyValue.front(), keyValue.back() });
 		}
 	}
 
-	bIsInitialized_ = true;
+	bIsInitialized = true;
 }
 
 bool CommandLineUtils::GetBoolValue(const std::string& key, bool& value)
@@ -41,7 +41,7 @@ bool CommandLineUtils::GetBoolValue(const std::wstring& key, bool& value)
 		return false;
 	}
 
-	std::wstring valueStr = StringUtils::ToLower(argumentMaps_.at(key));
+	std::wstring valueStr = StringUtils::ToLower(argumentMaps.at(key));
 	if (valueStr == L"true")
 	{
 		value = true;
@@ -72,7 +72,7 @@ bool CommandLineUtils::GetIntValue(const std::wstring& key, int32_t& value)
 		return false;
 	}
 
-	return StringUtils::ToInt(argumentMaps_.at(key), value);
+	return StringUtils::ToInt(argumentMaps.at(key), value);
 }
 
 bool CommandLineUtils::GetFloatValue(const std::string& key, float& value)
@@ -88,7 +88,7 @@ bool CommandLineUtils::GetFloatValue(const std::wstring& key, float& value)
 		return false;
 	}
 
-	return StringUtils::ToFloat(argumentMaps_.at(key), value);
+	return StringUtils::ToFloat(argumentMaps.at(key), value);
 }
 
 bool CommandLineUtils::GetStringValue(const std::string& key, std::string& value)
@@ -130,12 +130,12 @@ bool CommandLineUtils::GetStringValue(const std::wstring& key, std::wstring& val
 	{
 		return false;
 	}
-	
-	value = argumentMaps_.at(key);
+
+	value = argumentMaps.at(key);
 	return true;
 }
 
 bool CommandLineUtils::IsValid(const std::wstring& key)
 {
-	return argumentMaps_.find(key) != argumentMaps_.end();
+	return argumentMaps.find(key) != argumentMaps.end();
 }
