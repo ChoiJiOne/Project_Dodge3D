@@ -75,6 +75,8 @@ void RenderManager::Startup()
 
 	ASSERT(gladLoadGL(), "failed to load OpenGL function...");
 
+	CommandLineUtils::GetBoolValue("vsync", bIsEnableVsync_);
+
 	SetVsyncMode(bIsEnableVsync_);
 	SetDepthMode(bIsEnableDepth_);
 	SetStencilMode(bIsEnableStencil_);
