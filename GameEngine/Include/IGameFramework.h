@@ -11,7 +11,7 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "DirectionalLight.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 #include "GameTimer.h"
 #include "GeometryGenerator.h"
 #include "GLAssertion.h"

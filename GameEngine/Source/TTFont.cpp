@@ -2,7 +2,7 @@
 
 #include "Assertion.h"
 #include "GLAssertion.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 
 #include <glad/glad.h>
 #include <stb_rect_pack.h>
@@ -23,7 +23,7 @@ void TTFont::Initialize(const std::wstring& path, int32_t beginCodePoint, int32_
 	beginCodePoint_ = beginCodePoint;
 	endCodePoint_ = endCodePoint;
 
-	std::vector<uint8_t> buffer = FileManager::Get().ReadBufferFromFile(path);
+	std::vector<uint8_t> buffer = FileUtils::ReadBufferFromFile(path);
 
 	stbtt_fontinfo info;
 	const unsigned char* bufferPtr = reinterpret_cast<const unsigned char*>(&buffer[0]);

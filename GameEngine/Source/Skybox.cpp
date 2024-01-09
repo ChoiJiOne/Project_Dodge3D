@@ -1,7 +1,7 @@
 #include "Skybox.h"
 
 #include "Assertion.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
 #include "TextureUtils.h"
@@ -68,12 +68,12 @@ void Skybox::Active(uint32_t unit) const
 
 std::wstring Skybox::GetCubemapExtension(const std::vector<std::wstring>& resourcePaths)
 {
-	std::wstring expectExtension = StringUtils::ToLower(FileManager::Get().GetFileExtension(resourcePaths.front()));
+	std::wstring expectExtension = StringUtils::ToLower(FileUtils::GetFileExtension(resourcePaths.front()));
 	std::wstring extension;
 
 	for (const auto& resourcePath : resourcePaths)
 	{
-		extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(resourcePath));
+		extension = StringUtils::ToLower(FileUtils::GetFileExtension(resourcePath));
 
 		if (expectExtension != extension)
 		{

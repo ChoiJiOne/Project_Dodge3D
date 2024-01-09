@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 #include "Assertion.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
 
@@ -21,8 +21,8 @@ void Shader::Initialize(const std::wstring& vsPath, const std::wstring& fsPath)
 
 	uniformLocationCache_ = std::map<std::string, uint32_t>();
 	
-	std::vector<uint8_t> vsSourceBuffer = FileManager::Get().ReadBufferFromFile(vsPath);
-	std::vector<uint8_t> fsSourceBuffer = FileManager::Get().ReadBufferFromFile(fsPath);
+	std::vector<uint8_t> vsSourceBuffer = FileUtils::ReadBufferFromFile(vsPath);
+	std::vector<uint8_t> fsSourceBuffer = FileUtils::ReadBufferFromFile(fsPath);
 
 	std::string vsSource(vsSourceBuffer.begin(), vsSourceBuffer.end());
 	std::string fsSource(fsSourceBuffer.begin(), fsSourceBuffer.end());

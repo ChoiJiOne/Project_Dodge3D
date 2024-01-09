@@ -34,7 +34,6 @@ void IGameFramework::Setup()
 	InputManager::Get().SetInputControlWindow(window_.get());
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
 
-	FileManager::Get().Startup();
 	InputManager::Get().Startup();
 	ResourceManager::Get().Startup();
 	RenderManager::Get().Startup();
@@ -58,7 +57,6 @@ void IGameFramework::Shutdown()
 		ResourceManager::Get().Shutdown();
 		RenderManager::Get().Shutdown();
 		InputManager::Get().Shutdown();
-		FileManager::Get().Shutdown();
 
 		window_->Destroy();
 		window_.reset();

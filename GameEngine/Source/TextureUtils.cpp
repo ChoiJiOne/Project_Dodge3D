@@ -1,7 +1,7 @@
 #include "TextureUtils.h"
 
 #include "Assertion.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 #include "StringUtils.h"
 
 #include <array>
@@ -38,7 +38,7 @@ std::array<std::wstring, 7> supportExtensions = {
 
 bool TextureUtils::IsSupportExtension(const std::wstring& path)
 {
-	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
+	std::wstring extension = StringUtils::ToLower(FileUtils::GetFileExtension(path));
 	for (const auto& supportExtension : supportExtensions)
 	{
 		if (extension == supportExtension)
@@ -77,7 +77,7 @@ GLenum TextureUtils::FindTextureFormatFromChannel(uint32_t channel)
 
 EAstcBlockSize TextureUtils::FindAstcBlockSizeFromFile(const std::wstring& path)
 {
-	std::wstring filename = FileManager::Get().RemoveBasePath(path);
+	std::wstring filename = FileUtils::RemoveBasePath(path);
 
 	for (const auto& blockSize : blockSizeMaps)
 	{
@@ -111,12 +111,12 @@ void TextureUtils::LoadAstcFromFile(const std::wstring& path, std::vector<uint8_
 	outBlockSize = FindAstcBlockSizeFromFile(path);
 	ASSERT(outBlockSize != EAstcBlockSize::None, L"%s can't find astc block size...", path.c_str());
 
-	outAstcBuffer = FileManager::Get().ReadBufferFromFile(path);
+	outAstcBuffer = FileUtils::ReadBufferFromFile(path);
 }
 
 void TextureUtils::LoadDxtFromFile(const std::wstring& path, std::vector<uint8_t>& outDxtBuffer, uint32_t& outFormat, uint32_t& outBlockSize)
 {
-	outDxtBuffer = FileManager::Get().ReadBufferFromFile(path);
+	outDxtBuffer = FileUtils::ReadBufferFromFile(path);
 	DDSFileHeader* dxtDataPtr = reinterpret_cast<DDSFileHeader*>(outDxtBuffer.data());
 
 	std::string ddsFileCode;

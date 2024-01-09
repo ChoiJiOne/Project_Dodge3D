@@ -1,7 +1,7 @@
 #include "Texture2D.h"
 
 #include "Assertion.h"
-#include "FileManager.h"
+#include "FileUtils.h"
 #include "GLAssertion.h"
 #include "StringUtils.h"
 #include "TextureUtils.h"
@@ -24,7 +24,7 @@ void Texture2D::Initialize(const std::wstring& path)
 	ASSERT(!bIsInitialized_, "already initialize 2d texture resource...");
 	ASSERT(TextureUtils::IsSupportExtension(path), L"%s is not support extension...", path.c_str());
 
-	std::wstring extension = StringUtils::ToLower(FileManager::Get().GetFileExtension(path));
+	std::wstring extension = StringUtils::ToLower(FileUtils::GetFileExtension(path));
 	if (extension == L"astc")
 	{
 		textureID_ = CreateAstcCompressionTexture(path);
