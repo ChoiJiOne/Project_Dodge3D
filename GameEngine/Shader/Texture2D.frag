@@ -1,6 +1,6 @@
 #version 460 core
 
-layout(location = 0) in vec2 inTexture;
+layout(location = 0) in vec2 inTexCoords;
 
 layout(location = 0) out vec4 outColor;
 
@@ -25,7 +25,7 @@ void main()
 {
 	if(!bIsActiveOutline)
 	{
-		outColor = texture(spriteTexture, inTexture);
+		outColor = texture(spriteTexture, inTexCoords);
 	}
 	else
 	{
@@ -33,12 +33,12 @@ void main()
 		float outline = 0.0f;
 		for(int index = 0; index < offsets.length(); ++index)
 		{
-			outline += texture(spriteTexture, inTexture + size * offsets[index]).a;
+			outline += texture(spriteTexture, inTexCoords + size * offsets[index]).a;
 		}
 
 		outline = min(outline, 1.0f);
 		
-		vec4 colorRGBA = texture(spriteTexture, inTexture);
+		vec4 colorRGBA = texture(spriteTexture, inTexCoords);
 		outColor = mix(colorRGBA, outlineRGBA, outline - colorRGBA.a);
 	}
 
