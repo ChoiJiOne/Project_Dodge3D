@@ -7,36 +7,15 @@
 
 /**
  * @brief 문자열의 확장 기능을 제공합니다.
- * 
- * @note 
- * - 이 클래스의 모든 멤버 변수와 메서드는 모두 static입니다.
- * - 문자열은 std::string, std::wstring 표준 문자열 기준입니다.
+ *
+ * @note 문자열은 std::string, std::wstring 표준 문자열 기준입니다.
  */
-class StringUtils
+namespace StringUtils
 {
-public:
 	/**
 	 * @brief 문자열 버퍼의 크기입니다.
 	 */
-	static const int32_t STRING_BUFFER_SIZE = 1024;
-
-
-public:
-	/**
-	 * @brief 형식화된 문자열을 반환합니다.
-	 *
-	 * @note
-	 * - 이 메서드는 snprintf와 같은 함수를 대체하기 위한 것입니다.
-	 * - 문자열의 길이는 최대 1024 입니다.
-	 *
-	 * @param format 형식 문자열입니다.
-	 * @param ... 문자열의 형식에 대응하는 가변인자입니다.
-	 *
-	 * @return 형식화된 표준 문자열을 반환합니다.
-	 *
-	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/vsnprintf-vsnprintf-vsnprintf-l-vsnwprintf-vsnwprintf-l?view=msvc-170
-	 */
-	static std::string PrintF(const char* format, ...);
+	const int32_t STRING_BUFFER_SIZE = 1024;
 
 
 	/**
@@ -53,7 +32,24 @@ public:
 	 *
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/vsnprintf-vsnprintf-vsnprintf-l-vsnwprintf-vsnwprintf-l?view=msvc-170
 	 */
-	static std::wstring PrintF(const wchar_t* format, ...);
+	std::string PrintF(const char* format, ...);
+
+
+	/**
+	 * @brief 형식화된 문자열을 반환합니다.
+	 *
+	 * @note
+	 * - 이 메서드는 snprintf와 같은 함수를 대체하기 위한 것입니다.
+	 * - 문자열의 길이는 최대 1024 입니다.
+	 *
+	 * @param format 형식 문자열입니다.
+	 * @param ... 문자열의 형식에 대응하는 가변인자입니다.
+	 *
+	 * @return 형식화된 표준 문자열을 반환합니다.
+	 *
+	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/vsnprintf-vsnprintf-vsnprintf-l-vsnwprintf-vsnwprintf-l?view=msvc-170
+	 */
+	std::wstring PrintF(const wchar_t* format, ...);
 
 
 	/**
@@ -64,7 +60,7 @@ public:
 	 *
 	 * @return 분리된 문자열을 담고 있는 벡터(std::vector)를 반환합니다.
 	 */
-	static std::vector<std::string> Split(const std::string& text, const std::string& delimiter);
+	std::vector<std::string> Split(const std::string& text, const std::string& delimiter);
 
 
 	/**
@@ -75,7 +71,7 @@ public:
 	 *
 	 * @return 분리된 문자열을 담고 있는 벡터(std::vector)입니다.
 	 */
-	static std::vector<std::wstring> Split(const std::wstring& text, const std::wstring& delimiter);
+	std::vector<std::wstring> Split(const std::wstring& text, const std::wstring& delimiter);
 
 
 	/**
@@ -87,7 +83,7 @@ public:
 	 *
 	 * @return 변환된 문자열을 반환합니다.
 	 */
-	static std::wstring Convert(const std::string& text);
+	std::wstring Convert(const std::string& text);
 
 
 	/**
@@ -99,7 +95,7 @@ public:
 	 *
 	 * @return 변환된 문자열을 반환합니다.
 	 */
-	static std::string Convert(const std::wstring& text);
+	std::string Convert(const std::wstring& text);
 
 
 	/**
@@ -109,7 +105,7 @@ public:
 	 *
 	 * @return 문자열 내의 알파벳이 모두 소문자로 변환된 전체 문자열을 반환합니다.
 	 */
-	static std::string ToLower(const std::string& text);
+	std::string ToLower(const std::string& text);
 
 
 	/**
@@ -119,7 +115,7 @@ public:
 	 *
 	 * @return 문자열 내의 알파벳이 모두 소문자로 변환된 전체 문자열을 반환합니다.
 	 */
-	static std::wstring ToLower(const std::wstring& text);
+	std::wstring ToLower(const std::wstring& text);
 
 
 	/**
@@ -129,7 +125,7 @@ public:
 	 *
 	 * @return 문자열 내의 알파벳이 모두 대문자로 변환된 전체 문자열을 반환합니다.
 	 */
-	static std::string ToUpper(const std::string& text);
+	std::string ToUpper(const std::string& text);
 
 
 	/**
@@ -139,7 +135,7 @@ public:
 	 *
 	 * @return 문자열 내의 알파벳이 모두 대문자로 변환된 전체 문자열을 반환합니다.
 	 */
-	static std::wstring ToUpper(const std::wstring& text);
+	std::wstring ToUpper(const std::wstring& text);
 
 
 	/**
@@ -152,7 +148,7 @@ public:
 	 *
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtol-wcstol-strtol-l-wcstol-l?view=msvc-170
 	 */
-	static bool ToInt(const std::string& integer, int32_t& outInteger);
+	bool ToInt(const std::string& integer, int32_t& outInteger);
 
 
 	/**
@@ -165,7 +161,7 @@ public:
 	 *
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtol-wcstol-strtol-l-wcstol-l?view=msvc-170
 	 */
-	static bool ToInt(const std::wstring& integer, int32_t& outInteger);
+	bool ToInt(const std::wstring& integer, int32_t& outInteger);
 
 
 	/**
@@ -178,7 +174,7 @@ public:
 	 *
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtof-strtof-l-wcstof-wcstof-l?view=msvc-170
 	 */
-	static bool ToFloat(const std::string& floating, float& outFloating);
+	bool ToFloat(const std::string& floating, float& outFloating);
 
 
 	/**
@@ -191,34 +187,21 @@ public:
 	 *
 	 * @see https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/strtof-strtof-l-wcstof-wcstof-l?view=msvc-170
 	 */
-	static bool ToFloat(const std::wstring& floating, float& outFloating);
+	bool ToFloat(const std::wstring& floating, float& outFloating);
 
 
 	/**
 	 * @brief char 문자열 버퍼의 포인터를 얻습니다.
-	 * 
+	 *
 	 * @return char 문자열 버퍼의 포인터를 반환합니다.
 	 */
-	static char* GetCharBufferPtr() { return charBuffer_; }
+	char* GetCharBufferPtr();
 
 
 	/**
 	 * @brief wchar_t 문자열 버퍼의 포인터를 얻습니다.
-	 * 
+	 *
 	 * @return wchar_t 문자열 버퍼의 포인터를 반환합니다.
 	 */
-	static wchar_t* GetWideCharBufferPtr() { return wcharBuffer_; }
-
-
-private:
-	/**
-	 * @brief char 문자열 버퍼입니다.
-	 */
-	static char charBuffer_[STRING_BUFFER_SIZE];
-
-
-	/**
-	 * @brief wchar_t 문자열 버퍼입니다.
-	 */
-	static wchar_t wcharBuffer_[STRING_BUFFER_SIZE];
+	wchar_t* GetWideCharBufferPtr();
 };

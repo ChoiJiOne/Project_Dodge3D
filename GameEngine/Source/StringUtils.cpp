@@ -2,27 +2,27 @@
 
 #include <algorithm>
 
-char StringUtils::charBuffer_[STRING_BUFFER_SIZE];
-wchar_t StringUtils::wcharBuffer_[STRING_BUFFER_SIZE];
+char charBuffer[StringUtils::STRING_BUFFER_SIZE];
+wchar_t wcharBuffer[StringUtils::STRING_BUFFER_SIZE];
 
 std::string StringUtils::PrintF(const char* format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	int32_t size = vsnprintf(charBuffer_, STRING_BUFFER_SIZE, format, args);
+	int32_t size = vsnprintf(charBuffer, STRING_BUFFER_SIZE, format, args);
 	va_end(args);
 
-	return std::string(charBuffer_, size);
+	return std::string(charBuffer, size);
 }
 
 std::wstring StringUtils::PrintF(const wchar_t* format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	int32_t size = _vsnwprintf_s(wcharBuffer_, STRING_BUFFER_SIZE, format, args);
+	int32_t size = _vsnwprintf_s(wcharBuffer, STRING_BUFFER_SIZE, format, args);
 	va_end(args);
 
-	return std::wstring(wcharBuffer_, size);
+	return std::wstring(wcharBuffer, size);
 }
 
 std::vector<std::string> StringUtils::Split(const std::string& text, const std::string& delimiter)
@@ -59,14 +59,14 @@ std::vector<std::wstring> StringUtils::Split(const std::wstring& text, const std
 
 std::wstring StringUtils::Convert(const std::string& text)
 {
-	std::size_t size = std::mbstowcs(wcharBuffer_, text.c_str(), STRING_BUFFER_SIZE);
-	return std::wstring(wcharBuffer_, size);
+	std::size_t size = std::mbstowcs(wcharBuffer, text.c_str(), STRING_BUFFER_SIZE);
+	return std::wstring(wcharBuffer, size);
 }
 
 std::string StringUtils::Convert(const std::wstring& text)
 {
-	std::size_t size = std::wcstombs(charBuffer_, text.c_str(), STRING_BUFFER_SIZE);
-	return std::string(charBuffer_, size);
+	std::size_t size = std::wcstombs(charBuffer, text.c_str(), STRING_BUFFER_SIZE);
+	return std::string(charBuffer, size);
 }
 
 std::string StringUtils::ToLower(const std::string& text)
@@ -157,4 +157,14 @@ bool StringUtils::ToFloat(const std::wstring& floating, float& outFloating)
 
 	outFloating = ans;
 	return true;
+}
+
+char* StringUtils::GetCharBufferPtr()
+{
+	return charBuffer;
+}
+
+wchar_t* StringUtils::GetWideCharBufferPtr()
+{
+	return wcharBuffer;
 }
