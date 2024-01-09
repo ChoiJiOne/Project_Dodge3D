@@ -1,6 +1,6 @@
-#include "IGameFramework.h"
+#include "IApplication.h"
 
-IGameFramework::~IGameFramework()
+IApplication::~IApplication()
 {
 	if (bIsSetup_)
 	{
@@ -8,7 +8,7 @@ IGameFramework::~IGameFramework()
 	}
 }
 
-void IGameFramework::Setup()
+void IApplication::Setup()
 {
 	WindowsCrashUtils::RegisterWindowsExceptionFilter();
 
@@ -50,7 +50,7 @@ void IGameFramework::Setup()
 	bIsSetup_ = true;
 }
 
-void IGameFramework::Shutdown()
+void IApplication::Shutdown()
 {
 	if (bIsSetup_)
 	{

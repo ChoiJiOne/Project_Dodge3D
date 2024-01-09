@@ -36,49 +36,51 @@
 
 
 /**
- * @brief 게임 프레임워크 인터페이스입니다.
- * 
- * @note 게임 루프가 구현되는 클래스는 반드시 이 인터페이스를 상속받아야 합니다.
+ * @brief 애플리케이션 인터페이스입니다.
+ *
+ * @note 애플리케이션을 초기화 및 실행하는 클래스는 반드시 이 클래스를 상속받아야 합니다.
  */
-class IGameFramework
+class IApplication
 {
 public:
 	/**
-	 * @brief 게임 프레임워크의 디폴트 생성자입니다.
+	 * @brief 애플리케이션 인터페이스의 디폴트 생성자입니다.
 	 */
-	IGameFramework() = default;
+	IApplication() = default;
 
 
 	/**
-	 * @brief 게임 프레임워크의 가상 소멸자입니다.
+	 * @brief 애플리케이션 인터페이스의 가상 소멸자입니다.
 	 */
-	virtual ~IGameFramework();
+	virtual ~IApplication();
 
 
 	/**
-	 * @brief 게임 프레임워크의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 * @brief 애플리케이션 인터페이스의 복사 생성자 및 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(IGameFramework);
+	DISALLOW_COPY_AND_ASSIGN(IApplication);
 
 
 	/**
-	 * @brief 게임 프레임워크를 초기화합니다.
+	 * @brief 애플리케이션 인터페이스를 초기화합니다.
+	 *
+	 * @note 하위 클래스에서는 초기화 전에 이 메서드를 반드시 호출해야 합니다.
 	 */
 	virtual void Setup();
 
 
 	/**
-	 * @brief 게임 프레임워크 사용을 종료합니다.
+	 * @brief 애플리케이션 인터페이스의 사용을 종료합니다.
 	 */
 	virtual void Shutdown();
 
 
 	/**
-	 * @brief 게임 프레임워크를 실행합니다.
+	 * @brief 애플리케이션을 실행합니다.
 	 */
 	virtual void Run() = 0;
 
-
+	
 protected:
 	/**
 	 * @brief 게임 프레임워크를 초기화했는지 확인합니다.
