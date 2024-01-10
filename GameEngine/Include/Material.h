@@ -8,7 +8,7 @@
 /**
  * @brief 메시의 기본 재질(Material)입니다.
  */
-class Material : IResource
+class Material : public IResource
 {
 public:
 	/**
