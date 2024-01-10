@@ -46,16 +46,19 @@ private:
 	Vector3f cameraPosition;
 
 	Shader* depthShader;
-	Shader* shadowShader;
+	Shader* light;
 
 	StaticMesh* floor;
 	StaticMesh* cube;
 	StaticMesh* sphere;
 
-	ShadowMap* shadowMap;
-
-	Vector3f lightPosition;
-
+	// 1.
+	ShadowMap* shadowMap0;
+	Vector3f lightPosition0;
+	Vector3f lightDirection0;
+	Matrix4x4f lightView0;
+	Matrix4x4f lightProjection0;
+	
 	const uint32_t SHADOW_WIDTH = 1024;
 	const uint32_t SHADOW_HEIGHT = 1024;
 
