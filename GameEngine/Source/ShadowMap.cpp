@@ -78,7 +78,7 @@ void ShadowMap::Unbind()
 	}
 }
 
-void ShadowMap::Active(uint32_t unit)
+void ShadowMap::Active(uint32_t unit) const
 {
 	GL_ASSERT(glActiveTexture(GL_TEXTURE0 + unit), "failed to active %d texture unit...", (GL_TEXTURE0 + unit));
 	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, shadowMapID_), "failed to bind shadow map texture...");
