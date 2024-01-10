@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "Assertion.h"
+#include "Camera3D.h"
 #include "CommandLineUtils.h"
 #include "FileUtils.h"
 #include "GameTimer.h"
