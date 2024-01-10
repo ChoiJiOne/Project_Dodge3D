@@ -2,9 +2,6 @@
 
 #include <array>
 
-#include <glad/glad_wgl.h>
-#include <glad/glad.h>
-
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "GLAssertion.h"
@@ -24,6 +21,9 @@
 #include "TextureShader2D.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
+
+#include <glad/glad_wgl.h>
+#include <glad/glad.h>
 
 /**
  * @brief OpenGL의 버전입니다.
@@ -77,7 +77,8 @@ void RenderManager::Startup()
 
 	ASSERT(gladLoadGL(), "failed to load OpenGL function...");
 
-	CommandLineUtils::GetBoolValue("vsync", bIsEnableVsync_);
+	CommandLineUtils::GetBoolValue(L"imgui", bIsEnableImGui_);
+	CommandLineUtils::GetBoolValue(L"vsync", bIsEnableVsync_);
 
 	SetVsyncMode(bIsEnableVsync_);
 	SetDepthMode(bIsEnableDepth_);

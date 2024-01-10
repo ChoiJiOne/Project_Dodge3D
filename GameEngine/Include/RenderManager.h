@@ -648,6 +648,12 @@ private:
 
 
 	/**
+	 * @brief IMGUI가 활성화 되었는지 확인합니다.
+	 */
+	bool bIsEnableImGui_ = false;
+
+
+	/**
 	 * @brief 수직 동기화 활성화 여부입니다. 기본 값은 비활성화입니다.
 	 */
 	bool bIsEnableVsync_ = false;
