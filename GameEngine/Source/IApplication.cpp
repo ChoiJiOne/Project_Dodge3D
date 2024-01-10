@@ -38,6 +38,7 @@ void IApplication::Setup()
 	ResourceManager::Get().Startup();
 	RenderManager::Get().Startup();
 	ObjectManager::Get().Startup();
+	SceneManager::Get().Startup();
 
 	auto defaultLoopDoneEvent = [&]() { bIsDoneLoop_ = true; };
 	auto defaultResizeEvent = [&]() { RenderManager::Get().Resize(); };
@@ -55,6 +56,7 @@ void IApplication::Shutdown()
 {
 	if (bIsSetup_)
 	{
+		SceneManager::Get().Shutdown();
 		ObjectManager::Get().Shutdown();
 		ResourceManager::Get().Shutdown();
 		RenderManager::Get().Shutdown();
