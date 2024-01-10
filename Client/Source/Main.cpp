@@ -159,10 +159,6 @@ public:
 				shadowShader->Unbind();
 			}
 
-			RenderManager::Get().RenderLine3D(view, projection, Vector3f(-10.0f, 0.0f, 0.0f), Vector3f(+10.0f, 0.0f, 0.0f), Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
-			RenderManager::Get().RenderLine3D(view, projection, Vector3f(0.0f, -10.0f, 0.0f), Vector3f(0.0f, +10.0f, 0.0f), Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
-			RenderManager::Get().RenderLine3D(view, projection, Vector3f(0.0f, 0.0f, -10.0f), Vector3f(0.0f, 0.0f, +10.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f));
-			RenderManager::Get().RenderLine3D(view, projection, Vector3f(0.0f, 0.0f, 0.0f), lightPosition, Vector4f(0.0f, 1.0f, 1.0f, 1.0f));
 			RenderManager::Get().EndFrame();
 		}
 	}
