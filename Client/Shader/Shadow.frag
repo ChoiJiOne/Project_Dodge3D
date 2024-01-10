@@ -8,8 +8,23 @@ layout(location = 0) out vec4 outColor;
 
 layout(binding = 0) uniform sampler2D shadowMap;
 
-uniform vec3 lightPosition;
-uniform vec3 viewPosition;
+struct Material
+{
+	vec3 ambientRGB;
+	vec3 diffuseRGB;
+	vec3 specularRGB;
+	float shininess;
+};
+
+struct DirectionalLight
+{
+	vec3 position;
+	vec3 direction;
+
+	vec3 ambientRGB;
+	vec3 diffuseRGB;
+	vec3 specularRGB;
+};
 
 float ComputeShadow(vec4 worldPositionInLightSpace)
 {
@@ -36,22 +51,26 @@ float ComputeShadow(vec4 worldPositionInLightSpace)
 	return shadow;
 }
 
+uniform vec3 viewPosition;
+uniform Material material;
+uniform DirectionalLight light;
+
 void main()
 {
 	// ambient
-	vec3 ambientRGB = vec3(0.3f);
+	vec3 ambientRGB = light.ambientRGB * material.ambientRGB;
 
 	// diffuise
 	vec3 norm = normalize(inNormal);
-	vec3 lightDirection = normalize(lightPosition - inWorldPosition);
+	vec3 lightDirection = normalize(light.position - inWorldPosition);
 	float diff = max(dot(lightDirection, norm), 0.0f);
-	vec3 diffuseRGB = diff * vec3(0.5f, 0.5f, 0.5f);
+	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
 	// specular
 	vec3 viewDirection = normalize(viewPosition - inWorldPosition);
 	vec3 halfDirection = normalize(lightDirection + viewDirection);
-	float spec = pow(max(dot(norm, halfDirection), 0.0f), 128.0f);
-	vec3 specularRGB = spec * vec3(1.0f, 1.0f, 1.0f);
+	float spec = pow(max(dot(norm, halfDirection), 0.0f), material.shininess);
+	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
 
 	float shadow = ComputeShadow(inWorldPositionInLightSpace);
 
