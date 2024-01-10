@@ -94,6 +94,7 @@ void RenderManager::Startup()
 	shaderCache_.insert({ L"Texture2D",  ResourceManager::Get().CreateResource<TextureShader2D>("Texture2D")   });
 	shaderCache_.insert({ L"Skybox",     ResourceManager::Get().CreateResource<Shader>("Skybox")               });
 	shaderCache_.insert({ L"ShadowMap",  ResourceManager::Get().CreateResource<Shader>("ShadowMap")            });
+	shaderCache_.insert({ L"Light",      ResourceManager::Get().CreateResource<Shader>("Light")                });
 	
 	for (auto& shader : shaderCache_)
 	{
