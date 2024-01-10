@@ -5,6 +5,8 @@
 #include "Window.h"
 #include "WindowsAssertion.h"
 
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
 #include <imgui_impl_win32.h>
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -23,6 +25,16 @@ void InputManager::Startup()
 
 	CommandLineUtils::GetBoolValue(L"imgui", bIsEnableImGui_);
 
+	if (bIsEnableImGui_)
+	{
+		ImGui::CreateContext();
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.IniFilename = nullptr; // 현재 사용하지 않음.
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
+	}
+
 	inputManagerPtr = this;
 	bIsStartup_ = true;
 }
@@ -30,6 +42,8 @@ void InputManager::Startup()
 void InputManager::Shutdown()
 {
 	ASSERT(bIsStartup_, "not startup before or has already been shutdowned...");
+
+	ImGui::DestroyContext();
 
 	inputManagerPtr = nullptr;
 	inputControlWindow_ = nullptr;
@@ -45,6 +59,13 @@ void InputManager::Tick()
 
 	prevCursorPosition_ = currCursorPosition_;
 	currCursorPosition_ = GetCurrentCursorPosition();
+
+	if (bIsEnableImGui_)
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
 }
 
 EPressState InputManager::GetVirtualKeyPressState(const EVirtualKey& virtualKey)
