@@ -33,12 +33,15 @@ void LightShader::SetLight(const Light* light)
 
 void LightShader::SetCamera(const Camera3D* camera)
 {
+	SetUniform("viewPosition", camera->GetEyePosition());
 	SetUniform("view", camera->GetViewMatrix());
 	SetUniform("projection", camera->GetProjectionMatrix());
 }
 
 void LightShader::DrawMesh3D(const Matrix4x4f& world, const StaticMesh* mesh, const ShadowMap* shadowMap)
 {
+	shadowMap->Active(0);
+
 	SetUniform("world", world);
 
 	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind static mesh vertex array...");
