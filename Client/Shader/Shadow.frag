@@ -16,15 +16,30 @@ struct Material
 	float shininess;
 };
 
-struct DirectionalLight
+struct Light // Directional Light...
 {
 	vec3 position;
 	vec3 direction;
-
 	vec3 ambientRGB;
 	vec3 diffuseRGB;
 	vec3 specularRGB;
 };
+
+float ComputeShadow(vec4 worldPositionInLightSpace);
+vec3 ComputeLight(in Light light, in Material material, in vec3 normal, in vec3 worldPosition, in vec3 viewDirection, in vec4 worldPositionInLightSpace);
+
+uniform vec3 viewPosition;
+uniform Material material;
+uniform Light light;
+
+void main()
+{
+	vec3 norm = normalize(inNormal);
+	vec3 viewDirection = normalize(viewPosition - inWorldPosition);
+	vec3 outputRGB = ComputeLight(light, material, norm, inWorldPosition, viewDirection, inWorldPositionInLightSpace);
+
+	outColor = vec4(outputRGB, 1.0f);
+}
 
 float ComputeShadow(vec4 worldPositionInLightSpace)
 {
@@ -51,30 +66,22 @@ float ComputeShadow(vec4 worldPositionInLightSpace)
 	return shadow;
 }
 
-uniform vec3 viewPosition;
-uniform Material material;
-uniform DirectionalLight light;
-
-void main()
+vec3 ComputeLight(in Light light, in Material material, in vec3 normal, in vec3 worldPosition, in vec3 viewDirection, in vec4 worldPositionInLightSpace)
 {
 	// ambient
 	vec3 ambientRGB = light.ambientRGB * material.ambientRGB;
 
 	// diffuise
-	vec3 norm = normalize(inNormal);
-	vec3 lightDirection = normalize(light.position - inWorldPosition);
-	float diff = max(dot(lightDirection, norm), 0.0f);
+	vec3 lightDirection = normalize(light.position - worldPosition);
+	float diff = max(dot(lightDirection, normal), 0.0f);
 	vec3 diffuseRGB = light.diffuseRGB * diff * material.diffuseRGB;
 
 	// specular
-	vec3 viewDirection = normalize(viewPosition - inWorldPosition);
 	vec3 halfDirection = normalize(lightDirection + viewDirection);
-	float spec = pow(max(dot(norm, halfDirection), 0.0f), material.shininess);
+	float spec = pow(max(dot(normal, halfDirection), 0.0f), material.shininess);
 	vec3 specularRGB = light.specularRGB * spec * material.specularRGB;
 
-	float shadow = ComputeShadow(inWorldPositionInLightSpace);
+	float shadow = ComputeShadow(worldPositionInLightSpace);
 
-	vec3 resultRGB = (ambientRGB + (1.0f - shadow) * (diffuseRGB + specularRGB));
-
-	outColor = vec4(resultRGB, 1.0f);
+	return (ambientRGB + (1.0f - shadow) * (diffuseRGB + specularRGB));
 }
