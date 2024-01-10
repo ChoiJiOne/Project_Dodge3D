@@ -1,11 +1,13 @@
 #include "ShadowScene.h"
 
+#include "Camera3D.h"
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "GeometryGenerator.h"
 #include "ResourceManager.h"
 #include "RenderManager.h"
 #include "MathUtils.h"
+#include "ObjectManager.h"
 
 #include <glad/glad.h>
 
@@ -15,9 +17,20 @@ ShadowScene::ShadowScene()
 	CommandLineUtils::GetStringValue(L"rootPath", rootPath);
 
 	std::wstring clientPath = rootPath + L"Client/";
-	
-	cameraPosition = Vector3f(0.0f, 20.0f, 20.0f);
 
+	window = RenderManager::Get().GetRenderTargetWindow();
+
+	camera = ObjectManager::Get().CreateObject<Camera3D>("camera");
+	camera->Initialize(
+		Vector3f(0.0f, 20.0f, 20.0f),
+		Vector3f(0.0f, -1.0f, -1.0f),
+		Vector3f(0.0f, 1.0f, 0.0f),
+		MathUtils::ToRadian(45.0f),
+		window->GetAspectSize(), 
+		0.1f, 
+		100.0f
+	);
+	
 	depthShader = ResourceManager::Get().GetResource<Shader>("ShadowMap");
 	light = ResourceManager::Get().GetResource<Shader>("Light");
 
@@ -36,15 +49,27 @@ ShadowScene::ShadowScene()
 	GeometryGenerator::CreateSphere(0.5f, 30, vertices, indices);
 	sphere->Initialize(vertices, indices);
 
+	material = ResourceManager::Get().CreateResource<Material>("material");
+	material->Initialize(
+		Vector3f(0.329412f, 0.223529f, 0.027451f),
+		Vector3f(0.780392f, 0.568627f, 0.113725f),
+		Vector3f(0.992157f, 0.941176f, 0.807843f),
+		128.0f * 0.21794872f
+	);
+
 	shadowMap0 = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap0");
 	shadowMap0->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 
-	lightPosition0 = Vector3f(-10.0f, +10.0f, 0.0f);
-	lightDirection0 = Vector3f(1.0f, -1.0f, 0.0f);
-	lightView0 = MathUtils::CreateLookAt(lightPosition0, lightPosition0 + lightDirection0, Vector3f(0.0f, 0.0f, +1.0f));
-	lightProjection0 = MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, 0.1f, 100.0f);
-
-	window = RenderManager::Get().GetRenderTargetWindow();
+	lightObject = ObjectManager::Get().CreateObject<Light>("LightObject");
+	lightObject->Initialize(
+		Vector3f(-10.0f, +10.0f, 0.0f),
+		Vector3f(1.0f, -1.0f, 0.0f),
+		Vector3f(0.5f, 0.5f, 0.5f),
+		Vector3f(0.7f, 0.7f, 0.7f),
+		Vector3f(1.0f, 1.0f, 1.0f),
+		Vector3f(0.0f, 0.0f, +1.0f),
+		MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, 0.1f, 100.0f)
+	);
 }
 
 ShadowScene::~ShadowScene()
@@ -53,13 +78,10 @@ ShadowScene::~ShadowScene()
 
 void ShadowScene::Tick(float deltaSeconds)
 {
-	Matrix4x4f view = MathUtils::CreateLookAt(cameraPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
-	Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window->GetAspectSize(), 0.1f, 100.0f);
-
 	{
 		depthShader->Bind();
-		depthShader->SetUniform("lightView", lightView0);
-		depthShader->SetUniform("lightProjection", lightProjection0);
+		depthShader->SetUniform("lightView", lightObject->GetViewMatrix());
+		depthShader->SetUniform("lightProjection", lightObject->GetProjectionMatrix());
 
 		RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		shadowMap0->Bind();
@@ -85,18 +107,18 @@ void ShadowScene::Tick(float deltaSeconds)
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 
 		light->Bind();
-		light->SetUniform("view", view);
-		light->SetUniform("projection", projection);
-		light->SetUniform("lightView", lightView0);
-		light->SetUniform("lightProjection", lightProjection0);
-		light->SetUniform("viewPosition", cameraPosition);
+		light->SetUniform("view", camera->GetViewMatrix());
+		light->SetUniform("projection", camera->GetProjectionMatrix());
+		light->SetUniform("lightView", lightObject->GetViewMatrix());
+		light->SetUniform("lightProjection", lightObject->GetProjectionMatrix());
+		light->SetUniform("viewPosition", camera->GetEyePosition());
 
-		light->SetUniform("material.ambientRGB", Vector3f(0.329412f, 0.223529f, 0.027451f));
-		light->SetUniform("material.diffuseRGB", Vector3f(0.780392f, 0.568627f, 0.113725f));
-		light->SetUniform("material.specularRGB", Vector3f(0.992157f, 0.941176f, 0.807843f));
-		light->SetUniform("material.shininess", 128.0f * 0.21794872f);
-		light->SetUniform("light.position", lightPosition0);
-		light->SetUniform("light.direction", lightDirection0);
+		light->SetUniform("material.ambientRGB", material->GetAmbientRGB());
+		light->SetUniform("material.diffuseRGB", material->GetDiffuseRGB());
+		light->SetUniform("material.specularRGB", material->GetSpecularRGB());
+		light->SetUniform("material.shininess", material->GetShininess());
+		light->SetUniform("light.position", lightObject->GetPosition());
+		light->SetUniform("light.direction", lightObject->GetDirection());
 		light->SetUniform("light.ambientRGB", Vector3f(0.5f, 0.5f, 0.5f));
 		light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
 		light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));

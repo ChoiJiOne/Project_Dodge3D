@@ -1,13 +1,16 @@
 #pragma once
 
+#include "Camera3D.h"
 #include "IScene.h"
 #include "Shader.h"
 #include "StaticMesh.h"
+#include "Material.h"
 #include "ShadowMap.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Window.h"
+#include "Light.h"
 
 
 /**
@@ -43,7 +46,7 @@ public:
 
 
 private:
-	Vector3f cameraPosition;
+	Camera3D* camera;
 
 	Shader* depthShader;
 	Shader* light;
@@ -51,13 +54,12 @@ private:
 	StaticMesh* floor;
 	StaticMesh* cube;
 	StaticMesh* sphere;
+	Material* material;
 
 	// 1.
 	ShadowMap* shadowMap0;
-	Vector3f lightPosition0;
-	Vector3f lightDirection0;
-	Matrix4x4f lightView0;
-	Matrix4x4f lightProjection0;
+
+	Light* lightObject;
 	
 	const uint32_t SHADOW_WIDTH = 1024;
 	const uint32_t SHADOW_HEIGHT = 1024;
