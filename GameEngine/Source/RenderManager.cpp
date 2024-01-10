@@ -24,6 +24,10 @@
 
 #include <glad/glad_wgl.h>
 #include <glad/glad.h>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_win32.h>
+
 
 /**
  * @brief OpenGL의 버전입니다.
@@ -114,12 +118,24 @@ void RenderManager::Startup()
 	renderTargetWindow_->GetSize(screenWidth, screenHeight);
 	screenOrtho_ = MathUtils::CreateOrtho(0.0f, static_cast<float>(screenWidth), static_cast<float>(screenHeight), 0.0f, nearZ, farZ);
 	
+	if (bIsEnableImGui_)
+	{
+		ASSERT(ImGui_ImplWin32_InitForOpenGL(renderTargetWindow_->GetHandle()), "failed to initialize windows for opengl in imgui...");
+		ASSERT(ImGui_ImplOpenGL3_Init(), "failed to initialize opengl in imgui...");
+	}
+
 	bIsStartup_ = true;
 }
 
 void RenderManager::Shutdown()
 {
 	ASSERT(bIsStartup_, "not startup before or has already been shutdowned...");
+
+	if (bIsEnableImGui_)
+	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+	}
 
 	WINDOWS_ASSERT(wglMakeCurrent(nullptr, nullptr), "failed to set empty opengl context...");
 	WINDOWS_ASSERT(wglDeleteContext(glRenderContext_), "failed to delete render context...");
@@ -131,6 +147,11 @@ void RenderManager::Shutdown()
 
 void RenderManager::BeginFrame(float red, float green, float blue, float alpha, float depth, uint8_t stencil)
 {
+	if (bIsEnableImGui_)
+	{
+		ImGui::Render();
+	}
+
 	glClearColor(red, green, blue, alpha);
 	glClearDepth(depth);
 	glClearStencil(stencil);
@@ -140,6 +161,11 @@ void RenderManager::BeginFrame(float red, float green, float blue, float alpha, 
 
 void RenderManager::EndFrame()
 {
+	if (bIsEnableImGui_)
+	{
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
 	WINDOWS_ASSERT(SwapBuffers(deviceContext_), "failed to swap back and front buffer...");
 }
 
