@@ -84,7 +84,6 @@ public:
 		Vector3f lightPosition = Vector3f(-4.0f, 4.0f, +0.0f);
 
 		timer_.Reset();
-		RenderManager::Get().SetVsyncMode(true);
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
@@ -96,14 +95,16 @@ public:
 			float farPlane = 100.0f;
 			Matrix4x4f view = MathUtils::CreateLookAt(cameraPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 			Matrix4x4f projection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window_->GetAspectSize(), 0.1f, 100.0f);
-			Matrix4x4f lightView = MathUtils::CreateLookAt(lightPosition, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
+			Matrix4x4f lightView = MathUtils::CreateLookAt(lightPosition, Vector3f(-3.0f, 3.0f, 0.0f), Vector3f(0.0f, 1.0f, 0.0f));
 			Matrix4x4f lightProjection = MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, nearPlane, farPlane);
+			//Matrix4x4f lightProjection = MathUtils::CreatePerspective(MathUtils::ToRadian(45.0f), window_->GetAspectSize(), 0.1f, 100.0f);
+
 			{
 				depthShader->Bind();
 				depthShader->SetUniform("lightView", lightView);
 				depthShader->SetUniform("lightProjection", lightProjection);
 
-				glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+				RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 				shadowMap->Bind();
 				shadowMap->Clear();
 
