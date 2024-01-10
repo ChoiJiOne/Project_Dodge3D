@@ -43,7 +43,10 @@ void InputManager::Shutdown()
 {
 	ASSERT(bIsStartup_, "not startup before or has already been shutdowned...");
 
-	ImGui::DestroyContext();
+	if (bIsEnableImGui_)
+	{
+		ImGui::DestroyContext();
+	}
 
 	inputManagerPtr = nullptr;
 	inputControlWindow_ = nullptr;
