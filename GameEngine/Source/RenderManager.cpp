@@ -11,12 +11,14 @@
 #include "GeometryShader2D.h"
 #include "GeometryShader3D.h"
 #include "GlyphShader2D.h"
+#include "LightShader.h"
 #include "MathUtils.h"
 #include "ResourceManager.h"
 #include "Shader.h"
 #include "Skybox.h"
 #include "StaticMesh.h"
 #include "ShadowMap.h"
+#include "ShadowShader.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
 #include "TextureShader2D.h"
@@ -93,8 +95,8 @@ void RenderManager::Startup()
 	shaderCache_.insert({ L"Glyph2D",    ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")       });
 	shaderCache_.insert({ L"Texture2D",  ResourceManager::Get().CreateResource<TextureShader2D>("Texture2D")   });
 	shaderCache_.insert({ L"Skybox",     ResourceManager::Get().CreateResource<Shader>("Skybox")               });
-	shaderCache_.insert({ L"ShadowMap",  ResourceManager::Get().CreateResource<Shader>("ShadowMap")            });
-	shaderCache_.insert({ L"Light",      ResourceManager::Get().CreateResource<Shader>("Light")                });
+	shaderCache_.insert({ L"Light",      ResourceManager::Get().CreateResource<LightShader>("LightShader")     });
+	shaderCache_.insert({ L"ShadowMap",  ResourceManager::Get().CreateResource<ShadowShader>("ShadowShader")   });
 	
 	for (auto& shader : shaderCache_)
 	{
@@ -532,18 +534,6 @@ void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& proje
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
 	shader->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
-}
-
-void RenderManager::RenderStaticMesh3D(const StaticMesh* mesh)
-{
-	if (!bIsEnableDepth_)
-	{
-		SetDepthMode(true);
-	}
-
-	GL_ASSERT(glBindVertexArray(mesh->GetVertexArrayObject()), "failed to bind static mesh vertex array...");
-	GL_ASSERT(glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0), "failed to draw static mesh...");
-	GL_ASSERT(glBindVertexArray(0), "failed to unbind static mesh vertex array...");
 }
 
 void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox)

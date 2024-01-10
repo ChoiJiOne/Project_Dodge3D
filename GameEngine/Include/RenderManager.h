@@ -624,16 +624,6 @@ public:
 
 
 	/**
-	 * @brief StaticMesh를 화면에 그립니다.
-	 * 
-	 * @param mesh 화면에 그릴 정적 메시입니다.
-	 * 
-	 * @note 이 메서드 호출 시 적절한 셰이더가 파이프라인에 바인딩되어 있어야 합니다.
-	 */
-	void RenderStaticMesh3D(const StaticMesh* mesh);
-
-
-	/**
 	 * @brief 스카이 박스를 화면에 그립니다.
 	 * 
 	 * @param view 시야 행렬입니다.
