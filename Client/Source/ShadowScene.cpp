@@ -8,6 +8,7 @@
 #include "RenderManager.h"
 #include "MathUtils.h"
 #include "ObjectManager.h"
+#include "RenderManager.h"
 
 #include <glad/glad.h>
 
@@ -31,8 +32,8 @@ ShadowScene::ShadowScene()
 		100.0f
 	);
 	
-	depthShader = ResourceManager::Get().GetResource<Shader>("ShadowMap");
-	light = ResourceManager::Get().GetResource<Shader>("Light");
+	shadowShader = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
+	lightShader = ResourceManager::Get().GetResource<LightShader>("LightShader");
 
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;;
@@ -57,15 +58,15 @@ ShadowScene::ShadowScene()
 		128.0f * 0.21794872f
 	);
 
-	shadowMap0 = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap0");
-	shadowMap0->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
+	shadowMap = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap");
+	shadowMap->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 
-	lightObject = ObjectManager::Get().CreateObject<Light>("LightObject");
-	lightObject->Initialize(
+	light = ObjectManager::Get().CreateObject<Light>("light");
+	light->Initialize(
 		Vector3f(-10.0f, +10.0f, 0.0f),
 		Vector3f(1.0f, -1.0f, 0.0f),
 		Vector3f(0.5f, 0.5f, 0.5f),
-		Vector3f(0.7f, 0.7f, 0.7f),
+		Vector3f(0.5f, 0.5f, 0.5f),
 		Vector3f(1.0f, 1.0f, 1.0f),
 		Vector3f(0.0f, 0.0f, +1.0f),
 		MathUtils::CreateOrtho(-10.0f, +10.0f, -10.0f, +10.0f, 0.1f, 100.0f)
@@ -78,66 +79,46 @@ ShadowScene::~ShadowScene()
 
 void ShadowScene::Tick(float deltaSeconds)
 {
+	RenderManager::Get().SetDepthMode(true);
 	{
-		depthShader->Bind();
-		depthShader->SetUniform("lightView", lightObject->GetViewMatrix());
-		depthShader->SetUniform("lightProjection", lightObject->GetProjectionMatrix());
-
 		RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-		shadowMap0->Bind();
-		shadowMap0->Clear();
-
-		depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, 0.0f, 0.0f)));
-		RenderManager::Get().RenderStaticMesh3D(floor);
-
-		for (float x = -10.0; x <= 10.0f; x += 1.0f)
+		shadowMap->Bind();
+		shadowMap->Clear();
+		
+		shadowShader->Bind();
+		shadowShader->SetLight(light);
+		shadowShader->DrawMesh3D(MathUtils::CreateTranslation(Vector3f(0.0f, 0.0f, 0.0f)), floor);
+	
+		for (float x = -2.0f; x <= 2.0f; x += 1.0f)
 		{
-			for (float z = -10.0f; z <= 10.0f; z += 1.0f)
+			for (float z = -2.0f; z <= 2.0f; z += 1.0f)
 			{
-				depthShader->SetUniform("world", MathUtils::CreateTranslation(Vector3f(x, 1.0f, z)));
-				RenderManager::Get().RenderStaticMesh3D(sphere);
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(Vector3f(x, 1.0f, z)), sphere);
 			}
 		}
 
-		shadowMap0->Unbind();
-		depthShader->Unbind();
+		shadowShader->Unbind();
+		shadowMap->Unbind();
 	}
 	{
 		RenderManager::Get().SetWindowViewport();
 		RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 
-		light->Bind();
-		light->SetUniform("view", camera->GetViewMatrix());
-		light->SetUniform("projection", camera->GetProjectionMatrix());
-		light->SetUniform("lightView", lightObject->GetViewMatrix());
-		light->SetUniform("lightProjection", lightObject->GetProjectionMatrix());
-		light->SetUniform("viewPosition", camera->GetEyePosition());
+		lightShader->Bind();
+		lightShader->SetLight(light);
+		lightShader->SetMaterial(material);
+		lightShader->SetCamera(camera);
+		lightShader->DrawMesh3D(MathUtils::CreateTranslation(Vector3f(0.0f, 0.0f, 0.0f)), floor, shadowMap);
 
-		light->SetUniform("material.ambientRGB", material->GetAmbientRGB());
-		light->SetUniform("material.diffuseRGB", material->GetDiffuseRGB());
-		light->SetUniform("material.specularRGB", material->GetSpecularRGB());
-		light->SetUniform("material.shininess", material->GetShininess());
-		light->SetUniform("light.position", lightObject->GetPosition());
-		light->SetUniform("light.direction", lightObject->GetDirection());
-		light->SetUniform("light.ambientRGB", Vector3f(0.5f, 0.5f, 0.5f));
-		light->SetUniform("light.diffuseRGB", Vector3f(0.5f, 0.5f, 0.5f));
-		light->SetUniform("light.specularRGB", Vector3f(1.0f, 1.0f, 1.0f));
-		
-		shadowMap0->Active(0);
-
-		light->SetUniform("world", MathUtils::CreateTranslation(Vector3f(0.0f, 0.0f, 0.0f)));
-		RenderManager::Get().RenderStaticMesh3D(floor);
-
-		for (float x = -10.0; x <= 10.0f; x += 1.0f)
+		for (float x = -2.0f; x <= 2.0f; x += 1.0f)
 		{
-			for (float z = -10.0f; z <= 10.0f; z += 1.0f)
+			for (float z = -2.0f; z <= 2.0f; z += 1.0f)
 			{
-				light->SetUniform("world", MathUtils::CreateTranslation(Vector3f(x, 1.0f, z)));
-				RenderManager::Get().RenderStaticMesh3D(sphere);
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(Vector3f(x, 1.0f, z)), sphere, shadowMap);
 			}
 		}
 
-		light->Unbind();
+		lightShader->Unbind();
 	}
 
 	RenderManager::Get().EndFrame();
