@@ -1,6 +1,7 @@
 #include "InputManager.h"
 
 #include "Assertion.h"
+#include "CommandLineUtils.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
 
@@ -19,6 +20,8 @@ void InputManager::Startup()
 	std::fill(currKeyboardState_.begin(), currKeyboardState_.end(), 0);
 
 	windowEventActions_ = std::unordered_map<std::string, WindowEventAction>();
+
+	CommandLineUtils::GetBoolValue(L"imgui", bIsEnableImGui_);
 
 	inputManagerPtr = this;
 	bIsStartup_ = true;
@@ -113,7 +116,7 @@ void InputManager::ExecuteWindowEventAction(const EWindowEvent& windowEvent)
 
 LRESULT InputManager::ProcessWindowMessage(HWND windowHandle, uint32_t message, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGui_ImplWin32_WndProcHandler(windowHandle, message, wParam, lParam))
+	if (bIsEnableImGui_ && ImGui_ImplWin32_WndProcHandler(windowHandle, message, wParam, lParam))
 	{
 		return 1;
 	}

@@ -468,6 +468,12 @@ private:
 
 
 	/**
+	 * @brief IMGUI가 활성화 되었는지 확인합니다.
+	 */
+	bool bIsEnableImGui_ = false;
+
+
+	/**
 	 * @brief 가상 키 버퍼의 크기입니다.
 	 */
 	static const int32_t VIRTUAL_KEY_BUFFER_SIZE = 256;
