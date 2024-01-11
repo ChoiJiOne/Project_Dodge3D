@@ -4,6 +4,8 @@
 
 #include "DirectionalLight.h"
 
+class Material; // 매터리얼을 사용하기 위한 전방선언입니다.
+
 
 /**
  * @brief 사용자 제어 가능한 속성입니다.
@@ -71,23 +73,23 @@ private:
 	/**
 	 * @brief 직선광의 방향입니다. 범위는 -1.0 ~ 1.0입니다.
 	 */
-	Vector3f direction_;
+	Vector3f lightDirection_;
 
 
 	/**
 	 * @brief 주변광의 RGB 색상입니다.
 	 */
-	Vector3f ambientRGB_;
+	Vector3f lightAmbientRGB_;
 
 
 	/**
 	 * @brief 분산광의 RGB 색상입니다.
 	 */
-	Vector3f diffuseRGB_;
+	Vector3f lightDiffuseRGB_;
 
 
 	/**
 	 * @brief 반사광의 RGB 색상입니다.
 	 */
-	Vector3f specularRGB_;
+	Vector3f lightSpecularRGB_;
 };

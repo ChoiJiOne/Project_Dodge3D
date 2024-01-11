@@ -16,12 +16,12 @@ void Properties::Initialize()
 {
 	ASSERT(!bIsInitialized_, "already initialize light properties object...");
 
-	direction_ = Vector3f(-1.0f, -1.0f, -1.0f);
-	ambientRGB_ = Vector3f(+0.5f, +0.5f, +0.5f);
-	diffuseRGB_ = Vector3f(+0.7f, +0.7f, +0.7f);
-	specularRGB_ = Vector3f(+1.0f, +1.0f, +1.0f);
+	lightDirection_ = Vector3f(-1.0f, -1.0f, -1.0f);
+	lightAmbientRGB_ = Vector3f(+0.5f, +0.5f, +0.5f);
+	lightDiffuseRGB_ = Vector3f(+0.7f, +0.7f, +0.7f);
+	lightSpecularRGB_ = Vector3f(+1.0f, +1.0f, +1.0f);
 
-	directionalLight_ = DirectionalLight(direction_, ambientRGB_, diffuseRGB_, specularRGB_);
+	directionalLight_ = DirectionalLight(lightDirection_, lightAmbientRGB_, lightDiffuseRGB_, lightSpecularRGB_);
 	
 	bIsInitialized_ = true;
 }
@@ -30,15 +30,23 @@ void Properties::Tick(float deltaSeconds)
 {
 	ImGui::Begin("Light Properties");
 
-	ImGui::SliderFloat3("direction", direction_.GetPtr(), -1.0f, 1.0f);
-	ImGui::ColorEdit3("ambient", ambientRGB_.GetPtr());
-	ImGui::ColorEdit3("diffuse", diffuseRGB_.GetPtr());
-	ImGui::ColorEdit3("specular", specularRGB_.GetPtr());
+	if (ImGui::CollapsingHeader("Light"))
+	{
+		ImGui::SliderFloat3("direction", lightDirection_.GetPtr(), -1.0f, 1.0f);
+		ImGui::ColorEdit3("ambient", lightAmbientRGB_.GetPtr());
+		ImGui::ColorEdit3("diffuse", lightDiffuseRGB_.GetPtr());
+		ImGui::ColorEdit3("specular", lightSpecularRGB_.GetPtr());
 
-	directionalLight_.SetDirection(direction_);
-	directionalLight_.SetAmbientRGB(ambientRGB_);
-	directionalLight_.SetDiffuseRGB(diffuseRGB_);
-	directionalLight_.SetSpecularRGB(specularRGB_);
+		directionalLight_.SetDirection(lightDirection_);
+		directionalLight_.SetAmbientRGB(lightAmbientRGB_);
+		directionalLight_.SetDiffuseRGB(lightDiffuseRGB_);
+		directionalLight_.SetSpecularRGB(lightSpecularRGB_);
+	}
+
+	if (ImGui::CollapsingHeader("Material"))
+	{
+
+	}
 
 	ImGui::End();
 }
