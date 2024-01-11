@@ -14,12 +14,12 @@
 #include "Window.h"
 #include "Light.h"
 
-class ShadowScene : public IScene
+class DemoScene : public IScene
 {
 public:
-	ShadowScene();
-	virtual ~ShadowScene();
-	DISALLOW_COPY_AND_ASSIGN(ShadowScene);
+	DemoScene();
+	virtual ~DemoScene();
+	DISALLOW_COPY_AND_ASSIGN(DemoScene);
 	virtual void Tick(float deltaSeconds) override;
 	
 private:

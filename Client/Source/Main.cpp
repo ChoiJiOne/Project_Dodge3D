@@ -1,6 +1,6 @@
 #include "IApplication.h"
 
-#include "ShadowScene.h"
+#include "DemoScene.h"
 
 #include <imgui.h>
 
@@ -41,7 +41,7 @@ public:
 
 		clientPath_ = rootPath_ + L"Client/";
 		
-		shadowScene_ = SceneManager::Get().CreateScene<ShadowScene>("ShadowScene");
+		demoScene_ = SceneManager::Get().CreateScene<DemoScene>("DemoScene");
 
 		ImGui::StyleColorsDark();
 	}
@@ -107,7 +107,7 @@ private:
 	/**
 	 * @brief 기능 구현을 위한 씬입니다.
 	 */
-	ShadowScene* shadowScene_ = nullptr;
+	DemoScene* demoScene_ = nullptr;
 };
 
 

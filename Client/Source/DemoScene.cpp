@@ -1,4 +1,4 @@
-#include "ShadowScene.h"
+#include "DemoScene.h"
 
 #include "Camera3D.h"
 #include "Assertion.h"
@@ -12,7 +12,7 @@
 
 #include <glad/glad.h>
 
-ShadowScene::ShadowScene()
+DemoScene::DemoScene()
 {
 	std::wstring rootPath;
 	CommandLineUtils::GetStringValue(L"rootPath", rootPath);
@@ -73,11 +73,11 @@ ShadowScene::ShadowScene()
 	);
 }
 
-ShadowScene::~ShadowScene()
+DemoScene::~DemoScene()
 {
 }
 
-void ShadowScene::Tick(float deltaSeconds)
+void DemoScene::Tick(float deltaSeconds)
 {
 	RenderManager::Get().SetDepthMode(true);
 	{
