@@ -2,6 +2,8 @@
 
 #include "ShadowScene.h"
 
+#include <imgui.h>
+
 
 /**
  * @brief 게임 애플리케이션입니다.
@@ -38,8 +40,10 @@ public:
 		IApplication::Setup();
 
 		clientPath_ = rootPath_ + L"Client/";
-
+		
 		shadowScene_ = SceneManager::Get().CreateScene<ShadowScene>("ShadowScene");
+
+		ImGui::StyleColorsDark();
 	}
 
 
@@ -57,13 +61,32 @@ public:
 	 */
 	virtual void Run() override
 	{
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
 		timer_.Reset();
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
 			InputManager::Get().Tick();
+			
+			static float f = 0.0f;
+			static int counter = 0;
 
-			shadowScene_->Tick(timer_.GetDeltaSeconds());
+			ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+			ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+			if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+				counter++;
+			ImGui::SameLine();
+			ImGui::Text("counter = %d", counter);
+
+			ImGui::End();
+
+			RenderManager::Get().BeginFrame(clear_color.x, clear_color.y, clear_color.z, 1.0f);
+			RenderManager::Get().EndFrame();
 		}
 	}
 
