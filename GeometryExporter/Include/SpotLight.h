@@ -8,13 +8,13 @@
 /**
  * @brief 점적광(Spot Light)입니다.
  */
-class PointLight
+class SpotLight
 {
 public:
 	/**
 	 * @brief 점적광(Spot Light)의 디폴트 생성자입니다.
 	 */
-	PointLight() = default;
+	SpotLight() = default;
 
 
 	/**
@@ -31,7 +31,7 @@ public:
 	 * @param linear 점적광의 감쇠율 계산에 사용할 일차항입니다.
 	 * @param quadratic 점적광의 감쇠율 계산에 사용할 이차항입니다.
 	 */
-	PointLight(
+	SpotLight(
 		const Vector3f& position,
 		const Vector3f& direction,
 		const float& cutOff,
@@ -59,7 +59,7 @@ public:
 	 *
 	 * @param instance 점적광의 내부 프로퍼티를 복사할 인스턴입니다.
 	 */
-	PointLight(PointLight&& instance) noexcept
+	SpotLight(SpotLight&& instance) noexcept
 		: position_(instance.position_)
 		, direction_(instance.direction_)
 		, cutOff_(instance.cutOff_)
@@ -77,7 +77,7 @@ public:
 	 *
 	 * @param instance 점적광의 내부 프로퍼티를 복사할 인스턴입니다.
 	 */
-	PointLight(const PointLight& instance) noexcept
+	SpotLight(const SpotLight& instance) noexcept
 		: position_(instance.position_)
 		, direction_(instance.direction_)
 		, cutOff_(instance.cutOff_)
@@ -93,7 +93,7 @@ public:
 	/**
 	 * @brief 점적광(Spot Light)의 가상 소멸자입니다.
 	 */
-	virtual ~PointLight() {}
+	virtual ~SpotLight() {}
 
 
 	/**
@@ -103,7 +103,7 @@ public:
 	 *
 	 * @return 대입한 점적광의 참조자를 반환합니다.
 	 */
-	PointLight& operator=(PointLight&& instance) noexcept
+	SpotLight& operator=(SpotLight&& instance) noexcept
 	{
 		if (this == &instance) return *this;
 
@@ -129,7 +129,7 @@ public:
 	 *
 	 * @return 대입한 점적광의 참조자를 반환합니다.
 	 */
-	PointLight& operator=(const PointLight& instance) noexcept
+	SpotLight& operator=(const SpotLight& instance) noexcept
 	{
 		if (this == &instance) return *this;
 
