@@ -60,9 +60,9 @@ const int MAX_LIGHTS = 5;
 
 uniform vec3 viewPosition;
 uniform Material material;
-uniform DirectionalLight directionalLight[MAX_LIGHTS];
-uniform PointLight pointLight[MAX_LIGHTS];
-uniform SpotLight spotLight[MAX_LIGHTS];
+uniform DirectionalLight directionalLights[MAX_LIGHTS];
+uniform PointLight pointLights[MAX_LIGHTS];
+uniform SpotLight spotLights[MAX_LIGHTS];
 
 void main()
 {
@@ -72,9 +72,9 @@ void main()
 	vec3 outputRGB = vec3(0.0f);
 	for(int index = 0; index < MAX_LIGHTS; ++index)
 	{
-		outputRGB += ComputeDirectionalLight(directionalLight[index], material, norm, viewDirection);
-		outputRGB += ComputePointLight(pointLight[index], material, norm, inWorldPosition, viewDirection);
-		outputRGB += ComputeSpotLight(spotLight[index], material, norm, inWorldPosition, viewDirection);
+		outputRGB += ComputeDirectionalLight(directionalLights[index], material, norm, viewDirection);
+		outputRGB += ComputePointLight(pointLights[index], material, norm, inWorldPosition, viewDirection);
+		outputRGB += ComputeSpotLight(spotLights[index], material, norm, inWorldPosition, viewDirection);
 	}
 	
 	outColor = vec4(outputRGB, 1.0f);
