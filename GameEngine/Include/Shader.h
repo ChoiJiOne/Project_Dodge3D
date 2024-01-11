@@ -25,6 +25,7 @@ public:
 	{
 		Vertex = 0x00,   // 버텍스 셰이더입니다.
 		Fragment = 0x01, // 프레그먼트 셰이더입니다.
+		Geometry = 0x02, // 지오메트리 셰이더입니다.
 	};
 
 
@@ -58,6 +59,16 @@ public:
 	 * @param fsFile 프레그먼트 셰이더의 확장자(.frag)를 포함한 경로입니다.
 	 */
 	virtual void Initialize(const std::wstring& vsPath, const std::wstring& fsPath);
+
+
+	/**
+	 * @brief GLSL 셰이더 소스 파일을 컴파일하고 셰이더 프로그램을 생성합니다.
+	 *
+	 * @param vsFile 버텍스 셰이더의 확장자(.vert)를 포함한 경로입니다.
+	 * @param gsFile 지오메트리 셰이더의 확장자(.geom)를 포함한 경로입니다.
+	 * @param fsFile 프레그먼트 셰이더의 확장자(.frag)를 포함한 경로입니다.
+	 */
+	virtual void Initialize(const std::wstring& vsPath, const std::wstring& gsPath, const std::wstring& fsPath);
 
 
 	/**

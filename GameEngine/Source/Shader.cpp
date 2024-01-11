@@ -29,7 +29,7 @@ void Shader::Initialize(const std::wstring& vsPath, const std::wstring& fsPath)
 
 	uint32_t vsID = CreateAndCompileShader(EType::Vertex, vsSource);
 	ASSERT(vsID != 0, L"failed to create and compile %s...", vsPath.c_str());
-
+	
 	uint32_t fsID = CreateAndCompileShader(EType::Fragment, fsSource);
 	ASSERT(fsID != 0, L"failed to create and compile %s...", fsPath.c_str());
 
@@ -51,6 +51,54 @@ void Shader::Initialize(const std::wstring& vsPath, const std::wstring& fsPath)
 	}
 
 	GL_ASSERT(glDeleteShader(vsID), "invalid delete %d shader...", vsID);
+	GL_ASSERT(glDeleteShader(fsID), "invalid delete %d shader...", fsID);
+
+	bIsInitialized_ = true;
+}
+
+void Shader::Initialize(const std::wstring& vsPath, const std::wstring& gsPath, const std::wstring& fsPath)
+{
+	ASSERT(!bIsInitialized_, "already initialize shader resource...");
+
+	uniformLocationCache_ = std::map<std::string, uint32_t>();
+
+	std::vector<uint8_t> vsSourceBuffer = FileUtils::ReadBufferFromFile(vsPath);
+	std::vector<uint8_t> gsSourceBuffer = FileUtils::ReadBufferFromFile(gsPath);
+	std::vector<uint8_t> fsSourceBuffer = FileUtils::ReadBufferFromFile(fsPath);
+
+	std::string vsSource(vsSourceBuffer.begin(), vsSourceBuffer.end());
+	std::string gsSource(gsSourceBuffer.begin(), gsSourceBuffer.end());
+	std::string fsSource(fsSourceBuffer.begin(), fsSourceBuffer.end());
+
+	uint32_t vsID = CreateAndCompileShader(EType::Vertex, vsSource);
+	ASSERT(vsID != 0, L"failed to create and compile %s...", vsPath.c_str());
+
+	uint32_t gsID = CreateAndCompileShader(EType::Geometry, gsSource);
+	ASSERT(gsID != 0, L"failed to create and compile %s...", gsPath.c_str());
+
+	uint32_t fsID = CreateAndCompileShader(EType::Fragment, fsSource);
+	ASSERT(fsID != 0, L"failed to create and compile %s...", fsPath.c_str());
+
+	programID_ = glCreateProgram();
+	ASSERT(programID_ != 0, "failed to create shader program...");
+
+	GL_ASSERT(glAttachShader(programID_, vsID), "failed to attach vertex shader in shader program...");
+	GL_ASSERT(glAttachShader(programID_, gsID), "failed to attach geometry shader in shader program...");
+	GL_ASSERT(glAttachShader(programID_, fsID), "failed to attach fragment shader in shader program...");
+	GL_ASSERT(glLinkProgram(programID_), "failed to link shader program...");
+
+	int32_t success;
+	GL_ASSERT(glGetProgramiv(programID_, GL_LINK_STATUS, &success), "failed to get program link info...");
+	if (!success)
+	{
+		char* buffer = StringUtils::GetCharBufferPtr();
+
+		glGetProgramInfoLog(programID_, StringUtils::STRING_BUFFER_SIZE, nullptr, buffer);
+		ASSERT(false, "failed to link shader program : %s", buffer);
+	}
+
+	GL_ASSERT(glDeleteShader(vsID), "invalid delete %d shader...", vsID);
+	GL_ASSERT(glDeleteShader(gsID), "invalid delete %d shader...", gsID);
 	GL_ASSERT(glDeleteShader(fsID), "invalid delete %d shader...", fsID);
 
 	bIsInitialized_ = true;
@@ -417,6 +465,10 @@ uint32_t Shader::CreateAndCompileShader(const EType& type, const std::string& so
 	{
 	case EType::Vertex:
 		shaderType = GL_VERTEX_SHADER;
+		break;
+
+	case EType::Geometry:
+		shaderType = GL_GEOMETRY_SHADER;
 		break;
 
 	case EType::Fragment:
