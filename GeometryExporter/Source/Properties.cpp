@@ -1,10 +1,10 @@
-#include "LightProperties.h"
+#include "Properties.h"
 
 #include "Assertion.h"
 
 #include <imgui.h>
 
-LightProperties::~LightProperties()
+Properties::~Properties()
 {
 	if (bIsInitialized_)
 	{
@@ -12,7 +12,7 @@ LightProperties::~LightProperties()
 	}
 }
 
-void LightProperties::Initialize()
+void Properties::Initialize()
 {
 	ASSERT(!bIsInitialized_, "already initialize light properties object...");
 
@@ -26,7 +26,7 @@ void LightProperties::Initialize()
 	bIsInitialized_ = true;
 }
 
-void LightProperties::Tick(float deltaSeconds)
+void Properties::Tick(float deltaSeconds)
 {
 	ImGui::Begin("Light Properties");
 
@@ -43,7 +43,7 @@ void LightProperties::Tick(float deltaSeconds)
 	ImGui::End();
 }
 
-void LightProperties::Release()
+void Properties::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 

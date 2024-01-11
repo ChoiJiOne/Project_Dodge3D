@@ -6,37 +6,37 @@
 
 
 /**
- * @brief 사용자 제어 가능한 라이트 속성입니다.
+ * @brief 사용자 제어 가능한 속성입니다.
  */
-class LightProperties : public IObject
+class Properties : public IObject
 {
 public:
 	/**
-	 * @brief 제어 가능한 라이트 속성의 디폴트 생성자입니다.
+	 * @brief 제어 가능한 속성의 디폴트 생성자입니다.
 	 */
-	LightProperties() = default;
+	Properties() = default;
 
 
 	/**
-	 * @brief 제어 가능한 라이트 속성의 가상 소멸자입니다.
+	 * @brief 제어 가능한 속성의 가상 소멸자입니다.
 	 */
-	virtual ~LightProperties();
+	virtual ~Properties();
 
 
 	/**
-	 * @brief 제어 가능한 라이트 속성의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 * @brief 제어 가능한 속성의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(LightProperties);
+	DISALLOW_COPY_AND_ASSIGN(Properties);
 
 
 	/**
-	 * @brief 제어 가능한 라이트 속성을 초기화합니다.
+	 * @brief 제어 가능한 속성을 초기화합니다.
 	 */
 	void Initialize();
 
 
 	/**
-	 * @brief 제어 가능한 라이트 속성을 업데이트합니다.
+	 * @brief 제어 가능한 속성을 업데이트합니다.
 	 *
 	 * @param deltaSeconds 델타 시간 값입니다.
 	 *
@@ -54,9 +54,9 @@ public:
 
 
 	/**
-	 * @brief 제어 가능한 라이트 속성의 직선광을 얻습니다.
+	 * @brief 제어 가능한 속성의 직선광을 얻습니다.
 	 * 
-	 * @return 제어 가능한 라이트 속성의 직선광 객체 상수 참조자를 반환합니다.
+	 * @return 제어 가능한 속성의 직선광 객체 상수 참조자를 반환합니다.
 	 */
 	const DirectionalLight& GetDirectionalLight() const { return directionalLight_; }
 
