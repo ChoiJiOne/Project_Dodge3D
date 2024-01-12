@@ -109,10 +109,7 @@ public:
 
 			directionalLightShader->Unbind();
 
-			RenderManager::Get().RenderGrid3D(
-				camera->GetViewMatrix(), camera->GetProjectionMatrix(),
-				-10.0f, +10.0f, 1.0f, -10.0f, +10.0f, 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f)
-			);
+			RenderManager::Get().RenderGrid3D(camera, -10.0f, +10.0f, 1.0f, -10.0f, +10.0f, 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
 			RenderManager::Get().EndFrame();
 		}
 	}
