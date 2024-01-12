@@ -3,6 +3,7 @@
 #include <array>
 
 #include "Assertion.h"
+#include "Camera3D.h"
 #include "CommandLineUtils.h"
 #include "GLAssertion.h"
 #include "GeometryShader2D.h"
@@ -497,7 +498,7 @@ void RenderManager::RenderText2D(const TTFont* font, const std::wstring& text, c
 	shader->DrawText2D(screenOrtho_, font, text, center, color);
 }
 
-void RenderManager::RenderPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color)
+void RenderManager::RenderPoints3D(const Camera3D* camera, const std::vector<Vector3f>& positions, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -505,10 +506,10 @@ void RenderManager::RenderPoints3D(const Matrix4x4f& view, const Matrix4x4f& pro
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawPoints3D(view, projection, positions, color);
+	shader->DrawPoints3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), positions, color);
 }
 
-void RenderManager::RenderConnectPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color)
+void RenderManager::RenderConnectPoints3D(const Camera3D* camera, const std::vector<Vector3f>& positions, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -516,10 +517,10 @@ void RenderManager::RenderConnectPoints3D(const Matrix4x4f& view, const Matrix4x
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawConnectPoints3D(view, projection, positions, color);
+	shader->DrawConnectPoints3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), positions, color);
 }
 
-void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color)
+void RenderManager::RenderLine3D(const Camera3D* camera, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -527,10 +528,10 @@ void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& proje
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawLine3D(view, projection, fromPosition, toPosition, color);
+	shader->DrawLine3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), fromPosition, toPosition, color);
 }
 
-void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
+void RenderManager::RenderLine3D(const Camera3D* camera, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -538,10 +539,10 @@ void RenderManager::RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& proje
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawLine3D(view, projection, fromPosition, fromColor, toPosition, toColor);
+	shader->DrawLine3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), fromPosition, fromColor, toPosition, toColor);
 }
 
-void RenderManager::RenderAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
+void RenderManager::RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -549,10 +550,10 @@ void RenderManager::RenderAxisAlignedBoundingBox3D(const Matrix4x4f& view, const
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawAxisAlignedBoundingBox3D(view, projection, minPosition, maxPosition, color);
+	shader->DrawAxisAlignedBoundingBox3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), minPosition, maxPosition, color);
 }
 
-void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color)
+void RenderManager::RenderGrid3D(const Camera3D* camera, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -560,10 +561,10 @@ void RenderManager::RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& proje
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawGrid3D(view, projection, minX, maxX, strideX, minZ, maxZ, strideZ, color);
+	shader->DrawGrid3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), minX, maxX, strideX, minZ, maxZ, strideZ, color);
 }
 
-void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox)
+void RenderManager::RenderSkybox3D(const Camera3D* camera, const Skybox* skybox)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -574,8 +575,8 @@ void RenderManager::RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& pro
 	shader->Bind();
 	GL_ASSERT(glDepthFunc(GL_LEQUAL), "failed to set depth test GL_LEQUAL function...");
 
-	shader->SetUniform("view", view);
-	shader->SetUniform("projection", projection);
+	shader->SetUniform("view", camera->GetViewMatrix());
+	shader->SetUniform("projection", camera->GetProjectionMatrix());
 
 	skybox->Active(0);
 

@@ -14,6 +14,7 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
+class Camera3D;
 class Window;
 class Shader;
 class Skybox;
@@ -532,86 +533,67 @@ public:
 
 
 	/**
-	 * @brief 3D 점들을 화면에 그립니다.
+	 * @brief 카메라를 기준으로 3D 점들을 그립니다.
 	 * 
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param positions 화면 상의 3D 점들입니다.
 	 * @param color 점들의 색상입니다.
 	 * 
 	 * @note 3D 점들의 개수는 10000개를 넘을 수 없습니다.
 	 */
-	void RenderPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color);
+	void RenderPoints3D(const Camera3D* camera, const std::vector<Vector3f>& positions, const Vector4f& color);
 
 
 	/**
-	 * @brief 점들을 연결한 3D 선을 화면에 그립니다.
+	 * @brief 카메라를 기준으로 점들을 연결한 3D 선을 그립니다.
 	 *
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param positions 화면 상의 3D 점들입니다.
 	 * @param color 점들의 색상입니다.
 	 *
 	 * @note 3D 점들의 개수는 10000개를 넘을 수 없습니다.
 	 */
-	void RenderConnectPoints3D(const Matrix4x4f& view, const Matrix4x4f& projection, const std::vector<Vector3f>& positions, const Vector4f& color);
+	void RenderConnectPoints3D(const Camera3D* camera, const std::vector<Vector3f>& positions, const Vector4f& color);
 
 
 	/**
-	 * @brief 3D 선을 화면에 그립니다.
+	 * @brief 카메라를 기준으로 3D 선을 그립니다.
 	 *
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param fromPosition 선의 시작점입니다.
 	 * @param toPosition 선의 끝점입니다.
 	 * @param color 선의 색상입니다.
 	 */
-	void RenderLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color);
+	void RenderLine3D(const Camera3D* camera, const Vector3f& fromPosition, const Vector3f& toPosition, const Vector4f& color);
 
 
 	/**
-	 * @brief 3D 선을 화면에 그립니다.
+	 * @brief 카메라를 기준으로 3D 선을 화면에 그립니다.
 	 *
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param fromPosition 선의 시작점입니다.
 	 * @param fromColor 선의 시작점 색상입니다.
 	 * @param toPosition 선의 끝점입니다.
 	 * @param toColor 선의 끝점 색상입니다.
 	 */
-	void RenderLine3D(
-		const Matrix4x4f& view,
-		const Matrix4x4f& projection,
-		const Vector3f& fromPosition,
-		const Vector4f& fromColor,
-		const Vector3f& toPosition,
-		const Vector4f& toColor
-	);
+	void RenderLine3D(const Camera3D* camera, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor);
 
 
 	/**
-	 * @brief 3D 축 정렬 경계 상자를 화면에 그립니다.
+	 * @brief 카메라를 기준으로 3D 축 정렬 경계 상자를 그립니다.
 	 * 
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param minPosition 경계 영역의 최솟값입니다.
 	 * @param maxPosition 경계 영역의 최댓값입니다.
 	 * @param color 경계 상자의 색상입니다.
 	 */
-	void RenderAxisAlignedBoundingBox3D(
-		const Matrix4x4f& view,
-		const Matrix4x4f& projection,
-		const Vector3f& minPosition,
-		const Vector3f& maxPosition,
-		const Vector4f& color
-	);
+	void RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color);
 	
 
 	/**
-	 * @brief 3D 좌표 공간을 화면에 그립니다.
+	 * @brief 카메라를 기준으로 3D 좌표 공간을 그립니다.
 	 * 
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param minX X좌표의 최소값입니다.
 	 * @param maxX X좌표의 최댓값입니다.
 	 * @param strideX X축 방향으로의 간격입니다.
@@ -620,17 +602,16 @@ public:
 	 * @param strideZ Z축 방향으로의 간격입니다.
 	 * @param color 격자의 색상입니다.
 	 */
-	void RenderGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color);
+	void RenderGrid3D(const Camera3D* camera, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color);
 
 
 	/**
-	 * @brief 스카이 박스를 화면에 그립니다.
+	 * @brief 카메라를 기준으로 스카이 박스를 그립니다.
 	 * 
-	 * @param view 시야 행렬입니다.
-	 * @param projection 투영 행렬입니다.
+	 * @param camera 3D 카메라입니다.
 	 * @param skybox 화면에 그릴 스카이 박스입니다.
 	 */
-	void RenderSkybox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Skybox* skybox);
+	void RenderSkybox3D(const Camera3D* camera, const Skybox* skybox);
 
 	
 private:
