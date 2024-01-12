@@ -35,6 +35,7 @@ void IApplication::Setup()
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
 
 	InputManager::Get().Startup();
+	AudioManager::Get().Startup();
 	ResourceManager::Get().Startup();
 	RenderManager::Get().Startup();
 	ObjectManager::Get().Startup();
@@ -60,6 +61,7 @@ void IApplication::Shutdown()
 		ObjectManager::Get().Shutdown();
 		ResourceManager::Get().Shutdown();
 		RenderManager::Get().Shutdown();
+		AudioManager::Get().Shutdown();
 		InputManager::Get().Shutdown();
 
 		window_->Destroy();
