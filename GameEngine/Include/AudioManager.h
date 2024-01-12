@@ -1,9 +1,10 @@
 #pragma once
 
-#include <cstdint>
-#include <string>
+#include <memory>
 
 #include "IManager.h"
+
+#include <miniaudio.h>
 
 
 /**
@@ -50,9 +51,24 @@ public:
 	virtual void Shutdown() override;
 
 
+	/**
+	 * @brief miniaudio 엔진의 포인터 값을 얻습니다.
+	 * 
+	 * @return miniaudio 엔진의 포인터 값을 얻습니다.
+	 */
+	ma_engine* GetAudioEngine() { return audioEngine_.get(); }
+
+
 private:
 	/**
 	 * @brief 사운드 리소스 관리를 수행하는 매니저에 디폴트 생성자와 빈 가상 소멸자를 삽입합니다.
 	 */
 	DEFAULT_CONSTRUCTOR_AND_VIRTUAL_DESTRUCTOR(AudioManager);
+
+
+private:
+	/**
+	 * @brief miniaudio 엔진입니다.
+	 */
+	std::unique_ptr<ma_engine> audioEngine_ = nullptr;
 };
