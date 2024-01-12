@@ -136,6 +136,47 @@ void GeometryShader3D::DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, cons
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::Lines, vertexCount);
 }
 
+void GeometryShader3D::DrawWireframeSphere3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& center, float radius, const Vector4f& color, int32_t sliceCount)
+{
+	ASSERT(radius >= 0.0f, "invalid circle radius : %f", radius);
+
+	int32_t vertexCount = 0;
+	for (int32_t index = 0; index < sliceCount; ++index)
+	{
+		float radian = (static_cast<float>(index) * TwoPi) / static_cast<float>(sliceCount);
+		float x = radius * MathUtils::Cos(radian);
+		float y = radius * MathUtils::Sin(radian);
+
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow wireframe sphere vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(center.x + x, center.y + y, center.z), color);
+	}
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
+
+	vertexCount = 0;
+	for (int32_t index = 0; index < sliceCount; ++index)
+	{
+		float radian = (static_cast<float>(index) * TwoPi) / static_cast<float>(sliceCount);
+		float y = radius * MathUtils::Cos(radian);
+		float z = radius * MathUtils::Sin(radian);
+
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow wireframe sphere vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(center.x, center.y + y, center.z + z), color);
+	}
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
+
+	vertexCount = 0;
+	for (int32_t index = 0; index < sliceCount; ++index)
+	{
+		float radian = (static_cast<float>(index) * TwoPi) / static_cast<float>(sliceCount);
+		float z = radius * MathUtils::Cos(radian);
+		float x = radius * MathUtils::Sin(radian);
+
+		ASSERT(vertexCount < MAX_VERTEX_SIZE, "overflow wireframe sphere vertex count : %d", vertexCount);
+		vertices_[vertexCount++] = VertexPositionColor(Vector3f(center.x + x, center.y, center.z + z), color);
+	}
+	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
+}
+
 void GeometryShader3D::DrawGrid3D(const Matrix4x4f& view, const Matrix4x4f& projection, float minX, float maxX, float strideX, float minZ, float maxZ, float strideZ, const Vector4f& color)
 {
 	ASSERT((strideX >= 1.0f && strideZ >= 1.0f), "The values of strideX and strideZ are too small : %f, %f", strideX, strideZ);

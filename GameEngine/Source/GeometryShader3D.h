@@ -97,14 +97,7 @@ public:
 	 * @param toPosition 선의 끝점입니다.
 	 * @param toColor 선의 끝점 색상입니다.
 	 */
-	void DrawLine3D(
-		const Matrix4x4f& view, 
-		const Matrix4x4f& projection, 
-		const Vector3f& fromPosition,
-		const Vector4f& fromColor,
-		const Vector3f& toPosition,
-		const Vector4f& toColor
-	);
+	void DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& fromPosition, const Vector4f& fromColor, const Vector3f& toPosition, const Vector4f& toColor);
 
 
 	/**
@@ -116,13 +109,20 @@ public:
 	 * @param maxPosition 경계 영역의 최댓값입니다.
 	 * @param color 경계 상자의 색상입니다.
 	 */
-	void DrawAxisAlignedBoundingBox3D(
-		const Matrix4x4f& view, 
-		const Matrix4x4f& projection, 
-		const Vector3f& minPosition,
-		const Vector3f& maxPosition,
-		const Vector4f& color
-	);
+	void DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color);
+
+
+	/**
+	 * @brief 3D 와이어 프레임 구(Sphere)를 화면에 그립니다.
+	 * 
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param center 구의 중심 좌표입니다.
+	 * @param radius 구의 반지름 길이입니다.
+	 * @param color 구의 색상입니다.
+	 * @param sliceCount 각 평면에 평행하는 원의 둘레 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void DrawWireframeSphere3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& center, float radius, const Vector4f& color, int32_t sliceCount = 300);
 
 
 	/**
