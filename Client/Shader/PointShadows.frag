@@ -32,7 +32,7 @@ void main()
 	vec3 lightRGB = vec3(0.3f);
 
 	// ambient
-	vec3 ambientRGB = 0.3f * lightRGB;
+	vec3 ambientRGB = 0.3f * texture(diffuseMap, inTexCoords).rgb;
 
 	// diffuse
 	vec3 lightDirection = normalize(lightPosition - inWorldPosition);
