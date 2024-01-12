@@ -97,15 +97,13 @@ void RenderManager::Startup()
 	shaderPath_ = rootPath + L"GameEngine/Shader/";
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
-	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2D")       });
-	shaderCache_.insert({ L"Geometry3D", ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3D")       });
-	shaderCache_.insert({ L"Glyph2D",    ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2D")             });
-	shaderCache_.insert({ L"Texture2D",  ResourceManager::Get().CreateResource<TextureShader2D>("Texture2D")         });
-	shaderCache_.insert({ L"Skybox",     ResourceManager::Get().CreateResource<Shader>("Skybox")                     });
+	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2DShader") });
+	shaderCache_.insert({ L"Geometry3D", ResourceManager::Get().CreateResource<GeometryShader3D>("Geometry3DShader") });
+	shaderCache_.insert({ L"Glyph2D",    ResourceManager::Get().CreateResource<GlyphShader2D>("Glyph2DShader")       });
+	shaderCache_.insert({ L"Texture2D",  ResourceManager::Get().CreateResource<TextureShader2D>("Texture2DShader")   });
+	shaderCache_.insert({ L"Skybox",     ResourceManager::Get().CreateResource<Shader>("SkyboxShader")               });
 	shaderCache_.insert({ L"Light",      ResourceManager::Get().CreateResource<LightShader>("LightShader")           });
 	shaderCache_.insert({ L"ShadowMap",  ResourceManager::Get().CreateResource<ShadowShader>("ShadowShader")         });
-	shaderCache_.insert({ L"PostEffect", ResourceManager::Get().CreateResource<PostEffectShader>("PostEffectShader") });
-	
 	for (auto& shader : shaderCache_)
 	{
 		shader.second->Initialize(
@@ -114,6 +112,17 @@ void RenderManager::Startup()
 		);
 	}
 
+	const std::array<std::wstring, 2> postEffects = {
+		L"PostEffect",
+		L"InversionEffect",
+	};
+
+	for (const auto& postEffect : postEffects)
+	{
+		PostEffectShader* effect = ResourceManager::Get().CreateResource<PostEffectShader>(StringUtils::Convert(postEffect));
+		effect->Initialize(StringUtils::PrintF(L"%sPostEffect.vert", shaderPath_.c_str()), StringUtils::PrintF(L"%s%s.frag", shaderPath_.c_str(), postEffect.c_str()));
+	}
+	
 	float farZ = 1.0f;
 	float nearZ = -1.0f;
 	int32_t screenWidth;
