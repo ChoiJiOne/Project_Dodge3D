@@ -4,7 +4,7 @@
 SET mode=%1
 
 @REM 실행 파일 경로입니다.
-SET path=%~dp0..\..\Solution\GeometryExporter\%mode%
+SET path=%~dp0..\..\Solution\%mode%
 
 @REM 루트 경로입니다.
 SET rootPath=%~dp0..\..\
