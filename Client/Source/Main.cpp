@@ -57,15 +57,15 @@ public:
 	 */
 	virtual void Run() override
 	{
+		DemoScene* scene = SceneManager::Get().CreateScene<DemoScene>("Demo");
+
 		timer_.Reset();
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-
-			RenderManager::Get().EndFrame();
+			scene->Tick(timer_.GetDeltaSeconds());
 		}
 	}
 
