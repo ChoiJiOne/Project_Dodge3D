@@ -112,9 +112,13 @@ void RenderManager::Startup()
 		);
 	}
 
-	const std::array<std::wstring, 2> postEffects = {
+	const std::array<std::wstring, 6> postEffects = {
 		L"PostEffect",
 		L"InversionEffect",
+		L"GrayscaleEffect",
+		L"BlurEffect",
+		L"GaussianBlurEffect",
+		L"FadeEffect",
 	};
 
 	for (const auto& postEffect : postEffects)
