@@ -5,13 +5,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_subdirectory(ThirdParty/assimp)
 add_subdirectory(ThirdParty/glad)
 add_subdirectory(ThirdParty/jsoncpp)
 add_subdirectory(ThirdParty/miniaudio)
 add_subdirectory(ThirdParty/stb)
 add_subdirectory(ThirdParty/imgui)
 
-set_target_properties(glad jsoncpp miniaudio stb imgui PROPERTIES FOLDER "ThirdParty")
+set_target_properties(glad jsoncpp miniaudio stb imgui assimp zlibstatic PROPERTIES FOLDER "ThirdParty")
 
 set(GAME_ENGINE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -41,6 +42,7 @@ target_link_libraries(
     Pathcch.lib
     Shlwapi.lib
     opengl32.lib 
+    assimp
     glad
     jsoncpp
     miniaudio
