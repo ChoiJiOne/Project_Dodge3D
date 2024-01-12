@@ -40,9 +40,6 @@ public:
 		IApplication::Setup();
 
 		clientPath_ = rootPath_ + L"Client/";
-
-		ImGui::StyleColorsDark();
-		
 	}
 
 
