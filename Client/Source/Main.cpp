@@ -1,9 +1,5 @@
 #include "IApplication.h"
 
-#include "DemoScene.h"
-
-#include <imgui.h>
-#include <miniaudio.h>
 
 /**
  * @brief 게임 애플리케이션입니다.
