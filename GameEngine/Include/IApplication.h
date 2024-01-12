@@ -31,6 +31,7 @@
 #include "StaticMesh.h"
 #include "StringUtils.h"
 #include "ShadowMap.h"
+#include "Sound.h"
 #include "Skybox.h"
 #include "Texture2D.h"
 #include "TTFont.h"
