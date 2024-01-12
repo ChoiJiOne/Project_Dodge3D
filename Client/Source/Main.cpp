@@ -57,7 +57,16 @@ public:
 	 */
 	virtual void Run() override
 	{
-		DemoScene* scene = SceneManager::Get().CreateScene<DemoScene>("Demo");
+		Camera3D* camera = ObjectManager::Get().CreateObject<Camera3D>("camera");
+		camera->Initialize(
+			Vector3f(5.0f, 5.0f, 5.0f), 
+			Vector3f(-1.0f, -1.0f, -1.0f), 
+			Vector3f(0.0f, 1.0f, 0.0f),
+			MathUtils::ToRadian(45.0f),
+			window_->GetAspectSize(),
+			0.1f,
+			100.0f
+		);
 
 		timer_.Reset();
 		while (!bIsDoneLoop_)
@@ -65,7 +74,12 @@ public:
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			scene->Tick(timer_.GetDeltaSeconds());
+			RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+			RenderManager::Get().RenderGrid3D(camera, -5.0f, 5.0f, 1.0f, -5.0f, 5.0f, 1.0f, Vector4f(1.0f, 1.0f, 1.0f, 0.5f));
+			RenderManager::Get().RenderWireframeSphere3D(camera, Vector3f(1.0f, 0.0f, 0.0f), 0.5f, Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+
+			RenderManager::Get().EndFrame();
 		}
 	}
 
