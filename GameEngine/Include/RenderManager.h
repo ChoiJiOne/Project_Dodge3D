@@ -591,6 +591,18 @@ public:
 	
 
 	/**
+	 * @brief 카메라를 기준으로 3D 와이어 프레임 구(Sphere)를 그립니다.
+	 *
+	 * @param camera 3D 카메라입니다.
+	 * @param center 구의 중심 좌표입니다.
+	 * @param radius 구의 반지름 길이입니다.
+	 * @param color 구의 색상입니다.
+	 * @param sliceCount 각 평면에 평행하는 원의 둘레 절단 횟수입니다. 기본 값은 300입니다.
+	 */
+	void RenderWireframeSphere3D(const Camera3D* camera, const Vector3f& center, float radius, const Vector4f& color, int32_t sliceCount = 300);
+
+
+	/**
 	 * @brief 카메라를 기준으로 3D 좌표 공간을 그립니다.
 	 * 
 	 * @param camera 3D 카메라입니다.
