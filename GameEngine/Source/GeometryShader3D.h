@@ -105,11 +105,11 @@ public:
 	 *
 	 * @param view 시야 행렬입니다.
 	 * @param projection 투영 행렬입니다.
-	 * @param minPosition 경계 영역의 최솟값입니다.
-	 * @param maxPosition 경계 영역의 최댓값입니다.
+	 * @param center 축 경계 상자의 중심 좌표입니다.
+	 * @param extents 축 경계 상자의 X/Y/Z 축 방향으로의 크기입니다.
 	 * @param color 경계 상자의 색상입니다.
 	 */
-	void DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color);
+	void DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& center, const Vector3f& extents, const Vector4f& color);
 
 
 	/**

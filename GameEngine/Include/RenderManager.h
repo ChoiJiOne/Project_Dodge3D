@@ -583,11 +583,11 @@ public:
 	 * @brief 카메라를 기준으로 3D 축 정렬 경계 상자를 그립니다.
 	 * 
 	 * @param camera 3D 카메라입니다.
-	 * @param minPosition 경계 영역의 최솟값입니다.
-	 * @param maxPosition 경계 영역의 최댓값입니다.
+	 * @param center 축 경계 상자의 중심 좌표입니다.
+	 * @param extents 축 경계 상자의 X/Y/Z 축 방향으로의 크기입니다.
 	 * @param color 경계 상자의 색상입니다.
 	 */
-	void RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color);
+	void RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& center, const Vector3f& extents, const Vector4f& color);
 	
 
 	/**

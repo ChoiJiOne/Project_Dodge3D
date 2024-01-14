@@ -557,7 +557,7 @@ void RenderManager::RenderLine3D(const Camera3D* camera, const Vector3f& fromPos
 	shader->DrawLine3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), fromPosition, fromColor, toPosition, toColor);
 }
 
-void RenderManager::RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& minPosition, const Vector3f& maxPosition, const Vector4f& color)
+void RenderManager::RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& center, const Vector3f& extents, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
 	{
@@ -565,7 +565,7 @@ void RenderManager::RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const
 	}
 
 	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
-	shader->DrawAxisAlignedBoundingBox3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), minPosition, maxPosition, color);
+	shader->DrawAxisAlignedBoundingBox3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), center, extents, color);
 }
 
 void RenderManager::RenderWireframeSphere3D(const Camera3D* camera, const Vector3f& center, float radius, const Vector4f& color, int32_t sliceCount)
