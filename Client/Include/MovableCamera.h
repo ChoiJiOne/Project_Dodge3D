@@ -49,4 +49,11 @@ public:
 	 * @brief 플레이어에 따라 움직이는 카메라 오브젝트 내의 리소스를 할당 해제합니다.
 	 */
 	virtual void Release() override;
+
+
+private:
+	/**
+	 * @brief 플레이어의 위치로부터 카메라의 상대적 위치입니다.
+	 */
+	Vector3f relativePosition_;
 };
