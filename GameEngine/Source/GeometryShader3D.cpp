@@ -97,8 +97,8 @@ void GeometryShader3D::DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, cons
 {
 	uint32_t vertexCount = 0;
 
-	Vector3f minPosition = center - extents;
-	Vector3f maxPosition = center + extents;
+	Vector3f minPosition = center - extents * 0.5f;
+	Vector3f maxPosition = center + extents * 0.5f;
 
 	vertices_[vertexCount++] = VertexPositionColor(Vector3f(maxPosition.x, maxPosition.y, maxPosition.z), color);
 	vertices_[vertexCount++] = VertexPositionColor(Vector3f(minPosition.x, maxPosition.y, maxPosition.z), color);

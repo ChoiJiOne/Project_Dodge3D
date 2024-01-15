@@ -126,7 +126,7 @@ public:
 	 * 
 	 * @return 경계 영역의 최소값을 반환합니다.
 	 */
-	Vector3f GetMinPosition() const { return center_ - extents_; }
+	Vector3f GetMinPosition() const { return center_ - extents_ * 0.5f; }
 
 
 	/**
@@ -134,7 +134,7 @@ public:
 	 * 
 	 * @return 경계 영역의 최댓값을 반환합니다.
 	 */
-	Vector3f GetMaxPosition() const { return center_ + extents_; }
+	Vector3f GetMaxPosition() const { return center_ + extents_ * 0.5f; }
 
 
 	/**
