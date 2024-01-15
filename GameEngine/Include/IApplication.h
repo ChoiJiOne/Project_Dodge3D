@@ -37,6 +37,7 @@
 #include "ShadowShader.h"
 #include "Skybox.h"
 #include "Sound.h"
+#include "Sphere3D.h"
 #include "StaticMesh.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
