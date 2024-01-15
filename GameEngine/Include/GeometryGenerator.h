@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "StaticMesh.h"
+#include "Vertex.h"
 
 
 /**
