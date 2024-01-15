@@ -2,6 +2,7 @@
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
+#include "InputManager.h"
 #include "Material.h"
 #include "ResourceManager.h"
 #include "StaticMesh.h"
@@ -49,9 +50,25 @@ void Player::Initialize()
 
 void Player::Tick(float deltaSeconds)
 {
-	
+	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_LEFT) == EPressState::Held)
+	{
+		position_.x -= deltaSeconds * 5.0f;
+	}
 
+	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_RIGHT) == EPressState::Held)
+	{
+		position_.x += deltaSeconds * 5.0f;
+	}
 
+	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_UP) == EPressState::Held)
+	{
+		position_.z -= deltaSeconds * 5.0f;
+	}
+
+	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_DOWN) == EPressState::Held)
+	{
+		position_.z += deltaSeconds * 5.0f;
+	}
 }
 
 void Player::Release()
