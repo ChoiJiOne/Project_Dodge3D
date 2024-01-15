@@ -1,12 +1,13 @@
 #pragma once
 
+#include "IShape3D.h"
 #include "Vector3.h"
 
 
 /**
  * @brief 경계 구(Sphere)입니다.
  */
-class Sphere3D
+class Sphere3D : public IShape3D
 {
 public:
 	/**
@@ -137,13 +138,42 @@ public:
 
 
 	/**
-	 * @brief 다른 경계 구와 충돌하는지 확인합니다.
+	 * @brief 경계 구의 형태 열거형 값을 얻습니다.
 	 * 
-	 * @param sphere 충돌하는지 확인할 객체입니다.
-	 * 
-	 * @return 다른 객체와 충돌한다면 true, 그렇지 않으면 false를 반환합니다.
+	 * @return 경계 구의 형태 열거형 값을 반환합니다.
 	 */
-	bool Intersect(const Sphere3D& sphere) const;
+	virtual EType GetType() const override { return IShape3D::EType::Sphere; }
+
+
+	/**
+	 * @brief 다른 3D 형태가 검출되는지 확인합니다.
+	 *
+	 * @param shape 검출을 확인할 3D 형태 인스턴스입니다.
+	 *
+	 * @return 다른 3D 형태가 검출된다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	virtual bool Intersect(const IShape3D* shape) const override;
+
+
+private:
+	/**
+	 * @brief 다른 경계 축 정렬 상자와 충돌하는지 확인합니다.
+	 *
+	 * @param shape 검출을 확인할 3D 형태 인스턴스입니다.
+	 *
+	 * @return 다른 경계 축 정렬 상자가 검출된다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IntersectBox3D(const IShape3D* shape) const;
+
+
+	/**
+	 * @brief 다른 구 영역과 충돌하는지 확인합니다.
+	 *
+	 * @param shape 검출을 확인할 3D 형태 인스턴스입니다.
+	 *
+	 * @return 다른 구 영역이 검출된다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IntersectSphere3D(const IShape3D* shape) const;
 
 
 private:
