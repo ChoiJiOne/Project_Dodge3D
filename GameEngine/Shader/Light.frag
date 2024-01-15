@@ -49,8 +49,8 @@ float ComputeShadow(vec4 worldPositionInLightSpace)
 	float closestDepth = texture(shadowMap, projectionCoords.xy).r;
 	float currentDepth = projectionCoords.z;
 
+	float bias = 0.001f;
 	float shadow = 0.0f;
-	float bias = 0.005;
 	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
 	for(int x = -2; x <= 2; ++x)
 	{
@@ -60,7 +60,6 @@ float ComputeShadow(vec4 worldPositionInLightSpace)
 			shadow += currentDepth - bias > PCFDepth  ? 1.0 : 0.0;
 		}
 	}
-
 	shadow /= 25.0f;
 	
 	return shadow;
