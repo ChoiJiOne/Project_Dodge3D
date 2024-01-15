@@ -108,7 +108,7 @@ public:
 			eastWall->Tick(timer_.GetDeltaSeconds());
 			camera->Tick(timer_.GetDeltaSeconds());
 			light->Tick(timer_.GetDeltaSeconds());
-			
+
 			{// ±íÀÌ ¾À ±×¸®±â
 				RenderManager::Get().SetDepthMode(true);
 				RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
@@ -158,33 +158,6 @@ public:
 
 				lightShader->Unbind();
 			}
-
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
-				camera,
-				northWall->GetBoundingVolume().GetCenter(),
-				northWall->GetBoundingVolume().GetExtents(),
-				Vector4f(1.0f, 0.0f, 0.0f, 1.0f)
-			);
-
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
-				camera,
-				southWall->GetBoundingVolume().GetCenter(),
-				southWall->GetBoundingVolume().GetExtents(),
-				Vector4f(0.0f, 0.0f, 1.0f, 1.0f)
-			);
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
-				camera,
-				westWall->GetBoundingVolume().GetCenter(),
-				westWall->GetBoundingVolume().GetExtents(),
-				Vector4f(0.0f, 1.0f, 0.0f, 1.0f)
-			);
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
-				camera,
-				eastWall->GetBoundingVolume().GetCenter(),
-				eastWall->GetBoundingVolume().GetExtents(),
-				Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
-			);
-			RenderManager::Get().RenderWireframeSphere3D(camera, player->GetBoundingVolume().GetCenter(), player->GetBoundingVolume().GetRadius(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 			RenderManager::Get().EndFrame();
 		}
 	}
