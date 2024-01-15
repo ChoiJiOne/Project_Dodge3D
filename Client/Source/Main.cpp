@@ -1,9 +1,13 @@
 #include "IApplication.h"
 
+#include "EastWall.h"
 #include "Floor.h"
 #include "MovableCamera.h"
+#include "NorthWall.h"
 #include "Player.h"
+#include "SouthWall.h"
 #include "StaticLight.h"
+#include "WestWall.h"
 
 
 /**
@@ -70,6 +74,18 @@ public:
 		Player* player = ObjectManager::Get().CreateObject<Player>("Player");
 		player->Initialize();
 
+		NorthWall* northWall = ObjectManager::Get().CreateObject<NorthWall>("NorthWall");
+		northWall->Initialize();
+
+		SouthWall* southWall = ObjectManager::Get().CreateObject<SouthWall>("SouthWall");
+		southWall->Initialize();
+
+		WestWall* westWall = ObjectManager::Get().CreateObject<WestWall>("WestWall");
+		westWall->Initialize();
+
+		EastWall* eastWall = ObjectManager::Get().CreateObject<EastWall>("EastWall");
+		eastWall->Initialize();
+
 		ShadowShader* shadowShader = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 		LightShader* lightShader = ResourceManager::Get().GetResource<LightShader>("LightShader");
 
@@ -86,6 +102,10 @@ public:
 
 			player->Tick(timer_.GetDeltaSeconds());
 			floor->Tick(timer_.GetDeltaSeconds());
+			northWall->Tick(timer_.GetDeltaSeconds());
+			southWall->Tick(timer_.GetDeltaSeconds());
+			westWall->Tick(timer_.GetDeltaSeconds());
+			eastWall->Tick(timer_.GetDeltaSeconds());
 			camera->Tick(timer_.GetDeltaSeconds());
 			light->Tick(timer_.GetDeltaSeconds());
 			
@@ -100,6 +120,10 @@ public:
 				shadowShader->SetLight(light);
 
 				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()),  floor->GetMesh());
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(northWall->GetPosition()), northWall->GetMesh());
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(southWall->GetPosition()), southWall->GetMesh());
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(westWall->GetPosition()), westWall->GetMesh());
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(eastWall->GetPosition()), eastWall->GetMesh());
 				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh());
 
 				shadowShader->Unbind();
@@ -117,11 +141,50 @@ public:
 				lightShader->SetMaterial(floor->GetMaterial());
 				lightShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()), floor->GetMesh(), shadowMap);
 
+				lightShader->SetMaterial(northWall->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(northWall->GetPosition()), northWall->GetMesh(), shadowMap);
+
+				lightShader->SetMaterial(southWall->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(southWall->GetPosition()), southWall->GetMesh(), shadowMap);
+
+				lightShader->SetMaterial(westWall->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(westWall->GetPosition()), westWall->GetMesh(), shadowMap);
+
+				lightShader->SetMaterial(eastWall->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(eastWall->GetPosition()), eastWall->GetMesh(), shadowMap);
+				
 				lightShader->SetMaterial(player->GetMaterial());
 				lightShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh(), shadowMap);
 
 				lightShader->Unbind();
 			}
+
+			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
+				camera,
+				northWall->GetBoundingVolume().GetCenter(),
+				northWall->GetBoundingVolume().GetExtents(),
+				Vector4f(1.0f, 0.0f, 0.0f, 1.0f)
+			);
+
+			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
+				camera,
+				southWall->GetBoundingVolume().GetCenter(),
+				southWall->GetBoundingVolume().GetExtents(),
+				Vector4f(0.0f, 0.0f, 1.0f, 1.0f)
+			);
+			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
+				camera,
+				westWall->GetBoundingVolume().GetCenter(),
+				westWall->GetBoundingVolume().GetExtents(),
+				Vector4f(0.0f, 1.0f, 0.0f, 1.0f)
+			);
+			RenderManager::Get().RenderAxisAlignedBoundingBox3D(
+				camera,
+				eastWall->GetBoundingVolume().GetCenter(),
+				eastWall->GetBoundingVolume().GetExtents(),
+				Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
+			);
+			RenderManager::Get().RenderWireframeSphere3D(camera, player->GetBoundingVolume().GetCenter(), player->GetBoundingVolume().GetRadius(), Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 			RenderManager::Get().EndFrame();
 		}
 	}
