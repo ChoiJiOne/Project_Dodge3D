@@ -2,6 +2,7 @@
 
 #include "Floor.h"
 #include "MovableCamera.h"
+#include "Player.h"
 #include "StaticLight.h"
 
 
@@ -66,6 +67,9 @@ public:
 		Floor* floor = ObjectManager::Get().CreateObject<Floor>("Floor");
 		floor->Initialize();
 
+		Player* player = ObjectManager::Get().CreateObject<Player>("Player");
+		player->Initialize();
+
 		ShadowShader* shadowShader = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 		LightShader* lightShader = ResourceManager::Get().GetResource<LightShader>("LightShader");
 
@@ -80,6 +84,7 @@ public:
 			timer_.Tick();
 			InputManager::Get().Tick();
 
+			player->Tick(timer_.GetDeltaSeconds());
 			floor->Tick(timer_.GetDeltaSeconds());
 			camera->Tick(timer_.GetDeltaSeconds());
 			light->Tick(timer_.GetDeltaSeconds());
@@ -93,7 +98,9 @@ public:
 
 				shadowShader->Bind();
 				shadowShader->SetLight(light);
+
 				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()),  floor->GetMesh());
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh());
 
 				shadowShader->Unbind();
 				shadowMap->Unbind();
@@ -109,6 +116,9 @@ public:
 
 				lightShader->SetMaterial(floor->GetMaterial());
 				lightShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()), floor->GetMesh(), shadowMap);
+
+				lightShader->SetMaterial(player->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh(), shadowMap);
 
 				lightShader->Unbind();
 			}
