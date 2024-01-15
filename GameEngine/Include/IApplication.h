@@ -10,6 +10,7 @@
 
 #include "Assertion.h"
 #include "AudioManager.h"
+#include "Box3D.h"
 #include "Camera3D.h"
 #include "CommandLineUtils.h"
 #include "FileUtils.h"
