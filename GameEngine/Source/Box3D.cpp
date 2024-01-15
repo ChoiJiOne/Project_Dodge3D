@@ -3,7 +3,7 @@
 #include "Assertion.h"
 #include "MathUtils.h"
 
-bool Box3D::IsCollision(const Box3D& box) const
+bool Box3D::Intersect(const Box3D& box) const
 {
 	Vector3f minPos = GetMinPosition();
 	Vector3f maxPos = GetMaxPosition();

@@ -159,7 +159,7 @@ public:
 	 * 
 	 * @return 다른 객체와 충돌한다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	bool IsCollision(const Box3D& box) const;
+	bool Intersect(const Box3D& box) const;
 
 
 private:
