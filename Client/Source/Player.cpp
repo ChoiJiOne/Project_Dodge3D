@@ -1,9 +1,14 @@
 #include "Player.h"
+#include "EastWall.h"
+#include "NorthWall.h"
+#include "SouthWall.h"
+#include "WestWall.h"
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "Material.h"
+#include "ObjectManager.h"
 #include "ResourceManager.h"
 #include "StaticMesh.h"
 
@@ -50,24 +55,46 @@ void Player::Initialize()
 
 void Player::Tick(float deltaSeconds)
 {
+	Vector3f position = position_;
+
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_LEFT) == EPressState::Held)
 	{
-		position_.x -= deltaSeconds * 5.0f;
+		position.x -= deltaSeconds * 5.0f;
 	}
 
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_RIGHT) == EPressState::Held)
 	{
-		position_.x += deltaSeconds * 5.0f;
+		position.x += deltaSeconds * 5.0f;
 	}
 
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_UP) == EPressState::Held)
 	{
-		position_.z -= deltaSeconds * 5.0f;
+		position.z -= deltaSeconds * 5.0f;
 	}
 
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_DOWN) == EPressState::Held)
 	{
-		position_.z += deltaSeconds * 5.0f;
+		position.z += deltaSeconds * 5.0f;
+	}
+
+	boundingVolume_.SetCenter(position);
+
+	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
+	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
+	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
+	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
+
+	if (!northWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
+		!southWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
+		!westWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
+		!eastWall->GetBoundingVolume().Intersect(&boundingVolume_)
+	)
+	{
+		position_ = position;
+	}
+	else
+	{
+		boundingVolume_.SetCenter(position_);
 	}
 }
 
