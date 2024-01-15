@@ -1,5 +1,9 @@
 #include "IApplication.h"
 
+#include "Floor.h"
+#include "MovableCamera.h"
+#include "StaticLight.h"
+
 
 /**
  * @brief 게임 애플리케이션입니다.
@@ -52,46 +56,62 @@ public:
 	 * @brief 게임 프레임워크를 실행합니다.
 	 */
 	virtual void Run() override
-	{
-		Box3D aabb0(Vector3f(-2.0f, 0.0f, -2.0f), Vector3f(1.0f, 1.0f, 1.0f));
-		Box3D aabb1(Vector3f(+2.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+	{	
+		MovableCamera* camera = ObjectManager::Get().CreateObject<MovableCamera>("MainCamera");
+		camera->Initialize();
+
+		StaticLight* light = ObjectManager::Get().CreateObject<StaticLight>("GlobalLight");
+		light->Initialize();
+
+		Floor* floor = ObjectManager::Get().CreateObject<Floor>("Floor");
+		floor->Initialize();
+
+		ShadowShader* shadowShader = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
+		LightShader* lightShader = ResourceManager::Get().GetResource<LightShader>("LightShader");
+
+		const uint32_t SHADOW_WIDTH = 1024;
+		const uint32_t SHADOW_HEIGHT = 1024;
+		ShadowMap* shadowMap = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap");
+		shadowMap->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 		
-		Camera3D* camera = ObjectManager::Get().CreateObject<Camera3D>("camera");
-		camera->Initialize(
-			Vector3f(0.0f, 5.0f, 5.0f),
-			Vector3f(0.0f, -1.0f, -1.0f),
-			Vector3f(0.0f, 1.0f, 0.0f),
-			MathUtils::ToRadian(45.0f),
-			window_->GetAspectSize(),
-			0.1f,
-			100.0f
-		);
-
-
-		Vector4f collision;
-
 		timer_.Reset();
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_RIGHT) == EPressState::Pressed)
-			{
-				Vector3f center0 = aabb0.GetCenter();
-				center0.x += 0.1f;
-				center0.z += 0.1f;
-				aabb0.SetCenter(center0);
-			}
+			floor->Tick(timer_.GetDeltaSeconds());
+			camera->Tick(timer_.GetDeltaSeconds());
+			light->Tick(timer_.GetDeltaSeconds());
 			
-			collision = aabb0.IsCollision(aabb1) ? Vector4f(1.0f, 0.0f, 0.0f, 1.0f) : Vector4f(0.0f, 0.0f, 1.0f, 1.0f);
+			{// 깊이 씬 그리기
+				RenderManager::Get().SetDepthMode(true);
+				RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+
+				shadowMap->Bind();
+				shadowMap->Clear();
+
+				shadowShader->Bind();
+				shadowShader->SetLight(light);
+				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()),  floor->GetMesh());
+
+				shadowShader->Unbind();
+				shadowMap->Unbind();
+			}
 
 			RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-			RenderManager::Get().SetWindowViewport();
+			{ // 씬 그리기
+				RenderManager::Get().SetWindowViewport();
 
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(camera, aabb0.GetCenter(), aabb0.GetExtents(), collision);
-			RenderManager::Get().RenderAxisAlignedBoundingBox3D(camera, aabb1.GetCenter(), aabb1.GetExtents(), collision);
+				lightShader->Bind();
+				lightShader->SetLight(light);
+				lightShader->SetCamera(camera);
 
+				lightShader->SetMaterial(floor->GetMaterial());
+				lightShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()), floor->GetMesh(), shadowMap);
+
+				lightShader->Unbind();
+			}
 			RenderManager::Get().EndFrame();
 		}
 	}
