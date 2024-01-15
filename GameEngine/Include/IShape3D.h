@@ -15,7 +15,7 @@ public:
 	enum class EType : int32_t
 	{
 		None = 0x00,
-		AABB = 0x01,
+		Box = 0x01,
 		Sphere = 0x02,
 	};
 
