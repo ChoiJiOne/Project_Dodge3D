@@ -557,6 +557,39 @@ void RenderManager::RenderLine3D(const Camera3D* camera, const Vector3f& fromPos
 	shader->DrawLine3D(camera->GetViewMatrix(), camera->GetProjectionMatrix(), fromPosition, fromColor, toPosition, toColor);
 }
 
+void RenderManager::RenderQuad3D(const Matrix4x4f& world, const Camera3D* camera, float width, float height, const Vector4f& color)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+	
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawQuad3D(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), width, height, color);
+}
+
+void RenderManager::RenderHorizonDividQuad3D(const Matrix4x4f& world, const Camera3D* camera, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawHorizonDividQuad3D(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), width, height, rate, color, bgColor);
+}
+
+void RenderManager::RenderVerticalDividQuad3D(const Matrix4x4f& world, const Camera3D* camera, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor)
+{
+	if (!bIsEnableDepth_)
+	{
+		SetDepthMode(true);
+	}
+
+	GeometryShader3D* shader = reinterpret_cast<GeometryShader3D*>(shaderCache_.at(L"Geometry3D"));
+	shader->DrawVerticalDividQuad3D(world, camera->GetViewMatrix(), camera->GetProjectionMatrix(), width, height, rate, color, bgColor);
+}
+
 void RenderManager::RenderAxisAlignedBoundingBox3D(const Camera3D* camera, const Vector3f& center, const Vector3f& extents, const Vector4f& color)
 {
 	if (!bIsEnableDepth_)
