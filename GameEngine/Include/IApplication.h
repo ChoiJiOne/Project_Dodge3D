@@ -41,6 +41,7 @@
 #include "StaticMesh.h"
 #include "StringUtils.h"
 #include "Texture2D.h"
+#include "Transform.h"
 #include "TTFont.h"
 #include "Window.h"
 #include "WindowsAssertion.h"
