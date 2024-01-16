@@ -5,6 +5,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "Assertion.h"
 #include "IManager.h"
 #include "IObject.h"
 

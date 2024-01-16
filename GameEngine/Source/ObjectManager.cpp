@@ -1,7 +1,5 @@
 #include "ObjectManager.h"
 
-#include "Assertion.h"
-
 void ObjectManager::Startup()
 {
 	ASSERT(!bIsStartup_, "already startup object manager...");
