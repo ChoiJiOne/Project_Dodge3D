@@ -1,16 +1,13 @@
 #pragma once
 
 #include "Box3D.h"
-#include "IObject.h"
-
-class Material;
-class StaticMesh;
+#include "GameObject.h"
 
 
 /**
  * @brief 동쪽 벽 오브젝트입니다.
  */
-class EastWall : public IObject
+class EastWall : public GameObject
 {
 public:
 	/**
@@ -54,30 +51,6 @@ public:
 
 
 	/**
-	 * @brief 동쪽 벽 오브젝트의 메시를 얻습니다.
-	 *
-	 * @return 동쪽 벽 오브젝트의 메시를 반환합니다.
-	 */
-	StaticMesh* GetMesh() const { return mesh_; }
-
-
-	/**
-	 * @brief 동쪽 벽 오브젝트의 재질을 얻습니다.
-	 *
-	 * @return 동쪽 벽 오브젝트의 재질을 반환합니다.
-	 */
-	Material* GetMaterial() const { return material_; }
-
-
-	/**
-	 * @brief 동쪽 벽 오브젝트의 현재 위치를 얻습니다.
-	 *
-	 * @return 동쪽 벽 오브젝트의 위치를 반환합니다.
-	 */
-	const Vector3f& GetPosition() const { return position_; }
-
-
-	/**
 	 * @brief 동쪽 벽 오브젝트의 경계 영역을 얻습니다.
 	 *
 	 * @return 동쪽 벽 오브젝트의 경계 영역을 반환합니다.
@@ -86,24 +59,6 @@ public:
 
 
 private:
-	/**
-	 * @brief 동쪽 벽 오브젝트의 정적 메시입니다.
-	 */
-	StaticMesh* mesh_ = nullptr;
-
-
-	/**
-	 * @brief 동쪽 벽 오브젝트의 재질입니다.
-	 */
-	Material* material_ = nullptr;
-
-
-	/**
-	 * @brief 동쪽 벽 오브젝트의 현재 위치입니다.
-	 */
-	Vector3f position_;
-
-
 	/**
 	 * @brief 동쪽 벽 오브젝트의 경계 영역입니다.
 	 */

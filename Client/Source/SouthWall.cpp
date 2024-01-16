@@ -2,9 +2,7 @@
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
-#include "Material.h"
 #include "ResourceManager.h"
-#include "StaticMesh.h"
 
 SouthWall::~SouthWall()
 {
@@ -40,9 +38,9 @@ void SouthWall::Initialize()
 			0.4f * 128.0f
 		);
 	}
-
-	position_ = Vector3f(0.0f, 0.5f, +5.5f);
-	boundingVolume_ = Box3D(position_, Vector3f(10.0f, 1.0f, 1.0f));
+	
+	transform_ = Transform(Vector3f(0.0f, 0.5f, +5.5f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+	boundingVolume_ = Box3D(transform_.GetLocation(), Vector3f(10.0f, 1.0f, 1.0f));
 
 	bIsInitialized_ = true;
 }

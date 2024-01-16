@@ -2,9 +2,7 @@
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
-#include "Material.h"
 #include "ResourceManager.h"
-#include "StaticMesh.h"
 #include "StringUtils.h"
 
 uint32_t BulletSpawner::countOfBulletSpawner_ = 0;
@@ -43,8 +41,8 @@ void BulletSpawner::Initialize(const Vector3f& position)
 			0.6f * 128.0f
 		);
 	}
-
-	position_ = position;
+	
+	transform_ = Transform(position, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 
 	countOfBulletSpawner_++;
 

@@ -2,9 +2,7 @@
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
-#include "Material.h"
 #include "ResourceManager.h"
-#include "StaticMesh.h"
 
 EastWall::~EastWall()
 {
@@ -41,8 +39,8 @@ void EastWall::Initialize()
 		);
 	}
 
-	position_ = Vector3f(+5.5f, 0.5f, 0.0f);
-	boundingVolume_ = Box3D(position_, Vector3f(1.0f, 1.0f, 10.0f));
+	transform_ = Transform(Vector3f(+5.5f, 0.5f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+	boundingVolume_ = Box3D(transform_.GetLocation(), Vector3f(1.0f, 1.0f, 10.0f));
 
 	bIsInitialized_ = true;
 }
