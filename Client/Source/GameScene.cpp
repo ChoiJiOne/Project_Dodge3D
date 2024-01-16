@@ -1,9 +1,11 @@
 #include "GameScene.h"
 
+#include "InputManager.h"
 #include "ObjectManager.h"
 #include "StringUtils.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "Window.h"
 
 #include "BulletSpawner.h"
 #include "EastWall.h"
@@ -76,6 +78,15 @@ GameScene::GameScene()
 
 	shadowShader_ = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 	lightShader_ = ResourceManager::Get().GetResource<LightShader>("LightShader");
+
+	auto gameSceneResizeEvent = [&]() {
+		camera_->SetAspectRatio(RenderManager::Get().GetRenderTargetWindow()->GetAspectSize());
+	};
+
+	InputManager::Get().AddWindowEventAction("GameSceneResizeEvent",   EWindowEvent::Resize,        gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameSceneExitMinimize",  EWindowEvent::ExitMinimize,  gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameSceneEnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameSceneExitMaximize",  EWindowEvent::ExitMaximize,  gameSceneResizeEvent, true);
 }
 
 GameScene::~GameScene()
