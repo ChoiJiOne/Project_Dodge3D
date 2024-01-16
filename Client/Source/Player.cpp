@@ -47,15 +47,15 @@ void Player::Initialize()
 		);
 	}
 
-	position_ = Vector3f(0.0f, 0.5f, 0.0f);
-	boundingVolume_ = Sphere3D(position_, 0.5f);
+	transform_ = Transform(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
+	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.5f);
 
 	bIsInitialized_ = true;
 }
 
 void Player::Tick(float deltaSeconds)
 {
-	Vector3f position = position_;
+	Vector3f position = transform_.GetLocation();
 
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_LEFT) == EPressState::Held)
 	{
@@ -90,11 +90,11 @@ void Player::Tick(float deltaSeconds)
 		!eastWall->GetBoundingVolume().Intersect(&boundingVolume_)
 	)
 	{
-		position_ = position;
+		transform_.SetLocation(position);
 	}
 	else
 	{
-		boundingVolume_.SetCenter(position_);
+		boundingVolume_.SetCenter(transform_.GetLocation());
 	}
 }
 

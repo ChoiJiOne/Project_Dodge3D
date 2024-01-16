@@ -2,6 +2,7 @@
 
 #include "Sphere3D.h"
 #include "IObject.h"
+#include "Transform.h"
 
 class Material;
 class StaticMesh;
@@ -70,11 +71,11 @@ public:
 
 
 	/**
-	 * @brief 플레이어가 조종 가능한 오브젝트의 현재 위치를 얻습니다.
+	 * @brief 플레이어가 조종 가능한 오브젝트의 트랜스폼을 얻습니다.
 	 *
-	 * @return 플레이어가 조종 가능한 오브젝트의 위치를 반환합니다.
+	 * @return 플레이어가 조종 가능한 오브젝트의 트랜스폼을 반환합니다.
 	 */
-	const Vector3f& GetPosition() const { return position_; }
+	const Transform& GetTransform() const { return transform_; }
 
 
 	/**
@@ -99,9 +100,9 @@ private:
 
 
 	/**
-	 * @brief 플레이어가 조종 가능한 오브젝트의 현재 위치입니다.
+	 * @brief 플레이어가 조종 가능한 오브젝트의 트랜스폼입니다.
 	 */
-	Vector3f position_;
+	Transform transform_;
 
 
 	/**
