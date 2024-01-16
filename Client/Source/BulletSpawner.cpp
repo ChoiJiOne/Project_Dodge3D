@@ -17,7 +17,7 @@ BulletSpawner::~BulletSpawner()
 	}
 }
 
-void BulletSpawner::Initialize()
+void BulletSpawner::Initialize(const Vector3f& position)
 {
 	ASSERT(!bIsInitialized_, "already initialize bullet spawner object...");
 
@@ -44,7 +44,7 @@ void BulletSpawner::Initialize()
 		);
 	}
 
-	position_ = Vector3f(-4.0f, 0.5f, +4.0f);
+	position_ = position;
 
 	countOfBulletSpawner_++;
 

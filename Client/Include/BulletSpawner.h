@@ -35,8 +35,10 @@ public:
 
 	/**
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트를 초기화합니다.
+	 * 
+	 * @param position 플레이어가 피해야 할 총알을 생성하는 오브젝트의 월드 상 위치입니다. 
 	 */
-	void Initialize();
+	void Initialize(const Vector3f& position);
 
 
 	/**
