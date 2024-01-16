@@ -1,13 +1,6 @@
 #include "IApplication.h"
 
-#include "EastWall.h"
-#include "Floor.h"
-#include "MovableCamera.h"
-#include "NorthWall.h"
-#include "Player.h"
-#include "SouthWall.h"
-#include "StaticLight.h"
-#include "WestWall.h"
+#include "GameScene.h"
 
 
 /**
@@ -45,6 +38,8 @@ public:
 		IApplication::Setup();
 
 		clientPath_ = rootPath_ + L"Client/";
+
+		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
 	}
 
 
@@ -61,104 +56,14 @@ public:
 	 * @brief 게임 프레임워크를 실행합니다.
 	 */
 	virtual void Run() override
-	{	
-		MovableCamera* camera = ObjectManager::Get().CreateObject<MovableCamera>("MainCamera");
-		camera->Initialize();
-
-		StaticLight* light = ObjectManager::Get().CreateObject<StaticLight>("GlobalLight");
-		light->Initialize();
-
-		Floor* floor = ObjectManager::Get().CreateObject<Floor>("Floor");
-		floor->Initialize();
-
-		Player* player = ObjectManager::Get().CreateObject<Player>("Player");
-		player->Initialize();
-
-		NorthWall* northWall = ObjectManager::Get().CreateObject<NorthWall>("NorthWall");
-		northWall->Initialize();
-
-		SouthWall* southWall = ObjectManager::Get().CreateObject<SouthWall>("SouthWall");
-		southWall->Initialize();
-
-		WestWall* westWall = ObjectManager::Get().CreateObject<WestWall>("WestWall");
-		westWall->Initialize();
-
-		EastWall* eastWall = ObjectManager::Get().CreateObject<EastWall>("EastWall");
-		eastWall->Initialize();
-
-		ShadowShader* shadowShader = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
-		LightShader* lightShader = ResourceManager::Get().GetResource<LightShader>("LightShader");
-
-		const uint32_t SHADOW_WIDTH = 1024;
-		const uint32_t SHADOW_HEIGHT = 1024;
-		ShadowMap* shadowMap = ResourceManager::Get().CreateResource<ShadowMap>("shadowMap");
-		shadowMap->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
-		
+	{
 		timer_.Reset();
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			player->Tick(timer_.GetDeltaSeconds());
-			floor->Tick(timer_.GetDeltaSeconds());
-			northWall->Tick(timer_.GetDeltaSeconds());
-			southWall->Tick(timer_.GetDeltaSeconds());
-			westWall->Tick(timer_.GetDeltaSeconds());
-			eastWall->Tick(timer_.GetDeltaSeconds());
-			camera->Tick(timer_.GetDeltaSeconds());
-			light->Tick(timer_.GetDeltaSeconds());
-
-			{// 깊이 씬 그리기
-				RenderManager::Get().SetDepthMode(true);
-				RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-
-				shadowMap->Bind();
-				shadowMap->Clear();
-
-				shadowShader->Bind();
-				shadowShader->SetLight(light);
-
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()),  floor->GetMesh());
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(northWall->GetPosition()), northWall->GetMesh());
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(southWall->GetPosition()), southWall->GetMesh());
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(westWall->GetPosition()), westWall->GetMesh());
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(eastWall->GetPosition()), eastWall->GetMesh());
-				shadowShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh());
-
-				shadowShader->Unbind();
-				shadowMap->Unbind();
-			}
-
-			RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
-			{ // 씬 그리기
-				RenderManager::Get().SetWindowViewport();
-
-				lightShader->Bind();
-				lightShader->SetLight(light);
-				lightShader->SetCamera(camera);
-
-				lightShader->SetMaterial(floor->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(floor->GetPosition()), floor->GetMesh(), shadowMap);
-
-				lightShader->SetMaterial(northWall->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(northWall->GetPosition()), northWall->GetMesh(), shadowMap);
-
-				lightShader->SetMaterial(southWall->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(southWall->GetPosition()), southWall->GetMesh(), shadowMap);
-
-				lightShader->SetMaterial(westWall->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(westWall->GetPosition()), westWall->GetMesh(), shadowMap);
-
-				lightShader->SetMaterial(eastWall->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(eastWall->GetPosition()), eastWall->GetMesh(), shadowMap);
-				
-				lightShader->SetMaterial(player->GetMaterial());
-				lightShader->DrawMesh3D(MathUtils::CreateTranslation(player->GetPosition()), player->GetMesh(), shadowMap);
-
-				lightShader->Unbind();
-			}
-			RenderManager::Get().EndFrame();
+			gameScene_->Tick(timer_.GetDeltaSeconds());
 		}
 	}
 
@@ -174,6 +79,12 @@ private:
 	 * @brief 게임 타이머입니다.
 	 */
 	GameTimer timer_;
+
+
+	/**
+	 * @brief 게임 플레이 씬입니다.
+	 */
+	GameScene* gameScene_ = nullptr;
 };
 
 
