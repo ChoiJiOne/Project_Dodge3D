@@ -23,7 +23,7 @@ void MovableCamera::Initialize()
 void MovableCamera::Tick(float deltaSeconds)
 {
 	Player* player = ObjectManager::Get().GetObject<Player>("Player");
-	Vector3f playerPosition = player->GetPosition();
+	Vector3f playerPosition = player->GetTransform().GetLocation();
 
 	SetEyePosition(playerPosition + relativePosition_);
 }
