@@ -266,7 +266,7 @@ public:
 	 *
 	 * @param aspectRatio 설정할 뷰 공간의 가로 세로 비율입니다.
 	 */
-	void SetAspectRation(float aspectRatio)
+	void SetAspectRatio(float aspectRatio)
 	{
 		aspectRatio_ = aspectRatio;
 		UpdateProjectionMatrix();
