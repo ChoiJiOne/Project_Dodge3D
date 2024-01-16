@@ -64,16 +64,4 @@ private:
 	 * @brief 월드에 생성된 총알을 생성하는 오브젝트 수입니다.
 	 */
 	static uint32_t countOfBulletSpawner_;
-
-	
-	/**
-	 * @brief 총알의 최대 발사 각도입니다. 단위는 라디안입니다.
-	 */
-	float maxShotAngle_ = 0.0f;
-
-
-	/**
-	 * @brief 총알의 최소 발사 각도입니다. 단위는 라디안입니다.
-	 */
-	float minShotAngle_ = 0.0f;
 };
