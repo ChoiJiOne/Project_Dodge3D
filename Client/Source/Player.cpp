@@ -7,10 +7,8 @@
 #include "Assertion.h"
 #include "GeometryGenerator.h"
 #include "InputManager.h"
-#include "Material.h"
 #include "ObjectManager.h"
 #include "ResourceManager.h"
-#include "StaticMesh.h"
 
 Player::~Player()
 {
