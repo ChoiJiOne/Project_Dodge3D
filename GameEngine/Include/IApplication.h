@@ -15,6 +15,7 @@
 #include "CommandLineUtils.h"
 #include "FileUtils.h"
 #include "Framebuffer.h"
+#include "GameObject.h"
 #include "GameTimer.h"
 #include "GeometryGenerator.h"
 #include "GLAssertion.h"
