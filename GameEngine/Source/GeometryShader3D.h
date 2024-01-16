@@ -101,6 +101,79 @@ public:
 
 
 	/**
+	 * @brief 화면에 3D 쿼드를 그립니다.
+	 * 
+	 * @param world 월드 행렬입니다.
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param width 쿼드의 가로 크기입니다.
+	 * @param height 쿼드의 세로 크기입니다.
+	 * @param color 쿼드의 색상입니다.
+	 * 
+	 * @note 3D 쿼드는 XY 평면 기준입니다.
+	 */
+	void DrawQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, const Vector4f& color);
+
+
+	/**
+	 * @brief 화면에 분할된 3D 쿼드를 그립니다.
+	 * 
+	 * @param world 월드 행렬입니다.
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param width 쿼드의 가로 크기입니다.
+	 * @param height 쿼드의 세로 크기입니다.
+	 * @param rate 쿼드의 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f입니다.
+	 * @param color 쿼드의 rate 비율 부분의 색상입니다.
+	 * @param bgColor 쿼드의 1.0f - rate 비율 부분의 색상입니다.
+	 *
+	 * @note 
+	 * - 3D 쿼드는 XY 평면 기준입니다.
+	 * - 분할 기준입니다.
+	 * ┌────────────┬──────────────────┐
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * │    rate    │   1.0f - rate    │
+	 * │            │                  │
+	 * │            │                  │
+	 * │            │                  │
+	 * └────────────┴──────────────────┘
+	 */
+	void DrawHorizonDividQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor);
+
+
+	/**
+	 * @brief 화면에 분할된 3D 쿼드를 그립니다.
+	 *
+	 * @param world 월드 행렬입니다.
+	 * @param view 시야 행렬입니다.
+	 * @param projection 투영 행렬입니다.
+	 * @param width 쿼드의 가로 크기입니다.
+	 * @param height 쿼드의 세로 크기입니다.
+	 * @param rate 쿼드의 분할 비율입니다. 값의 범위는 0.0f ~ 1.0f입니다.
+	 * @param color 쿼드의 rate 비율 부분의 색상입니다.
+	 * @param bgColor 쿼드의 1.0f - rate 비율 부분의 색상입니다.
+	 *
+	 * @note
+	 * - 3D 쿼드는 XY 평면 기준입니다.
+	 * - 분할 기준입니다.
+	 * ┌─────────────────────────────┐
+	 * │                             │
+	 * │                             │
+	 * │         1.0f - rate         │
+	 * │                             │
+	 * ├─────────────────────────────┤
+	 * │                             │
+	 * │            rate             │
+	 * │                             │
+	 * └─────────────────────────────┘
+	 */
+	void DrawVerticalDividQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor);
+
+
+	/**
 	 * @brief 3D 축 정렬 경계 상자(Axis Aligned Bounding Box, AABB)를 화면에 그립니다.
 	 *
 	 * @param view 시야 행렬입니다.

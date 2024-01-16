@@ -93,6 +93,83 @@ void GeometryShader3D::DrawLine3D(const Matrix4x4f& view, const Matrix4x4f& proj
 	DrawGeometry3D(Matrix4x4f::GetIdentity(), view, projection, EDrawType::LineStrip, vertexCount);
 }
 
+void GeometryShader3D::DrawQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, const Vector4f& color)
+{
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(-width / 2.0f, -height / 2.0f, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(+width / 2.0f, -height / 2.0f, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(+width / 2.0f, +height / 2.0f, 0.0f), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(-width / 2.0f, -height / 2.0f, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(+width / 2.0f, +height / 2.0f, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(-width / 2.0f, +height / 2.0f, 0.0f), color);
+	
+	DrawGeometry3D(world, view, projection, EDrawType::Triangles, vertexCount);
+}
+
+void GeometryShader3D::DrawHorizonDividQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor)
+{
+	rate = MathUtils::Clamp<float>(rate, 0.0f, 1.0f);
+
+	float x0 = -width / 2.0f;
+	float x1 = +width / 2.0f;
+	float y0 = -height / 2.0f;
+	float y1 = +height / 2.0f;
+	float x = x0 + rate * width;
+	
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y1, 0.0f), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y1, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y1, 0.0f), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y0, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y0, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y1, 0.0f), bgColor);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y0, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y1, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f( x, y1, 0.0f), bgColor);
+
+	DrawGeometry3D(world, view, projection, EDrawType::Triangles, vertexCount);
+}
+
+void GeometryShader3D::DrawVerticalDividQuad3D(const Matrix4x4f& world, const Matrix4x4f& view, const Matrix4x4f& projection, float width, float height, float rate, const Vector4f& color, const Vector4f& bgColor)
+{
+	rate = MathUtils::Clamp<float>(rate, 0.0f, 1.0f);
+
+	float x0 = -width / 2.0f;
+	float x1 = +width / 2.0f;
+	float y0 = -height / 2.0f;
+	float y1 = +height / 2.0f;
+	float y = y0 + rate * height;
+
+	uint32_t vertexCount = 0;
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1,  y, 0.0f), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y0, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1,  y, 0.0f), color);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0,  y, 0.0f), color);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0,  y, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1,  y, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y1, 0.0f), bgColor);
+
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0,  y, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x1, y1, 0.0f), bgColor);
+	vertices_[vertexCount++] = VertexPositionColor(Vector3f(x0, y1, 0.0f), bgColor);
+
+	DrawGeometry3D(world, view, projection, EDrawType::Triangles, vertexCount);
+}
+
 void GeometryShader3D::DrawAxisAlignedBoundingBox3D(const Matrix4x4f& view, const Matrix4x4f& projection, const Vector3f& center, const Vector3f& extents, const Vector4f& color)
 {
 	uint32_t vertexCount = 0;
