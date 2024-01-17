@@ -73,4 +73,28 @@ private:
 	 * @brief 총알을 생성하는 시간 주기입니다.
 	 */
 	float respawnTime_ = 0.0f;
+
+
+	/**
+	 * @brief 총알을 생성하는 쿼드의 가로 크기입니다.
+	 */
+	float width_ = 0.0f;
+
+
+	/**
+	 * @brief 총알을 생성하는 쿼드의 세로 크기입니다.
+	 */
+	float height_ = 0.0f;
+
+
+	/**
+	 * @brief 총알을 생성하는 쿼드의 매인 색상입니다.
+	 */
+	Vector4f mainColor_;
+
+
+	/**
+	 * @brief 총알을 생성하는 쿼드의 서브 색상입니다.
+	 */
+	Vector4f subColor_;
 };

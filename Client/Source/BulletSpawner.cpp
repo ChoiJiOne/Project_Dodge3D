@@ -47,6 +47,10 @@ void BulletSpawner::Initialize(const Vector3f& location, float respawnTime)
 
 	stepTime_ = 0.0f;
 	respawnTime_ = respawnTime;
+	width_ = 1.0f;
+	height_ = 0.2f;
+	mainColor_ = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+	subColor_ = Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 
 	bIsInitialized_ = true;
 }
@@ -71,14 +75,7 @@ void BulletSpawner::Release()
 void BulletSpawner::RenderRespawnTime(const Camera3D* camera)
 {
 	Matrix4x4f world = transform_.GetWorldMatrix() * MathUtils::CreateTranslation(Vector3f(0.0f, 1.0f, 0.0f));
+	float rate = stepTime_ / respawnTime_;
 
-	RenderManager::Get().RenderHorizonDividQuad3D(
-		world,
-		camera,
-		1.0f,
-		0.2f,
-		stepTime_ / respawnTime_,
-		Vector4f(1.0f, 0.0f, 0.0f, 1.0f),
-		Vector4f(0.0f, 0.0f, 0.0f, 1.0f)
-	);
+	RenderManager::Get().RenderHorizonDividQuad3D(world, camera, width_, height_, rate, mainColor_, subColor_);
 }
