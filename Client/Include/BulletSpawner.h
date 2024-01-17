@@ -32,9 +32,9 @@ public:
 	/**
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트를 초기화합니다.
 	 * 
-	 * @param position 플레이어가 피해야 할 총알을 생성하는 오브젝트의 월드 상 위치입니다. 
+	 * @param location 플레이어가 피해야 할 총알을 생성하는 오브젝트의 월드 상 위치입니다. 
 	 */
-	void Initialize(const Vector3f& position);
+	void Initialize(const Vector3f& location);
 
 
 	/**
@@ -49,19 +49,4 @@ public:
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트 내의 리소스를 할당 해제합니다.
 	 */
 	virtual void Release() override;
-
-
-	/**
-	 * @brief 월드에 생성된 총알을 생성하는 오브젝트 수를 얻습니다.
-	 * 
-	 * @return 월드에 생성된 총알을 생성하는 오브젝트 수를 반환합니다.
-	 */
-	static uint32_t GetCountOfBulletSpawner() { return countOfBulletSpawner_; }
-
-
-private:
-	/**
-	 * @brief 월드에 생성된 총알을 생성하는 오브젝트 수입니다.
-	 */
-	static uint32_t countOfBulletSpawner_;
 };

@@ -5,8 +5,6 @@
 #include "ResourceManager.h"
 #include "StringUtils.h"
 
-uint32_t BulletSpawner::countOfBulletSpawner_ = 0;
-
 BulletSpawner::~BulletSpawner()
 {
 	if (bIsInitialized_)
@@ -15,7 +13,7 @@ BulletSpawner::~BulletSpawner()
 	}
 }
 
-void BulletSpawner::Initialize(const Vector3f& position)
+void BulletSpawner::Initialize(const Vector3f& location)
 {
 	ASSERT(!bIsInitialized_, "already initialize bullet spawner object...");
 
@@ -42,9 +40,7 @@ void BulletSpawner::Initialize(const Vector3f& position)
 		);
 	}
 	
-	transform_ = Transform(position, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
-
-	countOfBulletSpawner_++;
+	transform_ = Transform(location, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 
 	bIsInitialized_ = true;
 }
@@ -56,8 +52,6 @@ void BulletSpawner::Tick(float deltaSeconds)
 void BulletSpawner::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
-
-	countOfBulletSpawner_--;
 
 	bIsInitialized_ = false;
 }
