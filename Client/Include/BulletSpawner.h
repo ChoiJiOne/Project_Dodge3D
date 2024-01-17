@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+class Camera3D;
+
 
 /**
  * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트입니다.
@@ -33,8 +35,9 @@ public:
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트를 초기화합니다.
 	 * 
 	 * @param location 플레이어가 피해야 할 총알을 생성하는 오브젝트의 월드 상 위치입니다. 
+	 * @param respawnTime 총알을 생성하는 시간 주기입니다.
 	 */
-	void Initialize(const Vector3f& location);
+	void Initialize(const Vector3f& location, float respawnTime);
 
 
 	/**
@@ -49,4 +52,25 @@ public:
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트 내의 리소스를 할당 해제합니다.
 	 */
 	virtual void Release() override;
+
+
+	/**
+	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트의 리스폰 시간을 그립니다.
+	 * 
+	 * @param camera 3D 카메라입니다.
+	 */
+	void RenderRespawnTime(const Camera3D* camera);
+
+
+private:
+	/**
+	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트의 누적 시간입니다.
+	 */
+	float stepTime_ = 0.0f;
+
+
+	/**
+	 * @brief 총알을 생성하는 시간 주기입니다.
+	 */
+	float respawnTime_ = 0.0f;
 };

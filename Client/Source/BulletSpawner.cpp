@@ -1,7 +1,10 @@
 #include "BulletSpawner.h"
 
 #include "Assertion.h"
+#include "Camera3D.h"
 #include "GeometryGenerator.h"
+#include "MathUtils.h"
+#include "RenderManager.h"
 #include "ResourceManager.h"
 #include "StringUtils.h"
 
@@ -13,7 +16,7 @@ BulletSpawner::~BulletSpawner()
 	}
 }
 
-void BulletSpawner::Initialize(const Vector3f& location)
+void BulletSpawner::Initialize(const Vector3f& location, float respawnTime)
 {
 	ASSERT(!bIsInitialized_, "already initialize bullet spawner object...");
 
@@ -42,11 +45,20 @@ void BulletSpawner::Initialize(const Vector3f& location)
 	
 	transform_ = Transform(location, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 
+	stepTime_ = 0.0f;
+	respawnTime_ = respawnTime;
+
 	bIsInitialized_ = true;
 }
 
 void BulletSpawner::Tick(float deltaSeconds)
 {
+	stepTime_ += deltaSeconds;
+
+	if (stepTime_ >= respawnTime_)
+	{
+		stepTime_ -= respawnTime_;
+	}
 }
 
 void BulletSpawner::Release()
@@ -54,4 +66,19 @@ void BulletSpawner::Release()
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	bIsInitialized_ = false;
+}
+
+void BulletSpawner::RenderRespawnTime(const Camera3D* camera)
+{
+	Matrix4x4f world = transform_.GetWorldMatrix() * MathUtils::CreateTranslation(Vector3f(0.0f, 1.0f, 0.0f));
+
+	RenderManager::Get().RenderHorizonDividQuad3D(
+		world,
+		camera,
+		1.0f,
+		0.2f,
+		stepTime_ / respawnTime_,
+		Vector4f(1.0f, 0.0f, 0.0f, 1.0f),
+		Vector4f(0.0f, 0.0f, 0.0f, 1.0f)
+	);
 }
