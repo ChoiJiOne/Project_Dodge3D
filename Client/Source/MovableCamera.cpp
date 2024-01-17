@@ -11,7 +11,7 @@ MovableCamera::~MovableCamera() {}
 
 void MovableCamera::Initialize()
 {
-	relativePosition_ = Vector3f(0.0f, 5.0f, 5.0f);
+	relativePosition_ = Vector3f(0.0f, 7.0f, 7.0f);
 
 	Window* window = RenderManager::Get().GetRenderTargetWindow();
 	Camera3D::Initialize(
