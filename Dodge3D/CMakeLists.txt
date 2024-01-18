@@ -23,3 +23,5 @@ target_include_directories(Dodge3D PUBLIC ${DODGE_3D_INCLUDE})
 
 source_group(Include FILES ${DODGE_3D_INCLUDE_FILE})
 source_group(Source FILES ${DODGE_3D_SOURCE_FILE})
+
+set_target_properties(Dodge3D PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "${CMAKE_SOURCE_DIR}/")
