@@ -1,5 +1,16 @@
 # ProjectA
-- 3D 총알 피하기 게임(Dodge3D) 게임 개발 프로젝트입니다.
+- 3D 총알 피하기(Dodge3D) 게임 개발 프로젝트입니다.
+<br><br>
+
+
+## Table of Contents
+- [Requirements](#requirements)
+- [How to get repository clone?](#how-to-get-repository-clone)
+- [How to Generate Visual Studio Solution?](#how-to-generate-visual-studio-solution)
+- [How to Build Solution?](#how-to-build-solution)
+- [How to Run Client?](#how-to-run-client)
+- [License](#license)
+<br><br>
 
 
 ## Requirements
@@ -8,6 +19,7 @@
 - [Visual Studio 2019 or 2022](https://visualstudio.microsoft.com/ko/)
 - [CMake 3.27 or later](https://cmake.org/download/)
 - [Python 3.0 or later](https://www.python.org/downloads/)
+<br><br>
 
 
 ## How to get repository clone?
@@ -17,6 +29,7 @@
 ```PowerShell
 git clone https://github.com/ChoiJiOne/ProjectA --single-branch -b develop
 ```
+<br><br>
 
 
 ## How to Generate Visual Studio Solution?
@@ -36,6 +49,8 @@ GenerateProjectFiles_vs2022.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
+
+<br><br>
 
 
 ## How to Build Solution?
@@ -73,6 +88,8 @@ Build_MinSizeRel.bat
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
 
+<br><br>
+
 
 ## How to Run Client?
 
@@ -101,6 +118,8 @@ RunClient_MinSizeRel.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
+
+<br><br>
 
 
 ## License
