@@ -64,6 +64,18 @@ private:
 	 * @brief 게임 씬의 오브젝트를 로딩합니다.
 	 */
 	void LoadObjects();
+
+
+	/**
+	 * @brief 깊이 씬을 렌더링합니다.
+	 */
+	void RenderDepthScene();
+
+
+	/**
+	 * @brief 씬을 렌더링합니다.
+	 */
+	void RenderScene();
 	
 
 private:

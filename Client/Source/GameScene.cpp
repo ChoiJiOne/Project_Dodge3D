@@ -47,37 +47,8 @@ void GameScene::Tick(float deltaSeconds)
 
 	RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 	RenderManager::Get().SetDepthMode(true);
-	{ // ±íÀÌ °ª ·»´õ¸µ
-		RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-		shadowMap_->Bind();
-		shadowMap_->Clear();
-
-		shadowShader_->Bind();
-		shadowShader_->SetLight(light_);
-
-		for (const auto& object : renderObjects_)
-		{
-			shadowShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh());
-		}
-
-		shadowShader_->Unbind();
-		shadowMap_->Unbind();
-	}
-	{ // ¶óÀÌÆ® È¿°ú ·»´õ¸µ
-		RenderManager::Get().SetWindowViewport();
-
-		lightShader_->Bind();
-		lightShader_->SetLight(light_);
-		lightShader_->SetCamera(camera_);
-
-		for (const auto& object : renderObjects_)
-		{
-			lightShader_->SetMaterial(object->GetMaterial());
-			lightShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh(), shadowMap_);
-		}
-
-		lightShader_->Unbind();
-	}
+	RenderDepthScene();
+	RenderScene();
 	RenderManager::Get().EndFrame();
 }
 
@@ -157,4 +128,44 @@ void GameScene::LoadObjects()
 		bulletSpawner3_,
 		player_,
 	};
+}
+
+void GameScene::RenderDepthScene()
+{
+	RenderManager::Get().SetViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	shadowMap_->Bind();
+	shadowMap_->Clear();
+
+	shadowShader_->Bind();
+	shadowShader_->SetLight(light_);
+
+	for (const auto& object : renderObjects_)
+	{
+		shadowShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh());
+	}
+
+	shadowShader_->Unbind();
+	shadowMap_->Unbind();
+}
+
+void GameScene::RenderScene()
+{
+	RenderManager::Get().SetWindowViewport();
+
+	lightShader_->Bind();
+	lightShader_->SetLight(light_);
+	lightShader_->SetCamera(camera_);
+
+	for (const auto& object : renderObjects_)
+	{
+		lightShader_->SetMaterial(object->GetMaterial());
+		lightShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh(), shadowMap_);
+	}
+
+	lightShader_->Unbind();
+
+	bulletSpawner0_->RenderRespawnTime(camera_);
+	bulletSpawner1_->RenderRespawnTime(camera_);
+	bulletSpawner2_->RenderRespawnTime(camera_);
+	bulletSpawner3_->RenderRespawnTime(camera_);
 }
