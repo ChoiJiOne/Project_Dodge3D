@@ -55,7 +55,7 @@ public:
 	 *
 	 * @return 플레이어가 조종 가능한 오브젝트의 경계 영역을 반환합니다.
 	 */
-	const Sphere3D& GetBoundingVolume() const { return boundingVolume_; }
+	virtual const IShape3D* GetBoundingVolume() const override { return &boundingVolume_; }
 
 
 private:

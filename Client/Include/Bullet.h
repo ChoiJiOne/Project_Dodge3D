@@ -56,6 +56,14 @@ public:
 	virtual void Release() override;
 
 
+	/**
+	 * @brief 총알 오브젝트의 경계 영역을 얻습니다.
+	 * 
+	 * @return 총알 오브젝트의 경계 영역을 반환합니다.
+	 */
+	virtual const IShape3D* GetBoundingVolume() const override { return &boundingVolume_; }
+
+
 private:
 	/**
 	 * @brief 총알의 방향입니다.
@@ -70,7 +78,7 @@ private:
 
 
 	/**
-	 * @brief 플레이어가 조종 가능한 오브젝트의 경계 영역입니다.
+	 * @brief 총알의 경계 영역입니다.
 	 */
 	Sphere3D boundingVolume_;
 };

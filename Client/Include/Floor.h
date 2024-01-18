@@ -47,4 +47,12 @@ public:
 	 * @brief 바닥 오브젝트 내의 리소스를 할당 해제합니다.
 	 */
 	virtual void Release() override;
+
+
+	/**
+	 * @brief 오브젝트의 경계 영역을 얻습니다.
+	 *
+	 * @return 오브젝트의 경계 영역을 반환합니다.
+	 */
+	virtual const IShape3D* GetBoundingVolume() const override { return nullptr; }
 };

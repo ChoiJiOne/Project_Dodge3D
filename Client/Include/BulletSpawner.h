@@ -55,6 +55,14 @@ public:
 
 
 	/**
+	 * @brief 오브젝트의 경계 영역을 얻습니다.
+	 *
+	 * @return 오브젝트의 경계 영역을 반환합니다.
+	 */
+	virtual const IShape3D* GetBoundingVolume() const override { return nullptr; }
+
+
+	/**
 	 * @brief 플레이어가 피해야 할 총알을 생성하는 오브젝트의 리스폰 시간을 그립니다.
 	 * 
 	 * @param camera 3D 카메라입니다.
