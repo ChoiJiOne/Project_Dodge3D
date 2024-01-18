@@ -35,5 +35,5 @@ void Transform::ComputeWorldMatrix()
 	Matrix4x4f rotate = MathUtils::CreateRotateY(rotate_.y) * MathUtils::CreateRotateX(rotate_.x) * MathUtils::CreateRotateZ(rotate_.z);
 	Matrix4x4f scale = MathUtils::CreateScale(scale_);
 
-	worldMatrix_ = transform * rotate * scale;
+	worldMatrix_ = scale * rotate * transform;
 }
