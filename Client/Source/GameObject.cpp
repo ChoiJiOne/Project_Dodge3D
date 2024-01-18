@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-bool GameObject::IsCollision(GameObject* object) const
+bool GameObject::IsCollision(const GameObject* object) const
 {
 	if (this == object) return false; // 자기 자신과는 충돌 여부 X
 

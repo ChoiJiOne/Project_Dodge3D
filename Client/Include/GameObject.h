@@ -70,7 +70,7 @@ public:
 	 * 
 	 * @param object 충돌 여부를 검사할 다른 게임 오브젝트입니다.
 	 */
-	bool IsCollision(GameObject* object) const;
+	bool IsCollision(const GameObject* object) const;
 
 
 protected:
