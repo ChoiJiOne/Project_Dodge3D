@@ -12,15 +12,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(GameEngine)
 add_subdirectory(Client)
+add_subdirectory(Dodge3D)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Client)
 
 set(CPACK_GENERATOR "WIX")
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/Client/Script/Run.bat DESTINATION .)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/GameEngine/Shader DESTINATION GameEngine)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Client/Resource DESTINATION Client)
 install(TARGETS Client DESTINATION Bin)
+install(TARGETS Dodge3D DESTINATION .)
 
 set(CPACK_PACKAGE_NAME "Dodge3D")
 set(CPACK_PACKAGE_VERSION "0.0.0")
