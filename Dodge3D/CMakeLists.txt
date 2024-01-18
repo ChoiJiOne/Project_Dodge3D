@@ -12,6 +12,11 @@ set(DODGE_3D_SOURCE ${DODGE_3D_PATH}/Source)
 file(GLOB_RECURSE DODGE_3D_INCLUDE_FILE "${DODGE_3D_INCLUDE}/*")
 file(GLOB_RECURSE DODGE_3D_SOURCE_FILE "${DODGE_3D_SOURCE}/*")
 
+configure_file(
+    "${DODGE_3D_INCLUDE}/Config.h.in"
+    "${DODGE_3D_INCLUDE}/Config.h"
+)
+
 add_executable(Dodge3D ${DODGE_3D_INCLUDE_FILE} ${DODGE_3D_SOURCE_FILE})
 
 target_include_directories(Dodge3D PUBLIC ${DODGE_3D_INCLUDE})
