@@ -82,11 +82,7 @@ void Player::Tick(float deltaSeconds)
 	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
 	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
 
-	if (!northWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
-		!southWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
-		!westWall->GetBoundingVolume().Intersect(&boundingVolume_) &&
-		!eastWall->GetBoundingVolume().Intersect(&boundingVolume_)
-	)
+	if (!IsCollision(northWall) && !IsCollision(southWall) && !IsCollision(westWall) && !IsCollision(eastWall))
 	{
 		transform_.SetLocation(position);
 	}
