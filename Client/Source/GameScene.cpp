@@ -1,6 +1,7 @@
 #include "GameScene.h"
 
 #include "InputManager.h"
+#include "MathUtils.h"
 #include "ObjectManager.h"
 #include "StringUtils.h"
 #include "RenderManager.h"
@@ -17,6 +18,9 @@
 
 GameScene::GameScene()
 {
+	bIsDone_ = false;
+	bIsCollisionToPlayer_ = false;
+
 	LoadResources();
 	LoadObjects();
 	
@@ -29,6 +33,11 @@ GameScene::GameScene()
 	InputManager::Get().AddWindowEventAction("GameSceneExitMinimize",  EWindowEvent::ExitMinimize,  gameSceneResizeEvent, true);
 	InputManager::Get().AddWindowEventAction("GameSceneEnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
 	InputManager::Get().AddWindowEventAction("GameSceneExitMaximize",  EWindowEvent::ExitMaximize,  gameSceneResizeEvent, true);
+
+	bulletRemoveEvent_ = [](Bullet* bullet)
+	{
+		return bullet->IsCollisionToPlayer() || bullet->IsCollisionToWall();
+	};
 }
 
 GameScene::~GameScene()
@@ -37,13 +46,7 @@ GameScene::~GameScene()
 
 void GameScene::Tick(float deltaSeconds)
 {
-	for (auto& object : updateObjects_)
-	{
-		object->Tick(deltaSeconds);
-	}
-
-	camera_->Tick(deltaSeconds);
-	light_->Tick(deltaSeconds);
+	UpdateScene(deltaSeconds);
 
 	RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 	RenderManager::Get().SetDepthMode(true);
@@ -61,8 +64,20 @@ void GameScene::LoadResources()
 		shadowMap_->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 	}
 
+	framebuffer_ = ResourceManager::Get().GetResource<Framebuffer>("Framebuffer");
+	if (!framebuffer_)
+	{
+		int32_t bufferWidth;
+		int32_t bufferHeight;
+		RenderManager::Get().GetRenderTargetWindow()->GetSize(bufferWidth, bufferHeight);
+
+		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("Framebuffer");
+		framebuffer_->Initialize(bufferWidth, bufferHeight);
+	}
+
 	shadowShader_ = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 	lightShader_ = ResourceManager::Get().GetResource<LightShader>("LightShader");
+	postEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GrayscaleEffect");
 }
 
 void GameScene::LoadObjects()
@@ -92,29 +107,62 @@ void GameScene::LoadObjects()
 	eastWall_->Initialize();
 
 	bulletSpawner0_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_0");
-	bulletSpawner0_->Initialize(Vector3f(-4.0f, 0.5f, +4.0f), 1.0f);
+	bulletSpawner0_->Initialize(
+		Vector3f(-4.0f, 0.5f, +4.0f), 
+		2.0f, 
+		[&]() {
+			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
+			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner0_->GetTransform().GetLocation());
+			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.0f);
+
+			bullet->Initialize(bulletSpawner0_->GetTransform().GetLocation(), direction, speed, 0.2f);
+			bullets_.push_back(bullet);
+		}
+	);
 
 	bulletSpawner1_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_1");
-	bulletSpawner1_->Initialize(Vector3f(+4.0f, 0.5f, +4.0f), 2.0f);
+	bulletSpawner1_->Initialize(
+		Vector3f(+4.0f, 0.5f, +4.0f), 
+		3.0f, 
+		[&]() 
+		{
+			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
+			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner1_->GetTransform().GetLocation());
+			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.0f);
+
+			bullet->Initialize(bulletSpawner1_->GetTransform().GetLocation(), direction, speed, 0.2f);
+			bullets_.push_back(bullet);
+		}
+	);
 
 	bulletSpawner2_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_2");
-	bulletSpawner2_->Initialize(Vector3f(+4.0f, 0.5f, -4.0f), 1.0f);
+	bulletSpawner2_->Initialize(
+		Vector3f(+4.0f, 0.5f, -4.0f), 
+		2.5f, 
+		[&]() 
+		{
+			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
+			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner2_->GetTransform().GetLocation());
+			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.0f);
+
+			bullet->Initialize(bulletSpawner2_->GetTransform().GetLocation(), direction, speed, 0.2f);
+			bullets_.push_back(bullet);
+		}
+	);
 
 	bulletSpawner3_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_3");
-	bulletSpawner3_->Initialize(Vector3f(-4.0f, 0.5f, -4.0f), 2.0f);
+	bulletSpawner3_->Initialize(
+		Vector3f(-4.0f, 0.5f, -4.0f), 
+		2.0f, 
+		[&]() {
+			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
+			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner3_->GetTransform().GetLocation());
+			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.0f);
 
-	updateObjects_ = {
-		player_,
-		bulletSpawner0_,
-		bulletSpawner1_,
-		bulletSpawner2_,
-		bulletSpawner3_,
-		floor_,
-		northWall_,
-		southWall_,
-		westWall_,
-		eastWall_,
-	};
+			bullet->Initialize(bulletSpawner3_->GetTransform().GetLocation(), direction, speed, 0.2f);
+			bullets_.push_back(bullet);
+		}
+	);
 
 	renderObjects_ = {
 		floor_,
@@ -128,6 +176,41 @@ void GameScene::LoadObjects()
 		bulletSpawner3_,
 		player_,
 	};
+}
+
+void GameScene::UpdateScene(float deltaSeconds)
+{
+	if (bIsDone_)
+	{
+		return;
+	}
+
+	bIsCollisionToPlayer_ = false;
+
+	player_->Tick(deltaSeconds);
+	camera_->Tick(deltaSeconds);
+
+	bulletSpawner0_->Tick(deltaSeconds);
+	bulletSpawner1_->Tick(deltaSeconds);
+	bulletSpawner2_->Tick(deltaSeconds);
+	bulletSpawner3_->Tick(deltaSeconds);
+
+	for (auto& bullet : bullets_)
+	{
+		bullet->Tick(deltaSeconds);
+
+		if (bullet->IsCollisionToPlayer())
+		{
+			bIsCollisionToPlayer_ = true;
+		}
+	}
+
+	if (player_->GetLife() <= 0)
+	{
+		bIsDone_ = true;
+	}
+	
+	bullets_.remove_if(bulletRemoveEvent_);
 }
 
 void GameScene::RenderDepthScene()
@@ -144,6 +227,11 @@ void GameScene::RenderDepthScene()
 		shadowShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh());
 	}
 
+	for (const auto& bullet : bullets_)
+	{
+		shadowShader_->DrawMesh3D(bullet->GetTransform().GetWorldMatrix(), bullet->GetMesh());
+	}
+
 	shadowShader_->Unbind();
 	shadowMap_->Unbind();
 }
@@ -151,6 +239,12 @@ void GameScene::RenderDepthScene()
 void GameScene::RenderScene()
 {
 	RenderManager::Get().SetWindowViewport();
+
+	if (bIsDone_)
+	{
+		framebuffer_->Bind();
+		framebuffer_->Clear(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
 	lightShader_->Bind();
 	lightShader_->SetLight(light_);
@@ -162,10 +256,23 @@ void GameScene::RenderScene()
 		lightShader_->DrawMesh3D(object->GetTransform().GetWorldMatrix(), object->GetMesh(), shadowMap_);
 	}
 
-	lightShader_->Unbind();
+	for (const auto& bullet : bullets_)
+	{
+		lightShader_->DrawMesh3D(bullet->GetTransform().GetWorldMatrix(), bullet->GetMesh(), shadowMap_);
+	}
 
+	lightShader_->Unbind();
+	
 	bulletSpawner0_->RenderRespawnTime(camera_);
 	bulletSpawner1_->RenderRespawnTime(camera_);
 	bulletSpawner2_->RenderRespawnTime(camera_);
 	bulletSpawner3_->RenderRespawnTime(camera_);
+
+	if (bIsDone_)
+	{
+		framebuffer_->Unbind();
+		postEffectShader_->Bind();
+		postEffectShader_->BlitEffect(framebuffer_);
+		postEffectShader_->Unbind();
+	}
 }

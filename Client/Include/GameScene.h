@@ -1,9 +1,13 @@
 #pragma once
 
 #include <array>
+#include <list>
+#include <functional>
 
+#include "Framebuffer.h"
 #include "GameObject.h"
 #include "IScene.h"
+#include "PostEffectShader.h"
 #include "LightShader.h"
 #include "Skybox.h"
 #include "ShadowMap.h"
@@ -67,6 +71,14 @@ private:
 
 
 	/**
+	 * @brief 씬 내의 오브젝트들을 업데이트합니다.
+	 * 
+	 * @param deltaSeconds 델타 시간값입니다.
+	 */
+	void UpdateScene(float deltaSeconds);
+
+
+	/**
 	 * @brief 깊이 씬을 렌더링합니다.
 	 */
 	void RenderDepthScene();
@@ -80,9 +92,27 @@ private:
 
 private:
 	/**
+	 * @brief 게임이 종료되었는지 확인합니다.
+	 */
+	bool bIsDone_ = false;
+
+
+	/**
+	 * @brief 플레이어와 총알이 충돌되었는지 확인합니다.
+	 */
+	bool bIsCollisionToPlayer_ = false;
+
+
+	/**
 	 * @brief 게임 내 렌더링 씬의 깊이 값을 기록한 텍스처입니다.
 	 */
 	ShadowMap* shadowMap_ = nullptr;
+
+
+	/**
+	 * @brief 후처리 효과를 적용하기 위한 프레임 버퍼입니다.
+	 */
+	Framebuffer* framebuffer_ = nullptr;
 
 
 	/**
@@ -107,6 +137,12 @@ private:
 	 * @brief 게임 내 렌더링 씬에 라이팅 효과를 적용하는 셰이더입니다.
 	 */
 	LightShader* lightShader_ = nullptr;
+
+
+	/**
+	 * @brief 후처리 효과를 적용하기 위한 그레이 스케일 셰이더입니다.
+	 */
+	PostEffectShader* postEffectShader_ = nullptr;
 
 
 	/**
@@ -182,13 +218,25 @@ private:
 
 
 	/**
-	 * @brief 게임 내의 업데이트 가능한 오브젝트들입니다.
-	 */
-	std::array<GameObject*, 10> updateObjects_;
-
-
-	/**
 	 * @brief 게임 내의 렌더링 가능한 오브젝트들입니다.
 	 */
 	std::array<GameObject*, 10> renderObjects_;
+
+
+	/**
+	 * @brief 게임 내의 총알 오브젝트입니다.
+	 */
+	std::list<Bullet*> bullets_;
+
+
+	/**
+	 * @brief 게임 내의 생성된 총알 오브젝트 수입니다.
+	 */
+	uint32_t countOfbullet_ = 0;
+
+
+	/**
+	 * @brief 총알 삭제 이벤트입니다.
+	 */
+	std::function<bool(Bullet*)> bulletRemoveEvent_;
 };
