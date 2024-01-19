@@ -64,6 +64,14 @@ public:
 	virtual const IShape3D* GetBoundingVolume() const override { return &boundingVolume_; }
 
 
+	/**
+	 * @brief 총알이 외부로 나갔는지 확인합니다.
+	 * 
+	 * @return 총알이 외부로 나갔다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsOutside() const { return bIsOutside_; }
+
+
 private:
 	/**
 	 * @brief 총알의 방향입니다.
@@ -81,4 +89,10 @@ private:
 	 * @brief 총알의 경계 영역입니다.
 	 */
 	Sphere3D boundingVolume_;
+
+
+	/**
+	 * @brief 총알이 외부로 나갔는지 확인합니다.
+	 */
+	bool bIsOutside_ = false;
 };

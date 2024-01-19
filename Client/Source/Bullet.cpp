@@ -1,8 +1,13 @@
 #include "Bullet.h"
+#include "EastWall.h"
+#include "NorthWall.h"
+#include "SouthWall.h"
+#include "WestWall.h"
 
 #include "Assertion.h"
 #include "GeometryGenerator.h"
 #include "MathUtils.h"
+#include "ObjectManager.h"
 #include "ResourceManager.h"
 
 Bullet::~Bullet()
@@ -51,6 +56,11 @@ void Bullet::Initialize(const Vector3f& location, const Vector3f& direction, flo
 
 void Bullet::Tick(float deltaSeconds)
 {
+	if (bIsOutside_)
+	{
+		return;
+	}
+
 	Vector3f location = transform_.GetLocation();
 
 	location.x += deltaSeconds * direction_.x * speed_;
@@ -58,6 +68,16 @@ void Bullet::Tick(float deltaSeconds)
 
 	transform_.SetLocation(location);
 	boundingVolume_.SetCenter(location);
+
+	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
+	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
+	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
+	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
+
+	if (IsCollision(northWall) || IsCollision(southWall) || IsCollision(westWall) || IsCollision(eastWall))
+	{
+		bIsOutside_ = true;
+	}
 }
 
 void Bullet::Release()
