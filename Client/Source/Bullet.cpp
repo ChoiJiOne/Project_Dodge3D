@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "EastWall.h"
 #include "NorthWall.h"
+#include "Player.h"
 #include "SouthWall.h"
 #include "WestWall.h"
 
@@ -56,7 +57,7 @@ void Bullet::Initialize(const Vector3f& location, const Vector3f& direction, flo
 
 void Bullet::Tick(float deltaSeconds)
 {
-	if (bIsOutside_)
+	if (bIsCollisionToWall_ || bIsCollisionToPlayer_)
 	{
 		return;
 	}
@@ -69,15 +70,8 @@ void Bullet::Tick(float deltaSeconds)
 	transform_.SetLocation(location);
 	boundingVolume_.SetCenter(location);
 
-	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
-	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
-	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
-	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
-
-	if (IsCollision(northWall) || IsCollision(southWall) || IsCollision(westWall) || IsCollision(eastWall))
-	{
-		bIsOutside_ = true;
-	}
+	bIsCollisionToWall_ = CheckCollisionToWall();
+	bIsCollisionToPlayer_ = CheckCollisionToPlayer();
 }
 
 void Bullet::Release()
@@ -85,4 +79,21 @@ void Bullet::Release()
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	bIsInitialized_ = false;
+}
+
+bool Bullet::CheckCollisionToWall()
+{
+	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
+	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
+	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
+	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
+
+	return IsCollision(northWall) || IsCollision(southWall) || IsCollision(westWall) || IsCollision(eastWall);
+}
+
+bool Bullet::CheckCollisionToPlayer()
+{
+	Player* player = ObjectManager::Get().GetObject<Player>("Player");
+	
+	return IsCollision(player);
 }

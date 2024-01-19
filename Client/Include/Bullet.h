@@ -65,11 +65,36 @@ public:
 
 
 	/**
-	 * @brief 총알이 외부로 나갔는지 확인합니다.
+	 * @brief 총알이 벽과 충돌했는지 확인합니다.
 	 * 
-	 * @return 총알이 외부로 나갔다면 true, 그렇지 않으면 false를 반환합니다.
+	 * @return 총알이 벽과 충돌했다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	bool IsOutside() const { return bIsOutside_; }
+	bool IsCollisionToWall() const { return bIsCollisionToWall_; }
+
+
+	/**
+	 * @brief 총알이 플레이어와 충돌했는지 확인합니다.
+	 * 
+	 * @return 총알이 플레이어와 충돌했다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool IsCollisionToPlayer() const { return bIsCollisionToPlayer_; }
+
+
+private:
+	/**
+	 * @brief 벽과 충돌하는지 확인합니다.
+	 * 
+	 * @return 벽과 충돌한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool CheckCollisionToWall();
+
+
+	/**
+	 * @brief 플레이어와 충돌하는지 확인합니다.
+	 * 
+	 * @return 플레이어와 충돌한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool CheckCollisionToPlayer();
 
 
 private:
@@ -92,7 +117,13 @@ private:
 
 
 	/**
-	 * @brief 총알이 외부로 나갔는지 확인합니다.
+	 * @brief 총알이 벽과 충돌했는지 확인합니다.
 	 */
-	bool bIsOutside_ = false;
+	bool bIsCollisionToWall_ = false;
+
+
+	/**
+	 * @brief 총알이 플레이어와 충돌했는지 확인합니다.
+	 */
+	bool bIsCollisionToPlayer_ = false;
 };
