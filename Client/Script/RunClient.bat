@@ -22,4 +22,4 @@ if "%mode%" == "Debug" (
     GOTO:EOF
 )
 
-start %path%\Client.exe rootPath=%rootPath% title=Dodge3D x=200 y=200 w=800 h=600 resize=true fullscreen=false vsync=true imgui=true
+start %path%\Client.exe rootPath=%rootPath% title=Dodge3D x=100 y=100 w=800 h=600 resize=true fullscreen=false vsync=true imgui=true
