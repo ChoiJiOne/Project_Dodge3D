@@ -21,30 +21,37 @@ void UIBoard::Initialize()
 	int32_t width;
 	int32_t height;
 	RenderManager::Get().GetRenderTargetWindow()->GetSize(width, height);
+
+	float boardWidth = 400.0f;
+	float boardHeight = 50.0f;
+
+	Vector2f center = Vector2f(static_cast<float>(width) / 2.0f, boardHeight);
+	TTFont* font = ResourceManager::Get().GetResource<TTFont>("Font32");
 	
-	UIPanel::Initialize(
-		400.0f,
-		50.0f,
-		Vector2f(static_cast<float>(width) / 2.0f, 50.0f),
-		L"",
-		ResourceManager::Get().GetResource<TTFont>("Font32"),
-		Vector3f(0.227f, 0.663f, 1.0f),
-		Vector3f(0.094f, 0.122f, 0.165f),
-		Vector3f(0.227f, 0.663f, 1.0f),
-		0.9f
-	);
+	UIPanel::Initialize(boardWidth, boardHeight, center, L"", font, Vector3f(0.227f, 0.663f, 1.0f), Vector3f(0.094f, 0.122f, 0.165f), Vector3f(0.227f, 0.663f, 1.0f), 0.9f);
 }
 
 void UIBoard::Tick(float deltaSeconds)
 {
-	int32_t width;
-	int32_t height;
-	RenderManager::Get().GetRenderTargetWindow()->GetSize(width, height);
-
-	center_ = Vector2f(static_cast<float>(width) / 2.0f, height_);
-
 	Player* player = ObjectManager::Get().GetObject<Player>("Player");
 
+	center_ = GetCenterFromWindow();
+	std::wstring life = GetPlayerLife(player);
+
+	text_ = StringUtils::PrintF(L"TIME : %3d  LIEF : %s", static_cast<int32_t>(player->GetPlayTime()), life.c_str());
+}
+
+Vector2f UIBoard::GetCenterFromWindow()
+{
+	int32_t windowWidth;
+	int32_t windowHeight;
+	RenderManager::Get().GetRenderTargetWindow()->GetSize(windowWidth, windowHeight);
+	
+	return Vector2f(static_cast<float>(windowHeight) / 2.0f, height_);
+}
+
+std::wstring UIBoard::GetPlayerLife(const Player* player)
+{
 	std::wstring life;
 	switch (player->GetLife())
 	{
@@ -64,6 +71,6 @@ void UIBoard::Tick(float deltaSeconds)
 		life = L"X X X";
 		break;
 	}
-	
-	text_ = StringUtils::PrintF(L"TIME : %3d LIEF : %s", static_cast<int32_t>(player->GetPlayTime()), life.c_str());
+
+	return life;
 }
