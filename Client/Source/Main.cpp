@@ -39,6 +39,12 @@ public:
 
 		clientPath_ = rootPath_ + L"Client/";
 
+		TTFont* font32 = ResourceManager::Get().CreateResource<TTFont>("Font32");
+		font32->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 32.0f);
+
+		TTFont* font64 = ResourceManager::Get().CreateResource<TTFont>("Font64");
+		font64->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 64.0f);
+
 		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
 	}
 
