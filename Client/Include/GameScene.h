@@ -22,6 +22,7 @@
 #include "Player.h"
 #include "SouthWall.h"
 #include "StaticLight.h"
+#include "UIBoard.h"
 #include "WestWall.h"
 
 
@@ -239,4 +240,10 @@ private:
 	 * @brief 총알 삭제 이벤트입니다.
 	 */
 	std::function<bool(Bullet*)> bulletRemoveEvent_;
+
+
+	/**
+	 * @brief 플레이어의 플레이 정보를 표시하는 UI입니다.
+	 */
+	UIBoard* board_ = nullptr;
 };

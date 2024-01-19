@@ -172,6 +172,9 @@ void GameScene::LoadObjects()
 		}
 	);
 
+	board_ = ObjectManager::Get().CreateObject<UIBoard>("Board");
+	board_->Initialize();
+
 	renderObjects_ = {
 		floor_,
 		northWall_,
@@ -212,6 +215,8 @@ void GameScene::UpdateScene(float deltaSeconds)
 			bIsCollisionToPlayer_ = true;
 		}
 	}
+
+	board_->Tick(deltaSeconds);
 
 	if (player_->GetLife() <= 0)
 	{
@@ -283,4 +288,6 @@ void GameScene::RenderScene()
 		postEffectShader_->BlitEffect(framebuffer_);
 		postEffectShader_->Unbind();
 	}
+
+	board_->Render();
 }
