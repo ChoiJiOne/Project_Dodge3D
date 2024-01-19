@@ -47,12 +47,16 @@ void Player::Initialize()
 
 	transform_ = Transform(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.25f);
+	life_ = 3;
+	playTime_ = 0.0f;
 
 	bIsInitialized_ = true;
 }
 
 void Player::Tick(float deltaSeconds)
 {
+	playTime_ += deltaSeconds;
+
 	Vector3f position = transform_.GetLocation();
 
 	if (InputManager::Get().GetVirtualKeyPressState(EVirtualKey::VKEY_LEFT) == EPressState::Held)
