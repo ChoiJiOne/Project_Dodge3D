@@ -28,6 +28,12 @@ public:
 
 
 	/**
+	 * @brief 플레이어의 정보를 표시하는 보드 UI 오브젝트를 초기화합니다.
+	 */
+	void Initialize();
+
+
+	/**
 	 * @brief 플레이어의 정보를 표시하는 보드 UI 오브젝트를 업데이트합니다.
 	 *
 	 * @param deltaSeconds 델타 시간 값입니다.
