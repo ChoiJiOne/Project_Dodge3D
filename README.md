@@ -9,6 +9,7 @@
 - [How to Generate Visual Studio Solution?](#how-to-generate-visual-studio-solution)
 - [How to Build Solution?](#how-to-build-solution)
 - [How to Run Client?](#how-to-run-client)
+- [How to Package Project?](#how-to-package-project)
 - [License](#license)
 <br><br>
 
@@ -115,6 +116,39 @@ RunClient_RelWithDebInfo.bat
 ## MinSizeRel
 ```
 RunClient_MinSizeRel.bat
+```
+
+> 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
+
+<br><br>
+
+
+## How to Package Project?
+
+이 프로젝트는 사용자 머신에 프로젝트가 설치 가능하도록 하는 msi 파일을 생성할 수 있는 기능을 지원합니다. 이때, [WiX Toolset v3.x](https://github.com/wixtoolset/wix3)의 바이너리 파일들이 설치되어 있고, 이 바이너리 파일들의 경로가 환경변수에 등록되어 있어야 사용할 수 있습니다. 이 패키징 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 따라 패키지 파일을 얻을 수 있습니다.
+
+> 단, 솔루션이 빌드되어 있어야 동작합니다. 빌드는 [여기](#how-to-build-solution)를 참조하세요.
+
+> WiX Toolset v3.x의 바이너리 파일들의 경로가 환경변수에 등록되어 있지 않으면 이 기능을 사용하실 수 없습니다. 
+
+### Debug
+```
+Package_Debug.bat
+```
+
+### Release
+```
+Package_Release.bat
+```
+
+### RelWithDebInfo
+```
+Package_RelWithDebInfo.bat
+```
+
+## MinSizeRel
+```
+Package_MinSizeRel.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
