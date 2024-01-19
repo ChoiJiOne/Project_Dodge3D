@@ -26,7 +26,15 @@ GameScene::GameScene()
 	
 	auto gameSceneResizeEvent = [&]() 
 	{
-		camera_->SetAspectRatio(RenderManager::Get().GetRenderTargetWindow()->GetAspectSize());
+		int32_t bufferWidth;
+		int32_t bufferHeight;
+		RenderManager::Get().GetRenderTargetWindow()->GetSize(bufferWidth, bufferHeight);
+
+		camera_->SetAspectRatio(static_cast<float>(bufferWidth) / static_cast<float>(bufferHeight));
+
+		ResourceManager::Get().DestroyResource("Framebuffer");
+		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("Framebuffer");
+		framebuffer_->Initialize(bufferWidth, bufferHeight);
 	};
 
 	InputManager::Get().AddWindowEventAction("GameSceneResizeEvent",   EWindowEvent::Resize,        gameSceneResizeEvent, true);
