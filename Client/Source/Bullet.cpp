@@ -72,6 +72,16 @@ void Bullet::Tick(float deltaSeconds)
 
 	bIsCollisionToWall_ = CheckCollisionToWall();
 	bIsCollisionToPlayer_ = CheckCollisionToPlayer();
+
+	if (bIsCollisionToPlayer_)
+	{
+		Player* player = ObjectManager::Get().GetObject<Player>("Player");
+		int32_t life = player->GetLife();
+		if (life > 0)
+		{
+			player->SetLife(--life);
+		}
+	}
 }
 
 void Bullet::Release()
