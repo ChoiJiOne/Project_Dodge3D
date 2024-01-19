@@ -16,7 +16,7 @@ BulletSpawner::~BulletSpawner()
 	}
 }
 
-void BulletSpawner::Initialize(const Vector3f& location, float respawnTime)
+void BulletSpawner::Initialize(const Vector3f& location, float respawnTime, const std::function<void()>& respawnTrigger)
 {
 	ASSERT(!bIsInitialized_, "already initialize bullet spawner object...");
 
@@ -51,6 +51,7 @@ void BulletSpawner::Initialize(const Vector3f& location, float respawnTime)
 	height_ = 0.2f;
 	mainColor_ = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
 	subColor_ = Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
+	respawnTrigger_ = respawnTrigger;
 
 	bIsInitialized_ = true;
 }
@@ -62,6 +63,7 @@ void BulletSpawner::Tick(float deltaSeconds)
 	if (stepTime_ >= respawnTime_)
 	{
 		stepTime_ -= respawnTime_;
+		respawnTrigger_();
 	}
 }
 

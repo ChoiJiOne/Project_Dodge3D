@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "GameObject.h"
 
 class Camera3D;
@@ -36,8 +38,9 @@ public:
 	 * 
 	 * @param location 플레이어가 피해야 할 총알을 생성하는 오브젝트의 월드 상 위치입니다. 
 	 * @param respawnTime 총알을 생성하는 시간 주기입니다.
+	 * @param respawnTrigger 총알 생성 이벤트입니다.
 	 */
-	void Initialize(const Vector3f& location, float respawnTime);
+	void Initialize(const Vector3f& location, float respawnTime, const std::function<void()>& respawnTrigger);
 
 
 	/**
@@ -105,4 +108,10 @@ private:
 	 * @brief 총알을 생성하는 쿼드의 서브 색상입니다.
 	 */
 	Vector4f subColor_;
+
+
+	/**
+	 * @brief 총알 생성 이벤트입니다.
+	 */
+	std::function<void()> respawnTrigger_ = nullptr;
 };
