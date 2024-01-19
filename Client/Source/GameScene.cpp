@@ -197,8 +197,6 @@ void GameScene::UpdateScene(float deltaSeconds)
 		return;
 	}
 
-	bIsCollisionToPlayer_ = false;
-
 	player_->Tick(deltaSeconds);
 	camera_->Tick(deltaSeconds);
 
@@ -207,6 +205,7 @@ void GameScene::UpdateScene(float deltaSeconds)
 	bulletSpawner2_->Tick(deltaSeconds);
 	bulletSpawner3_->Tick(deltaSeconds);
 
+	bIsCollisionToPlayer_ = false;
 	for (auto& bullet : bullets_)
 	{
 		bullet->Tick(deltaSeconds);
