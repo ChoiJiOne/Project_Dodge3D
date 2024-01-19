@@ -60,6 +60,15 @@ public:
 
 private:
 	/**
+	 * @brief 벽과 충돌하는지 확인합니다.
+	 *
+	 * @return 벽과 충돌한다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool CheckCollisionToWall();
+
+
+private:
+	/**
 	 * @brief 플레이어가 조종 가능한 오브젝트의 경계 영역입니다.
 	 */
 	Sphere3D boundingVolume_;

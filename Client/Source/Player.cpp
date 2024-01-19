@@ -46,7 +46,7 @@ void Player::Initialize()
 	}
 
 	transform_ = Transform(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
-	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.5f);
+	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.25f);
 
 	bIsInitialized_ = true;
 }
@@ -77,12 +77,7 @@ void Player::Tick(float deltaSeconds)
 
 	boundingVolume_.SetCenter(position);
 
-	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
-	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
-	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
-	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
-
-	if (!IsCollision(northWall) && !IsCollision(southWall) && !IsCollision(westWall) && !IsCollision(eastWall))
+	if (!CheckCollisionToWall())
 	{
 		transform_.SetLocation(position);
 	}
@@ -97,4 +92,14 @@ void Player::Release()
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	bIsInitialized_ = false;
+}
+
+bool Player::CheckCollisionToWall()
+{
+	NorthWall* northWall = ObjectManager::Get().GetObject<NorthWall>("NorthWall");
+	SouthWall* southWall = ObjectManager::Get().GetObject<SouthWall>("SouthWall");
+	WestWall* westWall = ObjectManager::Get().GetObject<WestWall>("WestWall");
+	EastWall* eastWall = ObjectManager::Get().GetObject<EastWall>("EastWall");
+
+	return IsCollision(northWall) || IsCollision(southWall) || IsCollision(westWall) || IsCollision(eastWall);
 }
