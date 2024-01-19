@@ -63,7 +63,7 @@ public:
 	 * 
 	 * @return 플레이어의 라이프를 반환합니다.
 	 */
-	uint32_t GetLife() const { return life_; }
+	int32_t GetLife() const { return life_; }
 
 
 	/**
@@ -79,7 +79,7 @@ public:
 	 *
 	 * @param life 설정할 플레이어의 라이프입니다.
 	 */
-	void SetLife(uint32_t life) { life_ = life; }
+	void SetLife(int32_t life) { life_ = life; }
 	
 
 private:
@@ -101,7 +101,7 @@ private:
 	/**
 	 * @brief 플레이어의 라이프입니다.
 	 */
-	uint32_t life_ = 0;
+	int32_t life_ = 0;
 
 
 	/**
