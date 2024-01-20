@@ -47,7 +47,7 @@ Vector2f UIBoard::GetCenterFromWindow()
 	int32_t windowHeight;
 	RenderManager::Get().GetRenderTargetWindow()->GetSize(windowWidth, windowHeight);
 	
-	return Vector2f(static_cast<float>(windowHeight) / 2.0f, height_);
+	return Vector2f(static_cast<float>(windowWidth) / 2.0f, height_);
 }
 
 std::wstring UIBoard::GetPlayerLife(const Player* player)
