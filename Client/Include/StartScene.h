@@ -2,6 +2,8 @@
 
 #include "IScene.h"
 
+#include "UIMainTitle.h"
+
 
 /**
  * @brief 게임 시작 씬입니다.
@@ -33,4 +35,11 @@ public:
 	 * @param deltaSeconds 델타 시간값입니다.
 	 */
 	virtual void Tick(float deltaSeconds) override;
+
+
+private:
+	/**
+	 * @brief 메인 타이틀 UI 오브젝트입니다.
+	 */
+	UIMainTitle* mainTitle_ = nullptr;
 };
