@@ -1,6 +1,7 @@
 #include "IApplication.h"
 
 #include "GameScene.h"
+#include "StartScene.h"
 
 
 /**
@@ -45,6 +46,10 @@ public:
 		TTFont* font64 = ResourceManager::Get().CreateResource<TTFont>("Font64");
 		font64->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 64.0f);
 
+		TTFont* font128 = ResourceManager::Get().CreateResource<TTFont>("Font128");
+		font128->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 128.0f);
+
+		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
 		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
 	}
 
@@ -69,7 +74,8 @@ public:
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			gameScene_->Tick(timer_.GetDeltaSeconds());
+			startScene_->Tick(timer_.GetDeltaSeconds());
+			//gameScene_->Tick(timer_.GetDeltaSeconds());
 		}
 	}
 
@@ -85,6 +91,12 @@ private:
 	 * @brief 게임 타이머입니다.
 	 */
 	GameTimer timer_;
+
+
+	/**
+	 * @brief 게임 시작 씬입니다.
+	 */
+	StartScene* startScene_ = nullptr;
 
 
 	/**
