@@ -85,6 +85,14 @@ public:
 
 
 	/**
+	 * @brief 게임 리셋 시 다음 씬을 설정합니다.
+	 * 
+	 * @param scene 게임 리셋 시 설정할 다음 씬입니다.
+	 */
+	void SetNextResetScene(IScene* nextScene) { nextResetScene_ = nextScene; }
+
+
+	/**
 	 * @brief 게임의 루프 종료 이벤트를 설정합니다.
 	 *
 	 * @param loopQuitEvent 설정할 게임 루프 종료 이벤트입니다.
@@ -310,6 +318,12 @@ private:
 	 * @brief 페이드 인 시간입니다.
 	 */
 	float fadeInStepTime_ = 1.0f;
+
+
+	/**
+	 * @brief 리셋을 수행할 경우의 다음 씬입니다.
+	 */
+	IScene* nextResetScene_ = nullptr;
 
 
 	/**

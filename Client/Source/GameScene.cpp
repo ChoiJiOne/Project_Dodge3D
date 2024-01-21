@@ -92,6 +92,40 @@ void GameScene::ExitScene()
 	InputManager::Get().DeleteWindowEventAction("GameScene_ExitMinimize");
 	InputManager::Get().DeleteWindowEventAction("GameScene_EnterMaximize");
 	InputManager::Get().DeleteWindowEventAction("GameScene_ExitMaximize");
+	InputManager::Get().DeleteWindowEventAction("GameScene_Inactive");
+	InputManager::Get().DeleteWindowEventAction("GameScene_Move");
+	InputManager::Get().DeleteWindowEventAction("GameScene_EnterResize");
+	InputManager::Get().DeleteWindowEventAction("GameScene_ExitResize");
+	InputManager::Get().DeleteWindowEventAction("GameScene_EnterMinimize");
+
+	std::array<std::string, 13> objects = 
+	{
+		"MainCamera",
+		"GlobalLight",
+		"Player",
+		"Floor",
+		"NorthWall",
+		"SouthWall",
+		"WestWall",
+		"EastWall",
+		"BulletSpawner_0",
+		"BulletSpawner_1",
+		"BulletSpawner_2",
+		"BulletSpawner_3",
+		"Board",
+	};
+
+	for (const auto& object : objects)
+	{
+		ObjectManager::Get().DestroyObject(object);
+	}
+
+	for (int32_t index = 0; index < countOfbullet_; ++index)
+	{
+		ObjectManager::Get().DestroyObject(StringUtils::PrintF("Bullet_%d", index));
+	}
+	bullets_.clear();
+	countOfbullet_ = 0;
 
 	bIsEnterScene_ = false;
 }
@@ -255,7 +289,8 @@ void GameScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					sceneState_ = ESceneState::Play;
+					bDetectSwitchScene_ = true;
+					nextScene_ = nextResetScene_;
 				}
 			}
 		);
