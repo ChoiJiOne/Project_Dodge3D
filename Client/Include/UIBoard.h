@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UIObject.h"
+#include "UIPanel.h"
 
 class Player; // 플레이어 클래스의 전방 선언입니다.
 
@@ -8,7 +8,7 @@ class Player; // 플레이어 클래스의 전방 선언입니다.
 /**
  * @brief 플레이어의 정보를 표시하는 보드 UI입니다.
  */
-class UIBoard : public UIObject
+class UIBoard : public UIPanel
 {
 public:
 	/**

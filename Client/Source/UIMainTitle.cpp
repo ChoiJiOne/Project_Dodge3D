@@ -26,7 +26,7 @@ void UIMainTitle::Initialize()
 	Vector2f center = Vector2f(static_cast<float>(width) / 2.0f, mainTitleHeight);
 	TTFont* font = ResourceManager::Get().GetResource<TTFont>("Font128");
 
-	UIObject::UIConstructParam param {
+	UIPanel::UIPanelConstructParam param {
 		mainTitleWidth,
 		mainTitleHeight,
 		Vector2f(static_cast<float>(width) / 2.0f, mainTitleHeight),
@@ -37,7 +37,7 @@ void UIMainTitle::Initialize()
 		Vector4f(0.227f, 0.663f, 1.0f, 0.9f)
 	};
 
-	UIObject::Initialize(param);
+	UIPanel::Initialize(param);
 }
 
 void UIMainTitle::Tick(float deltaSeconds)

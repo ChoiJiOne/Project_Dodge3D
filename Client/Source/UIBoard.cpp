@@ -28,7 +28,7 @@ void UIBoard::Initialize()
 	Vector2f center = Vector2f(static_cast<float>(width) / 2.0f, boardHeight);
 	TTFont* font = ResourceManager::Get().GetResource<TTFont>("Font32");
 
-	UIObject::UIConstructParam param {
+	UIPanel::UIPanelConstructParam param {
 		boardWidth,
 		boardHeight,
 		Vector2f(static_cast<float>(width) / 2.0f, boardHeight),
@@ -39,7 +39,7 @@ void UIBoard::Initialize()
 		Vector4f(0.227f, 0.663f, 1.0f, 0.9f)
 	};
 	
-	UIObject::Initialize(param);
+	UIPanel::Initialize(param);
 }
 
 void UIBoard::Tick(float deltaSeconds)
