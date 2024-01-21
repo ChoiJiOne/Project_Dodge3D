@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Framebuffer.h"
 #include "IScene.h"
+#include "PostEffectShader.h"
+#include "TTFont.h"
 #include "UIMouseButton.h"
-
-#include "UIMainTitle.h"
+#include "UIPanel.h"
 
 
 /**
@@ -40,6 +42,12 @@ public:
 
 private:
 	/**
+	 * @brief 게임 시작 씬의 리소스를 로딩합니다.
+	 */
+	void LoadResources();
+
+
+	/**
 	 * @brief 게임 시작 씬의 오브젝트를 로딩합니다.
 	 */
 	void LoadObjects();
@@ -47,9 +55,33 @@ private:
 
 private:
 	/**
+	 * @brief 크기가 32인 폰트 리소스입니다.
+	 */
+	TTFont* font32_ = nullptr;
+
+
+	/**
+	 * @brief 크기가 128인 폰트 리소스입니다.
+	 */
+	TTFont* font128_ = nullptr;
+
+
+	/**
+	 * @brief 후처리 효과를 적용하기 위한 프레임 버퍼입니다.
+	 */
+	Framebuffer* framebuffer_ = nullptr;
+
+
+	/**
+	 * @brief 후처리 효과를 적용하기 위한 페이드 효과 셰이더입니다.
+	 */
+	PostEffectShader* postEffectShader_ = nullptr;
+
+
+	/**
 	 * @brief 메인 타이틀 UI 오브젝트입니다.
 	 */
-	UIMainTitle* mainTitle_ = nullptr;
+	UIPanel* mainTitle_ = nullptr;
 
 
 	/**
