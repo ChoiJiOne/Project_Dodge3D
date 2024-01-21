@@ -31,7 +31,6 @@ public:
 		Vector4f outlineColor;
 		Vector4f backgroundColor;
 		Vector4f textColor;
-		float transparent;
 	};
 
 
@@ -208,23 +207,7 @@ public:
      * @return UI 오브젝트의 텍스트 색상입니다.
      */
     const Vector4f& GetTextColor() const { return textColor_; }
-
-	
-    /**
-     * @brief UI 오브젝트의 투명도를 반환합니다.
-     *
-     * @return UI 오브젝트의 투명도입니다.
-     */
-    float GetTransparent() { return transparent_; }
-
-
-    /**
-     * @brief UI 오브젝트의 투명도를 반환합니다.
-     *
-     * @return UI 오브젝트의 투명도입니다.
-     */
-    const float& GetTransparent() const { return transparent_; }
-
+    
 
     /**
      * @brief UI 오브젝트의 가로 크기를 설정합니다.
@@ -288,15 +271,7 @@ public:
      * @param textColor UI 오브젝트에 설정할 텍스트 색상입니다.
      */
     void SetTextColor(const Vector4f& textColor) { textColor_ = textColor; }
-
-
-    /**
-     * @brief UI 오브젝트의 투명도를 설정합니다.
-     *
-     * @param transparent UI 오브젝트에 설정할 투명도입니다.
-     */
-    void SetTransparent(float transparent) { transparent_ = transparent; }
-
+    
 
 protected:
 	/**
@@ -347,10 +322,4 @@ protected:
 	 * @brief UI 오브젝트의 텍스트 색상입니다.
 	 */
 	Vector4f textColor_;
-
-	
-	/**
-	 * @brief UI 오브젝트의 투명도입니다.
-	 */
-	float transparent_;
 };

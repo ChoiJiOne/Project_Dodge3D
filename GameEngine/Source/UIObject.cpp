@@ -16,7 +16,6 @@ void UIObject::Initialize(const UIConstructParam& uiConstructParam)
 	outlineColor_ = uiConstructParam.outlineColor;
 	backgroundColor_ = uiConstructParam.backgroundColor;
 	textColor_ = uiConstructParam.textColor;
-	transparent_ = uiConstructParam.transparent;
 
 	bIsInitialized_ = true;
 }
@@ -29,16 +28,12 @@ void UIObject::Render()
 {
 	RenderManager& renderManager = RenderManager::Get();
 
-	Vector4f backgroundRGBA = backgroundColor_ * transparent_;
-	renderManager.RenderRectangle2D(center_, width_, height_, 0.0f, backgroundRGBA);
-
-	Vector4f outlineRGBA = outlineColor_ * transparent_;
-	renderManager.RenderWireframeRectangle2D(center_, width_, height_, 0.0f, outlineRGBA);
+	renderManager.RenderRectangle2D(center_, width_, height_, 0.0f, backgroundColor_);
+	renderManager.RenderWireframeRectangle2D(center_, width_, height_, 0.0f, outlineColor_);
 
 	if (font_ && !text_.empty())
 	{
-		Vector4f textRGBA = textColor_ * transparent_;
-		renderManager.RenderText2D(font_, text_, center_, textRGBA);
+		renderManager.RenderText2D(font_, text_, center_, textColor_);
 	}
 }
 
