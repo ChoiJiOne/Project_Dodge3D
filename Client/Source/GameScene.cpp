@@ -37,7 +37,7 @@ void GameScene::Tick(float deltaSeconds)
 
 void GameScene::EnterScene()
 {
-	bIsDone_ = false;
+	sceneState_ = ESceneState::Ready;
 	bIsCollisionToPlayer_ = false;
 
 	LoadResources();
@@ -103,6 +103,7 @@ void GameScene::LoadResources()
 	shadowShader_ = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 	lightShader_ = ResourceManager::Get().GetResource<LightShader>("LightShader");
 	grayscaleEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GrayscaleEffect");
+	fadeEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("FadeEffect");
 }
 
 void GameScene::LoadObjects()
@@ -208,7 +209,7 @@ void GameScene::LoadObjects()
 
 void GameScene::UpdateScene(float deltaSeconds)
 {
-	if (bIsDone_)
+	if (sceneState_ == ESceneState::Done)
 	{
 		board_->Tick(deltaSeconds);
 		return;
@@ -237,7 +238,7 @@ void GameScene::UpdateScene(float deltaSeconds)
 
 	if (player_->GetHP() <= 0)
 	{
-		bIsDone_ = true;
+		sceneState_ = ESceneState::Done;
 	}
 	
 	bullets_.remove_if(bulletRemoveEvent_);
@@ -270,7 +271,7 @@ void GameScene::RenderScene()
 {
 	RenderManager::Get().SetWindowViewport();
 
-	if (bIsDone_)
+	if (sceneState_ == ESceneState::Done)
 	{
 		framebuffer_->Bind();
 		framebuffer_->Clear(0.0f, 0.0f, 0.0f, 1.0f);
@@ -299,7 +300,7 @@ void GameScene::RenderScene()
 	bulletSpawner2_->RenderRespawnTime(camera_);
 	bulletSpawner3_->RenderRespawnTime(camera_);
 
-	if (bIsDone_)
+	if (sceneState_ == ESceneState::Done)
 	{
 		framebuffer_->Unbind();
 		grayscaleEffectShader_->Bind();

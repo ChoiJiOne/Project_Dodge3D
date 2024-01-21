@@ -33,6 +33,19 @@ class GameScene : public IScene
 {
 public:
 	/**
+	 * @brief 게임 플레이 씬의 상태입니다.
+	 */
+	enum class ESceneState : int32_t
+	{
+		Ready = 0x00, // 게임 플레이 준비 상태입니다.
+		Play  = 0x01, // 게임 플레이 상태입니다.
+		Pause = 0x02, // 게임 중단 상태입니다.
+		Done  = 0x03, // 게임 종료 상태입니다.
+	};
+
+
+public:
+	/**
 	 * @brief 게임 플레이 씬의 생성자입니다.
 	 */
 	GameScene();
@@ -105,9 +118,9 @@ private:
 
 private:
 	/**
-	 * @brief 게임이 종료되었는지 확인합니다.
+	 * @brief 게임 플레이 씬의 상태입니다.
 	 */
-	bool bIsDone_ = false;
+	ESceneState sceneState_ = ESceneState::Ready;
 
 
 	/**
@@ -156,6 +169,12 @@ private:
 	 * @brief 후처리 효과를 적용하기 위한 그레이 스케일 셰이더입니다.
 	 */
 	PostEffectShader* grayscaleEffectShader_ = nullptr;
+
+	
+	/**
+	 * @brief 후처리 효과를 적용하기 위한 페이드 효과 셰이더입니다.
+	 */
+	PostEffectShader* fadeEffectShader_ = nullptr;
 
 
 	/**
