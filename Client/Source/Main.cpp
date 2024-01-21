@@ -57,7 +57,8 @@ public:
 		startScene_->SetLoopQuitEvent(loopQuitEvent_);
 		startScene_->SetNextScene(gameScene_);
 
-		gameScene_->SetNextScene(startScene_);
+		gameScene_->SetLoopQuitEvent(loopQuitEvent_);
+		gameScene_->SetNextResetScene(startScene_);
 	}
 
 
