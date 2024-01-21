@@ -148,5 +148,5 @@ private:
 	/**
 	 * @brief 페이드 아웃 시간입니다.
 	 */
-	float fadeOutStepTime_ = 2.0f;
+	float fadeOutStepTime_ = 1.0f;
 };
