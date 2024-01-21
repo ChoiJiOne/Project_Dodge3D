@@ -1,10 +1,10 @@
-#include "UIObject.h"
+#include "UIPanel.h"
 
 #include "Assertion.h"
 #include "TTFont.h"
 #include "RenderManager.h"
 
-void UIObject::Initialize(const UIConstructParam& uiConstructParam)
+void UIPanel::Initialize(const UIConstructParam& uiConstructParam)
 {
 	ASSERT(!bIsInitialized_, "already initialize ui object...");
 
@@ -20,11 +20,11 @@ void UIObject::Initialize(const UIConstructParam& uiConstructParam)
 	bIsInitialized_ = true;
 }
 
-void UIObject::Tick(float deltaSeconds)
+void UIPanel::Tick(float deltaSeconds)
 {
 }
 
-void UIObject::Render()
+void UIPanel::Render()
 {
 	RenderManager& renderManager = RenderManager::Get();
 
@@ -37,7 +37,7 @@ void UIObject::Render()
 	}
 }
 
-void UIObject::Release()
+void UIPanel::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
