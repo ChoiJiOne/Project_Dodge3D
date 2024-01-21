@@ -4,9 +4,17 @@
 #include "TTFont.h"
 #include "RenderManager.h"
 
+UIPanel::~UIPanel()
+{
+	if (bIsInitialized_)
+	{
+		Release();
+	}
+}
+
 void UIPanel::Initialize(const UIPanelConstructParam& uiConstructParam)
 {
-	ASSERT(!bIsInitialized_, "already initialize ui object...");
+	ASSERT(!bIsInitialized_, "already initialize ui panel object...");
 
 	width_ = uiConstructParam.width;
 	height_ = uiConstructParam.height;

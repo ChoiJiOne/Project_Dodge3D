@@ -44,7 +44,7 @@ public:
 	/**
 	 * @brief UI 패널 오브젝트의 가상 소멸자입니다.
 	 */
-	virtual ~UIPanel() {}
+    virtual ~UIPanel();
 
 
 	/**
