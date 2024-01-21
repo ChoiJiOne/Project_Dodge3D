@@ -49,8 +49,15 @@ public:
 		TTFont* font128 = ResourceManager::Get().CreateResource<TTFont>("Font128");
 		font128->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 128.0f);
 
+		loopQuitEvent_ = [&]() { bIsDoneLoop_ = true; };
+
 		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
 		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
+
+		startScene_->SetLoopQuitEvent(loopQuitEvent_);
+		startScene_->SetNextScene(gameScene_);
+
+		gameScene_->SetNextScene(startScene_);
 	}
 
 
@@ -68,14 +75,23 @@ public:
 	 */
 	virtual void Run() override
 	{
+		IScene* currentScene = startScene_;
+		currentScene->EnterScene();
+
 		timer_.Reset();
 		while (!bIsDoneLoop_)
 		{
 			timer_.Tick();
 			InputManager::Get().Tick();
 
-			startScene_->Tick(timer_.GetDeltaSeconds());
-			//gameScene_->Tick(timer_.GetDeltaSeconds());
+			currentScene->Tick(timer_.GetDeltaSeconds());
+
+			if (currentScene->DetectSwitchScene())
+			{
+				currentScene->ExitScene();
+				currentScene = currentScene->GetNextScene();
+				currentScene->EnterScene();
+			}
 		}
 	}
 
@@ -91,6 +107,12 @@ private:
 	 * @brief 게임 타이머입니다.
 	 */
 	GameTimer timer_;
+
+
+	/**
+	 * @brief 게임 루프 종료 이벤트입니다.
+	 */
+	std::function<void()> loopQuitEvent_ = nullptr;
 
 
 	/**
