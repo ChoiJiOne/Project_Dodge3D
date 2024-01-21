@@ -54,7 +54,7 @@ public:
 	 *
 	 * @return 씬 전환이 감지되었다면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	bool DetectSwitchScene() { return bDetectSwitchScene_; }
+	virtual bool DetectSwitchScene() { return bDetectSwitchScene_; }
 
 
 	/**
@@ -62,7 +62,7 @@ public:
 	 * 
 	 * @return 현재 씬에 연결된 다음 씬의 포인터를 반환합니다.
 	 */
-	IScene* GetNextScene() { return nextScene_; }
+	virtual IScene* GetNextScene() { return nextScene_; }
 
 
 	/**
@@ -70,7 +70,7 @@ public:
 	 * 
 	 * @param scene 현재 씬에 설정할 다음 씬입니다.
 	 */
-	void SetNextScene(IScene* nextScene) { nextScene_ = nextScene; }
+	virtual void SetNextScene(IScene* nextScene) { nextScene_ = nextScene; }
 
 
 protected:
