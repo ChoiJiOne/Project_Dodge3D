@@ -8,6 +8,7 @@
 #include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "ObjectManager.h"
+#include "MathUtils.h"
 #include "ResourceManager.h"
 
 Player::~Player()
@@ -47,7 +48,7 @@ void Player::Initialize()
 
 	transform_ = Transform(Vector3f(0.0f, 0.5f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), Vector3f(1.0f, 1.0f, 1.0f));
 	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.25f);
-	life_ = 3;
+	currentHP_ = maxHP_;
 	playTime_ = 0.0f;
 
 	bIsInitialized_ = true;
@@ -96,6 +97,11 @@ void Player::Release()
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	bIsInitialized_ = false;
+}
+
+void Player::SetHP(int32_t hp)
+{
+	currentHP_ = MathUtils::Clamp<int32_t>(hp, minHP_, maxHP_);
 }
 
 bool Player::CheckCollisionToWall()

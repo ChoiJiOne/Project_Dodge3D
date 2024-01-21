@@ -218,7 +218,7 @@ void GameScene::UpdateScene(float deltaSeconds)
 
 	board_->Tick(deltaSeconds);
 
-	if (player_->GetLife() <= 0)
+	if (player_->GetHP() <= 0)
 	{
 		bIsDone_ = true;
 	}

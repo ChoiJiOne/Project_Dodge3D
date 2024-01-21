@@ -59,11 +59,11 @@ public:
 
 
 	/**
-	 * @brief 플레이어의 라이프를 얻습니다.
+	 * @brief 플레이어의 현재 HP를 얻습니다.
 	 * 
-	 * @return 플레이어의 라이프를 반환합니다.
+	 * @return 플레이어의 현재 HP를 반환합니다.
 	 */
-	int32_t GetLife() const { return life_; }
+	int32_t GetHP() const { return currentHP_; }
 
 
 	/**
@@ -75,11 +75,11 @@ public:
 
 
 	/**
-	 * @brief 플레이어의 라이프를 설정합니다.
+	 * @brief 플레이어의 HP를 설정합니다.
 	 *
-	 * @param life 설정할 플레이어의 라이프입니다.
+	 * @param hp 설정할 플레이어의 HP입니다.
 	 */
-	void SetLife(int32_t life) { life_ = life; }
+	void SetHP(int32_t hp);
 	
 
 private:
@@ -99,9 +99,23 @@ private:
 
 
 	/**
-	 * @brief 플레이어의 라이프입니다.
+	 * @brief 플레이어의 최대 체력입니다.
 	 */
-	int32_t life_ = 0;
+	const int32_t maxHP_ = 10;
+
+
+	/**
+	 * @brief 플레이어의 최소 체력입니다.
+	 */
+	const int32_t minHP_ = 0;
+
+
+	/**
+	 * @brief 플레이어의 HP입니다.
+	 * 
+	 * @note 이때, 플레이어의 HP는 정해진 범위 값을 벗어날 수 없습니다.
+	 */
+	int32_t currentHP_ = 0;
 
 
 	/**
