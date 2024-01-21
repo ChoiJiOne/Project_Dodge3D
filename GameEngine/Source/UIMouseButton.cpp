@@ -1,10 +1,10 @@
-#include "UIButton.h"
+#include "UIMouseButton.h"
 
 #include "Assertion.h"
 #include "TTFont.h"
 #include "RenderManager.h"
 
-UIButton::~UIButton()
+UIMouseButton::~UIMouseButton()
 {
 	if (bIsInitialized_)
 	{
@@ -12,7 +12,7 @@ UIButton::~UIButton()
 	}
 }
 
-void UIButton::Initialize(const UIButtonConstructParam& uiConstructParam)
+void UIMouseButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 {
 	ASSERT(!bIsInitialized_, "already initialize ui button object...");
 
@@ -33,51 +33,18 @@ void UIButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 	bIsInitialized_ = true;
 }
 
-void UIButton::Tick(float deltaSeconds)
+void UIMouseButton::Tick(float deltaSeconds)
 {
 	EPressState keyPressState = InputManager::Get().GetVirtualKeyPressState(virtualKey_);
 
-	if (DetectMouseCursorInButton())
-	{
-		if (keyPressState == EPressState::Held || keyPressState == EPressState::Pressed)
-		{
-			state_ = EState::Pressed;
-		}
-		else if (keyPressState == EPressState::Released)
-		{
-			state_ = EState::Released;
-		}
-		else // keyPressState == EPressState::None
-		{
-			state_ = EState::Enabled;
-		}
-	}
-	else
-	{
-		if (keyPressState == EPressState::Held)
-		{
-			if (state_ == EState::Pressed)
-			{
-				state_ = EState::Pressed;
-			}
-			else
-			{
-				state_ = EState::Disabled;
-			}
-		}
-		else
-		{
-			state_ = EState::Disabled;
-		}
-	}
-
+	state_ = GetMouseButtonState(keyPressState, state_);
 	if (state_ == EState::Released)
 	{
 		clickEvent_();
 	}
 }
 
-void UIButton::Render()
+void UIMouseButton::Render()
 {
 	RenderManager& renderManager = RenderManager::Get();
 
@@ -109,14 +76,82 @@ void UIButton::Render()
 	}
 }
 
-void UIButton::Release()
+void UIMouseButton::Release()
 {
 	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
 
 	bIsInitialized_ = false;
 }
 
-bool UIButton::DetectMouseCursorInButton()
+UIMouseButton::EState UIMouseButton::GetMouseButtonState(const EPressState& keyPressState, const EState& state)
+{
+	if (DetectMouseCursorInButton())
+	{
+		if (state == EState::Disabled)
+		{
+			if (keyPressState == EPressState::Held || keyPressState == EPressState::Pressed)
+			{
+				return EState::Disabled;
+			}
+			else // keyPressState == EPressState::None || keyPressState == EPressState::Released
+			{
+				return EState::Enabled;
+			}
+		}
+		else if (state == EState::Enabled)
+		{
+			if (keyPressState == EPressState::Held || keyPressState == EPressState::Pressed)
+			{
+				return EState::Pressed;
+			}
+			else
+			{
+				return EState::Enabled;
+			}
+		}
+		else if (state == EState::Pressed)
+		{
+			if (keyPressState == EPressState::Released)
+			{
+				return EState::Released;
+			}
+			else if (keyPressState == EPressState::Held || keyPressState == EPressState::Pressed)
+			{
+				return EState::Pressed;
+			}
+			else // keyPressState == EPressState::None
+			{
+				return EState::Enabled;
+			}
+		}
+		else // state == EState::Released
+		{
+			if (keyPressState == EPressState::None || keyPressState == EPressState::Released)
+			{
+				return EState::Enabled;
+			}
+			else // keyPressState == EPressState::Held || keyPressState == EPressState::Pressed
+			{
+				return EState::Pressed;
+			}
+		}
+	}
+	else
+	{
+		if (state == EState::Pressed && keyPressState == EPressState::Held)
+		{
+			return EState::Pressed;
+		}
+		else
+		{
+			return EState::Disabled;
+		}
+	}
+
+	return EState::Disabled;
+}
+
+bool UIMouseButton::DetectMouseCursorInButton()
 {
 	Vector2i cursorPos = InputManager::Get().GetCurrCursorPosition();
 

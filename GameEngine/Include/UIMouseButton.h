@@ -13,9 +13,9 @@ class TTFont; // 트루 타입 폰트 리소스를 사용하기 위한 전방 선언입니다.
 
 
 /**
- * @brief UI 버튼 오브젝트입니다.
+ * @brief UI 마우스 버튼 오브젝트입니다.
  */
-class UIButton : public IObject
+class UIMouseButton : public IObject
 {
 public:
 	/**
@@ -40,6 +40,11 @@ public:
 
 
     /**
+     * 
+     */
+
+
+    /**
      * @brief 마우스 버튼의 상태입니다.
      */
     enum class EState : int32_t
@@ -55,19 +60,19 @@ public:
 	/**
 	 * @brief UI 버튼 오브젝트의 디폴트 생성자입니다.
 	 */
-	UIButton() = default;
+	UIMouseButton() = default;
 
 
 	/**
 	 * @brief UI 버튼 오브젝트의 가상 소멸자입니다.
 	 */
-	virtual ~UIButton();
+	virtual ~UIMouseButton();
 
 
 	/**
 	 * @brief UI 버튼 오브젝트의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(UIButton);
+	DISALLOW_COPY_AND_ASSIGN(UIMouseButton);
 
 
 	/**
@@ -315,6 +320,17 @@ public:
 
 
 private:
+    /**
+     * @brief 마우스 버튼의 상태를 얻습니다.
+     * 
+     * @param keyPressState 키 입력 상태입니다.
+     * @param state 이전 버튼의 상태입니다.
+     * 
+     * @return 새롭게 업데이트된 버튼의 상태를 얻습니다.
+     */
+    EState GetMouseButtonState(const EPressState& keyPressState, const EState& state);
+
+
     /**
      * @brief 마우스가 UI 버튼 내에 있는지 확인합니다.
      * 
