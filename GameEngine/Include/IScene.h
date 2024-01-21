@@ -57,6 +57,22 @@ public:
 	bool DetectSwitchScene() { return bDetectSwitchScene_; }
 
 
+	/**
+	 * @brief 현재 씬에 연결된 다음 씬을 얻습니다.
+	 * 
+	 * @return 현재 씬에 연결된 다음 씬의 포인터를 반환합니다.
+	 */
+	IScene* GetNextScene() { return nextScene_; }
+
+
+	/**
+	 * @brief 현재 씬에 다음 씬을 설정합니다.
+	 * 
+	 * @param scene 현재 씬에 설정할 다음 씬입니다.
+	 */
+	void SetNextScene(IScene* nextScene) { nextScene_ = nextScene; }
+
+
 protected:
 	/**
 	 * @brief 씬에 진입했는지 확인합니다
@@ -68,4 +84,10 @@ protected:
 	 * @brief 씬 전환이 감지되었는지 확인합니다.
 	 */
 	bool bDetectSwitchScene_ = false;
+
+
+	/**
+	 * @brief 씬의 다음 씬입니다.
+	 */
+	IScene* nextScene_ = nullptr;
 };
