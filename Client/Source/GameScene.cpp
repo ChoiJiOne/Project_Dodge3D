@@ -121,7 +121,7 @@ void GameScene::LoadObjects()
 		[&]() {
 			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
 			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner0_->GetTransform().GetLocation());
-			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.5f);
+			float speed = MathUtils::GenerateRandomFloat(2.0f, 5.0f);
 
 			bullet->Initialize(bulletSpawner0_->GetTransform().GetLocation(), direction, speed, 0.2f);
 			bullets_.push_back(bullet);
@@ -131,12 +131,12 @@ void GameScene::LoadObjects()
 	bulletSpawner1_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_1");
 	bulletSpawner1_->Initialize(
 		Vector3f(+4.0f, 0.5f, +4.0f), 
-		2.0f, 
+		1.0f, 
 		[&]() 
 		{
 			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
 			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner1_->GetTransform().GetLocation());
-			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.5f);
+			float speed = MathUtils::GenerateRandomFloat(2.0f, 5.0f);
 
 			bullet->Initialize(bulletSpawner1_->GetTransform().GetLocation(), direction, speed, 0.2f);
 			bullets_.push_back(bullet);
@@ -151,7 +151,7 @@ void GameScene::LoadObjects()
 		{
 			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
 			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner2_->GetTransform().GetLocation());
-			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.5f);
+			float speed = MathUtils::GenerateRandomFloat(2.0f, 5.0f);
 
 			bullet->Initialize(bulletSpawner2_->GetTransform().GetLocation(), direction, speed, 0.2f);
 			bullets_.push_back(bullet);
@@ -161,11 +161,11 @@ void GameScene::LoadObjects()
 	bulletSpawner3_ = ObjectManager::Get().CreateObject<BulletSpawner>("BulletSpawner_3");
 	bulletSpawner3_->Initialize(
 		Vector3f(-4.0f, 0.5f, -4.0f), 
-		2.0f, 
+		1.0f, 
 		[&]() {
 			Bullet* bullet = ObjectManager::Get().CreateObject<Bullet>(StringUtils::PrintF("Bullet_%d", countOfbullet_++));
 			Vector3f direction = MathUtils::Normalize(player_->GetTransform().GetLocation() - bulletSpawner3_->GetTransform().GetLocation());
-			float speed = MathUtils::GenerateRandomFloat(1.5f, 4.5f);
+			float speed = MathUtils::GenerateRandomFloat(2.0f, 5.0f);
 
 			bullet->Initialize(bulletSpawner3_->GetTransform().GetLocation(), direction, speed, 0.2f);
 			bullets_.push_back(bullet);
