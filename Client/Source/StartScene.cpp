@@ -27,6 +27,11 @@ void StartScene::Tick(float deltaSeconds)
 	{
 		stepTime_ += deltaSeconds;
 		stepTime_ = MathUtils::Clamp<float>(stepTime_, 0.0f, fadeOutStepTime_);
+
+		if (stepTime_ >= fadeOutStepTime_)
+		{
+			bDetectSwitchScene_ = true;
+		}
 	}
 
 	RenderManager::Get().SetWindowViewport();
@@ -65,6 +70,7 @@ void StartScene::EnterScene()
 
 	sceneState_ = ESceneState::Ready;
 	bIsEnterScene_ = true;
+	bDetectSwitchScene_ = false;
 }
 
 void StartScene::ExitScene()

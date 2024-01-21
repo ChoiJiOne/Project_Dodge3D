@@ -64,6 +64,14 @@ public:
 
 
 	/**
+	 * @brief 게임 씬 전환이 감지되었는지 확인합니다.
+	 * 
+	 * @return 게임 씬 전환이 감지되었다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool DetectSwitchScene() { return bDetectSwitchScene_; }
+
+
+	/**
 	 * @brief 게임의 루프 종료 이벤트를 설정합니다.
 	 * 
 	 * @param loopQuitEvent 설정할 게임 루프 종료 이벤트입니다.
@@ -101,6 +109,12 @@ private:
 	 * @brief 게임 시작 씬의 상태입니다.
 	 */
 	ESceneState sceneState_ = ESceneState::Ready;
+
+
+	/**
+	 * @brief 게임 씬 전환이 감지되었는지 확인합니다.
+	 */
+	bool bDetectSwitchScene_ = false;
 
 
 	/**
