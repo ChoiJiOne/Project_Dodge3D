@@ -10,9 +10,9 @@ StartScene::StartScene()
 	mainTitle_ = ObjectManager::Get().CreateObject<UIMainTitle>("MainTitle");
 	mainTitle_->Initialize();
 
-	button0_ = ObjectManager::Get().CreateObject<UIButton>("Button0");
+	button0_ = ObjectManager::Get().CreateObject<UIMouseButton>("Button0");
 	button0_->Initialize(
-		UIButton::UIButtonConstructParam {
+		UIMouseButton::UIButtonConstructParam {
 			200.0f,
 			50.0f,
 			Vector2f(500.0f, 400.0f),
@@ -24,16 +24,16 @@ StartScene::StartScene()
 			Vector4f(0.0f, 1.0f, 0.0f, 1.0f), // enable
 			Vector4f(0.0f, 0.0f, 1.0f, 1.0f), // press
 			Vector4f(1.0f, 1.0f, 1.0f, 0.7f), // release
-			EVirtualKey::VKEY_LBUTTON,
+			UIMouseButton::EType::LButton,
 			[&]() {
 				OutputDebugStringA("Button0_Click!\n");
 			}
 		}
 	);
 
-	button1_ = ObjectManager::Get().CreateObject<UIButton>("Button1");
+	button1_ = ObjectManager::Get().CreateObject<UIMouseButton>("Button1");
 	button1_->Initialize(
-		UIButton::UIButtonConstructParam{
+		UIMouseButton::UIButtonConstructParam{
 			200.0f,
 			50.0f,
 			Vector2f(500.0f, 500.0f),
@@ -45,7 +45,7 @@ StartScene::StartScene()
 			Vector4f(0.0f, 1.0f, 0.0f, 1.0f), // enable
 			Vector4f(0.0f, 0.0f, 1.0f, 1.0f), // press
 			Vector4f(1.0f, 1.0f, 1.0f, 0.7f), // release
-			EVirtualKey::VKEY_LBUTTON,
+			UIMouseButton::EType::LButton,
 			[&]() {
 				OutputDebugStringA("Button1_Click!\n");
 			}

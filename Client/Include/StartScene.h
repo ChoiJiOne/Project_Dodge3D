@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IScene.h"
-#include "UIButton.h"
+#include "UIMouseButton.h"
 
 #include "UIMainTitle.h"
 
@@ -48,6 +48,6 @@ private:
 	/**
 	 * @brief UI 버튼입니다.
 	 */
-	UIButton* button0_ = nullptr;
-	UIButton* button1_ = nullptr;
+	UIMouseButton* button0_ = nullptr;
+	UIMouseButton* button1_ = nullptr;
 };
