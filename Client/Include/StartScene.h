@@ -40,14 +40,26 @@ public:
 
 private:
 	/**
+	 * @brief 게임 시작 씬의 오브젝트를 로딩합니다.
+	 */
+	void LoadObjects();
+
+
+private:
+	/**
 	 * @brief 메인 타이틀 UI 오브젝트입니다.
 	 */
 	UIMainTitle* mainTitle_ = nullptr;
 
 
 	/**
-	 * @brief UI 버튼입니다.
+	 * @brief 시작 버튼입니다.
 	 */
-	UIMouseButton* button0_ = nullptr;
-	UIMouseButton* button1_ = nullptr;
+	UIMouseButton* startButton_ = nullptr;
+
+
+	/**
+	 * @brief 종료 버튼입니다.
+	 */
+	UIMouseButton* quitButton_ = nullptr;
 };
