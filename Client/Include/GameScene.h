@@ -9,6 +9,7 @@
 #include "IScene.h"
 #include "PostEffectShader.h"
 #include "LightShader.h"
+#include "UIMouseButton.h"
 #include "Skybox.h"
 #include "ShadowMap.h"
 #include "ShadowShader.h"
@@ -83,6 +84,14 @@ public:
 	virtual void ExitScene() override;
 
 
+	/**
+	 * @brief 게임의 루프 종료 이벤트를 설정합니다.
+	 *
+	 * @param loopQuitEvent 설정할 게임 루프 종료 이벤트입니다.
+	 */
+	void SetLoopQuitEvent(const std::function<void()>& loopQuitEvent) { loopQuitEvent_ = loopQuitEvent; }
+
+
 private:
 	/**
 	 * @brief 게임 씬의 리소스를 로딩합니다.
@@ -118,6 +127,12 @@ private:
 
 private:
 	/**
+	 * @brief 루프 종료 이벤트입니다.
+	 */
+	std::function<void()> loopQuitEvent_ = nullptr;
+
+
+	/**
 	 * @brief 게임 플레이 씬의 상태입니다.
 	 */
 	ESceneState sceneState_ = ESceneState::Ready;
@@ -127,6 +142,12 @@ private:
 	 * @brief 플레이어와 총알이 충돌되었는지 확인합니다.
 	 */
 	bool bIsCollisionToPlayer_ = false;
+
+
+	/**
+	 * @brief 크기가 32인 폰트 리소스입니다.
+	 */
+	TTFont* font32_ = nullptr;
 
 
 	/**
@@ -289,4 +310,22 @@ private:
 	 * @brief 페이드 인 시간입니다.
 	 */
 	float fadeInStepTime_ = 1.0f;
+
+
+	/**
+	 * @brief 중지된 게임을 계속 플레이하는 버튼입니다.
+	 */
+	UIMouseButton* continueButton_ = nullptr;
+
+
+	/**
+	 * @brief 게임 리셋 버튼입니다.
+	 */
+	UIMouseButton* resetButton_ = nullptr;
+
+
+	/**
+	 * @brief 게임 종료 버튼입니다.
+	 */
+	UIMouseButton* quitButton_ = nullptr;
 };

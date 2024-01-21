@@ -54,12 +54,25 @@ void GameScene::EnterScene()
 		ResourceManager::Get().DestroyResource("GameScene_Framebuffer");
 		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("GameScene_Framebuffer");
 		framebuffer_->Initialize(bufferWidth, bufferHeight);
+
+		sceneState_ = ESceneState::Pause;
+	};
+	
+	InputManager::Get().AddWindowEventAction("GameScene_ResizeEvent",   EWindowEvent::Resize,        gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_ExitMinimize",  EWindowEvent::ExitMinimize,  gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_EnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_ExitMaximize",  EWindowEvent::ExitMaximize,  gameSceneResizeEvent, true);
+
+	auto gameScenePauseEvent = [&]()
+	{
+		sceneState_ = ESceneState::Pause;
 	};
 
-	InputManager::Get().AddWindowEventAction("GameScene_ResizeEvent", EWindowEvent::Resize, gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameScene_ExitMinimize", EWindowEvent::ExitMinimize, gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameScene_EnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameScene_ExitMaximize", EWindowEvent::ExitMaximize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_Inactive",      EWindowEvent::Inactive,      gameScenePauseEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_Move",          EWindowEvent::Move,          gameScenePauseEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_EnterResize",   EWindowEvent::EnterResize,   gameScenePauseEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_ExitResize",    EWindowEvent::ExitResize,    gameScenePauseEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_EnterMinimize", EWindowEvent::EnterMinimize, gameScenePauseEvent, true);
 
 	bulletRemoveEvent_ = [](Bullet* bullet)
 	{
@@ -85,6 +98,8 @@ void GameScene::ExitScene()
 
 void GameScene::LoadResources()
 {
+	font32_ = ResourceManager::Get().GetResource<TTFont>("Font32");
+
 	shadowMap_ = ResourceManager::Get().GetResource<ShadowMap>("GameScene_ShadowMap");
 	if(!shadowMap_)
 	{
@@ -196,6 +211,79 @@ void GameScene::LoadObjects()
 	board_ = ObjectManager::Get().CreateObject<UIBoard>("Board");
 	board_->Initialize();
 
+	continueButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_ContinueButton");
+	if (!continueButton_)
+	{
+		continueButton_ = ObjectManager::Get().CreateObject<UIMouseButton>("GameScene_ContinueButton");
+		continueButton_->Initialize(
+			UIMouseButton::UIButtonConstructParam{
+				200.0f,
+				50.0f,
+				Vector2f(500.0f, 400.0f),
+				L"Continue",
+				ResourceManager::Get().GetResource<TTFont>("Font32"),
+				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
+				Vector4f(0.227f, 0.663f,   1.0f, 1.0f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				Vector4f(0.145f, 0.267f, 0.431f, 0.7f),
+				Vector4f(0.224f, 0.486f, 0.804f, 0.7f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				UIMouseButton::EType::LButton,
+				[&]() {
+					sceneState_ = ESceneState::Play;
+				}
+			}
+		);
+	}
+
+	resetButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_ResetButton");
+	if (!resetButton_)
+	{
+		resetButton_ = ObjectManager::Get().CreateObject<UIMouseButton>("GameScene_ResetButton");
+		resetButton_->Initialize(
+			UIMouseButton::UIButtonConstructParam{
+				200.0f,
+				50.0f,
+				Vector2f(500.0f, 500.0f),
+				L"Reset",
+				ResourceManager::Get().GetResource<TTFont>("Font32"),
+				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
+				Vector4f(0.227f, 0.663f,   1.0f, 1.0f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				Vector4f(0.145f, 0.267f, 0.431f, 0.7f),
+				Vector4f(0.224f, 0.486f, 0.804f, 0.7f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				UIMouseButton::EType::LButton,
+				[&]() {
+					sceneState_ = ESceneState::Play;
+				}
+			}
+		);
+	}
+
+	quitButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_QuitButton");
+	if (!quitButton_)
+	{
+		quitButton_ = ObjectManager::Get().CreateObject<UIMouseButton>("GameScene_QuitButton");
+		quitButton_->Initialize(
+			UIMouseButton::UIButtonConstructParam{
+				200.0f,
+				50.0f,
+				Vector2f(500.0f, 600.0f),
+				L"Quit",
+				ResourceManager::Get().GetResource<TTFont>("Font32"),
+				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
+				Vector4f(0.227f, 0.663f,   1.0f, 1.0f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				Vector4f(0.145f, 0.267f, 0.431f, 0.7f),
+				Vector4f(0.224f, 0.486f, 0.804f, 0.7f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				UIMouseButton::EType::LButton,
+				loopQuitEvent_
+			}
+		);
+	}
+
 	renderObjects_ = {
 		floor_,
 		northWall_,
@@ -224,6 +312,13 @@ void GameScene::UpdateScene(float deltaSeconds)
 		}
 
 		camera_->Tick(deltaSeconds);
+		return;
+	}
+	else if (sceneState_ == ESceneState::Pause)
+	{
+		continueButton_->Tick(deltaSeconds);
+		resetButton_->Tick(deltaSeconds);
+		quitButton_->Tick(deltaSeconds);
 		return;
 	}
 
@@ -339,6 +434,13 @@ void GameScene::RenderScene()
 		}
 
 		return;
+	}
+	
+	if (sceneState_ == ESceneState::Pause)
+	{
+		continueButton_->Render();
+		resetButton_->Render();
+		quitButton_->Render();
 	}
 	
 	board_->Render();
