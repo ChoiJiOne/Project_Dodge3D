@@ -207,6 +207,12 @@ private:
 
 
 	/**
+	 * @brief 후처리 효과를 적용하기 위한 가우시안 블러 셰이더입니다.
+	 */
+	PostEffectShader* blurEffectShader_ = nullptr;
+
+
+	/**
 	 * @brief 플레이어가 조종하는 오브젝트를 따라다니는 카메라입니다.
 	 */
 	MovableCamera* camera_ = nullptr;

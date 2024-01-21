@@ -156,6 +156,7 @@ void GameScene::LoadResources()
 	lightShader_ = ResourceManager::Get().GetResource<LightShader>("LightShader");
 	grayscaleEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GrayscaleEffect");
 	fadeEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("FadeEffect");
+	blurEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GaussianBlurEffect");
 }
 
 void GameScene::LoadObjects()
@@ -419,7 +420,7 @@ void GameScene::RenderScene()
 {
 	RenderManager::Get().SetWindowViewport();
 
-	if (sceneState_ == ESceneState::Done || sceneState_ == ESceneState::Ready)
+	if (sceneState_ != ESceneState::Play)
 	{
 		framebuffer_->Bind();
 		framebuffer_->Clear(0.0f, 0.0f, 0.0f, 1.0f);
@@ -448,7 +449,7 @@ void GameScene::RenderScene()
 	bulletSpawner2_->RenderRespawnTime(camera_);
 	bulletSpawner3_->RenderRespawnTime(camera_);
 
-	if (sceneState_ == ESceneState::Done || sceneState_ == ESceneState::Ready)
+	if (sceneState_ != ESceneState::Play)
 	{
 		framebuffer_->Unbind();
 
@@ -458,7 +459,7 @@ void GameScene::RenderScene()
 			grayscaleEffectShader_->BlitEffect(framebuffer_);
 			grayscaleEffectShader_->Unbind();
 		}
-		else // sceneState_ == ESceneState::Ready
+		else if(sceneState_ == ESceneState::Ready)
 		{
 			float fadeBias = MathUtils::Clamp<float>(stepTime_ / fadeInStepTime_, 0.0f, 1.0f);
 
@@ -467,16 +468,20 @@ void GameScene::RenderScene()
 			fadeEffectShader_->BlitEffect(framebuffer_);
 			fadeEffectShader_->Unbind();
 		}
+		else // sceneState_ == ESceneState::Pause
+		{
+			blurEffectShader_->Bind();
+			blurEffectShader_->SetUniform("blurBias", 0.5f);
+			blurEffectShader_->BlitEffect(framebuffer_);
+			blurEffectShader_->Unbind();
 
+			continueButton_->Render();
+			resetButton_->Render();
+			quitButton_->Render();
+			board_->Render();
+		}
 		return;
 	}
-	
-	if (sceneState_ == ESceneState::Pause)
-	{
-		continueButton_->Render();
-		resetButton_->Render();
-		quitButton_->Render();
-	}
-	
+
 	board_->Render();
 }
