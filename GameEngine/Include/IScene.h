@@ -35,4 +35,37 @@ public:
 	 * @param deltaSeconds 델타 시간값입니다.
 	 */
 	virtual void Tick(float deltaSeconds) = 0;
+
+
+	/**
+	 * @brief 씬에 진입합니다.
+	 */
+	virtual void EnterScene() = 0;
+
+
+	/**
+	 * @brief 씬에서 나갑니다.
+	 */
+	virtual void ExitScene() = 0;
+
+
+	/**
+	 * @brief 씬 전환이 감지되었는지 확인합니다.
+	 *
+	 * @return 씬 전환이 감지되었다면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	bool DetectSwitchScene() { return bDetectSwitchScene_; }
+
+
+protected:
+	/**
+	 * @brief 씬에 진입했는지 확인합니다
+	 */
+	bool bIsEnterScene_ = false;
+
+
+	/**
+	 * @brief 씬 전환이 감지되었는지 확인합니다.
+	 */
+	bool bDetectSwitchScene_ = false;
 };
