@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Sphere3D.h"
 
+class Camera3D;
+
 
 /**
  * @brief 플레이어가 조종 가능한 오브젝트입니다.
@@ -80,6 +82,14 @@ public:
 	 * @param hp 설정할 플레이어의 HP입니다.
 	 */
 	void SetHP(int32_t hp);
+
+
+	/**
+	 * @brief 플레이어의 HP를 그립니다.
+	 * 
+	 * @param camera 3D 카메라입니다.
+	 */
+	void RenderHP(const Camera3D* camera);
 	
 
 private:
@@ -122,4 +132,29 @@ private:
 	 * @brief 플레이 타임입니다.
 	 */
 	float playTime_ = 0.0f;
+
+
+	/**
+	 * @brief 플레이어의 HP를 나타내는 쿼드의 가로 크기입니다.
+	 */
+	float hpWidth_ = 0.0f;
+
+
+	/**
+	 * @brief 플레이어의 HP를 나타내는 쿼드의 세로 크기입니다.
+	 */
+	float hpHeight_ = 0.0f;
+
+
+	/**
+	 * @brief 플레이어의 HP 색상입니다.
+	 */
+	Vector4f hpColor_;
+
+
+	/**
+	 * @brief 플레이어의 HP를 나타내는 쿼드의 백그라운드 색상입니다.
+	 */
+	Vector4f backgroundColor_;
+
 };

@@ -5,10 +5,12 @@
 #include "WestWall.h"
 
 #include "Assertion.h"
+#include "Camera3D.h"
 #include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "ObjectManager.h"
 #include "MathUtils.h"
+#include "RenderManager.h"
 #include "ResourceManager.h"
 
 Player::~Player()
@@ -50,6 +52,10 @@ void Player::Initialize()
 	boundingVolume_ = Sphere3D(transform_.GetLocation(), 0.25f);
 	currentHP_ = maxHP_;
 	playTime_ = 0.0f;
+	hpWidth_ = 1.0f;
+	hpHeight_ = 0.2f;
+	hpColor_ = Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+	backgroundColor_ = Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 
 	bIsInitialized_ = true;
 }
@@ -102,6 +108,14 @@ void Player::Release()
 void Player::SetHP(int32_t hp)
 {
 	currentHP_ = MathUtils::Clamp<int32_t>(hp, minHP_, maxHP_);
+}
+
+void Player::RenderHP(const Camera3D* camera)
+{
+	Matrix4x4f world = transform_.GetWorldMatrix() * MathUtils::CreateTranslation(Vector3f(0.0f, 1.0f, 0.0f));
+	float rate = static_cast<float>(currentHP_) / static_cast<float>(maxHP_ - minHP_);
+
+	RenderManager::Get().RenderHorizonDividQuad3D(world, camera, hpWidth_, hpHeight_, rate, hpColor_, backgroundColor_);
 }
 
 bool Player::CheckCollisionToWall()
