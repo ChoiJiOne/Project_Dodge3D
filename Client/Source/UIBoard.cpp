@@ -22,7 +22,7 @@ void UIBoard::Initialize()
 	int32_t height;
 	RenderManager::Get().GetRenderTargetWindow()->GetSize(width, height);
 
-	float boardWidth = 400.0f;
+	float boardWidth = 200.0f;
 	float boardHeight = 50.0f;
 
 	Vector2f center = Vector2f(static_cast<float>(width) / 2.0f, boardHeight);
@@ -36,9 +36,7 @@ void UIBoard::Tick(float deltaSeconds)
 	Player* player = ObjectManager::Get().GetObject<Player>("Player");
 
 	center_ = GetCenterFromWindow();
-	std::wstring life = GetPlayerLife(player);
-
-	text_ = StringUtils::PrintF(L"TIME : %3d  LIEF : %s", static_cast<int32_t>(player->GetPlayTime()), life.c_str());
+	text_ = StringUtils::PrintF(L"TIME : %3d", static_cast<int32_t>(player->GetPlayTime()));
 }
 
 Vector2f UIBoard::GetCenterFromWindow()
