@@ -18,6 +18,28 @@ class TTFont; // 트루 타입 폰트 리소스를 사용하기 위한 전방 선언입니다.
 class UIMouseButton : public IObject
 {
 public:
+    /**
+     * @brief 마우스 버튼의 종류입니다.
+     */
+    enum class EType : int32_t
+    {
+        LButton = 0x01,
+        RButton = 0x02,
+    };
+
+
+    /**
+     * @brief 마우스 버튼의 상태입니다.
+     */
+    enum class EState : int32_t
+    {
+        Disabled = 0x00,
+        Enabled = 0x01,
+        Pressed = 0x02,
+        Released = 0x03,
+    };
+
+
 	/**
 	 * @brief UI 버튼 오브젝트의 생성 파라미터입니다.
 	 */
@@ -34,26 +56,9 @@ public:
 		Vector4f enableColor;
 		Vector4f pressColor;
 		Vector4f releaseColor;
-        EVirtualKey virtualKey;
+        EType type;
 		std::function<void()> clickEvent;
 	};
-
-
-    /**
-     * 
-     */
-
-
-    /**
-     * @brief 마우스 버튼의 상태입니다.
-     */
-    enum class EState : int32_t
-    {
-        Disabled = 0x00,
-        Enabled  = 0x01,
-        Pressed  = 0x02,
-        Released = 0x03,
-    };
 
 
 public:
@@ -411,7 +416,7 @@ private:
 	/**
 	 * @brief UI 버튼의 가상 키 값입니다.
 	 */
-	EVirtualKey virtualKey_ = EVirtualKey::VKEY_NONE;
+	EType type_ = EType::LButton;
 
 
 	/**

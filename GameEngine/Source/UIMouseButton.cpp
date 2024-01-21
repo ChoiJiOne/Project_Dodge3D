@@ -27,7 +27,7 @@ void UIMouseButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 	enableColor_ = uiConstructParam.enableColor;
 	pressColor_ = uiConstructParam.pressColor;
 	releaseColor_ = uiConstructParam.releaseColor;
-	virtualKey_ = uiConstructParam.virtualKey;
+	type_ = uiConstructParam.type;
 	clickEvent_ = uiConstructParam.clickEvent;
 	
 	bIsInitialized_ = true;
@@ -35,7 +35,7 @@ void UIMouseButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 
 void UIMouseButton::Tick(float deltaSeconds)
 {
-	EPressState keyPressState = InputManager::Get().GetVirtualKeyPressState(virtualKey_);
+	EPressState keyPressState = InputManager::Get().GetVirtualKeyPressState(static_cast<EVirtualKey>(type_));
 
 	state_ = GetMouseButtonState(keyPressState, state_);
 	if (state_ == EState::Released)
