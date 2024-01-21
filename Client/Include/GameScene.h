@@ -277,4 +277,16 @@ private:
 	 * @brief 플레이어의 플레이 정보를 표시하는 UI입니다.
 	 */
 	UIBoard* board_ = nullptr;
+
+
+	/**
+	 * @brief 페이드 인 계산을 위한 시간값입니다.
+	 */
+	float stepTime_ = 0.0f;
+
+
+	/**
+	 * @brief 페이드 인 시간입니다.
+	 */
+	float fadeInStepTime_ = 1.0f;
 };

@@ -66,6 +66,9 @@ void GameScene::EnterScene()
 		return bullet->IsCollisionToPlayer() || bullet->IsCollisionToWall();
 	};
 
+	stepTime_ = 0.0f;
+	fadeInStepTime_ = 1.0f;
+
 	bIsEnterScene_ = true;
 	bDetectSwitchScene_ = false;
 }
@@ -209,6 +212,21 @@ void GameScene::LoadObjects()
 
 void GameScene::UpdateScene(float deltaSeconds)
 {
+	if (sceneState_ == ESceneState::Ready)
+	{
+		stepTime_ += deltaSeconds;
+		stepTime_ = MathUtils::Clamp<float>(stepTime_, 0.0f, fadeInStepTime_);
+
+		if (stepTime_ >= fadeInStepTime_)
+		{
+			stepTime_ = 0.0f;
+			sceneState_ = ESceneState::Play;
+		}
+
+		camera_->Tick(deltaSeconds);
+		return;
+	}
+
 	if (sceneState_ == ESceneState::Done)
 	{
 		board_->Tick(deltaSeconds);
@@ -271,7 +289,7 @@ void GameScene::RenderScene()
 {
 	RenderManager::Get().SetWindowViewport();
 
-	if (sceneState_ == ESceneState::Done)
+	if (sceneState_ == ESceneState::Done || sceneState_ == ESceneState::Ready)
 	{
 		framebuffer_->Bind();
 		framebuffer_->Clear(0.0f, 0.0f, 0.0f, 1.0f);
@@ -300,13 +318,28 @@ void GameScene::RenderScene()
 	bulletSpawner2_->RenderRespawnTime(camera_);
 	bulletSpawner3_->RenderRespawnTime(camera_);
 
-	if (sceneState_ == ESceneState::Done)
+	if (sceneState_ == ESceneState::Done || sceneState_ == ESceneState::Ready)
 	{
 		framebuffer_->Unbind();
-		grayscaleEffectShader_->Bind();
-		grayscaleEffectShader_->BlitEffect(framebuffer_);
-		grayscaleEffectShader_->Unbind();
-	}
 
+		if (sceneState_ == ESceneState::Done)
+		{
+			grayscaleEffectShader_->Bind();
+			grayscaleEffectShader_->BlitEffect(framebuffer_);
+			grayscaleEffectShader_->Unbind();
+		}
+		else // sceneState_ == ESceneState::Ready
+		{
+			float fadeBias = MathUtils::Clamp<float>(stepTime_ / fadeInStepTime_, 0.0f, 1.0f);
+
+			fadeEffectShader_->Bind();
+			fadeEffectShader_->SetUniform("fadeBias", fadeBias);
+			fadeEffectShader_->BlitEffect(framebuffer_);
+			fadeEffectShader_->Unbind();
+		}
+
+		return;
+	}
+	
 	board_->Render();
 }
