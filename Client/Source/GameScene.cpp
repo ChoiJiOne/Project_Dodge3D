@@ -102,7 +102,7 @@ void GameScene::LoadResources()
 
 	shadowShader_ = ResourceManager::Get().GetResource<ShadowShader>("ShadowShader");
 	lightShader_ = ResourceManager::Get().GetResource<LightShader>("LightShader");
-	postEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GrayscaleEffect");
+	grayscaleEffectShader_ = ResourceManager::Get().GetResource<PostEffectShader>("GrayscaleEffect");
 }
 
 void GameScene::LoadObjects()
@@ -302,9 +302,9 @@ void GameScene::RenderScene()
 	if (bIsDone_)
 	{
 		framebuffer_->Unbind();
-		postEffectShader_->Bind();
-		postEffectShader_->BlitEffect(framebuffer_);
-		postEffectShader_->Unbind();
+		grayscaleEffectShader_->Bind();
+		grayscaleEffectShader_->BlitEffect(framebuffer_);
+		grayscaleEffectShader_->Unbind();
 	}
 
 	board_->Render();

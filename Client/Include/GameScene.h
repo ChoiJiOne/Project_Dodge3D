@@ -155,7 +155,7 @@ private:
 	/**
 	 * @brief 후처리 효과를 적용하기 위한 그레이 스케일 셰이더입니다.
 	 */
-	PostEffectShader* postEffectShader_ = nullptr;
+	PostEffectShader* grayscaleEffectShader_ = nullptr;
 
 
 	/**
