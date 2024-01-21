@@ -29,6 +29,7 @@ public:
 		std::wstring text;
 		TTFont* font;
 		Vector4f outlineColor;
+        Vector4f textColor;
 		Vector4f disableColor;
 		Vector4f enableColor;
 		Vector4f pressColor;
@@ -36,6 +37,18 @@ public:
         EVirtualKey virtualKey;
 		std::function<void()> clickEvent;
 	};
+
+
+    /**
+     * @brief 마우스 버튼의 상태입니다.
+     */
+    enum class EState : int32_t
+    {
+        Disabled = 0x00,
+        Enabled  = 0x01,
+        Pressed  = 0x02,
+        Released = 0x03,
+    };
 
 
 public:
@@ -348,6 +361,13 @@ private:
 	 */
 	Vector4f outlineColor_;
 
+
+    /**
+     * @brief UI 버튼 텍스트의 색상입니다.
+     */
+    Vector4f textColor_;
+
+
 	/**
 	 * @brief UI 버튼 오브젝트의 비활성화 색상입니다.
 	 */
@@ -382,4 +402,10 @@ private:
 	 * @brief UI 버튼을 클릭했을 때 실행할 이벤트입니다.
 	 */
 	std::function<void()> clickEvent_;
+
+
+    /**
+     * @brief 현재 마우스 버튼의 상태입니다.
+     */
+    EState state_ = EState::Disabled;
 };

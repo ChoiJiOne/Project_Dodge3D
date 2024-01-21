@@ -22,6 +22,7 @@ void UIButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 	text_ = uiConstructParam.text;
 	font_ = uiConstructParam.font;
 	outlineColor_ = uiConstructParam.outlineColor;
+	textColor_ = uiConstructParam.textColor;
 	disableColor_ = uiConstructParam.disableColor;
 	enableColor_ = uiConstructParam.enableColor;
 	pressColor_ = uiConstructParam.pressColor;
@@ -34,15 +35,85 @@ void UIButton::Initialize(const UIButtonConstructParam& uiConstructParam)
 
 void UIButton::Tick(float deltaSeconds)
 {
+	EPressState keyPressState = InputManager::Get().GetVirtualKeyPressState(virtualKey_);
 
+	if (DetectMouseCursorInButton())
+	{
+		if (keyPressState == EPressState::Held || keyPressState == EPressState::Pressed)
+		{
+			state_ = EState::Pressed;
+		}
+		else if (keyPressState == EPressState::Released)
+		{
+			state_ = EState::Released;
+		}
+		else // keyPressState == EPressState::None
+		{
+			state_ = EState::Enabled;
+		}
+	}
+	else
+	{
+		if (keyPressState == EPressState::Held)
+		{
+			if (state_ == EState::Pressed)
+			{
+				state_ = EState::Pressed;
+			}
+			else
+			{
+				state_ = EState::Disabled;
+			}
+		}
+		else
+		{
+			state_ = EState::Disabled;
+		}
+	}
+
+	if (state_ == EState::Released)
+	{
+		clickEvent_();
+	}
 }
 
 void UIButton::Render()
 {
+	RenderManager& renderManager = RenderManager::Get();
+
+	Vector4f backgroundColor;
+	switch (state_)
+	{
+	case EState::Disabled:
+		backgroundColor = disableColor_;
+		break;
+
+	case EState::Enabled:
+		backgroundColor = enableColor_;
+		break;
+
+	case EState::Pressed:
+		backgroundColor = pressColor_;
+		break;
+
+	case EState::Released:
+		backgroundColor = releaseColor_;
+		break;
+	}
+
+	renderManager.RenderRectangle2D(center_, width_, height_, 0.0f, backgroundColor);
+	renderManager.RenderWireframeRectangle2D(center_, width_, height_, 0.0f, outlineColor_);
+	if (font_ && !text_.empty())
+	{
+		renderManager.RenderText2D(font_, text_, center_, textColor_);
+	}
 }
 
 void UIButton::Release()
 {
+	ASSERT(bIsInitialized_, "not initialized before or has already been released...");
+
+	bIsInitialized_ = false;
 }
 
 bool UIButton::DetectMouseCursorInButton()
