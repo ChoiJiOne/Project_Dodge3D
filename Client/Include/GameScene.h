@@ -58,6 +58,18 @@ public:
 	virtual void Tick(float deltaSeconds) override;
 
 
+	/**
+	 * @brief 게임 플레이 씬에 진입합니다.
+	 */
+	virtual void EnterScene() override;
+
+
+	/**
+	 * @brief 게임 플레이 씬에서 나갑니다.
+	 */
+	virtual void ExitScene() override;
+
+
 private:
 	/**
 	 * @brief 게임 씬의 리소스를 로딩합니다.

@@ -18,34 +18,6 @@
 
 GameScene::GameScene()
 {
-	bIsDone_ = false;
-	bIsCollisionToPlayer_ = false;
-
-	LoadResources();
-	LoadObjects();
-	
-	auto gameSceneResizeEvent = [&]() 
-	{
-		int32_t bufferWidth;
-		int32_t bufferHeight;
-		RenderManager::Get().GetRenderTargetWindow()->GetSize(bufferWidth, bufferHeight);
-
-		camera_->SetAspectRatio(static_cast<float>(bufferWidth) / static_cast<float>(bufferHeight));
-
-		ResourceManager::Get().DestroyResource("Framebuffer");
-		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("Framebuffer");
-		framebuffer_->Initialize(bufferWidth, bufferHeight);
-	};
-
-	InputManager::Get().AddWindowEventAction("GameSceneResizeEvent",   EWindowEvent::Resize,        gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameSceneExitMinimize",  EWindowEvent::ExitMinimize,  gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameSceneEnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
-	InputManager::Get().AddWindowEventAction("GameSceneExitMaximize",  EWindowEvent::ExitMaximize,  gameSceneResizeEvent, true);
-
-	bulletRemoveEvent_ = [](Bullet* bullet)
-	{
-		return bullet->IsCollisionToPlayer() || bullet->IsCollisionToWall();
-	};
 }
 
 GameScene::~GameScene()
@@ -63,23 +35,68 @@ void GameScene::Tick(float deltaSeconds)
 	RenderManager::Get().EndFrame();
 }
 
+void GameScene::EnterScene()
+{
+	bIsDone_ = false;
+	bIsCollisionToPlayer_ = false;
+
+	LoadResources();
+	LoadObjects();
+
+	auto gameSceneResizeEvent = [&]()
+	{
+		int32_t bufferWidth;
+		int32_t bufferHeight;
+		RenderManager::Get().GetRenderTargetWindow()->GetSize(bufferWidth, bufferHeight);
+
+		camera_->SetAspectRatio(static_cast<float>(bufferWidth) / static_cast<float>(bufferHeight));
+
+		ResourceManager::Get().DestroyResource("GameScene_Framebuffer");
+		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("GameScene_Framebuffer");
+		framebuffer_->Initialize(bufferWidth, bufferHeight);
+	};
+
+	InputManager::Get().AddWindowEventAction("GameScene_ResizeEvent", EWindowEvent::Resize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_ExitMinimize", EWindowEvent::ExitMinimize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_EnterMaximize", EWindowEvent::EnterMaximize, gameSceneResizeEvent, true);
+	InputManager::Get().AddWindowEventAction("GameScene_ExitMaximize", EWindowEvent::ExitMaximize, gameSceneResizeEvent, true);
+
+	bulletRemoveEvent_ = [](Bullet* bullet)
+	{
+		return bullet->IsCollisionToPlayer() || bullet->IsCollisionToWall();
+	};
+
+	bIsEnterScene_ = true;
+	bDetectSwitchScene_ = false;
+}
+
+void GameScene::ExitScene()
+{
+	InputManager::Get().DeleteWindowEventAction("GameScene_ResizeEvent");
+	InputManager::Get().DeleteWindowEventAction("GameScene_ExitMinimize");
+	InputManager::Get().DeleteWindowEventAction("GameScene_EnterMaximize");
+	InputManager::Get().DeleteWindowEventAction("GameScene_ExitMaximize");
+
+	bIsEnterScene_ = false;
+}
+
 void GameScene::LoadResources()
 {
-	shadowMap_ = ResourceManager::Get().GetResource<ShadowMap>("ShadowMap");
+	shadowMap_ = ResourceManager::Get().GetResource<ShadowMap>("GameScene_ShadowMap");
 	if(!shadowMap_)
 	{
-		shadowMap_ = ResourceManager::Get().CreateResource<ShadowMap>("ShadowMap");
+		shadowMap_ = ResourceManager::Get().CreateResource<ShadowMap>("GameScene_ShadowMap");
 		shadowMap_->Initialize(SHADOW_WIDTH, SHADOW_HEIGHT);
 	}
 
-	framebuffer_ = ResourceManager::Get().GetResource<Framebuffer>("Framebuffer");
+	framebuffer_ = ResourceManager::Get().GetResource<Framebuffer>("GameScene_Framebuffer");
 	if (!framebuffer_)
 	{
 		int32_t bufferWidth;
 		int32_t bufferHeight;
 		RenderManager::Get().GetRenderTargetWindow()->GetSize(bufferWidth, bufferHeight);
 
-		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("Framebuffer");
+		framebuffer_ = ResourceManager::Get().CreateResource<Framebuffer>("GameScene_Framebuffer");
 		framebuffer_->Initialize(bufferWidth, bufferHeight);
 	}
 
