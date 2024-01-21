@@ -54,21 +54,13 @@ public:
 	/**
 	 * @brief 게임 시작 씬에 진입합니다.
 	 */
-	void EnterScene();
+	virtual void EnterScene() override;
 
 
 	/**
 	 * @brief 게임 시작 씬에서 나갑니다.
 	 */
-	void ExitScene();
-
-
-	/**
-	 * @brief 게임 씬 전환이 감지되었는지 확인합니다.
-	 * 
-	 * @return 게임 씬 전환이 감지되었다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool DetectSwitchScene() { return bDetectSwitchScene_; }
+	virtual void ExitScene() override;
 
 
 	/**
@@ -94,12 +86,6 @@ private:
 
 private:
 	/**
-	 * @brief 게임 시작 씬에 진입했는지 확인합니다
-	 */
-	bool bIsEnterScene_ = false;
-
-
-	/**
 	 * @brief 루프 종료 이벤트입니다.
 	 */
 	std::function<void()> loopQuitEvent_ = nullptr;
@@ -109,12 +95,6 @@ private:
 	 * @brief 게임 시작 씬의 상태입니다.
 	 */
 	ESceneState sceneState_ = ESceneState::Ready;
-
-
-	/**
-	 * @brief 게임 씬 전환이 감지되었는지 확인합니다.
-	 */
-	bool bDetectSwitchScene_ = false;
 
 
 	/**
