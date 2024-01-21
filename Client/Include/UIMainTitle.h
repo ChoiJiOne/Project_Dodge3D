@@ -1,12 +1,12 @@
 #pragma once
 
-#include "UIPanel.h"
+#include "UIObject.h"
 
 
 /**
  * @brief 메인 타이틀 UI입니다.
  */
-class UIMainTitle : public UIPanel
+class UIMainTitle : public UIObject
 {
 public:
 	/**
