@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IScene.h"
+#include "UIButton.h"
 
 #include "UIMainTitle.h"
 
@@ -42,4 +43,10 @@ private:
 	 * @brief 메인 타이틀 UI 오브젝트입니다.
 	 */
 	UIMainTitle* mainTitle_ = nullptr;
+
+
+	/**
+	 * @brief UI 버튼입니다.
+	 */
+	UIButton* button_ = nullptr;
 };
