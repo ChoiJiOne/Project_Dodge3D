@@ -99,6 +99,11 @@ void StartScene::LoadResources()
 
 void StartScene::LoadObjects()
 {
+	int32_t windowWidth;
+	int32_t windowHeight;
+	RenderManager::Get().GetRenderTargetWindow()->GetSize(windowWidth, windowHeight);
+	Vector2f windowCenter(static_cast<float>(windowWidth) / 2.0f, static_cast<float>(windowHeight) / 2.0f);
+
 	mainTitle_ = ObjectManager::Get().GetObject<UIPanel>("StartScene_MainTitle");
 	if (!mainTitle_)
 	{
@@ -107,7 +112,7 @@ void StartScene::LoadObjects()
 			UIPanel::UIPanelConstructParam {
 				600.0f,
 				200.0f,
-				Vector2f(500.0f, 200.0f),
+				windowCenter - Vector2f(0.0f, 100.0f),
 				L"Dodge3D",
 				font128_,
 				Vector4f(0.227f, 0.663f,   1.0f, 0.9f),
@@ -125,7 +130,7 @@ void StartScene::LoadObjects()
 			UIMouseButton::UIButtonConstructParam{
 				200.0f,
 				50.0f,
-				Vector2f(500.0f, 400.0f),
+				windowCenter + Vector2f(0.0f, 100.0f),
 				L"Start",
 				ResourceManager::Get().GetResource<TTFont>("Font32"),
 				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
@@ -150,7 +155,7 @@ void StartScene::LoadObjects()
 			UIMouseButton::UIButtonConstructParam{
 				200.0f,
 				50.0f,
-				Vector2f(500.0f, 500.0f),
+				windowCenter + Vector2f(0.0f, 200.0f),
 				L"Quit",
 				ResourceManager::Get().GetResource<TTFont>("Font32"),
 				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
