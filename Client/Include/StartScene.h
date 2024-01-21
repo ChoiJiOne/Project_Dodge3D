@@ -48,5 +48,6 @@ private:
 	/**
 	 * @brief UI 버튼입니다.
 	 */
-	UIButton* button_ = nullptr;
+	UIButton* button0_ = nullptr;
+	UIButton* button1_ = nullptr;
 };
