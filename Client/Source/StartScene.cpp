@@ -66,7 +66,7 @@ void StartScene::EnterScene()
 	LoadObjects();
 
 	stepTime_ = 0.0f;
-	fadeOutStepTime_ = 2.0f;
+	fadeOutStepTime_ = 1.0f;
 
 	sceneState_ = ESceneState::Ready;
 	bIsEnterScene_ = true;
