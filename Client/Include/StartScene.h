@@ -15,6 +15,17 @@ class StartScene : public IScene
 {
 public:
 	/**
+	 * @brief 게임 시작 씬의 상태입니다.
+	 */
+	enum class ESceneState : int32_t
+	{
+		Ready = 0x00, // 게임 시작 준비 상태입니다.
+		Start = 0x01, // 게임 시작 상태입니다.
+	};
+
+
+public:
+	/**
 	 * @brief 게임 시작 씬의 생성자입니다.
 	 */
 	StartScene();
@@ -40,6 +51,26 @@ public:
 	virtual void Tick(float deltaSeconds) override;
 
 
+	/**
+	 * @brief 게임 시작 씬에 진입합니다.
+	 */
+	void EnterScene();
+
+
+	/**
+	 * @brief 게임 시작 씬에서 나갑니다.
+	 */
+	void ExitScene();
+
+
+	/**
+	 * @brief 게임의 루프 종료 이벤트를 설정합니다.
+	 * 
+	 * @param loopQuitEvent 설정할 게임 루프 종료 이벤트입니다.
+	 */
+	void SetLoopQuitEvent(const std::function<void()>& loopQuitEvent) { loopQuitEvent_ = loopQuitEvent; }
+
+
 private:
 	/**
 	 * @brief 게임 시작 씬의 리소스를 로딩합니다.
@@ -54,6 +85,24 @@ private:
 
 
 private:
+	/**
+	 * @brief 게임 시작 씬에 진입했는지 확인합니다
+	 */
+	bool bIsEnterScene_ = false;
+
+
+	/**
+	 * @brief 루프 종료 이벤트입니다.
+	 */
+	std::function<void()> loopQuitEvent_ = nullptr;
+
+
+	/**
+	 * @brief 게임 시작 씬의 상태입니다.
+	 */
+	ESceneState sceneState_ = ESceneState::Ready;
+
+
 	/**
 	 * @brief 크기가 32인 폰트 리소스입니다.
 	 */
@@ -94,4 +143,16 @@ private:
 	 * @brief 종료 버튼입니다.
 	 */
 	UIMouseButton* quitButton_ = nullptr;
+
+
+	/**
+	 * @brief 페이드 아웃 계산을 위한 시간값입니다.
+	 */
+	float stepTime_ = 0.0f;
+
+
+	/**
+	 * @brief 페이드 아웃 시간입니다.
+	 */
+	float fadeOutStepTime_ = 2.0f;
 };

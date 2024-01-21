@@ -4,12 +4,11 @@
 #include "RenderManager.h"
 #include "ResourceManager.h"
 #include "ObjectManager.h"
+#include "MathUtils.h"
 #include "Window.h"
 
 StartScene::StartScene()
 {
-	LoadResources();
-	LoadObjects();
 }
 
 StartScene::~StartScene()
@@ -18,18 +17,59 @@ StartScene::~StartScene()
 
 void StartScene::Tick(float deltaSeconds)
 {
-	mainTitle_->Tick(deltaSeconds);
-	startButton_->Tick(deltaSeconds);
-	quitButton_->Tick(deltaSeconds);
+	if (sceneState_ == ESceneState::Ready)
+	{
+		mainTitle_->Tick(deltaSeconds);
+		startButton_->Tick(deltaSeconds);
+		quitButton_->Tick(deltaSeconds);
+	}
+	else // sceneState_ == ESceneState::Start
+	{
+		stepTime_ += deltaSeconds;
+		stepTime_ = MathUtils::Clamp<float>(stepTime_, 0.0f, fadeOutStepTime_);
+	}
 
 	RenderManager::Get().SetWindowViewport();
 	RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
+
+	if (sceneState_ == ESceneState::Start)
+	{
+		framebuffer_->Bind();
+		framebuffer_->Clear(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 
 	mainTitle_->Render();
 	startButton_->Render();
 	quitButton_->Render();
 
+	if (sceneState_ == ESceneState::Start)
+	{
+		float fadeBias = 1.0f - MathUtils::Clamp<float>(stepTime_ / fadeOutStepTime_, 0.0f, 1.0f);
+
+		framebuffer_->Unbind();
+		postEffectShader_->Bind();
+		postEffectShader_->SetUniform("fadeBias", fadeBias);
+		postEffectShader_->BlitEffect(framebuffer_);
+		postEffectShader_->Unbind();
+	}
 	RenderManager::Get().EndFrame();
+}
+
+void StartScene::EnterScene()
+{
+	LoadResources();
+	LoadObjects();
+
+	stepTime_ = 0.0f;
+	fadeOutStepTime_ = 2.0f;
+
+	sceneState_ = ESceneState::Ready;
+	bIsEnterScene_ = true;
+}
+
+void StartScene::ExitScene()
+{
+	bIsEnterScene_ = false;
 }
 
 void StartScene::LoadResources()
@@ -90,7 +130,7 @@ void StartScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					OutputDebugStringA("Start\n");
+					sceneState_ = ESceneState::Start;
 				}
 			}
 		);
@@ -114,9 +154,7 @@ void StartScene::LoadObjects()
 				Vector4f(0.224f, 0.486f, 0.804f, 0.7f),
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
-				[&]() {
-					OutputDebugStringA("Quit\n");
-				}
+				loopQuitEvent_
 			}
 		);
 	}
