@@ -122,6 +122,38 @@ private:
 
 
 	/**
+	 * @brief 대기 상태일 때의 씬을 업데이트합니다.
+	 * 
+	 * @param deltaSeconds 델타 시간값입니다.
+	 */
+	void UpdateReadyStateScene(float deltaSeconds);
+
+
+	/**
+	 * @brief 플레이 상태일 때의 씬을 업데이트합니다.
+	 * 
+	 * @param deltaSeconds 델타 시간값입니다.
+	 */
+	void UpdatePlayStateScene(float deltaSeconds);
+
+
+	/**
+	 * @brief 중지 상태일 때의 씬을 업데이트합니다.
+	 *
+	 * @param deltaSeconds 델타 시간값입니다.
+	 */
+	void UpdatePauseStateScene(float deltaSeconds);
+
+
+	/**
+	 * @brief 종료 상태일 때의 씬을 업데이트합니다.
+	 * 
+	 * @param deltaSeconds 델타 시간값입니다.
+	 */
+	void UpdateDoneStateScene(float deltaSeconds);
+
+
+	/**
 	 * @brief 깊이 씬을 렌더링합니다.
 	 */
 	void RenderDepthScene();

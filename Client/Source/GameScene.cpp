@@ -65,7 +65,7 @@ void GameScene::EnterScene()
 
 	auto gameScenePauseEvent = [&]()
 	{
-		if (sceneState_ != ESceneState::Ready)
+		if (sceneState_ == ESceneState::Play)
 		{
 			sceneState_ = ESceneState::Pause;
 		}
@@ -249,6 +249,11 @@ void GameScene::LoadObjects()
 	board_ = ObjectManager::Get().CreateObject<UIBoard>("Board");
 	board_->Initialize();
 
+	int32_t windowWidth;
+	int32_t windowHeight;
+	RenderManager::Get().GetRenderTargetWindow()->GetSize(windowWidth, windowHeight);
+	Vector2f windowCenter(static_cast<float>(windowWidth) / 2.0f, static_cast<float>(windowHeight) / 2.0f);
+
 	continueButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_ContinueButton");
 	if (!continueButton_)
 	{
@@ -257,7 +262,7 @@ void GameScene::LoadObjects()
 			UIMouseButton::UIButtonConstructParam{
 				200.0f,
 				50.0f,
-				Vector2f(500.0f, 400.0f),
+				windowCenter,
 				L"Continue",
 				ResourceManager::Get().GetResource<TTFont>("Font32"),
 				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
@@ -282,7 +287,7 @@ void GameScene::LoadObjects()
 			UIMouseButton::UIButtonConstructParam{
 				200.0f,
 				50.0f,
-				Vector2f(500.0f, 500.0f),
+				windowCenter + Vector2f(0.0f, 100.0f),
 				L"Reset",
 				ResourceManager::Get().GetResource<TTFont>("Font32"),
 				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
@@ -308,7 +313,7 @@ void GameScene::LoadObjects()
 			UIMouseButton::UIButtonConstructParam{
 				200.0f,
 				50.0f,
-				Vector2f(500.0f, 600.0f),
+				windowCenter + Vector2f(0.0f, 200.0f),
 				L"Quit",
 				ResourceManager::Get().GetResource<TTFont>("Font32"),
 				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
@@ -339,34 +344,46 @@ void GameScene::LoadObjects()
 
 void GameScene::UpdateScene(float deltaSeconds)
 {
-	if (sceneState_ == ESceneState::Ready)
+	switch (sceneState_)
 	{
-		stepTime_ += deltaSeconds;
-		stepTime_ = MathUtils::Clamp<float>(stepTime_, 0.0f, fadeInStepTime_);
+	case ESceneState::Ready:
+		UpdateReadyStateScene(deltaSeconds);
+		break;
 
-		if (stepTime_ >= fadeInStepTime_)
-		{
-			stepTime_ = 0.0f;
-			sceneState_ = ESceneState::Play;
-		}
+	case ESceneState::Play:
+		UpdatePlayStateScene(deltaSeconds);
+		break;
 
-		camera_->Tick(deltaSeconds);
-		return;
+	case ESceneState::Pause:
+		UpdatePauseStateScene(deltaSeconds);
+		break;
+
+	case ESceneState::Done:
+		UpdateDoneStateScene(deltaSeconds);
+		break;
+
+	default:
+		ASSERT(false, "undefined game scene state...");
+		break;
 	}
-	else if (sceneState_ == ESceneState::Pause)
+}
+
+void GameScene::UpdateReadyStateScene(float deltaSeconds)
+{
+	stepTime_ += deltaSeconds;
+	stepTime_ = MathUtils::Clamp<float>(stepTime_, 0.0f, fadeInStepTime_);
+
+	if (stepTime_ >= fadeInStepTime_)
 	{
-		continueButton_->Tick(deltaSeconds);
-		resetButton_->Tick(deltaSeconds);
-		quitButton_->Tick(deltaSeconds);
-		return;
+		stepTime_ = 0.0f;
+		sceneState_ = ESceneState::Play;
 	}
 
-	if (sceneState_ == ESceneState::Done)
-	{
-		board_->Tick(deltaSeconds);
-		return;
-	}
+	camera_->Tick(deltaSeconds);
+}
 
+void GameScene::UpdatePlayStateScene(float deltaSeconds)
+{
 	player_->Tick(deltaSeconds);
 	camera_->Tick(deltaSeconds);
 
@@ -392,8 +409,22 @@ void GameScene::UpdateScene(float deltaSeconds)
 	{
 		sceneState_ = ESceneState::Done;
 	}
-	
+
 	bullets_.remove_if(bulletRemoveEvent_);
+}
+
+void GameScene::UpdatePauseStateScene(float deltaSeconds)
+{
+	continueButton_->Tick(deltaSeconds);
+	resetButton_->Tick(deltaSeconds);
+	quitButton_->Tick(deltaSeconds);
+}
+
+void GameScene::UpdateDoneStateScene(float deltaSeconds)
+{
+	resetButton_->Tick(deltaSeconds);
+	quitButton_->Tick(deltaSeconds);
+	board_->Tick(deltaSeconds);
 }
 
 void GameScene::RenderDepthScene()
@@ -461,6 +492,10 @@ void GameScene::RenderScene()
 			grayscaleEffectShader_->Bind();
 			grayscaleEffectShader_->BlitEffect(framebuffer_);
 			grayscaleEffectShader_->Unbind();
+
+			resetButton_->Render();
+			quitButton_->Render();
+			board_->Render();
 		}
 		else if(sceneState_ == ESceneState::Ready)
 		{
