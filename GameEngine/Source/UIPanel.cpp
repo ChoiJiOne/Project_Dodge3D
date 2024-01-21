@@ -4,7 +4,7 @@
 #include "TTFont.h"
 #include "RenderManager.h"
 
-void UIPanel::Initialize(const UIConstructParam& uiConstructParam)
+void UIPanel::Initialize(const UIPanelConstructParam& uiConstructParam)
 {
 	ASSERT(!bIsInitialized_, "already initialize ui object...");
 

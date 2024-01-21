@@ -21,7 +21,7 @@ public:
 	/**
 	 * @brief UI 패널 오브젝트의 생성 파라미터입니다.
 	 */
-	struct UIConstructParam
+	struct UIPanelConstructParam
 	{
 		float width;
 		float height;
@@ -58,7 +58,7 @@ public:
 	 * 
 	 * @param uiConstructParam UI 패널 오브젝트를 초기화하기 위한 파라미터입니다.
 	 */
-	virtual void Initialize(const UIConstructParam& uiConstructParam);
+	virtual void Initialize(const UIPanelConstructParam& uiConstructParam);
 
 
 	/**
