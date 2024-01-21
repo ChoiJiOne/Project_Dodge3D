@@ -65,7 +65,10 @@ void GameScene::EnterScene()
 
 	auto gameScenePauseEvent = [&]()
 	{
-		sceneState_ = ESceneState::Pause;
+		if (sceneState_ != ESceneState::Ready)
+		{
+			sceneState_ = ESceneState::Pause;
+		}
 	};
 
 	InputManager::Get().AddWindowEventAction("GameScene_Inactive",      EWindowEvent::Inactive,      gameScenePauseEvent, true);
