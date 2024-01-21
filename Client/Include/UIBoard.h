@@ -50,14 +50,4 @@ private:
 	 * @return 계산된 UI 중심 위치를 얻습니다.
 	 */
 	Vector2f GetCenterFromWindow();
-
-
-	/**
-	 * @brief 플레이어의 Life 상태를 얻습니다.
-	 * 
-	 * @param player Life 상태를 얻을 플레이어입니다.
-	 * 
-	 * @return 플레이어의 Life 상태를 문자열로 반환합니다.
-	 */
-	std::wstring GetPlayerLife(const Player* player);
 };

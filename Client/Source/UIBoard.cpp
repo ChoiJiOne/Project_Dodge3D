@@ -47,28 +47,3 @@ Vector2f UIBoard::GetCenterFromWindow()
 	
 	return Vector2f(static_cast<float>(windowWidth) / 2.0f, height_);
 }
-
-std::wstring UIBoard::GetPlayerLife(const Player* player)
-{
-	std::wstring life;
-	switch (player->GetLife())
-	{
-	case 3:
-		life = L"O O O";
-		break;
-
-	case 2:
-		life = L"O O X";
-		break;
-
-	case 1:
-		life = L"O X X";
-		break;
-
-	default:
-		life = L"X X X";
-		break;
-	}
-
-	return life;
-}
