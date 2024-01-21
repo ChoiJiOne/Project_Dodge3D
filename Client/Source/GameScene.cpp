@@ -276,6 +276,7 @@ void GameScene::RenderScene()
 
 	lightShader_->Unbind();
 	
+	player_->RenderHP(camera_);
 	bulletSpawner0_->RenderRespawnTime(camera_);
 	bulletSpawner1_->RenderRespawnTime(camera_);
 	bulletSpawner2_->RenderRespawnTime(camera_);
