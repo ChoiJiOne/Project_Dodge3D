@@ -51,7 +51,7 @@ public:
 		font128->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 128.0f);
 
 		Sound* buttonClickSound = ResourceManager::Get().CreateResource<Sound>("ButtonClick");
-		buttonClickSound->Initialize(clientPath_ + L"Resource/ButtonClick.wav");
+		buttonClickSound->Initialize(clientPath_ + L"Resource/ButtonClick.mp3");
 		buttonClickSound->SetLooping(false);
 
 		Sound* hitSound = ResourceManager::Get().CreateResource<Sound>("Hit");
