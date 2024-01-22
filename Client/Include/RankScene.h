@@ -3,6 +3,7 @@
 #include "PlayLogger.h"
 
 #include "IScene.h"
+#include "Sound.h"
 #include "TTFont.h"
 #include "UIMouseButton.h"
 #include "UIPanel.h"
@@ -102,4 +103,10 @@ private:
 	 * @brief 플레이어의 기록을 관리하는 오브젝트입니다.
 	 */
 	PlayLogger* playLogger_ = nullptr;
+
+
+	/**
+	 * @brief 버튼 클릭 사운드입니다.
+	 */
+	Sound* buttonClick_ = nullptr;
 };

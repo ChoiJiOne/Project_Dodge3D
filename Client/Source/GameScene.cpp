@@ -138,6 +138,7 @@ void GameScene::ExitScene()
 void GameScene::LoadResources()
 {
 	font32_ = ResourceManager::Get().GetResource<TTFont>("Font32");
+	buttonClick_ = ResourceManager::Get().GetResource<Sound>("ButtonClick");
 
 	shadowMap_ = ResourceManager::Get().GetResource<ShadowMap>("GameScene_ShadowMap");
 	if(!shadowMap_)
@@ -282,8 +283,7 @@ void GameScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
+					buttonClick_->Play();
 					sceneState_ = ESceneState::Play;
 				}
 			}
@@ -309,8 +309,7 @@ void GameScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
+					buttonClick_->Play();
 					bDetectSwitchScene_ = true;
 					nextScene_ = nextRankScene_;
 				}
@@ -337,8 +336,7 @@ void GameScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
+					buttonClick_->Play();
 					bDetectSwitchScene_ = true;
 					nextScene_ = nextResetScene_;
 				}
@@ -383,8 +381,7 @@ void GameScene::LoadObjects()
 			{
 				if (sceneState_ == ESceneState::Play)
 				{
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
+					buttonClick_->Play();
 					sceneState_ = ESceneState::Pause;
 				}
 			}

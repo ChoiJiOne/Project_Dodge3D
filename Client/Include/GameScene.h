@@ -11,6 +11,7 @@
 #include "LightShader.h"
 #include "UIMouseButton.h"
 #include "UIKeyButton.h"
+#include "Sound.h"
 #include "Skybox.h"
 #include "ShadowMap.h"
 #include "ShadowShader.h"
@@ -198,6 +199,12 @@ private:
 	 * @brief 크기가 32인 폰트 리소스입니다.
 	 */
 	TTFont* font32_ = nullptr;
+
+
+	/**
+	 * @brief 버튼 클릭 사운드입니다.
+	 */
+	Sound* buttonClick_ = nullptr;
 
 
 	/**

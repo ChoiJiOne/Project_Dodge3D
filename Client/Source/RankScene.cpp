@@ -49,6 +49,7 @@ void RankScene::ExitScene()
 void RankScene::LoadResources()
 {
 	font32_ = ResourceManager::Get().GetResource<TTFont>("Font32");
+	buttonClick_ = ResourceManager::Get().GetResource<Sound>("ButtonClick");
 }
 
 void RankScene::LoadObjects()
@@ -77,8 +78,7 @@ void RankScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
-					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
+					buttonClick_->Play();
 					bDetectSwitchScene_ = true;
 				}
 			}

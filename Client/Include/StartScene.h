@@ -3,6 +3,7 @@
 #include "Framebuffer.h"
 #include "IScene.h"
 #include "PostEffectShader.h"
+#include "Sound.h"
 #include "TTFont.h"
 #include "UIMouseButton.h"
 #include "UIPanel.h"
@@ -107,6 +108,12 @@ private:
 	 * @brief 크기가 128인 폰트 리소스입니다.
 	 */
 	TTFont* font128_ = nullptr;
+
+
+	/**
+	 * @brief 버튼 클릭 사운드입니다.
+	 */
+	Sound* buttonClick_ = nullptr;
 
 
 	/**
