@@ -4,6 +4,9 @@
 #include <vector>
 
 #include "IObject.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
 
 class TTFont; // 트루 타입 폰트 리소스를 사용하기 위한 전방 선언입니다.
 
@@ -73,7 +76,7 @@ private:
 	/**
 	 * @brief 플레이 로그의 문자열 최대 길이입니다.
 	 */
-	static const int32_t MAX_LOG_SIZE = 20;
+	static const int32_t MAX_LOG_SIZE = 40;
 
 
 	/**
@@ -81,7 +84,7 @@ private:
 	 */
 	struct PlayLog
 	{
-		std::string day;
+		std::wstring day;
 		float time;
 	};
 
@@ -93,7 +96,7 @@ private:
 	 */
 	struct PlayLogChunk
 	{
-		char day[MAX_LOG_SIZE];
+		wchar_t day[MAX_LOG_SIZE];
 		float time;
 	};
 
@@ -121,4 +124,64 @@ private:
 	 * @brief 플레이 로거가 관리 중인 기록입니다.
 	 */
 	std::vector<PlayLog> playLog_;
+
+
+	/**
+	 * @brief 최근에 등록된 기록입니다.
+	 */
+	PlayLog recentPlayLog;
+
+
+	/**
+	 * @brief 플레이 로거가 표시할 텍스트의 폰트입니다.
+	 */
+	TTFont* font32_ = nullptr;
+
+
+	/**
+	 * @brief 플레이 로거가 표시할 텍스트의 폰트입니다.
+	 */
+	TTFont* font64_ = nullptr;
+
+
+	/**
+	 * @brief 랭크 타이틀 위치입니다.
+	 */
+	Vector2f rankCenter_;
+
+
+	/**
+	 * @brief 랭크 타이틀 색상입니다.
+	 */
+	Vector4f rankColor_;
+
+
+	/**
+	 * @brief 로그 시작 위치입니다.
+	 */
+	Vector2f logCenter_;
+
+
+	/**
+	 * @brief 로그 색상입니다.
+	 */
+	Vector4f logColor_;
+
+
+	/**
+	 * @brief 로그의 최근 색상입니다.
+	 */
+	Vector4f logRecentColor_;
+
+
+	/**
+	 * @brief 로그 간의 간격입니다.
+	 */
+	float logStride_ = 0.0f;
+
+
+	/**
+	 * @brief 화면에 표시할 최대 로그 수입니다.
+	 */
+	int32_t maxLogCount_ = 0;
 };

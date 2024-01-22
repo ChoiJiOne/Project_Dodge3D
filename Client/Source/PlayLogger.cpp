@@ -7,7 +7,9 @@
 #include "FileUtils.h"
 #include "StringUtils.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 #include "TTFont.h"
+#include "Window.h"
 
 PlayLogger::~PlayLogger()
 {
@@ -30,6 +32,23 @@ void PlayLogger::Initialize()
 		ReadLogFile();
 	}
 
+	font32_ = ResourceManager::Get().GetResource<TTFont>("Font32");
+	font64_ = ResourceManager::Get().GetResource<TTFont>("Font64");
+
+	int32_t width;
+	int32_t height;
+	RenderManager::Get().GetRenderTargetWindow()->GetSize(width, height);
+
+	rankCenter_ = Vector2f(static_cast<float>(width) / 2.0f, 200.0f);
+	rankColor_ = Vector4f(1.0f, 0.5f, 0.1f, 1.0f);
+
+	logCenter_ = Vector2f(static_cast<float>(width) / 2.0f, 250.0f);
+	logColor_ = Vector4f(1.0f, 1.0f, 1.0f, 1.0f);
+	logRecentColor_ = Vector4f(1.0f, 0.3f, 0.3f, 1.0f);
+	logStride_ = 40.0f;
+
+	maxLogCount_ = 5;
+
 	bIsInitialized_ = true;
 }
 
@@ -39,6 +58,18 @@ void PlayLogger::Tick(float deltaSeconds)
 
 void PlayLogger::Render()
 {
+	RenderManager::Get().RenderText2D(font64_, L"Rank", rankCenter_, Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+
+	Vector2f center = logCenter_;
+	for (std::size_t index = 0; index < playLog_.size() && index < maxLogCount_; ++index)
+	{
+		Vector4f color = (playLog_[index].day == recentPlayLog.day && playLog_[index].time == recentPlayLog.time) ? logRecentColor_ : logColor_;
+		std::wstring logText = StringUtils::PrintF(L"%20s %3d", playLog_[index].day.c_str(), static_cast<int32_t>(playLog_[index].time));
+		
+		RenderManager::Get().RenderText2D(font32_, logText, center, color);
+
+		center.y += logStride_;
+	}
 }
 
 void PlayLogger::Release()
@@ -52,7 +83,8 @@ void PlayLogger::Release()
 
 void PlayLogger::RecordPlayLog(const std::wstring& day, const float& time)
 {
-	playLog_.push_back({ StringUtils::Convert(day), time });
+	recentPlayLog = PlayLog{ day, time };
+	playLog_.push_back(recentPlayLog);
 
 	auto recordSortFunc = [](const PlayLog& left, const PlayLog& right)
 	{
@@ -71,13 +103,13 @@ void PlayLogger::RecordPlayLog(const std::wstring& day, const float& time)
 
 void PlayLogger::ReadLogFile()
 {
-	std::vector<uint8_t> buffer = FileUtils::ReadBufferFromFile(logFilePath_);\
+	std::vector<uint8_t> buffer = FileUtils::ReadBufferFromFile(logFilePath_);
 	uint32_t countChunk = static_cast<uint32_t>(buffer.size()) / static_cast<uint32_t>(sizeof(PlayLogChunk));
 
 	PlayLogChunk* chunkBufferPtr = reinterpret_cast<PlayLogChunk*>(buffer.data());
 	for (uint32_t index = 0; index < countChunk; ++index)
 	{
-		std::string day(chunkBufferPtr[index].day, chunkBufferPtr[index].day + MAX_LOG_SIZE);
+		std::wstring day(chunkBufferPtr[index].day, chunkBufferPtr[index].day + MAX_LOG_SIZE);
 		float time = chunkBufferPtr[index].time;
 
 		playLog_.push_back({ day, time });
