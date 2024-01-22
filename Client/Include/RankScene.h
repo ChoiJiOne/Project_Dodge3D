@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PlayLogger.h"
+
 #include "IScene.h"
 #include "TTFont.h"
 #include "UIMouseButton.h"
@@ -94,4 +96,10 @@ private:
 	 * @brief 게임 종료 버튼입니다.
 	 */
 	UIMouseButton* quitButton_ = nullptr;
+
+
+	/**
+	 * @brief 플레이어의 기록을 관리하는 오브젝트입니다.
+	 */
+	PlayLogger* playLogger_ = nullptr;
 };

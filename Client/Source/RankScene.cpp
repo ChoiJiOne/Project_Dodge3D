@@ -17,12 +17,14 @@ RankScene::~RankScene()
 
 void RankScene::Tick(float deltaSeconds)
 {
+	playLogger_->Tick(deltaSeconds);
 	resetButton_->Tick(deltaSeconds);
 	quitButton_->Tick(deltaSeconds);
 
 	RenderManager::Get().SetWindowViewport();
 	RenderManager::Get().BeginFrame(0.0f, 0.0f, 0.0f, 1.0f);
 
+	playLogger_->Render();
 	resetButton_->Render();
 	quitButton_->Render();
 
@@ -102,4 +104,6 @@ void RankScene::LoadObjects()
 			}
 		);
 	}
+
+	playLogger_ = ObjectManager::Get().GetObject<PlayLogger>("PlayerLogger");
 }
