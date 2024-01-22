@@ -3,6 +3,7 @@
 #include "Assertion.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "Sound.h"
 #include "ObjectManager.h"
 #include "MathUtils.h"
 #include "Window.h"
@@ -141,6 +142,8 @@ void StartScene::LoadObjects()
 				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
 				UIMouseButton::EType::LButton,
 				[&]() {
+					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Reset();
+					ResourceManager::Get().GetResource<Sound>("ButtonClick")->Play();
 					sceneState_ = ESceneState::Start;
 				}
 			}
