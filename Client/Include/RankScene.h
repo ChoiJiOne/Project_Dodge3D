@@ -60,7 +60,38 @@ public:
 
 private:
 	/**
+	 * @brief 플레이어의 기록을 보여주는 씬의 리소스를 로딩합니다.
+	 */
+	void LoadResources();
+
+
+	/**
+	 * @brief 플레이어의 기록을 보여주는 씬의 오브젝트를 로딩합니다.
+	 */
+	void LoadObjects();
+
+
+private:
+	/**
 	 * @brief 루프 종료 이벤트입니다.
 	 */
 	std::function<void()> loopQuitEvent_ = nullptr;
+
+
+	/**
+	 * @brief 크기가 32인 폰트 리소스입니다.
+	 */
+	TTFont* font32_ = nullptr;
+
+
+	/**
+	 * @brief 게임 리셋 버튼입니다.
+	 */
+	UIMouseButton* resetButton_ = nullptr;
+
+
+	/**
+	 * @brief 게임 종료 버튼입니다.
+	 */
+	UIMouseButton* quitButton_ = nullptr;
 };
