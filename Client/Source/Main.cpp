@@ -1,6 +1,7 @@
 #include "IApplication.h"
 
 #include "GameScene.h"
+#include "RankScene.h"
 #include "StartScene.h"
 
 
@@ -53,12 +54,17 @@ public:
 
 		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
 		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
+		rankScene_ = SceneManager::Get().CreateScene<RankScene>("RankScene");
 
 		startScene_->SetLoopQuitEvent(loopQuitEvent_);
 		startScene_->SetNextScene(gameScene_);
 
 		gameScene_->SetLoopQuitEvent(loopQuitEvent_);
 		gameScene_->SetNextResetScene(startScene_);
+		gameScene_->SetNextRankScene(rankScene_);
+
+		rankScene_->SetLoopQuitEvent(loopQuitEvent_);
+		rankScene_->SetNextScene(startScene_);
 	}
 
 
@@ -126,6 +132,12 @@ private:
 	 * @brief 게임 플레이 씬입니다.
 	 */
 	GameScene* gameScene_ = nullptr;
+
+
+	/**
+	 * @brief 플레이어의 랭킹을 보여주는 씬입니다.
+	 */
+	RankScene* rankScene_ = nullptr;
 };
 
 
