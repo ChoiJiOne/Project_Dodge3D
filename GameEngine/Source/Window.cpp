@@ -93,6 +93,12 @@ void Window::Destroy()
 		return;
 	}
 
+	if (icon_)
+	{
+		WINDOWS_ASSERT(DestroyIcon(icon_), "failed to destroy window icon...");
+		icon_ = nullptr;
+	}
+
 	if (bIsFullscreenMode_)
 	{
 		WINDOWS_ASSERT(ChangeDisplaySettingsW(nullptr, 0) == DISP_CHANGE_SUCCESSFUL, "failed to set default mode...");
@@ -118,6 +124,23 @@ float Window::GetAspectSize() const
 	GetSize(windowWidth, windowHeight);
 
 	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
+}
+
+void Window::SetIcon(const std::wstring& path)
+{
+	if (icon_)
+	{
+		DestroyIcon(icon_);
+		icon_ = nullptr;
+	}
+
+	HICON hIcon = (HICON)LoadImageW(hInstance_, path.c_str(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+	WINDOWS_ASSERT(hIcon != nullptr, L"failed to load icon %s file...", path.c_str());
+
+	WINDOWS_ASSERT(SUCCEEDED(SendMessageW(windowHandle_, WM_SETICON, ICON_BIG,   (LPARAM)(hIcon))), "failed to send big icon...");
+	WINDOWS_ASSERT(SUCCEEDED(SendMessageW(windowHandle_, WM_SETICON, ICON_SMALL, (LPARAM)(hIcon))), "failed to send small icon...");
+
+	icon_ = hIcon;
 }
 
 void Window::RegisterWindowClass(const std::wstring& windowClassName, WINDOWPROC windowProc)

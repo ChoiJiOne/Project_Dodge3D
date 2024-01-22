@@ -135,6 +135,14 @@ public:
 
 
 	/**
+	 * @brief 윈도우 아이콘을 설정합니다.
+	 * 
+	 * @param path 윈도우 아이콘을 설정할 아이콘 파일입니다.
+	 */
+	void SetIcon(const std::wstring& path);
+
+
+	/**
 	 * @brief 윈도우 클래스를 등록합니다.
 	 * 
 	 * @note 이 정적 메서드는 한 번만 호출할 수 있습니다.
@@ -176,6 +184,12 @@ private:
 	 * @brief 풀 스크린 모드인지 확인합니다.
 	 */
 	bool bIsFullscreenMode_ = false;
+
+
+	/**
+	 * @brief 윈도우 아이콘입니다.
+	 */
+	HICON icon_ = nullptr;
 	
 
 	/**
