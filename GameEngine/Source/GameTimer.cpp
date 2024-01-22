@@ -1,5 +1,6 @@
 #include "GameTimer.h"
 
+#include "StringUtils.h"
 #include "WindowsAssertion.h"
 
 #include <windows.h>
@@ -84,4 +85,20 @@ void GameTimer::Tick()
 
 	prevTime_ = currTime_;
 	currTime_ = counter;
+}
+
+std::wstring GameTimer::GetCurrentSystemTime()
+{
+	SYSTEMTIME currentSystemTime;
+	GetLocalTime(&currentSystemTime);
+
+	return StringUtils::PrintF(
+		L"%4d-%02d-%02d-%02d-%02d-%02d",
+		static_cast<int32_t>(currentSystemTime.wYear),
+		static_cast<int32_t>(currentSystemTime.wMonth),
+		static_cast<int32_t>(currentSystemTime.wDay),
+		static_cast<int32_t>(currentSystemTime.wHour),
+		static_cast<int32_t>(currentSystemTime.wMinute),
+		static_cast<int32_t>(currentSystemTime.wSecond)
+	);
 }

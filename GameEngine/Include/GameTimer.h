@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 
 /**
@@ -135,6 +136,14 @@ public:
 	 * @brief 타이머를 업데이트합니다.
 	 */
 	void Tick();
+
+
+	/**
+	 * @brief 현재 시스템 시간 값을 얻습니다.
+	 * 
+	 * @return 현재 시스템 시간 값을 문자열로 반환합니다.
+	 */
+	static std::wstring GetCurrentSystemTime();
 
 
 private:
