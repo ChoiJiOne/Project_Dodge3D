@@ -38,7 +38,7 @@ std::vector<uint8_t> FileUtils::ReadBufferFromFile(const std::wstring& path)
 
 void FileUtils::WriteBufferToFile(const std::string& path, const std::vector<uint8_t>& buffer)
 {
-	HANDLE fileHandle = CreateFileA(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE fileHandle = CreateFileA(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, "failed to create %s...", path.c_str());
 
 	DWORD writeByteSize = 0;
@@ -48,7 +48,7 @@ void FileUtils::WriteBufferToFile(const std::string& path, const std::vector<uin
 
 void FileUtils::WriteBufferToFile(const std::wstring& path, const std::vector<uint8_t>& buffer)
 {
-	HANDLE fileHandle = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE fileHandle = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	WINDOWS_ASSERT(fileHandle != INVALID_HANDLE_VALUE, L"failed to create %s...", path.c_str());
 
 	DWORD writeByteSize = 0;
