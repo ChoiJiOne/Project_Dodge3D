@@ -21,6 +21,7 @@
 #include "MovableCamera.h"
 #include "NorthWall.h"
 #include "Player.h"
+#include "PlayLogger.h"
 #include "SouthWall.h"
 #include "StaticLight.h"
 #include "UIBoard.h"
@@ -260,6 +261,12 @@ private:
 	 * @brief 플레이어가 조종 가능한 오브젝트입니다.
 	 */
 	Player* player_ = nullptr;
+
+
+	/**
+	 * @brief 플레이어의 플레이 기록을 관리하는 오브젝트입니다.
+	 */
+	PlayLogger* playLogger_ = nullptr;
 
 
 	/**

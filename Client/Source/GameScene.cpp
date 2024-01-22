@@ -1,6 +1,7 @@
 #include "GameScene.h"
 
 #include "InputManager.h"
+#include "GameTimer.h"
 #include "MathUtils.h"
 #include "ObjectManager.h"
 #include "StringUtils.h"
@@ -249,6 +250,13 @@ void GameScene::LoadObjects()
 	board_ = ObjectManager::Get().CreateObject<UIBoard>("Board");
 	board_->Initialize();
 
+	playLogger_ = ObjectManager::Get().GetObject<PlayLogger>("PlayerLogger");
+	if (!playLogger_)
+	{
+		playLogger_ = ObjectManager::Get().CreateObject<PlayLogger>("PlayerLogger");
+		playLogger_->Initialize();
+	}
+
 	int32_t windowWidth;
 	int32_t windowHeight;
 	RenderManager::Get().GetRenderTargetWindow()->GetSize(windowWidth, windowHeight);
@@ -408,6 +416,7 @@ void GameScene::UpdatePlayStateScene(float deltaSeconds)
 	if (player_->GetHP() <= 0)
 	{
 		sceneState_ = ESceneState::Done;
+		playLogger_->RecordPlayLog(GameTimer::GetCurrentSystemTime(), player_->GetPlayTime());
 	}
 
 	bullets_.remove_if(bulletRemoveEvent_);
