@@ -41,6 +41,8 @@ public:
 
 		clientPath_ = rootPath_ + L"Client/";
 
+		window_->SetIcon(clientPath_ + L"Resource/Icon.ico");
+
 		TTFont* font32 = ResourceManager::Get().CreateResource<TTFont>("Font32");
 		font32->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 32.0f);
 
