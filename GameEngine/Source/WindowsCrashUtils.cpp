@@ -4,33 +4,13 @@
 #include <pathcch.h>
 #include <Shlwapi.h>
 
+#include "GameTimer.h"
 #include "StringUtils.h"
 #include "WindowsAssertion.h"
 
 std::wstring crashInfoSavePath;
 
 LPTOP_LEVEL_EXCEPTION_FILTER topLevelExceptionFilter;
-
-/**
- * @brief 크래시가 감지된 시스템 시간값을 얻습니다.
- *
- * @return 시스템 시간값을 반환합니다.
- */
-std::wstring GetCrashSystemTime()
-{
-	SYSTEMTIME currentSystemTime;
-	GetLocalTime(&currentSystemTime);
-
-	return StringUtils::PrintF(
-		L"%4d-%02d-%02d-%02d-%02d-%02d",
-		static_cast<int32_t>(currentSystemTime.wYear),
-		static_cast<int32_t>(currentSystemTime.wMonth),
-		static_cast<int32_t>(currentSystemTime.wDay),
-		static_cast<int32_t>(currentSystemTime.wHour),
-		static_cast<int32_t>(currentSystemTime.wMinute),
-		static_cast<int32_t>(currentSystemTime.wSecond)
-	);
-}
 
 /**
  * @brief 크래시 덤프 파일을 생성합니다.
@@ -72,7 +52,7 @@ bool CreateMinidumpFile(const std::wstring& path, EXCEPTION_POINTERS* exceptionP
  */
 LONG WINAPI DetectApplicationCrash(EXCEPTION_POINTERS* exceptionPtr)
 {
-	std::wstring systemTime = GetCrashSystemTime();
+	std::wstring systemTime = GameTimer::GetCurrentSystemTime();
 	std::wstring minidumpPath = StringUtils::PrintF(L"%sWindows-%s-Minidump.dmp", crashInfoSavePath.c_str(), systemTime.c_str());
 
 	CreateMinidumpFile(minidumpPath, exceptionPtr);
