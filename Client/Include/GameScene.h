@@ -10,6 +10,7 @@
 #include "PostEffectShader.h"
 #include "LightShader.h"
 #include "UIMouseButton.h"
+#include "UIKeyButton.h"
 #include "Skybox.h"
 #include "ShadowMap.h"
 #include "ShadowShader.h"
@@ -387,4 +388,10 @@ private:
 	 * @brief 게임 종료 버튼입니다.
 	 */
 	UIMouseButton* quitButton_ = nullptr;
+
+
+	/**
+	 * @brief 게임의 중단을 감지하는 버튼입니다.
+	 */
+	UIKeyButton* pauseButton_ = nullptr;
 };

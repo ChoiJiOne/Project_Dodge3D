@@ -336,6 +336,27 @@ void GameScene::LoadObjects()
 		);
 	}
 
+	pauseButton_ = ObjectManager::Get().GetObject<UIKeyButton>("GameScene_PauseButton");
+	if (!pauseButton_)
+	{
+		pauseButton_ = ObjectManager::Get().CreateObject<UIKeyButton>("GameScene_PauseButton");
+		pauseButton_->Initialize(
+			UIKeyButton::UIButtonConstructParam{
+			0.0f, 0.0f, Vector2f(),
+			L"", nullptr,
+			Vector4f(), Vector4f(), Vector4f(), Vector4f(), Vector4f(),
+			EVirtualKey::VKEY_ESCAPE,
+			[&]()
+			{
+				if (sceneState_ == ESceneState::Play)
+				{
+					sceneState_ = ESceneState::Pause;
+				}
+			}
+			}
+		);
+	}
+
 	renderObjects_ = {
 		floor_,
 		northWall_,
@@ -412,6 +433,7 @@ void GameScene::UpdatePlayStateScene(float deltaSeconds)
 	}
 
 	board_->Tick(deltaSeconds);
+	pauseButton_->Tick(deltaSeconds);
 
 	if (player_->GetHP() <= 0)
 	{
