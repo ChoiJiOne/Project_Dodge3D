@@ -26,7 +26,7 @@ void PlayLogger::Initialize()
 	std::wstring rootPath;
 	ASSERT(CommandLineUtils::GetStringValue("rootPath", rootPath), "failed to get root path in command line...");
 
-	logFilePath_ = rootPath + L"Client/Resource/PlayLog.log";
+	logFilePath_ = rootPath + L"Client/Resource/PlayLog.bin";
 	if (FileUtils::IsValidPath(logFilePath_))
 	{
 		ReadLogFile();
