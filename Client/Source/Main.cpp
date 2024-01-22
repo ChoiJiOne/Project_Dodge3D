@@ -41,23 +41,23 @@ public:
 
 		clientPath_ = rootPath_ + L"Client/";
 
-		window_->SetIcon(clientPath_ + L"Resource/Icon.ico");
+		window_->SetIcon(clientPath_ + L"Resource/Icon/Icon.ico");
 
 		TTFont* font32 = ResourceManager::Get().CreateResource<TTFont>("Font32");
-		font32->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 32.0f);
+		font32->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 32.0f);
 
 		TTFont* font64 = ResourceManager::Get().CreateResource<TTFont>("Font64");
-		font64->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 64.0f);
+		font64->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 64.0f);
 
 		TTFont* font128 = ResourceManager::Get().CreateResource<TTFont>("Font128");
-		font128->Initialize(clientPath_ + L"Resource/SeoulNamsanEB.ttf", 32, 127, 128.0f);
+		font128->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 128.0f);
 
 		Sound* buttonClickSound = ResourceManager::Get().CreateResource<Sound>("ButtonClick");
-		buttonClickSound->Initialize(clientPath_ + L"Resource/ButtonClick.mp3");
+		buttonClickSound->Initialize(clientPath_ + L"Resource/Sound/ButtonClick.mp3");
 		buttonClickSound->SetLooping(false);
 
 		Sound* hitSound = ResourceManager::Get().CreateResource<Sound>("Hit");
-		hitSound->Initialize(clientPath_ + L"Resource/Hit.mp3");
+		hitSound->Initialize(clientPath_ + L"Resource/Sound/Hit.mp3");
 		hitSound->SetLooping(false);
 
 		loopQuitEvent_ = [&]() { bIsDoneLoop_ = true; };
