@@ -54,6 +54,10 @@ public:
 		buttonClickSound->Initialize(clientPath_ + L"Resource/ButtonClick.wav");
 		buttonClickSound->SetLooping(false);
 
+		Sound* hitSound = ResourceManager::Get().CreateResource<Sound>("Hit");
+		hitSound->Initialize(clientPath_ + L"Resource/Hit.mp3");
+		hitSound->SetLooping(false);
+
 		loopQuitEvent_ = [&]() { bIsDoneLoop_ = true; };
 
 		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
