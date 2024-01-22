@@ -26,7 +26,7 @@ void PlayLogger::Initialize()
 	std::wstring rootPath;
 	ASSERT(CommandLineUtils::GetStringValue("rootPath", rootPath), "failed to get root path in command line...");
 
-	logFilePath_ = rootPath + L"Client/Resource/PlayLog.bin";
+	logFilePath_ = rootPath + L"Client/Resource/Bin/Rank.bin";
 	if (FileUtils::IsValidPath(logFilePath_))
 	{
 		ReadLogFile();
@@ -64,7 +64,7 @@ void PlayLogger::Render()
 	for (std::size_t index = 0; index < playLog_.size() && index < maxLogCount_; ++index)
 	{
 		Vector4f color = (playLog_[index].day == recentPlayLog.day && playLog_[index].time == recentPlayLog.time) ? logRecentColor_ : logColor_;
-		std::wstring logText = StringUtils::PrintF(L"%20s %3d", playLog_[index].day.c_str(), static_cast<int32_t>(playLog_[index].time));
+		std::wstring logText = StringUtils::PrintF(L"%19s %3d", playLog_[index].day.c_str(), static_cast<int32_t>(playLog_[index].time));
 		
 		RenderManager::Get().RenderText2D(font32_, logText, center, color);
 
