@@ -10,6 +10,7 @@
 #include "MathUtils.h"
 #include "ObjectManager.h"
 #include "ResourceManager.h"
+#include "Sound.h"
 
 Bullet::~Bullet()
 {
@@ -46,6 +47,8 @@ void Bullet::Initialize(const Vector3f& location, const Vector3f& direction, flo
 		);
 	}
 
+	hitSound_ = ResourceManager::Get().GetResource<Sound>("Hit");
+
 	transform_ = Transform(location, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(boundRadius, boundRadius, boundRadius));
 	
 	direction_ = direction;
@@ -78,6 +81,9 @@ void Bullet::Tick(float deltaSeconds)
 		Player* player = ObjectManager::Get().GetObject<Player>("Player");
 		int32_t hp = player->GetHP();
 		player->SetHP(--hp);
+
+		hitSound_->Reset();
+		hitSound_->Play();
 	}
 }
 

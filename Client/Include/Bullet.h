@@ -4,6 +4,8 @@
 #include "Sphere3D.h"
 #include "Vector3.h"
 
+class Sound;
+
 
 /**
  * @brief 플레이어가 피해야 할 총알 오브젝트입니다.
@@ -126,4 +128,10 @@ private:
 	 * @brief 총알이 플레이어와 충돌했는지 확인합니다.
 	 */
 	bool bIsCollisionToPlayer_ = false;
+
+
+	/**
+	 * @brief 총알이 충돌했을 때 출력할 사운드입니다.
+	 */
+	Sound* hitSound_ = nullptr;
 };
