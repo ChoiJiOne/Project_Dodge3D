@@ -95,6 +95,14 @@ public:
 
 
 	/**
+	 * @brief 랭크 버튼 클릭 시 전환될 다음 씬을 설정합니다.
+	 * 
+	 * @param scene 랭크 버튼 클릭 시 설정할 다음 씬입니다.
+	 */
+	void SetNextRankScene(IScene* nextScene) { nextRankScene_ = nextScene; }
+
+
+	/**
 	 * @brief 게임의 루프 종료 이벤트를 설정합니다.
 	 *
 	 * @param loopQuitEvent 설정할 게임 루프 종료 이벤트입니다.
@@ -373,9 +381,21 @@ private:
 
 
 	/**
+	 * @brief 랭킹 버튼을 클릭할 경우의 다음 씬입니다.
+	 */
+	IScene* nextRankScene_ = nullptr;
+
+
+	/**
 	 * @brief 중지된 게임을 계속 플레이하는 버튼입니다.
 	 */
 	UIMouseButton* continueButton_ = nullptr;
+
+
+	/**
+	 * @brief 플레이어의 랭킹을 확인하기 위한 버튼입니다.
+	 */
+	UIMouseButton* rankButton_ = nullptr;
 
 
 	/**

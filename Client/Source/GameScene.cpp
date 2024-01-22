@@ -287,6 +287,32 @@ void GameScene::LoadObjects()
 		);
 	}
 
+	rankButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_RankButton");
+	if (!rankButton_)
+	{
+		rankButton_ = ObjectManager::Get().CreateObject<UIMouseButton>("GameScene_RankButton");
+		rankButton_->Initialize(
+			UIMouseButton::UIButtonConstructParam{
+				200.0f,
+				50.0f,
+				windowCenter,
+				L"Rank",
+				ResourceManager::Get().GetResource<TTFont>("Font32"),
+				Vector4f(0.227f, 0.663f,   1.0f, 0.7f),
+				Vector4f(0.227f, 0.663f,   1.0f, 1.0f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				Vector4f(0.145f, 0.267f, 0.431f, 0.7f),
+				Vector4f(0.224f, 0.486f, 0.804f, 0.7f),
+				Vector4f(0.118f, 0.180f, 0.286f, 0.7f),
+				UIMouseButton::EType::LButton,
+				[&]() {
+					bDetectSwitchScene_ = true;
+					nextScene_ = nextRankScene_;
+				}
+			}
+		);
+	}
+
 	resetButton_ = ObjectManager::Get().GetObject<UIMouseButton>("GameScene_ResetButton");
 	if (!resetButton_)
 	{
@@ -449,10 +475,12 @@ void GameScene::UpdatePauseStateScene(float deltaSeconds)
 	continueButton_->Tick(deltaSeconds);
 	resetButton_->Tick(deltaSeconds);
 	quitButton_->Tick(deltaSeconds);
+	board_->Tick(deltaSeconds);
 }
 
 void GameScene::UpdateDoneStateScene(float deltaSeconds)
 {
+	rankButton_->Tick(deltaSeconds);
 	resetButton_->Tick(deltaSeconds);
 	quitButton_->Tick(deltaSeconds);
 	board_->Tick(deltaSeconds);
@@ -524,6 +552,7 @@ void GameScene::RenderScene()
 			grayscaleEffectShader_->BlitEffect(framebuffer_);
 			grayscaleEffectShader_->Unbind();
 
+			rankButton_->Render();
 			resetButton_->Render();
 			quitButton_->Render();
 			board_->Render();
