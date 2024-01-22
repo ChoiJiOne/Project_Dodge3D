@@ -54,43 +54,47 @@ void PlayLogger::RecordPlayLog(const std::wstring& day, const float& time)
 {
 	playLog_.push_back({ StringUtils::Convert(day), time });
 
-	//auto recordSortFunc = [](const PlayLog& left, const PlayLog& right)
-	//{
-	//	if (left.time > right.time)
-	//	{
-	//		return true;
-	//	}
-	//	else
-	//	{
-	//		if (left.day < right.day)
-	//		{
-	//			return true;
-	//		}
-	//		else
-	//		{
-	//			return false;
-	//		}
-	//	}
-	//};
+	auto recordSortFunc = [](const PlayLog& left, const PlayLog& right)
+	{
+		if (left.time > right.time)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
 
-	//std::sort(playLog_.begin(), playLog_.end(), recordSortFunc);
+	std::sort(playLog_.begin(), playLog_.end(), recordSortFunc);
 }
 
 void PlayLogger::ReadLogFile()
 {
-	//std::vector<uint8_t> buffer = FileUtils::ReadBufferFromFile(logFilePath_);
-	//uint32_t countChunk = static_cast<uint32_t>(buffer.size()) / static_cast<uint32_t>(sizeof(PlayLogChunk));
+	std::vector<uint8_t> buffer = FileUtils::ReadBufferFromFile(logFilePath_);\
+	uint32_t countChunk = static_cast<uint32_t>(buffer.size()) / static_cast<uint32_t>(sizeof(PlayLogChunk));
 
-	//playLog_ = std::vector<PlayLog>(countChunk);
-	//std::copy(buffer.begin(), buffer.end(), playLog_.begin());
+	PlayLogChunk* chunkBufferPtr = reinterpret_cast<PlayLogChunk*>(buffer.data());
+	for (uint32_t index = 0; index < countChunk; ++index)
+	{
+		std::string day(chunkBufferPtr[index].day, chunkBufferPtr[index].day + MAX_LOG_SIZE);
+		float time = chunkBufferPtr[index].time;
+
+		playLog_.push_back({ day, time });
+	}
 }
 
 void PlayLogger::WriteLogFile()
 {
-	//uint32_t bufferSize = static_cast<uint32_t>(sizeof(PlayLogChunk)) * static_cast<uint32_t>(playLog_.size());
+	uint32_t bufferSize = static_cast<uint32_t>(sizeof(PlayLogChunk)) * static_cast<uint32_t>(playLog_.size());
+	std::vector<uint8_t> buffer(bufferSize);
 
-	//std::vector<uint8_t> buffer(bufferSize);
-	//std::copy(playLog_.begin(), playLog_.end(), buffer.begin());
-
-	//FileUtils::WriteBufferToFile(logFilePath_, buffer);
+	PlayLogChunk* chunkBufferPtr = reinterpret_cast<PlayLogChunk*>(buffer.data());
+	for (uint32_t index = 0; index < playLog_.size(); ++index)
+	{
+		std::copy(playLog_[index].day.begin(), playLog_[index].day.end(), chunkBufferPtr[index].day);
+		chunkBufferPtr[index].time = playLog_[index].time;
+	}
+	
+	FileUtils::WriteBufferToFile(logFilePath_, buffer);
 }

@@ -15,17 +15,6 @@ class PlayLogger : public IObject
 {
 public:
 	/**
-	 * @brief 플레이 로그입니다.
-	 */
-	struct PlayLog
-	{
-		std::string day;
-		float time;
-	};
-
-
-public:
-	/**
 	 * @brief 플레이 로그를 관리하는 오브젝트의 기본 생성자입니다.
 	 *
 	 * @note 생성자 이외의 메서드에서 적절한 초기화를 수행해야 합니다.
@@ -85,6 +74,16 @@ private:
 	 * @brief 플레이 로그의 문자열 최대 길이입니다.
 	 */
 	static const int32_t MAX_LOG_SIZE = 20;
+
+
+	/**
+	 * @brief 플레이 로그입니다.
+	 */
+	struct PlayLog
+	{
+		std::string day;
+		float time;
+	};
 
 
 	/**
