@@ -22,7 +22,7 @@ configure_file(
 
 file(GLOB_RECURSE DODGE_3D_INCLUDE_FILE "${DODGE_3D_INCLUDE}/*")
 file(GLOB_RECURSE DODGE_3D_SOURCE_FILE "${DODGE_3D_SOURCE}/*")
-add_executable(Dodge3D ${DODGE_3D_INCLUDE_FILE} ${DODGE_3D_SOURCE_FILE})
+add_executable(Dodge3D WIN32 ${DODGE_3D_INCLUDE_FILE} ${DODGE_3D_SOURCE_FILE})
 
 target_include_directories(Dodge3D PUBLIC ${DODGE_3D_INCLUDE})
 
