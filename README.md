@@ -4,14 +4,30 @@
 
 
 ## Table of Contents
-- [Requirements](#requirements)
-- [How to get repository clone?](#how-to-get-repository-clone)
-- [How to Generate Visual Studio Solution?](#how-to-generate-visual-studio-solution)
-- [How to Build Solution?](#how-to-build-solution)
-- [How to Run Client?](#how-to-run-client)
-- [How to Package Project?](#how-to-package-project)
-- [License](#license)
-<br><br>
+- [ProjectA](#projecta)
+  - [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+  - [How to get repository clone?](#how-to-get-repository-clone)
+  - [How to Generate Visual Studio Solution?](#how-to-generate-visual-studio-solution)
+    - [Visual Studio 2019](#visual-studio-2019)
+    - [Visual Studio 2022](#visual-studio-2022)
+  - [How to Build Solution?](#how-to-build-solution)
+    - [Debug](#debug)
+    - [Release](#release)
+    - [RelWithDebInfo](#relwithdebinfo)
+    - [MinSizeRel](#minsizerel)
+  - [How to Run Client?](#how-to-run-client)
+    - [Debug](#debug-1)
+    - [Release](#release-1)
+    - [RelWithDebInfo](#relwithdebinfo-1)
+    - [MinSizeRel](#minsizerel-1)
+  - [How to Package Project?](#how-to-package-project)
+    - [Debug](#debug-2)
+    - [Release](#release-2)
+    - [RelWithDebInfo](#relwithdebinfo-2)
+    - [MinSizeRel](#minsizerel-2)
+  - [How to Play Game?](#how-to-play-game)
+  - [License](#license)
 
 
 ## Requirements
@@ -62,8 +78,8 @@ GenerateProjectFiles_vs2022.bat
 |:---:|:---|
 | Debug | 빌드 과정에서 최적화를 수행하지 않고, 디버그 정보 파일(.pdb)을 생성합니다. |
 | Release | 빌드 과정에서 최적화를 수행하고, 디버그 정보 파일(.pdb)을 생성하지 않습니다. |
-| RelWithDebInfo | 빌드 과정에서 최적화를 수행하고, 디버그 정보 파일을 생성합니다. |
-| MinSizeRel  | 빌드 과정에서 최적화를 수행하고, 최소 크기로 최적화하며 디버그 정보 파일을 생성하지 않습니다. |
+| RelWithDebInfo | 빌드 과정에서 최적화를 수행하고, 디버그 정보 파일(.pdb)을 생성합니다. |
+| MinSizeRel  | 빌드 과정에서 최적화를 수행하고, 최소 크기로 최적화하며 디버그 정보 파일(.pdb)을 생성하지 않습니다. |
 
 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 따라 빌드를 수행할 수 있습니다.
 
@@ -152,6 +168,13 @@ Package_MinSizeRel.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
+
+<br><br>
+
+
+## How to Play Game?
+
+이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA/releases/tag/release)에서 `Dodge3D-win64.msi`를 다운로드 받은 후에 msi 파일을 실행해서 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
 
 <br><br>
 
