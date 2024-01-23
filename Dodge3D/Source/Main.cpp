@@ -64,31 +64,25 @@ std::string GetCommnadLine(int32_t argc, char* argv[])
 
 int32_t main(int32_t argc, char* argv[])
 {
+	HWND consoleWindowHandle = GetConsoleWindow();
+	ShowWindow(consoleWindowHandle, SW_HIDE);
+
 	std::string commandLine = GetCommnadLine(argc, argv);
 
 	STARTUPINFO startupInfo = {};
 	startupInfo.cb = sizeof(STARTUPINFO);
 
 	PROCESS_INFORMATION processInfo = {};
-	
-	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
-	if (CreateProcessA(nullptr, commandLine.data(),
-		nullptr,
-		nullptr,
-		FALSE,
-		0,
-		NULL,
-		NULL,
-		&startupInfo,
-		&processInfo)) 
+	if (!CreateProcessA(nullptr, commandLine.data(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) 
 	{
-	
+		MessageBox(nullptr, "Failed to run Dodge3D game", "Error", MB_OK);
+		return 0;
 	}
 
 	WaitForSingleObject(processInfo.hProcess, INFINITE);
 	CloseHandle(processInfo.hProcess);
 	CloseHandle(processInfo.hThread);
-	::ShowWindow(::GetConsoleWindow(), SW_SHOW);
-
+	
+	ShowWindow(consoleWindowHandle, SW_SHOW);
     return 0;
 }
