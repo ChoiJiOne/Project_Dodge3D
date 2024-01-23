@@ -15,3 +15,5 @@ Solution
 *.idb
 *.sln
 *.vcxproj
+*.aps
+*.rc
