@@ -16,6 +16,12 @@ file(GLOB_RECURSE CLIENT_SOURCE_FILE "${CLIENT_SOURCE}/*")
 file(GLOB_RECURSE CLIENT_SCRIPT_FILE "${CLIENT_SCRIPT}/*" )
 file(GLOB_RECURSE CLIENT_SHADER_FILE "${CLIENT_SHADER}/*")
 
+set(CLIENT_ICON_PATH "${CLIENT_PATH}/Resource/Icon/Icon.ico")
+configure_file(
+    "${CLIENT_INCLUDE}/ResourceScript.rc.in"
+    "${CLIENT_INCLUDE}/ResourceScript.rc"
+)
+
 add_executable(Client
     WIN32
     ${CLIENT_INCLUDE_FILE}
