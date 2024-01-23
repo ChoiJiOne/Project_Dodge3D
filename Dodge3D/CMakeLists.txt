@@ -9,14 +9,19 @@ set(DODGE_3D_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 set(DODGE_3D_INCLUDE ${DODGE_3D_PATH}/Include)
 set(DODGE_3D_SOURCE ${DODGE_3D_PATH}/Source)
 
-file(GLOB_RECURSE DODGE_3D_INCLUDE_FILE "${DODGE_3D_INCLUDE}/*")
-file(GLOB_RECURSE DODGE_3D_SOURCE_FILE "${DODGE_3D_SOURCE}/*")
+set(DODGE_3D_ICON_PATH "${DODGE_3D_PATH}/Resource/Icon/Icon.ico")
+configure_file(
+    "${DODGE_3D_INCLUDE}/ResourceScript.rc.in"
+    "${DODGE_3D_INCLUDE}/ResourceScript.rc"
+)
 
 configure_file(
     "${DODGE_3D_INCLUDE}/Config.h.in"
     "${DODGE_3D_INCLUDE}/Config.h"
 )
 
+file(GLOB_RECURSE DODGE_3D_INCLUDE_FILE "${DODGE_3D_INCLUDE}/*")
+file(GLOB_RECURSE DODGE_3D_SOURCE_FILE "${DODGE_3D_SOURCE}/*")
 add_executable(Dodge3D ${DODGE_3D_INCLUDE_FILE} ${DODGE_3D_SOURCE_FILE})
 
 target_include_directories(Dodge3D PUBLIC ${DODGE_3D_INCLUDE})
