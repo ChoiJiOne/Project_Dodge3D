@@ -4,7 +4,7 @@
 SET mode=%1
 
 @REM 실행 파일 경로입니다.
-SET path=%~dp0..\..\Solution\%mode%
+SET path="%~dp0..\..\Solution\%mode%\Dodge3D.exe"
 
 @REM 루트 경로입니다.
 SET rootPath=%~dp0..\..\
@@ -22,4 +22,7 @@ if "%mode%" == "Debug" (
     GOTO:EOF
 )
 
-start %path%\Dodge3D.exe devMode=on rootPath=%rootPath%
+echo %path%
+echo rootPath="%rootPath%"
+
+start "" %path% devMode=off rootPath=%rootPath%
