@@ -2,7 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by ResourceScript.rc
 //
-#define IDI_CLIENT_ICON                       101
+#define IDI_DODGE3D_ICON                       101
 
 // Next default values for new objects
 // 
