@@ -16,7 +16,7 @@
     - [Release](#release)
     - [RelWithDebInfo](#relwithdebinfo)
     - [MinSizeRel](#minsizerel)
-  - [How to Run Client?](#how-to-run-client)
+  - [How to Run Dodge3D?](#how-to-run-dodge3d)
     - [Debug](#debug-1)
     - [Release](#release-1)
     - [RelWithDebInfo](#relwithdebinfo-1)
@@ -108,30 +108,30 @@ Build_MinSizeRel.bat
 <br><br>
 
 
-## How to Run Client?
+## How to Run Dodge3D?
 
-이 프로젝트는 Visual Studio를 실행하지 않은 상태에서 클라이언트를 실행할 수 있는 기능을 지원합니다. 클라이언트 실행 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 따라 클라이언트를 실행할 수 있습니다.
+이 프로젝트는 Visual Studio를 실행하지 않은 상태에서 게임을 실행할 수 있는 기능을 지원합니다. 게임 실행 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 따라 클라이언트를 실행할 수 있습니다.
 
 > 단, 솔루션이 빌드되어 있어야 동작합니다. 빌드는 [여기](#how-to-build-solution)를 참조하세요.
 
 ### Debug
 ```
-RunClient_Debug.bat
+RunDodge3D_Debug.bat
 ```
 
 ### Release
 ```
-RunClient_Release.bat
+RunDodge3D_Release.bat
 ```
 
 ### RelWithDebInfo
 ```
-RunClient_RelWithDebInfo.bat
+RunDodge3D_RelWithDebInfo.bat
 ```
 
 ### MinSizeRel
 ```
-RunClient_MinSizeRel.bat
+RunDodge3D_MinSizeRel.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
