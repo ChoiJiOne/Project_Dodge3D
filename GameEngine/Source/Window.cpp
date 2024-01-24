@@ -126,6 +126,15 @@ float Window::GetAspectSize() const
 	return static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 }
 
+void Window::GetPosition(int32_t& outPosX, int32_t& outPosY)
+{
+	RECT windowRect;
+	WINDOWS_ASSERT(GetClientRect(windowHandle_, &windowRect), "failed to calculate window size...");
+
+	outPosX = static_cast<int32_t>(windowRect.left);
+	outPosY = static_cast<int32_t>(windowRect.top);
+}
+
 void Window::SetIcon(const std::wstring& path)
 {
 	if (icon_)

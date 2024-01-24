@@ -135,6 +135,15 @@ public:
 
 
 	/**
+	 * @brief 윈도우의 왼쪽 상단 위치를 얻습니다.
+	 * 
+	 * @param outPosX 윈도우의 왼쪽 상단 X좌표입니다.
+	 * @param outPosY 윈도우의 왼쪽 상단 Y좌표입니다.
+	 */
+	void GetPosition(int32_t& outPosX, int32_t& outPosY);
+
+
+	/**
 	 * @brief 윈도우 아이콘을 설정합니다.
 	 * 
 	 * @param path 윈도우 아이콘을 설정할 아이콘 파일입니다.
