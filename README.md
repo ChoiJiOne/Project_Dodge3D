@@ -141,11 +141,11 @@ RunDodge3D_MinSizeRel.bat
 
 ## How to Package Project?
 
-이 프로젝트는 사용자 머신에 프로젝트가 설치 가능하도록 하는 msi 파일을 생성할 수 있는 기능을 지원합니다. 이때, [WiX Toolset v3.x](https://github.com/wixtoolset/wix3)의 바이너리 파일들이 설치되어 있고, 이 바이너리 파일들의 경로가 환경변수에 등록되어 있어야 사용할 수 있습니다. 이 패키징 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 맞는 패키지 파일을 얻을 수 있습니다.
+이 프로젝트는 사용자 머신에 프로젝트가 설치 가능하도록 하는 exe 파일을 생성할 수 있는 기능을 지원합니다. 이때, [NSIS (nullsoft scriptable install system)](https://nsis.sourceforge.io/Main_Page)가 설치되어 있고, 설치 경로가 환경변수에 등록되어 있어야 사용할 수 있습니다. 이 패키징 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 맞는 패키지 파일을 얻을 수 있습니다.
 
 > 단, 솔루션이 빌드되어 있어야 동작합니다. 빌드는 [여기](#how-to-build-solution)를 참조하세요.
 
-> WiX Toolset v3.x의 바이너리 파일들의 경로가 환경변수에 등록되어 있지 않으면 이 기능을 사용하실 수 없습니다. 
+> NSIS의 경로가 환경변수에 등록되어 있지 않으면 이 기능을 사용하실 수 없습니다. 
 
 ### Debug
 ```
@@ -174,7 +174,7 @@ Package_MinSizeRel.bat
 
 ## How to Play Game?
 
-이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA/releases/tag/release)에서 `Dodge3D-win64.msi`를 다운로드 받은 후에 msi 파일을 실행해서 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
+이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA/releases/tag/release)에서 `Dodge3D-win64.exe`를 다운로드 받은 후에 msi 파일을 실행해서 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
 
 <br><br>
 
