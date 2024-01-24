@@ -41,7 +41,7 @@ public:
 		IApplication::SetProperties(WINDOW_TITLE, WINDOW_X, WINDOW_Y, WINDOW_W, WINDOW_H, WINDOW_RESIZE, WINDOW_FULLSCREEN, WINDOW_VSYNC, WINDOW_IMGUI);
 		IApplication::Setup();
 
-		clientPath_ = rootPath_ + L"Client/";
+		clientPath_ = rootPath_ + L"Dodge3D/";
 
 		window_->SetIcon(clientPath_ + L"Resource/Icon/Icon.ico");
 

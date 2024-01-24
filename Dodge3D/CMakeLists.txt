@@ -30,7 +30,7 @@ file(GLOB_RECURSE CLIENT_SOURCE_FILE "${CLIENT_SOURCE}/*")
 file(GLOB_RECURSE CLIENT_SCRIPT_FILE "${CLIENT_SCRIPT}/*" )
 file(GLOB_RECURSE CLIENT_SHADER_FILE "${CLIENT_SHADER}/*")
 
-add_executable(Client
+add_executable(Dodge3D
     WIN32
     ${CLIENT_INCLUDE_FILE}
     ${CLIENT_SOURCE_FILE}
@@ -38,8 +38,8 @@ add_executable(Client
     ${CLIENT_SHADER_FILE}
 )
 
-target_include_directories(Client PUBLIC ${CLIENT_INCLUDE} ${GAME_ENGINE_INCLUDE})
-target_link_libraries(Client PUBLIC GameEngine)
+target_include_directories(Dodge3D PUBLIC ${CLIENT_INCLUDE} ${GAME_ENGINE_INCLUDE})
+target_link_libraries(Dodge3D PUBLIC GameEngine)
 
 source_group(Include FILES ${CLIENT_INCLUDE_FILE})
 source_group(Source FILES ${CLIENT_SOURCE_FILE})
@@ -47,4 +47,4 @@ source_group(Script FILES ${CLIENT_SCRIPT_FILE})
 source_group(Shader FILES ${CLIENT_SHADER_FILE})
 
 set(COMMANDLINE "devMode=on rootPath=${CMAKE_SOURCE_DIR}/")
-set_target_properties(Client PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
+set_target_properties(Dodge3D PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
