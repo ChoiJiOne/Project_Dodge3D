@@ -142,6 +142,12 @@ namespace CommandLineUtils
 
 
 	/**
+	 * @brief 명령행에 포함된 실행 파일 경로를 얻습니다.
+	 */
+	std::wstring GetExecutePath();
+
+
+	/**
 	 * @brief 키 값이 유효한지 확인합니다.
 	 *
 	 * @param key 유효한지 확인할 키 값입니다.

@@ -8,6 +8,7 @@
 #include "StringUtils.h"
 
 bool bIsInitialized = false;
+std::wstring executePath;
 std::unordered_map<std::wstring, std::wstring> argumentMaps;
 
 void CommandLineUtils::Parse()
@@ -24,6 +25,8 @@ void CommandLineUtils::Parse()
 			argumentMaps.insert({ keyValue.front(), keyValue.back() });
 		}
 	}
+
+	executePath = arguments[0];
 
 	bIsInitialized = true;
 }
@@ -133,6 +136,11 @@ bool CommandLineUtils::GetStringValue(const std::wstring& key, std::wstring& val
 
 	value = argumentMaps.at(key);
 	return true;
+}
+
+std::wstring CommandLineUtils::GetExecutePath()
+{
+	return executePath;
 }
 
 bool CommandLineUtils::IsValid(const std::wstring& key)
