@@ -1,6 +1,6 @@
 @echo off
 
 SET mode=Debug
-SET script=Client\Script\RunClient.bat
+SET script=Dodge3D\Script\RunDodge3D.bat
 
 %script% %mode%
