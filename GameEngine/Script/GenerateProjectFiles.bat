@@ -53,12 +53,16 @@ if "%run%" == "on" (
 )
 echo Switch %run% run Visual Studio Solution...
 
-if not exist %~dp0..\..\Solution (
-    mkdir %~dp0..\..\Solution
+set solutionPath=%~dp0..\..\Solution
+
+if not exist "%solutionPath%" (
+    mkdir "%solutionPath%"
 )
 
-pushd %~dp0
-pushd %~dp0..\..\Solution
+set currentPath=%~dp0
+
+pushd "%currentPath%"
+pushd "%solutionPath%"
 
 cmake .. -G %visualstudio% -A "x64"
 
