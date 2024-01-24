@@ -175,6 +175,8 @@ Package_MinSizeRel.bat
 
 이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA/releases/tag/release)에서 `Dodge3D-win64.exe`를 다운로드 받은 후에 msi 파일을 실행해서 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
 
+> 관리자 권한으로 실행해야 플레이 기록을 저장할 수 있습니다.
+
 <br><br>
 
 
