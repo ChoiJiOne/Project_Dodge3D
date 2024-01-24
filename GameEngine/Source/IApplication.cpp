@@ -64,7 +64,10 @@ void IApplication::Setup()
 	});
 
 	InputManager::Get().SetInputControlWindow(window_.get());
+	InputManager::Get().SetEnableImGui(bIsImGui_);
+
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
+	RenderManager::Get().SetEnableImGui(bIsImGui_);
 
 	InputManager::Get().Startup();
 	AudioManager::Get().Startup();
@@ -95,6 +98,8 @@ void IApplication::Setup()
 	InputManager::Get().AddWindowEventAction("DefaultExitMinimize",  EWindowEvent::ExitMinimize,  defaultResizeEvent,   true);
 	InputManager::Get().AddWindowEventAction("DefaultEnterMaximize", EWindowEvent::EnterMaximize, defaultResizeEvent,   true);
 	InputManager::Get().AddWindowEventAction("DefaultExitMaximize",  EWindowEvent::ExitMaximize,  defaultResizeEvent,   true);
+	
+	RenderManager::Get().SetVsyncMode(bIsVsync_);
 
 	bIsSetup_ = true;
 }
