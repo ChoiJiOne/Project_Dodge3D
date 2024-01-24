@@ -11,16 +11,24 @@ set(CLIENT_SOURCE "${CLIENT_PATH}/Source")
 set(CLIENT_SCRIPT "${CLIENT_PATH}/Script")
 set(CLIENT_SHADER "${CLIENT_PATH}/Shader")
 
+set(CLIENT_ICON_PATH "${CLIENT_PATH}/Resource/Icon/Icon.ico")
+configure_file("${CLIENT_INCLUDE}/ResourceScript.rc.in" "${CLIENT_INCLUDE}/ResourceScript.rc")
+
+set(WINDOW_TITLE "Dodge3D")
+set(WINDOW_X 100)
+set(WINDOW_Y 100)
+set(WINDOW_W 1000)
+set(WINDOW_H 800)
+set(WINDOW_RESIZE "false")
+set(WINDOW_FULLSCREEN "false")
+set(WINDOW_VSYNC "true")
+set(WINDOW_IMGUI "true")
+configure_file("${CLIENT_INCLUDE}/Config.h.in" "${CLIENT_INCLUDE}/Config.h")
+
 file(GLOB_RECURSE CLIENT_INCLUDE_FILE "${CLIENT_INCLUDE}/*")
 file(GLOB_RECURSE CLIENT_SOURCE_FILE "${CLIENT_SOURCE}/*")
 file(GLOB_RECURSE CLIENT_SCRIPT_FILE "${CLIENT_SCRIPT}/*" )
 file(GLOB_RECURSE CLIENT_SHADER_FILE "${CLIENT_SHADER}/*")
-
-set(CLIENT_ICON_PATH "${CLIENT_PATH}/Resource/Icon/Icon.ico")
-configure_file(
-    "${CLIENT_INCLUDE}/ResourceScript.rc.in"
-    "${CLIENT_INCLUDE}/ResourceScript.rc"
-)
 
 add_executable(Client
     WIN32
@@ -38,15 +46,5 @@ source_group(Source FILES ${CLIENT_SOURCE_FILE})
 source_group(Script FILES ${CLIENT_SCRIPT_FILE})
 source_group(Shader FILES ${CLIENT_SHADER_FILE})
 
-set(WINDOW_TITLE "Dodge3D" CACHE STRING "Title")
-set(WINDOW_X 100 CACHE STRING "X")
-set(WINDOW_Y 100 CACHE STRING "Y")
-set(WINDOW_W 1000 CACHE STRING "W")
-set(WINDOW_H 800 CACHE STRING "H")
-set(WINDOW_RESIZE "false" CACHE STRING "Resize")
-set(WINDOW_FULLSCREEN "false" CACHE STRING "Fullscreen")
-set(WINDOW_VSYNC "true" CACHE STRING "Vsync")
-set(WINDOW_IMGUI "true" CACHE STRING "Imgui")
-
-set(COMMANDLINE "rootPath=${CMAKE_SOURCE_DIR}/ title=${WINDOW_TITLE} x=${WINDOW_X} y=${WINDOW_Y} w=${WINDOW_W} h=${WINDOW_H} resize=${WINDOW_RESIZE} fullscreen=${WINDOW_FULLSCREEN} vsync=${WINDOW_VSYNC} imgui=${WINDOW_IMGUI}")
+set(COMMANDLINE "rootPath=${CMAKE_SOURCE_DIR}/ devMode=On")
 set_target_properties(Client PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
