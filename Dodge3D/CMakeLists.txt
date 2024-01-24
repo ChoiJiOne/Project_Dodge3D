@@ -46,5 +46,5 @@ source_group(Source FILES ${DODGE3D_SOURCE_FILE})
 source_group(Script FILES ${DODGE3D_SCRIPT_FILE})
 source_group(Shader FILES ${DODGE3D_SHADER_FILE})
 
-set(COMMANDLINE "devMode=on rootPath=${CMAKE_SOURCE_DIR}/")
+set(COMMANDLINE "devMode=on rootPath=\"${CMAKE_SOURCE_DIR}/\"")
 set_target_properties(Dodge3D PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
