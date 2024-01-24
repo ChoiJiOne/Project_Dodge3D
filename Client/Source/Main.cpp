@@ -1,5 +1,6 @@
 #include "IApplication.h"
 
+#include "Config.h"
 #include "GameScene.h"
 #include "RankScene.h"
 #include "StartScene.h"
@@ -37,44 +38,15 @@ public:
 	 */
 	virtual void Setup() override
 	{
+		IApplication::SetProperties(WINDOW_TITLE, WINDOW_X, WINDOW_Y, WINDOW_W, WINDOW_H, WINDOW_RESIZE, WINDOW_FULLSCREEN, WINDOW_VSYNC, WINDOW_IMGUI);
 		IApplication::Setup();
 
 		clientPath_ = rootPath_ + L"Client/";
 
 		window_->SetIcon(clientPath_ + L"Resource/Icon/Icon.ico");
 
-		TTFont* font32 = ResourceManager::Get().CreateResource<TTFont>("Font32");
-		font32->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 32.0f);
-
-		TTFont* font64 = ResourceManager::Get().CreateResource<TTFont>("Font64");
-		font64->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 64.0f);
-
-		TTFont* font128 = ResourceManager::Get().CreateResource<TTFont>("Font128");
-		font128->Initialize(clientPath_ + L"Resource/Font/SeoulNamsanEB.ttf", 32, 127, 128.0f);
-
-		Sound* buttonClickSound = ResourceManager::Get().CreateResource<Sound>("ButtonClick");
-		buttonClickSound->Initialize(clientPath_ + L"Resource/Sound/ButtonClick.mp3");
-		buttonClickSound->SetLooping(false);
-
-		Sound* hitSound = ResourceManager::Get().CreateResource<Sound>("Hit");
-		hitSound->Initialize(clientPath_ + L"Resource/Sound/Hit.mp3");
-		hitSound->SetLooping(false);
-
-		loopQuitEvent_ = [&]() { bIsDoneLoop_ = true; };
-
-		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
-		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
-		rankScene_ = SceneManager::Get().CreateScene<RankScene>("RankScene");
-
-		startScene_->SetLoopQuitEvent(loopQuitEvent_);
-		startScene_->SetNextScene(gameScene_);
-
-		gameScene_->SetLoopQuitEvent(loopQuitEvent_);
-		gameScene_->SetNextResetScene(startScene_);
-		gameScene_->SetNextRankScene(rankScene_);
-
-		rankScene_->SetLoopQuitEvent(loopQuitEvent_);
-		rankScene_->SetNextScene(startScene_);
+		LoadResources();
+		LoadScenes();
 	}
 
 
@@ -110,6 +82,56 @@ public:
 				currentScene->EnterScene();
 			}
 		}
+	}
+
+
+private:
+	/**
+	 * @brief 리소스를 로딩합니다.
+	 */
+	void LoadResources()
+	{
+		std::wstring resourcePath = clientPath_ + L"Resource/";
+
+		TTFont* font32 = ResourceManager::Get().CreateResource<TTFont>("Font32");
+		font32->Initialize(resourcePath + L"Font/SeoulNamsanEB.ttf", 32, 127, 32.0f);
+
+		TTFont* font64 = ResourceManager::Get().CreateResource<TTFont>("Font64");
+		font64->Initialize(resourcePath + L"Font/SeoulNamsanEB.ttf", 32, 127, 64.0f);
+
+		TTFont* font128 = ResourceManager::Get().CreateResource<TTFont>("Font128");
+		font128->Initialize(resourcePath + L"Font/SeoulNamsanEB.ttf", 32, 127, 128.0f);
+
+		Sound* buttonClickSound = ResourceManager::Get().CreateResource<Sound>("ButtonClick");
+		buttonClickSound->Initialize(resourcePath + L"Sound/ButtonClick.mp3");
+		buttonClickSound->SetLooping(false);
+
+		Sound* hitSound = ResourceManager::Get().CreateResource<Sound>("Hit");
+		hitSound->Initialize(resourcePath + L"Sound/Hit.mp3");
+		hitSound->SetLooping(false);
+	}
+
+
+	/**
+	 * @brief 씬을 로딩합니다.
+	 */
+	void LoadScenes()
+	{
+		loopQuitEvent_ = [&]() { bIsDoneLoop_ = true; };
+
+		startScene_ = SceneManager::Get().CreateScene<StartScene>("StartScene");
+		gameScene_ = SceneManager::Get().CreateScene<GameScene>("GameScene");
+		rankScene_ = SceneManager::Get().CreateScene<RankScene>("RankScene");
+
+		startScene_->SetLoopQuitEvent(loopQuitEvent_);
+		startScene_->SetNextScene(gameScene_);
+
+		gameScene_->SetLoopQuitEvent(loopQuitEvent_);
+		gameScene_->SetNextResetScene(startScene_);
+		gameScene_->SetNextRankScene(rankScene_);
+
+		rankScene_->SetLoopQuitEvent(loopQuitEvent_);
+		rankScene_->SetNextScene(startScene_);
 	}
 
 
