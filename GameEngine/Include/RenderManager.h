@@ -164,6 +164,14 @@ public:
 
 
 	/**
+	 * @brief 엔진의 셰이더 경로를 설정합니다.
+	 * 
+	 * @param shaderPath 엔진의 셰이더 경로입니다.
+	 */
+	void SetShaderPath(const std::wstring& shaderPath) { shaderPath_ = shaderPath; }
+
+
+	/**
 	 * @brief 윈도우 크기 변경 시 내부에서 윈도우 크기와 관련된 요소를 업데이트합니다.
 	 */
 	void Resize();

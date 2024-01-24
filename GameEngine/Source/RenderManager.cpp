@@ -88,10 +88,6 @@ void RenderManager::Startup()
 	SetStencilMode(bIsEnableStencil_);
 	SetAlphaBlendMode(bIsEnableAlphaBlend_);
 
-	std::wstring rootPath;
-	ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath), "can't find root path...");
-
-	shaderPath_ = rootPath + L"GameEngine/Shader/";
 	shaderCache_ = std::unordered_map<std::wstring, Shader*>();
 
 	shaderCache_.insert({ L"Geometry2D", ResourceManager::Get().CreateResource<GeometryShader2D>("Geometry2DShader") });
