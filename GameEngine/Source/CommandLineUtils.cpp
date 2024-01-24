@@ -26,7 +26,7 @@ void CommandLineUtils::Parse()
 		}
 	}
 
-	executePath = arguments[0];
+	executePath = std::wstring(arguments[0].begin() + 1, arguments[0].end() - 1);
 
 	bIsInitialized = true;
 }
