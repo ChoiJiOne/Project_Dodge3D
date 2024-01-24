@@ -15,18 +15,20 @@ void CommandLineUtils::Parse()
 {
 	ASSERT(!bIsInitialized, "Parse method can only be called once after the program starts...");
 
-	std::vector<std::wstring> arguments = StringUtils::Split(GetCommandLineW(), L" ");
+	int32_t argc = __argc;
+	wchar_t** argv = __wargv;
+
+	executePath = argv[0];
+
 	std::wregex pattern(L"^[^=]+=[^=]+$");
-	for (std::size_t index = 1; index < arguments.size(); ++index)
+	for (std::size_t index = 1; index < argc; ++index)
 	{
-		if (std::regex_match(arguments[index], pattern))
+		if (std::regex_match(argv[index], pattern))
 		{
-			std::vector<std::wstring> keyValue = StringUtils::Split(arguments[index], L"=");
+			std::vector<std::wstring> keyValue = StringUtils::Split(argv[index], L"=");
 			argumentMaps.insert({ keyValue.front(), keyValue.back() });
 		}
 	}
-
-	executePath = std::wstring(arguments[0].begin() + 1, arguments[0].end() - 1);
 
 	bIsInitialized = true;
 }
