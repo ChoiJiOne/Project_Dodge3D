@@ -18,24 +18,50 @@ IApplication::~IApplication()
 
 void IApplication::Setup()
 {
-	CommandLineUtils::Parse();
-	ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath_), "failed to get root path from command line...");
+#if	defined(MIN_SIZE_REL_MODE)
+	if (bIsSetup_)
+	{
+		MessageBoxW(nullptr, "Already setup application...", "Error", MB_OK);
+		return;
+	}
 
+	if (!bIsPropertiesSet_)
+	{
+		MessageBoxW(nullptr, "Failed to set application properties...", "Error", MB_OK);
+		return;
+	}
+#else
+	ASSERT(!bIsSetup_, "already setup application...");
+	ASSERT(bIsPropertiesSet_, "Failed to set application properties...");
+#endif
+
+	CommandLineUtils::Parse();
+
+	std::wstring devMode;
+	if (CommandLineUtils::GetStringValue("devMode", devMode))
+	{
+		devMode = StringUtils::ToLower(devMode);
+		bIsDevMode_ = (devMode == L"on") ? true : false;
+	}
+
+	if (bIsDevMode_)
+	{
+		ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath_), "failed to get root path from command line...");
+	}
+	else
+	{
+		rootPath_ = FileUtils::GetBasePath(CommandLineUtils::GetExecutePath());
+	}
+	
 	enginePath_ = rootPath_ + L"GameEngine/";
 
-	Window::WindowConstructParam windowParam;
-	ASSERT(CommandLineUtils::GetStringValue(L"title", windowParam.title), "failed to get window title from command line...");
-	ASSERT(CommandLineUtils::GetIntValue(L"x", windowParam.x), "failed to get window x position from command line...");
-	ASSERT(CommandLineUtils::GetIntValue(L"y", windowParam.y), "failed to get window y position from command line...");
-	ASSERT(CommandLineUtils::GetIntValue(L"w", windowParam.w), "failed to get window width size from command line...");
-	ASSERT(CommandLineUtils::GetIntValue(L"h", windowParam.h), "failed to get window height size from command line...");
-	ASSERT(CommandLineUtils::GetBoolValue(L"resize", windowParam.bIsResizable), "failed to get window resize option from command line...");
-	ASSERT(CommandLineUtils::GetBoolValue(L"fullscreen", windowParam.bIsFullscreenMode), "failed to get window fullscreen option from command line...");
-
-	Window::RegisterWindowClass(L"ProjectA", InputManager::WindowProc);
+	Window::RegisterWindowClass(windowTitle_, InputManager::WindowProc);
 
 	window_ = std::make_unique<Window>();
-	window_->Create(windowParam);
+	window_->Create(Window::WindowConstructParam{ 
+		windowTitle_, windowPosition_.x, windowPosition_.y, windowWidth_, windowHeight_,
+		bIsResize_, bIsFullscreen_
+	});
 
 	InputManager::Get().SetInputControlWindow(window_.get());
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
@@ -47,10 +73,24 @@ void IApplication::Setup()
 	ObjectManager::Get().Startup();
 	SceneManager::Get().Startup();
 
-	auto defaultLoopDoneEvent = [&]() { bIsDoneLoop_ = true; };
-	auto defaultResizeEvent = [&]() { RenderManager::Get().Resize(); };
+	auto defaultLoopDoneEvent = [&]() 
+	{ 
+		bIsDoneLoop_ = true; 
+	};
+
+	auto defaultResizeEvent = [&]() 
+	{ 
+		window_->GetSize(windowWidth_, windowHeight_);
+		RenderManager::Get().Resize(); 
+	};
+
+	auto defaultMoveEvent = [&]() 
+	{
+		window_->GetPosition(windowPosition_.x, windowPosition_.y);
+	};
 
 	InputManager::Get().AddWindowEventAction("DefaultLoopDoneEvent", EWindowEvent::Close,         defaultLoopDoneEvent, true);
+	InputManager::Get().AddWindowEventAction("DefaultMoveEvent",     EWindowEvent::Move,          defaultMoveEvent,     true);
 	InputManager::Get().AddWindowEventAction("DefaultResizeEvent",   EWindowEvent::Resize,        defaultResizeEvent,   true);
 	InputManager::Get().AddWindowEventAction("DefaultExitMinimize",  EWindowEvent::ExitMinimize,  defaultResizeEvent,   true);
 	InputManager::Get().AddWindowEventAction("DefaultEnterMaximize", EWindowEvent::EnterMaximize, defaultResizeEvent,   true);
@@ -61,7 +101,7 @@ void IApplication::Setup()
 
 void IApplication::Shutdown()
 {
-	if (bIsSetup_)
+	if (bIsSetup_ && bIsPropertiesSet_)
 	{
 		SceneManager::Get().Shutdown();
 		ObjectManager::Get().Shutdown();
@@ -77,13 +117,14 @@ void IApplication::Shutdown()
 		WindowsCrashUtils::UnregisterWindowsExceptionFilter();
 
 		bIsSetup_ = false;
+		bIsPropertiesSet_ = false;
 	}
 }
 
-void IApplication::SetProperties(const std::wstring& windowTitle, const Vector2i& windowPosition, int32_t windowWidth, int32_t windowHeight, bool bIsResize, bool bIsFullscreen, bool bIsVsync, bool bIsImGui)
+void IApplication::SetProperties(const std::wstring& windowTitle, int32_t windowPosX, int32_t windowPosY, int32_t windowWidth, int32_t windowHeight, bool bIsResize, bool bIsFullscreen, bool bIsVsync, bool bIsImGui)
 {
 	windowTitle_ = windowTitle;
-	windowPosition_ = windowPosition;
+	windowPosition_ = Vector2i(windowPosX, windowPosY);
 	windowWidth_ = windowWidth;
 	windowHeight_ = windowHeight;
 	bIsResize_ = bIsResize;

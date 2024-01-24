@@ -99,7 +99,8 @@ protected:
 	 * @brief 애플리케이션의 속성을 설정합니다.
 	 * 
 	 * @param windowTitle 애플리케이션의 윈도우 타이틀입니다.
-	 * @param windowPosition 애플리케이션의 화면 상 윈도우의 (X, Y) 위치입니다.
+	 * @param windowPosX 애플리케이션의 화면 상 윈도우의 X 위치입니다.
+	 * @param windowPosY 애플리케이션의 화면 상 윈도우의 X 위치입니다.
 	 * @param windowWidth 애플리케이션의 윈도우 가로 크기입니다.
 	 * @param windowHeight 애플리케이션의 윈도우 세로 크기입니다.
 	 * @param bIsResize 애플리케이션의 윈도우 크기 변경 여부입니다.
@@ -109,7 +110,8 @@ protected:
 	 */
 	void SetProperties(
 		const std::wstring& windowTitle, 
-		const Vector2i& windowPosition, 
+		int32_t windowPosX,
+		int32_t windowPosY,
 		int32_t windowWidth, 
 		int32_t windowHeight,
 		bool bIsResize,
@@ -130,6 +132,12 @@ protected:
 	 * @brief 속성 설정에 성공했는지 확인합니다.
 	 */
 	bool bIsPropertiesSet_ = false;
+
+
+	/**
+	 * @brief 개발 모드인지 확인합니다.
+	 */
+	bool bIsDevMode_ = false;
 
 
 	/**
