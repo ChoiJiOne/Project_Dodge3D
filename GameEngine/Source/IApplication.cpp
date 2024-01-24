@@ -1,5 +1,8 @@
 #include "IApplication.h"
 
+std::wstring IApplication::rootPath_;
+std::wstring IApplication::enginePath_;
+
 IApplication::IApplication()
 {
 	if (!bIsSetup_)
@@ -68,6 +71,7 @@ void IApplication::Setup()
 
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
 	RenderManager::Get().SetEnableImGui(bIsImGui_);
+	RenderManager::Get().SetShaderPath(enginePath_ + L"Shader/");
 
 	InputManager::Get().Startup();
 	AudioManager::Get().Startup();

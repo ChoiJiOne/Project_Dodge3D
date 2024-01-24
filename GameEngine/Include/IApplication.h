@@ -94,6 +94,22 @@ public:
 	virtual void Run() = 0;
 
 
+	/**
+	 * @brief 애플리케이션의 루트 경로를 얻습니다.
+	 * 
+	 * @return 애플리케이션의 루트 경로를 반환합니다.
+	 */
+	static const std::wstring& GetRootPath() { return rootPath_; }
+
+
+	/**
+	 * @brief 애플리케이션의 엔진 경로를 얻습니다.
+	 * 
+	 * @return 애플리케이션의 엔진 경로를 반환합니다.
+	 */
+	static const std::wstring& GetEnginePath() { return enginePath_; }
+
+
 protected:
 	/**
 	 * @brief 애플리케이션의 속성을 설정합니다.
@@ -197,13 +213,13 @@ protected:
 	/**
 	 * @brief 루트 경로입니다.
 	 */
-	std::wstring rootPath_;
+	static std::wstring rootPath_;
 
 
 	/**
 	 * @brief 게임 엔진 경로입니다.
 	 */
-	std::wstring enginePath_;
+	static std::wstring enginePath_;
 
 
 	/**
