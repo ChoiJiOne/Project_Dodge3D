@@ -57,9 +57,9 @@ class IApplication
 {
 public:
 	/**
-	 * @brief 애플리케이션 인터페이스의 디폴트 생성자입니다.
+	 * @brief 애플리케이션 인터페이스의 생성자입니다.
 	 */
-	IApplication() = default;
+	IApplication();
 
 
 	/**
@@ -93,6 +93,31 @@ public:
 	 */
 	virtual void Run() = 0;
 
+
+protected:
+	/**
+	 * @brief 애플리케이션의 속성을 설정합니다.
+	 * 
+	 * @param windowTitle 애플리케이션의 윈도우 타이틀입니다.
+	 * @param windowPosition 애플리케이션의 화면 상 윈도우의 (X, Y) 위치입니다.
+	 * @param windowWidth 애플리케이션의 윈도우 가로 크기입니다.
+	 * @param windowHeight 애플리케이션의 윈도우 세로 크기입니다.
+	 * @param bIsResize 애플리케이션의 윈도우 크기 변경 여부입니다.
+	 * @param bIsFullscreen 애플리케이션의 윈도우 풀 스크린 여부입니다.
+	 * @param bIsVsync 애플리케이션의 수직 동기화 여부입니다.
+	 * @param bIsImGui ImGui 라이브러리 사용 여부입니다.
+	 */
+	void SetProperties(
+		const std::wstring& windowTitle, 
+		const Vector2i& windowPosition, 
+		int32_t windowWidth, 
+		int32_t windowHeight,
+		bool bIsResize,
+		bool bIsFullscreen,
+		bool bIsVsync,
+		bool bIsImGui
+	);
+
 	
 protected:
 	/**
@@ -101,6 +126,60 @@ protected:
 	bool bIsSetup_ = false;
 
 
+	/**
+	 * @brief 속성 설정에 성공했는지 확인합니다.
+	 */
+	bool bIsPropertiesSet_ = false;
+
+
+	/**
+	 * @brief 애플리케이션 윈도우 타이틀입니다.
+	 */
+	std::wstring windowTitle_;
+
+
+	/**
+	 * @brief 애플리케이션의 화면 상 (x, y) 좌표입니다.
+	 */
+	Vector2i windowPosition_;
+
+
+	/**
+	 * @brief 애플리케이션의 화면 상의 가로 크기입니다.
+	 */
+	int32_t windowWidth_ = 0;
+
+
+	/**
+	 * @brief 애플리케이션의 화면 상의 세로 크기입니다.
+	 */
+	int32_t windowHeight_ = 0;
+
+
+	/**
+	 * @brief 애플리케이션의 윈도우 크기 변경 여부입니다.
+	 */
+	bool bIsResize_ = false;
+
+
+	/**
+	 * @brief 애플리케이션의 윈도우 풀 스크린 여부입니다.
+	 */
+	bool bIsFullscreen_ = false;
+
+
+	/**
+	 * @brief 애플리케이션의 수직 동기화 여부입니다.
+	 */
+	bool bIsVsync_ = true;
+
+
+	/**
+	 * @brief ImGui 라이브러리 사용 여부입니다.
+	 */
+	bool bIsImGui_ = false;
+
+	
 	/**
 	 * @brief 게임 루프 종료가 감지되었는지 확인합니다.
 	 */

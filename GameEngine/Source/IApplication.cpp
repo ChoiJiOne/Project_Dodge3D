@@ -1,5 +1,13 @@
 #include "IApplication.h"
 
+IApplication::IApplication()
+{
+	if (!bIsSetup_)
+	{
+		WindowsCrashUtils::RegisterWindowsExceptionFilter();
+	}
+}
+
 IApplication::~IApplication()
 {
 	if (bIsSetup_)
@@ -10,8 +18,6 @@ IApplication::~IApplication()
 
 void IApplication::Setup()
 {
-	WindowsCrashUtils::RegisterWindowsExceptionFilter();
-
 	CommandLineUtils::Parse();
 	ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath_), "failed to get root path from command line...");
 
@@ -72,4 +78,18 @@ void IApplication::Shutdown()
 
 		bIsSetup_ = false;
 	}
+}
+
+void IApplication::SetProperties(const std::wstring& windowTitle, const Vector2i& windowPosition, int32_t windowWidth, int32_t windowHeight, bool bIsResize, bool bIsFullscreen, bool bIsVsync, bool bIsImGui)
+{
+	windowTitle_ = windowTitle;
+	windowPosition_ = windowPosition;
+	windowWidth_ = windowWidth;
+	windowHeight_ = windowHeight;
+	bIsResize_ = bIsResize;
+	bIsFullscreen_ = bIsFullscreen;
+	bIsVsync_ = bIsVsync;
+	bIsImGui_ = bIsImGui;
+	
+	bIsPropertiesSet_ = true;
 }
