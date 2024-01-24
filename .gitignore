@@ -18,3 +18,5 @@ Solution
 *.aps
 *.rc
 *.bin
+
+Config.h
