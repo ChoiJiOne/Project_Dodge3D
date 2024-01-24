@@ -23,8 +23,6 @@ void InputManager::Startup()
 
 	windowEventActions_ = std::unordered_map<std::string, WindowEventAction>();
 
-	CommandLineUtils::GetBoolValue(L"imgui", bIsEnableImGui_);
-
 	if (bIsEnableImGui_)
 	{
 		ImGui::CreateContext();

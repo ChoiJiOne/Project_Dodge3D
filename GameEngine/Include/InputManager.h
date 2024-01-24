@@ -300,6 +300,14 @@ public:
 
 
 	/**
+	 * @brief ImGui 라이브러리 활성화 여부를 설정합니다.
+	 * 
+	 * @param bIsEnable ImGui 라이브러리 활성화 여부입니다.
+	 */
+	void SetEnableImGui(bool bIsEnable) { bIsEnableImGui_ = bIsEnable; }
+
+
+	/**
 	 * @brief 입력 처리 대상이 되는 윈도우를 얻습니다.
 	 * 
 	 * @return 입력 처리 대상이 되는 윈도우의 포인터를 얻습니다.
