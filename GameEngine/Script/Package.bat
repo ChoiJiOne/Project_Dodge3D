@@ -28,7 +28,7 @@ if "%mode%" == "Debug" (
 pushd %~dp0
 pushd %~dp0..\..\Solution
 
-cpack -C %mode% -G WIX
+cpack -C %mode% -G NSIS
 
 popd
 popd
