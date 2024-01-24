@@ -156,6 +156,14 @@ public:
 
 
 	/**
+	 * @brief ImGui 라이브러리 활성화 여부를 설정합니다.
+	 *
+	 * @param bIsEnable ImGui 라이브러리 활성화 여부입니다.
+	 */
+	void SetEnableImGui(bool bIsEnable) { bIsEnableImGui_ = bIsEnable; }
+
+
+	/**
 	 * @brief 윈도우 크기 변경 시 내부에서 윈도우 크기와 관련된 요소를 업데이트합니다.
 	 */
 	void Resize();
