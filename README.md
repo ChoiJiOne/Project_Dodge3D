@@ -35,7 +35,6 @@
 - [Git](https://git-scm.com/)
 - [Visual Studio 2019 or 2022](https://visualstudio.microsoft.com/ko/)
 - [CMake 3.27 or later](https://cmake.org/download/)
-- [Python 3.0 or later](https://www.python.org/downloads/)
 <br><br>
 
 
