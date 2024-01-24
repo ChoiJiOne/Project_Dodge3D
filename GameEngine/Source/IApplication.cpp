@@ -24,13 +24,13 @@ void IApplication::Setup()
 #if	defined(MIN_SIZE_REL_MODE)
 	if (bIsSetup_)
 	{
-		MessageBoxW(nullptr, "Already setup application...", "Error", MB_OK);
+		MessageBoxW(nullptr, L"Already setup application...", L"Error", MB_OK);
 		return;
 	}
 
 	if (!bIsPropertiesSet_)
 	{
-		MessageBoxW(nullptr, "Failed to set application properties...", "Error", MB_OK);
+		MessageBoxW(nullptr, L"Failed to set application properties...", L"Error", MB_OK);
 		return;
 	}
 #else
