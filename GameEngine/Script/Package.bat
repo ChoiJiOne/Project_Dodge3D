@@ -2,8 +2,10 @@
 
 echo Start "Package.bat" script...
 
+set solutionPath=%~dp0..\..\Solution
+
 @REM 프로젝트가 존재하지 않으면 프로젝트를 생성합니다.
-if not exist %~dp0..\..\Solution (
+if not exist "%solutionPath%" (
     echo Can't find Visual Studio Solution...
     GOTO:EOF
 )
@@ -25,8 +27,10 @@ if "%mode%" == "Debug" (
     GOTO:EOF
 )
 
-pushd %~dp0
-pushd %~dp0..\..\Solution
+set currentPath=%~dp0
+
+pushd "%currentPath%"
+pushd "%solutionPath%"
 
 cpack -C %mode% -G NSIS
 
