@@ -46,5 +46,5 @@ source_group(Source FILES ${CLIENT_SOURCE_FILE})
 source_group(Script FILES ${CLIENT_SCRIPT_FILE})
 source_group(Shader FILES ${CLIENT_SHADER_FILE})
 
-set(COMMANDLINE "rootPath=${CMAKE_SOURCE_DIR}/ devMode=On")
+set(COMMANDLINE "devMode=on rootPath=${CMAKE_SOURCE_DIR}/")
 set_target_properties(Client PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
