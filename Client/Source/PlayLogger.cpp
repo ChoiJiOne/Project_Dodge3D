@@ -5,6 +5,7 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "FileUtils.h"
+#include "IApplication.h"
 #include "StringUtils.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
@@ -23,9 +24,7 @@ void PlayLogger::Initialize()
 {
 	ASSERT(!bIsInitialized_, "already initialize play logger object...");
 
-	std::wstring rootPath;
-	ASSERT(CommandLineUtils::GetStringValue("rootPath", rootPath), "failed to get root path in command line...");
-
+	std::wstring rootPath = IApplication::GetRootPath();
 	logFilePath_ = rootPath + L"Client/Resource/Bin/Rank.bin";
 	if (FileUtils::IsValidPath(logFilePath_))
 	{
