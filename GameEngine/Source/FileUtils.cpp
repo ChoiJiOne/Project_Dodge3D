@@ -55,6 +55,16 @@ void FileUtils::WriteBufferToFile(const std::wstring& path, const std::vector<ui
 	WINDOWS_ASSERT(CloseHandle(fileHandle), L"failed to close %s...", path.c_str());
 }
 
+void FileUtils::MakeDirectory(const std::string& path)
+{
+	WINDOWS_ASSERT(CreateDirectoryA(path.c_str(), nullptr), "failed to create %s...", path.c_str());
+}
+
+void FileUtils::MakeDirectory(const std::wstring& path)
+{
+	WINDOWS_ASSERT(CreateDirectoryW(path.c_str(), nullptr), L"failed to create %s...", path.c_str());
+}
+
 bool FileUtils::IsValidPath(const std::string& path)
 {
 	return PathFileExistsA(path.c_str());

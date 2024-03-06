@@ -67,6 +67,30 @@ namespace FileUtils
 
 
 	/**
+	 * @brief 디렉토리를 생성합니다.
+	 *
+	 * @param path 디렉토리를 생성할 경로입니다.
+	 *
+	 * @see
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/winbase/nf-winbase-createdirectory
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createdirectoryw
+	 */
+	void MakeDirectory(const std::string& path);
+
+
+	/**
+	 * @brief 디렉토리를 생성합니다.
+	 *
+	 * @param path 디렉토리를 생성할 경로입니다.
+	 *
+	 * @see
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/winbase/nf-winbase-createdirectory
+	 * - https://learn.microsoft.com/ko-kr/windows/win32/api/fileapi/nf-fileapi-createdirectoryw
+	 */
+	void MakeDirectory(const std::wstring& path);
+
+
+	/**
 	 * @brief 파일 혹은 디렉토리가 유효한지 확인합니다.
 	 *
 	 * @param path 유효한지 확인할 파일 혹은 디렉토리 경로입니다.
