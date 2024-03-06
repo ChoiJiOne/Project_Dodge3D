@@ -16,5 +16,7 @@ add_library(miniaudio STATIC ${MINIAUDIO_INCLUDE_FILE} ${MINIAUDIO_SOURCE_FILE})
 
 target_include_directories(miniaudio PUBLIC ${MINIAUDIO_INCLUDE})
 
+set_property(TARGET miniaudio PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${MINIAUDIO_INCLUDE_FILE})
 source_group(src FILES ${MINIAUDIO_SOURCE_FILE})

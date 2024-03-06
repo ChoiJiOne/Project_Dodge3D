@@ -15,5 +15,7 @@ add_library(imgui STATIC ${IMGUI_INCLUDE_FILE} ${IMGUI_SOURCE_FILE})
 
 target_include_directories(imgui PUBLIC ${IMGUI_INCLUDE})
 
+set_property(TARGET imgui PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${IMGUI_INCLUDE_FILE})
 source_group(src FILES ${IMGUI_SOURCE_FILE})

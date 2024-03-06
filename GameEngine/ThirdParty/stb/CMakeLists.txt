@@ -16,5 +16,7 @@ add_library(stb STATIC ${STB_INCLUDE_FILE} ${STB_SOURCE_FILE})
 
 target_include_directories(stb PUBLIC ${STB_INCLUDE})
 
+set_property(TARGET stb PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${STB_INCLUDE_FILE})
 source_group(src FILES ${STB_SOURCE_FILE})

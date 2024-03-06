@@ -16,5 +16,7 @@ add_library(glad STATIC ${GLAD_INCLUDE_FILE} ${GLAD_SOURCE_FILE})
 
 target_include_directories(glad PUBLIC ${GLAD_INCLUDE})
 
+set_property(TARGET glad PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${GLAD_INCLUDE_FILE})
 source_group(src FILES ${GLAD_SOURCE_FILE})

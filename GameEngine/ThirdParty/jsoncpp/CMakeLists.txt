@@ -16,5 +16,7 @@ add_library(jsoncpp STATIC ${JSONCPP_INCLUDE_FILE} ${JSONCPP_SOURCE_FILE})
 
 target_include_directories(jsoncpp PUBLIC ${JSONCPP_INCLUDE})
 
+set_property(TARGET jsoncpp PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(include FILES ${JSONCPP_INCLUDE_FILE})
 source_group(src FILES ${JSONCPP_SOURCE_FILE})
