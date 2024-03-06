@@ -56,6 +56,8 @@ target_compile_definitions(
     $<$<CONFIG:MinSizeRel>:MIN_SIZE_REL_MODE>
 )
 
+set_property(TARGET GameEngine PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(Include FILES ${GAME_ENGINE_INCLUDE_FILE})
 source_group(Script FILES ${GAME_ENGINE_SCRIPT_FILE})
 source_group(Shader FILES ${GAME_ENGINE_SHADER_FILE})

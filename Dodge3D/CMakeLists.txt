@@ -41,6 +41,8 @@ add_executable(Dodge3D
 target_include_directories(Dodge3D PUBLIC ${DODGE3D_INCLUDE} ${GAME_ENGINE_INCLUDE})
 target_link_libraries(Dodge3D PUBLIC GameEngine)
 
+set_property(TARGET Dodge3D PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 source_group(Include FILES ${DODGE3D_INCLUDE_FILE})
 source_group(Source FILES ${DODGE3D_SOURCE_FILE})
 source_group(Script FILES ${DODGE3D_SCRIPT_FILE})
