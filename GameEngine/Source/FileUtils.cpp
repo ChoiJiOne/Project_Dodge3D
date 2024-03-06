@@ -1,10 +1,9 @@
-#include "FileUtils.h"
-
 #include <shlwapi.h>
 
 #include "Assertion.h"
+#include "FileUtils.h"
 #include "StringUtils.h"
-#include "WindowsAssertion.h"
+
 
 std::vector<uint8_t> FileUtils::ReadBufferFromFile(const std::string& path)
 {

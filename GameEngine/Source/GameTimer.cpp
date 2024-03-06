@@ -1,9 +1,6 @@
+#include "Assertion.h"
 #include "GameTimer.h"
-
 #include "StringUtils.h"
-#include "WindowsAssertion.h"
-
-#include <windows.h>
 
 GameTimer::GameTimer()
 {

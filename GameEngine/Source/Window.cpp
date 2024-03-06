@@ -1,6 +1,5 @@
+#include "Assertion.h"
 #include "Window.h"
-
-#include "WindowsAssertion.h"
 
 bool Window::bIsRegisterWindowClass_ = false;
 HINSTANCE Window::hInstance_ = nullptr;

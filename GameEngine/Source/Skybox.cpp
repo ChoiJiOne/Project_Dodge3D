@@ -1,13 +1,11 @@
-#include "Skybox.h"
-
-#include "Assertion.h"
-#include "FileUtils.h"
-#include "GLAssertion.h"
-#include "StringUtils.h"
-#include "TextureUtils.h"
-
 #include <glad/glad.h>
 #include <stb_image.h>
+
+#include "Assertion.h"
+#include "Skybox.h"
+#include "FileUtils.h"
+#include "StringUtils.h"
+#include "TextureUtils.h"
 
 Skybox::~Skybox()
 {

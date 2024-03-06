@@ -3,7 +3,6 @@
 #include "Assertion.h"
 #include "CommandLineUtils.h"
 #include "Window.h"
-#include "WindowsAssertion.h"
 
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>

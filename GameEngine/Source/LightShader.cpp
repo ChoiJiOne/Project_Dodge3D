@@ -1,14 +1,12 @@
-#include "LightShader.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
 #include "Camera3D.h"
-#include "GLAssertion.h"
 #include "Light.h"
+#include "LightShader.h"
 #include "Material.h"
 #include "StaticMesh.h"
 #include "ShadowMap.h"
-
-#include <glad/glad.h>
 
 LightShader::~LightShader() {}
 

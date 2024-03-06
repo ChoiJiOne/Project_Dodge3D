@@ -1,15 +1,13 @@
-#include "Texture2D.h"
-
-#include "Assertion.h"
-#include "FileUtils.h"
-#include "GLAssertion.h"
-#include "StringUtils.h"
-#include "TextureUtils.h"
-
 #include <array>
 #include <unordered_map>
 
 #include <glad/glad.h>
+
+#include "Assertion.h"
+#include "Texture2D.h"
+#include "FileUtils.h"
+#include "StringUtils.h"
+#include "TextureUtils.h"
 
 Texture2D::~Texture2D()
 {

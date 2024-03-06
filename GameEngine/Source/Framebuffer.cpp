@@ -1,8 +1,7 @@
-#include "Framebuffer.h"
-
-#include "GLAssertion.h"
-
 #include <glad/glad.h>
+
+#include "Assertion.h"
+#include "Framebuffer.h"
 
 Framebuffer::~Framebuffer()
 {

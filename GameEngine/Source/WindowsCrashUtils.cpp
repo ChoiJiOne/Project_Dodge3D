@@ -4,9 +4,9 @@
 #include <pathcch.h>
 #include <Shlwapi.h>
 
+#include "Assertion.h"
 #include "GameTimer.h"
 #include "StringUtils.h"
-#include "WindowsAssertion.h"
 
 std::wstring crashInfoSavePath;
 

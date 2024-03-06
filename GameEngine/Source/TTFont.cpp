@@ -1,12 +1,10 @@
-#include "TTFont.h"
-
-#include "Assertion.h"
-#include "GLAssertion.h"
-#include "FileUtils.h"
-
 #include <glad/glad.h>
 #include <stb_rect_pack.h>
 #include <stb_truetype.h>
+
+#include "Assertion.h"
+#include "TTFont.h"
+#include "FileUtils.h"
 
 TTFont::~TTFont()
 {

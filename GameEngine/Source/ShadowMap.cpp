@@ -1,9 +1,7 @@
-#include "ShadowMap.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
-#include "GLAssertion.h"
-
-#include <glad/glad.h>
+#include "ShadowMap.h"
 
 ShadowMap::~ShadowMap()
 {

@@ -1,11 +1,8 @@
-#include "GeometryShader2D.h"
-
-#include "Assertion.h"
-#include "GLAssertion.h"
-#include "MathUtils.h"
-
 #include <glad/glad.h>
 
+#include "Assertion.h"
+#include "GeometryShader2D.h"
+#include "MathUtils.h"
 
 GeometryShader2D::~GeometryShader2D()
 {

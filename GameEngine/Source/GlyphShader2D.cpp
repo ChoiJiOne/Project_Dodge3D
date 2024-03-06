@@ -1,11 +1,8 @@
-#include "GlyphShader2D.h"
-
-#include "Assertion.h"
-#include "GLAssertion.h"
-#include "TTFont.h"
-
 #include <glad/glad.h>
 
+#include "Assertion.h"
+#include "GlyphShader2D.h"
+#include "TTFont.h"
 
 GlyphShader2D::~GlyphShader2D()
 {

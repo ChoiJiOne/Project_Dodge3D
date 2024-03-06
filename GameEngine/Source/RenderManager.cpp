@@ -1,11 +1,15 @@
-#include "RenderManager.h"
-
 #include <array>
+
+#include <glad/glad_wgl.h>
+#include <glad/glad.h>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_win32.h>
 
 #include "Assertion.h"
 #include "Camera3D.h"
 #include "CommandLineUtils.h"
-#include "GLAssertion.h"
+
 #include "GeometryShader2D.h"
 #include "GeometryShader3D.h"
 #include "GlyphShader2D.h"
@@ -13,6 +17,7 @@
 #include "MathUtils.h"
 #include "PostEffectShader.h"
 #include "ResourceManager.h"
+#include "RenderManager.h"
 #include "Shader.h"
 #include "Skybox.h"
 #include "StaticMesh.h"
@@ -22,14 +27,6 @@
 #include "Texture2D.h"
 #include "TextureShader2D.h"
 #include "Window.h"
-#include "WindowsAssertion.h"
-
-#include <glad/glad_wgl.h>
-#include <glad/glad.h>
-#include <imgui.h>
-#include <imgui_impl_opengl3.h>
-#include <imgui_impl_win32.h>
-
 
 /**
  * @brief OpenGL의 버전입니다.

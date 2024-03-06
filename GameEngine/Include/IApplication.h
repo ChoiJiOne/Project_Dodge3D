@@ -17,7 +17,6 @@
 #include "Framebuffer.h"
 #include "GameTimer.h"
 #include "GeometryGenerator.h"
-#include "GLAssertion.h"
 #include "InputManager.h"
 #include "IManager.h"
 #include "IObject.h"
@@ -44,7 +43,6 @@
 #include "Transform.h"
 #include "TTFont.h"
 #include "Window.h"
-#include "WindowsAssertion.h"
 #include "WindowsCrashUtils.h"
 
 

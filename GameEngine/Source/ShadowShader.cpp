@@ -1,11 +1,9 @@
-#include "ShadowShader.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
-#include "GLAssertion.h"
 #include "Light.h"
 #include "StaticMesh.h"
-
-#include <glad/glad.h>
+#include "ShadowShader.h"
 
 ShadowShader::~ShadowShader() {}
 

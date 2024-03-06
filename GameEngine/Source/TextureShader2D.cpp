@@ -1,11 +1,9 @@
-#include "TextureShader2D.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
-#include "GLAssertion.h"
 #include "MathUtils.h"
 #include "Texture2D.h"
-
-#include <glad/glad.h>
+#include "TextureShader2D.h"
 
 TextureShader2D::~TextureShader2D()
 {

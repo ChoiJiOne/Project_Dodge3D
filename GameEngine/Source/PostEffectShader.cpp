@@ -1,9 +1,8 @@
-#include "PostEffectShader.h"
-
-#include "GLAssertion.h"
-#include "Framebuffer.h"
-
 #include <glad/glad.h>
+
+#include "Assertion.h"
+#include "PostEffectShader.h"
+#include "Framebuffer.h"
 
 PostEffectShader::~PostEffectShader()
 {

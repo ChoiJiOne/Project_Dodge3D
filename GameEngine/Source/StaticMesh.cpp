@@ -1,9 +1,7 @@
-#include "StaticMesh.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
-#include "GLAssertion.h"
-
-#include <glad/glad.h>
+#include "StaticMesh.h"
 
 StaticMesh::~StaticMesh()
 {

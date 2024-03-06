@@ -1,10 +1,8 @@
-#include "GeometryShader3D.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
-#include "GLAssertion.h"
+#include "GeometryShader3D.h"
 #include "MathUtils.h"
-
-#include <glad/glad.h>
 
 GeometryShader3D::~GeometryShader3D()
 {

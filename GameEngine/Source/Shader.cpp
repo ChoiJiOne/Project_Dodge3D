@@ -1,11 +1,9 @@
-#include "Shader.h"
+#include <glad/glad.h>
 
 #include "Assertion.h"
 #include "FileUtils.h"
-#include "GLAssertion.h"
+#include "Shader.h"
 #include "StringUtils.h"
-
-#include <glad/glad.h>
 
 Shader::~Shader()
 {
