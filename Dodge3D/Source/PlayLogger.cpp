@@ -127,5 +127,11 @@ void PlayLogger::WriteLogFile()
 		chunkBufferPtr[index].time = playLog_[index].time;
 	}
 	
+	std::wstring basePath = FileUtils::GetBasePath(logFilePath_);
+	if (!FileUtils::IsValidPath(basePath))
+	{
+		FileUtils::MakeDirectory(basePath);
+	}
+
 	FileUtils::WriteBufferToFile(logFilePath_, buffer);
 }
