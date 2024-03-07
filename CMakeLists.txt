@@ -13,6 +13,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 add_subdirectory(GameEngine)
 add_subdirectory(Dodge3D)
 
+set_target_properties(Dodge3D PROPERTIES LINK_FLAGS "/level='requireAdministrator' /uiAccess='false'")
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Dodge3D)
 
 set(CPACK_GENERATOR "NSIS")
