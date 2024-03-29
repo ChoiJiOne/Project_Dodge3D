@@ -4,7 +4,7 @@
 
 
 ## Table of Contents
-- [ProjectA](#projecta)
+- [ProjectA - Dodge3D](#projecta---dodge3d)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
   - [How to get repository clone?](#how-to-get-repository-clone)
@@ -173,7 +173,7 @@ Package_MinSizeRel.bat
 
 ## How to Play Game?
 
-이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA_Dodge3D/releases/tag/v0.0)에서 `Dodge3D-win64.exe`를 다운로드 받은 후에 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
+이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA_Dodge3D/releases/tag/release)에서 `Dodge3D-win64.exe`를 다운로드 받은 후에 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
 
 <br><br>
 
