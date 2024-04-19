@@ -43,7 +43,7 @@
 `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 리포지토리의 복사본을 얻을 수 있습니다.
 
 ```PowerShell
-git clone https://github.com/ChoiJiOne/ProjectA_Dodge3D --single-branch -b develop
+git clone https://github.com/ChoiJiOne/Project_Dodge3D
 ```
 <br><br>
 
@@ -54,13 +54,11 @@ git clone https://github.com/ChoiJiOne/ProjectA_Dodge3D --single-branch -b devel
 
 ### Visual Studio 2019 
 ```
-cd ProjectA
 GenerateProjectFiles_vs2019.bat
 ```
 
 ### Visual Studio 2022
 ```
-cd ProjectA
 GenerateProjectFiles_vs2022.bat
 ```
 
@@ -167,13 +165,6 @@ Package_MinSizeRel.bat
 ```
 
 > 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
-
-<br><br>
-
-
-## How to Play Game?
-
-이 프로젝트의 게임을 플레이 하기 위해서는 [여기](https://github.com/ChoiJiOne/ProjectA_Dodge3D/releases/tag/release)에서 `Dodge3D-win64.exe`를 다운로드 받은 후에 설치를 진행합니다. 그 다음 설치한 폴더에 있는 `Dodge3D.exe`를 실행하면 게임을 실행할 수 있습니다. 게임을 시작하면 버튼은 마우스 우클릭으로 할 수 있고, 방향키로 조작 가능합니다. ESC 키를 누르면 게임을 일시중지 시킬 수 있습니다.
 
 <br><br>
 
