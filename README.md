@@ -4,7 +4,7 @@
 
 
 ## Table of Contents
-- [ProjectA - Dodge3D](#projecta---dodge3d)
+- [Project - Dodge3D](#project---dodge3d)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
   - [How to get repository clone?](#how-to-get-repository-clone)
