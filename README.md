@@ -1,4 +1,4 @@
-# ProjectA - Dodge3D
+# Project - Dodge3D
 - 3D 총알 피하기(Dodge3D) 게임 개발 프로젝트입니다.
 <br><br>
 
