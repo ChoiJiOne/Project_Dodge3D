@@ -1,6 +1,6 @@
 @echo off
 
 SET mode=Debug
-SET script=GameEngine\Script\Package.bat
+SET script=Script\Package.bat
 
 %script% %mode%
