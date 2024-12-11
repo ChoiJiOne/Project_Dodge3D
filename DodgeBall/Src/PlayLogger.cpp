@@ -24,8 +24,7 @@ void PlayLogger::Initialize()
 {
 	ASSERT(!bIsInitialized_, "already initialize play logger object...");
 
-	std::wstring rootPath = IApplication::GetRootPath();
-	logFilePath_ = rootPath + L"Dodge3D/Resource/Bin/Rank.bin";
+	logFilePath_ = L"Resource/Bin/Rank.bin";
 	if (FileUtils::IsValidPath(logFilePath_))
 	{
 		ReadLogFile();
