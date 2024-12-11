@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(Dodge3D)
+project(DodgeBall)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,10 +11,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(GameEngine)
-add_subdirectory(Dodge3D)
+add_subdirectory(DodgeBall)
 
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Dodge3D)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT DodgeBall)
 
 # set_target_properties(Dodge3D PROPERTIES LINK_FLAGS "/level='requireAdministrator' /uiAccess='false'")
 # set(CPACK_GENERATOR "NSIS")
