@@ -10,7 +10,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-add_subdirectory(GameEngine)
+add_subdirectory(ThirdParty/glad)
+add_subdirectory(ThirdParty/jsoncpp)
+add_subdirectory(ThirdParty/miniaudio)
+add_subdirectory(ThirdParty/stb)
+add_subdirectory(ThirdParty/imgui)
+
+set_target_properties(glad jsoncpp miniaudio stb imgui PROPERTIES FOLDER "ThirdParty")
+
 add_subdirectory(DodgeBall)
 
 
