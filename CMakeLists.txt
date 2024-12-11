@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.27)
 
 project(DodgeBall)
 
+set(PROJECT_NAME "DodgeBall")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -18,10 +20,9 @@ add_subdirectory(ThirdParty/imgui)
 
 set_target_properties(glad jsoncpp miniaudio stb imgui PROPERTIES FOLDER "ThirdParty")
 
-add_subdirectory(DodgeBall)
+add_subdirectory(${PROJECT_NAME})
 
-
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT DodgeBall)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 # set_target_properties(Dodge3D PROPERTIES LINK_FLAGS "/level='requireAdministrator' /uiAccess='false'")
 # set(CPACK_GENERATOR "NSIS")
