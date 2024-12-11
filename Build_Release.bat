@@ -1,6 +1,6 @@
 @echo off
 
 SET mode=Release
-SET script=GameEngine\Script\BuildSolution.bat
+SET script=Script\BuildSolution.bat
 
 %script% %mode%
