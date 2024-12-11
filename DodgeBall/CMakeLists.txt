@@ -1,20 +1,21 @@
 # CMake의 최소 버전을 명시합니다.
 cmake_minimum_required(VERSION 3.27)
 
+set(PROJECT_NAME "DodgeBall")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(DODGE_BALL_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-set(DODGE3D_INCLUDE "${DODGE_BALL_PATH}/Include")
-set(DODGE3D_SOURCE "${DODGE_BALL_PATH}/Source")
-set(DODGE3D_SCRIPT "${DODGE_BALL_PATH}/Script")
-set(DODGE3D_SHADER "${DODGE_BALL_PATH}/Shader")
+set(DODGE_BALL_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/Inc")
+set(DODGE_BALL_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/Src")
+set(DODGE_BALL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/../Script")
+set(DODGE_BALL_SHADER "${CMAKE_CURRENT_SOURCE_DIR}/../Shader")
 
-set(DODGE3D_ICON_PATH "${DODGE_BALL_PATH}/Resource/Icon/Icon.ico")
-configure_file("${DODGE3D_INCLUDE}/ResourceScript.rc.in" "${DODGE3D_INCLUDE}/ResourceScript.rc")
+set(DODGE_BALL_ICON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../Resource/Icon/Icon.ico")
+configure_file("${DODGE_BALL_INCLUDE}/ResourceScript.rc.in" "${DODGE_BALL_INCLUDE}/ResourceScript.rc")
 
-set(WINDOW_TITLE "Dodge3D")
+set(WINDOW_TITLE "DodgeBall")
 set(WINDOW_X 100)
 set(WINDOW_Y 100)
 set(WINDOW_W 1000)
@@ -23,30 +24,42 @@ set(WINDOW_RESIZE 0)
 set(WINDOW_FULLSCREEN 0)
 set(WINDOW_VSYNC 1)
 set(WINDOW_IMGUI 1)
-configure_file("${DODGE3D_INCLUDE}/Config.h.in" "${DODGE3D_INCLUDE}/Config.h")
+configure_file("${DODGE_BALL_INCLUDE}/Config.h.in" "${DODGE_BALL_INCLUDE}/Config.h")
 
-file(GLOB_RECURSE DODGE3D_INCLUDE_FILE "${DODGE3D_INCLUDE}/*")
-file(GLOB_RECURSE DODGE3D_SOURCE_FILE "${DODGE3D_SOURCE}/*")
-file(GLOB_RECURSE DODGE3D_SCRIPT_FILE "${DODGE3D_SCRIPT}/*" )
-file(GLOB_RECURSE DODGE3D_SHADER_FILE "${DODGE3D_SHADER}/*")
+file(GLOB_RECURSE DODGE_BALL_INCLUDE_FILE "${DODGE_BALL_INCLUDE}/**")
+file(GLOB_RECURSE DODGE_BALL_SOURCE_FILE "${DODGE_BALL_SOURCE}/**")
+file(GLOB_RECURSE DODGE_BALL_SCRIPT_FILE "${DODGE_BALL_SCRIPT}/**" )
+file(GLOB_RECURSE DODGE_BALL_SHADER_FILE "${DODGE_BALL_SHADER}/**")
 
-add_executable(Dodge3D
-    WIN32
-    ${DODGE3D_INCLUDE_FILE}
-    ${DODGE3D_SOURCE_FILE}
-    ${DODGE3D_SCRIPT_FILE}
-    ${DODGE3D_SHADER_FILE}
+add_executable(${PROJECT_NAME} WIN32 ${DODGE_BALL_INCLUDE_FILE} ${DODGE_BALL_SOURCE_FILE} ${DODGE_BALL_SCRIPT_FILE} ${DODGE_BALL_SHADER_FILE})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${DODGE_BALL_INCLUDE})
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+    Dbghelp.lib 
+    Pathcch.lib
+    Shlwapi.lib
+    opengl32.lib
+    glad
+    jsoncpp
+    miniaudio
+    stb
+    imgui
+)
+target_compile_definitions(
+    ${PROJECT_NAME}  
+    PUBLIC
+    $<$<CONFIG:Debug>:DEBUG_MODE>
+    $<$<CONFIG:Release>:RELEASE_MODE>
+    $<$<CONFIG:RelWithDebInfo>:REL_WITH_DEB_INFO_MODE>
+    $<$<CONFIG:MinSizeRel>:MIN_SIZE_REL_MODE>
 )
 
-target_include_directories(Dodge3D PUBLIC ${DODGE3D_INCLUDE} ${GAME_ENGINE_INCLUDE})
-target_link_libraries(Dodge3D PUBLIC GameEngine)
+set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-set_property(TARGET Dodge3D PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-
-source_group(Include FILES ${DODGE3D_INCLUDE_FILE})
-source_group(Source FILES ${DODGE3D_SOURCE_FILE})
-source_group(Script FILES ${DODGE3D_SCRIPT_FILE})
-source_group(Shader FILES ${DODGE3D_SHADER_FILE})
+source_group(${PROJECT_NAME}/Inc FILES ${DODGE_BALL_INCLUDE_FILE})
+source_group(${PROJECT_NAME}/Src FILES ${DODGE_BALL_SOURCE_FILE})
+source_group(Script FILES ${DODGE_BALL_SCRIPT_FILE})
+source_group(Shader FILES ${DODGE_BALL_SHADER_FILE})
 
 set(COMMANDLINE "devMode=on rootPath=\"${CMAKE_SOURCE_DIR}/\"")
-set_target_properties(Dodge3D PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS ${COMMANDLINE})
