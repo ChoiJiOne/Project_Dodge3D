@@ -1,8 +1,5 @@
 #include "IApplication.h"
 
-std::wstring IApplication::rootPath_;
-std::wstring IApplication::enginePath_;
-
 IApplication::IApplication()
 {
 	if (!bIsSetup_)
@@ -38,26 +35,6 @@ void IApplication::Setup()
 	ASSERT(bIsPropertiesSet_, "Failed to set application properties...");
 #endif
 
-	CommandLineUtils::Parse();
-
-	std::wstring devMode;
-	if (CommandLineUtils::GetStringValue("devMode", devMode))
-	{
-		devMode = StringUtils::ToLower(devMode);
-		bIsDevMode_ = (devMode == L"on") ? true : false;
-	}
-
-	if (bIsDevMode_)
-	{
-		ASSERT(CommandLineUtils::GetStringValue(L"rootPath", rootPath_), "failed to get root path from command line...");
-	}
-	else
-	{
-		rootPath_ = FileUtils::GetBasePath(CommandLineUtils::GetExecutePath());
-	}
-	
-	enginePath_ = rootPath_ + L"GameEngine/";
-
 	Window::RegisterWindowClass(windowTitle_, InputManager::WindowProc);
 
 	window_ = std::make_unique<Window>();
@@ -71,7 +48,7 @@ void IApplication::Setup()
 
 	RenderManager::Get().SetRenderTargetWindow(window_.get());
 	RenderManager::Get().SetEnableImGui(bIsImGui_);
-	RenderManager::Get().SetShaderPath(enginePath_ + L"Shader/");
+	RenderManager::Get().SetShaderPath(L"Shader/");
 
 	InputManager::Get().Startup();
 	AudioManager::Get().Startup();
