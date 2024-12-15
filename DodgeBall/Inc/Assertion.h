@@ -7,8 +7,6 @@
 #include <string>
 #include <windows.h>
 
-
-#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(DEVELOPMENT_MODE)
 /**
  * @brief 디버그 창에 형식화된 문자열을 출력합니다.
  *
@@ -21,6 +19,7 @@
  */
 inline void DebugPrintF(const char* format, ...)
 {
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(DEVELOPMENT_MODE)
 	static const int32_t BUFFER_SIZE = 1024;
 	static char buffer[BUFFER_SIZE];
 
@@ -30,6 +29,7 @@ inline void DebugPrintF(const char* format, ...)
 	va_end(args);
 
 	OutputDebugStringA(buffer);
+#endif
 }
 
 
@@ -45,6 +45,7 @@ inline void DebugPrintF(const char* format, ...)
  */
 inline void DebugPrintF(const wchar_t* format, ...)
 {
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(DEVELOPMENT_MODE)
 	static const int32_t BUFFER_SIZE = 1024;
 	static wchar_t buffer[BUFFER_SIZE];
 
@@ -54,8 +55,8 @@ inline void DebugPrintF(const wchar_t* format, ...)
 	va_end(args);
 
 	OutputDebugStringW(buffer);
-}
 #endif
+}
 
 
 /**
