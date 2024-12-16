@@ -50,8 +50,8 @@ target_compile_definitions(
     PUBLIC
     $<$<CONFIG:Debug>:DEBUG_MODE>
     $<$<CONFIG:Release>:RELEASE_MODE>
-    $<$<CONFIG:RelWithDebInfo>:REL_WITH_DEB_INFO_MODE>
-    $<$<CONFIG:MinSizeRel>:MIN_SIZE_REL_MODE>
+    $<$<CONFIG:RelWithDebInfo>:DEVELOPMENT_MODE>
+    $<$<CONFIG:MinSizeRel>:SHIPPING_MODE>
 )
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
