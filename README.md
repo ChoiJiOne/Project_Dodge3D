@@ -1,141 +1,83 @@
 # DodgeBall
 - `DodgeBall` is a project for developing a simple dodge ball game without using a game engine.
 
-
-## Table of Contents
-- [Project - Dodge3D](#project---dodge3d)
-  - [Table of Contents](#table-of-contents)
-  - [Requirements](#requirements)
-  - [How to get repository clone?](#how-to-get-repository-clone)
-  - [How to Generate Visual Studio Solution?](#how-to-generate-visual-studio-solution)
-    - [Visual Studio 2019](#visual-studio-2019)
-    - [Visual Studio 2022](#visual-studio-2022)
-  - [How to Build Solution?](#how-to-build-solution)
-    - [Debug](#debug)
-    - [Release](#release)
-    - [RelWithDebInfo](#relwithdebinfo)
-    - [MinSizeRel](#minsizerel)
-  - [How to Run Dodge3D?](#how-to-run-dodge3d)
-    - [Debug](#debug-1)
-    - [Release](#release-1)
-    - [RelWithDebInfo](#relwithdebinfo-1)
-    - [MinSizeRel](#minsizerel-1)
-  - [How to Package Project?](#how-to-package-project)
-    - [Debug](#debug-2)
-    - [Release](#release-2)
-    - [RelWithDebInfo](#relwithdebinfo-2)
-    - [MinSizeRel](#minsizerel-2)
-  - [How to Play Game?](#how-to-play-game)
-  - [License](#license)
-
-
-## Requirements
+## Support Platform
 - Windows 10/11 Home/Pro
+
+## Dependencies
 - [Git](https://git-scm.com/)
 - [Visual Studio 2019 or 2022](https://visualstudio.microsoft.com/ko/)
-- [CMake 3.27 or later](https://cmake.org/download/)
-<br><br>
-
+- [CMake 3.27 or later](https://cmake.org/)
+- [NSIS](https://nsis.sourceforge.io/Download)
 
 ## How to get repository clone?
 
-`CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 리포지토리의 복사본을 얻을 수 있습니다.
+You can obtain a copy of the repository using the following command.
 
-```PowerShell
-git clone https://github.com/ChoiJiOne/Project_Dodge3D
 ```
-<br><br>
-
-
-## How to Generate Visual Studio Solution?
-
-`CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 프로젝트의 Visual Studio 솔루션을 얻을 수 있습니다. 디렉토리 기준은 리포지토리의 복사본이 존재하는 폴더 기준입니다.
-
-### Visual Studio 2019 
-```
-GenerateProjectFiles_vs2019.bat
+git clone https://github.com/ChoiJiOne/DodgeBall.git
 ```
 
-### Visual Studio 2022
-```
-GenerateProjectFiles_vs2022.bat
-```
+## How to generate Visual Studio solution?
 
-> 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
+To generate and run a Visual Studio solution, execute either `GenerateProjectFiles_vs2019.bat` or `GenerateProjectFiles_vs2022.bat`.
+To only generate or update the Visual Studio solution, run either `HotReload_vs2019.bat` or `HotReload_vs2022.bat`.
 
-<br><br>
+> Make sure to execute the script that matches the installed version of Visual Studio.
 
+## How to build solution?
 
-## How to Build Solution?
-
-이 프로젝트는 Visual Studio를 실행하지 않은 상태에서 빌드할 수 있는 기능을 지원합니다. 빌드 스크립트가 지원하는 빌드 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로, 각각의 특징은 다음과 같습니다.
+This project supports building without running Visual Studio. The build script supports the following build modes: `Debug`, `Release`, `RelWithDebInfo`, and `MinSizeRel`, each with the following characteristics.
 
 | mode | description |
 |:---:|:---|
-| Debug | 빌드 과정에서 최적화를 수행하지 않고, 디버그 정보 파일(.pdb)을 생성합니다. |
-| Release | 빌드 과정에서 최적화를 수행하고, 디버그 정보 파일(.pdb)을 생성하지 않습니다. |
-| RelWithDebInfo | 빌드 과정에서 최적화를 수행하고, 디버그 정보 파일(.pdb)을 생성합니다. |
-| MinSizeRel  | 빌드 과정에서 최적화를 수행하고, 최소 크기로 최적화하며 디버그 정보 파일(.pdb)을 생성하지 않습니다. |
+| Debug | No optimization is performed during the build process, and a debug information file (.pdb) is generated. |
+| Release | Optimization is performed during the build process, and no debug information file (.pdb) is generated. |
+| RelWithDebInfo | Optimization is performed during the build process, and a debug information file (.pdb) is generated. |
+| MinSizeRel | Optimization is performed during the build process, with a focus on minimizing size, and no debug information file (.pdb) is generated. |
 
-따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 따라 빌드를 수행할 수 있습니다.
+Therefore, you can perform the build for each mode by executing the following batch script.
+- `Debug`
+  ```
+  Build_Debug.bat
+  ```
+- `Release`
+  ```
+  Build_Release.bat
+  ```
+- `RelWithDebInfo`
+  ```
+  Build_RelWithDebInfo.bat
+  ```
+- `MinSizeRel`
+  ```
+  Build_MinSizeRel.bat
+  ```
 
-### Debug
-```
-Build_Debug.bat
-```
+## How to package project?
 
-### Release
-```
-Build_Release.bat
-```
+This project supports generating an exe file that allows the project to be installed on the user's machine. To use this feature, NSIS (Nullsoft Scriptable Install System) must be installed, and its installation path must be registered in the environment variables. The packaging script supports the same modes as the build modes: Debug, Release, RelWithDebInfo, and MinSizeRel. Therefore, by running the following commands in CMD or PowerShell, you can obtain the package file for each mode.
 
-### RelWithDebInfo
-```
-Build_RelWithDebInfo.bat
-```
+> However, the solution must be built for this to work. Please refer to [this section](#how-to-build-solution) for the build process.
 
-### MinSizeRel
-```
-Build_MinSizeRel.bat
-```
+> You will not be able to use this feature if the NSIS path is not registered in the environment variables.
 
-> 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
-
-<br><br>
-
-
-## How to Package Project?
-
-이 프로젝트는 사용자 머신에 프로젝트가 설치 가능하도록 하는 exe 파일을 생성할 수 있는 기능을 지원합니다. 이때, [NSIS (nullsoft scriptable install system)](https://nsis.sourceforge.io/Main_Page)가 설치되어 있고, 설치 경로가 환경변수에 등록되어 있어야 사용할 수 있습니다. 이 패키징 스크립트가 지원하는 모드는 `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`으로 빌드 모드와 동일합니다. 따라서, `CMD` 혹은 `PowerShell`에서 다음 명령어를 수행하시면 각 모드에 맞는 패키지 파일을 얻을 수 있습니다.
-
-> 단, 솔루션이 빌드되어 있어야 동작합니다. 빌드는 [여기](#how-to-build-solution)를 참조하세요.
-
-> NSIS의 경로가 환경변수에 등록되어 있지 않으면 이 기능을 사용하실 수 없습니다. 
-
-### Debug
-```
-Package_Debug.bat
-```
-
-### Release
-```
-Package_Release.bat
-```
-
-### RelWithDebInfo
-```
-Package_RelWithDebInfo.bat
-```
-
-### MinSizeRel
-```
-Package_MinSizeRel.bat
-```
-
-> 단, 위의 스크립트 모두 `CMD` 혹은 `PowerShell`에서 실행하지 않고 그냥 실행해도 동작합니다.
-
-<br><br>
-
+- `Debug`
+  ```
+  Package_Debug.bat
+  ```
+- `Release`
+  ```
+  Package_Release.bat
+  ```
+- `RelWithDebInfo`
+  ```
+  Package_RelWithDebInfo.bat
+  ```
+- `MinSizeRel`
+  ```
+  Package_MinSizeRel.bat
+  ```
 
 ## License
 
