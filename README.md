@@ -1,6 +1,5 @@
-# Project - Dodge3D
-- 3D 총알 피하기(Dodge3D) 게임 개발 프로젝트입니다.
-<br><br>
+# DodgeBall
+- `DodgeBall` is a project for developing a simple dodge ball game without using a game engine.
 
 
 ## Table of Contents
