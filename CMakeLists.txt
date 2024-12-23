@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 project(DodgeBall)
 
 set(PROJECT_NAME "DodgeBall")
+set(PROJECT_VERSION "OpenGL-Release")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -27,7 +28,7 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT $
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/level='requireAdministrator' /uiAccess='false'")
 set(CPACK_GENERATOR "NSIS")
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
-set(CPACK_PACKAGE_VERSION "Release")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_VENDOR "Github-ChoiJiOne")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "https://github.com/ChoiJiOne/DodgeBall")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME})
