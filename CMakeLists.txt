@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.27)
 project(DodgeBall)
 
 set(PROJECT_NAME "DodgeBall")
-set(PROJECT_VERSION "OpenGL-Release")
+set(PROJECT_VERSION "Release-OpenGL")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
