@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <Windows.h>
 
-#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(DEVELOPMENT_MODE)
+#if defined(DEBUG_MODE) || defined(RELEASE_MODE) || defined(RELWITHDEBINFO_MODE)
 #include <crtdbg.h>
 #endif
 
