@@ -8,7 +8,6 @@ add_subdirectory(mimalloc)
 add_subdirectory(miniaudio)
 add_subdirectory(sqlite3)
 add_subdirectory(stb)
-add_subdirectory(yaml-cpp)
 
 set_target_properties(
     glad
@@ -19,6 +18,5 @@ set_target_properties(
     miniaudio
     sqlite3
     stb
-    yaml-cpp
     PROPERTIES FOLDER "ThirdParty"
 )
