@@ -155,6 +155,17 @@ enum class EMouse
 	MIDDLE = 2,
 };
 
+/** GLFW 윈도우 이벤트입니다. */
+enum class EWindowEvent
+{
+	NONE = 0x00,
+	MOVE_ENTER = 0x01,
+	MOVE_LEAVE = 0x02,
+	FOCUS_GAIN = 0x03,
+	FOCUS_LOST = 0x04,
+	CLOSE_WINDOW = 0x05,
+};
+
 /**
  * GLFW 관련 처리를 수행하는 매니저입니다.
  * 이때, 이 매니저 클래스는 싱글턴입니다.
