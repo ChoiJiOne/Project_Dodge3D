@@ -23,3 +23,27 @@ void DebugPrintF(const char* format, ...)
 	OutputDebugStringA(buffer);
 #endif
 }
+
+std::string PrintF(const char* format, ...)
+{
+	char buffer[MAX_BUFFER_SIZE];
+
+	va_list args;
+	va_start(args, format);
+	int32_t size = vsnprintf(buffer, MAX_BUFFER_SIZE, format, args);
+	va_end(args);
+
+	return std::string(buffer, size);
+}
+
+std::wstring PrintF(const wchar_t* format, ...)
+{
+	wchar_t buffer[MAX_BUFFER_SIZE];
+
+	va_list args;
+	va_start(args, format);
+	int32_t size = _vsnwprintf_s(buffer, MAX_BUFFER_SIZE, format, args);
+	va_end(args);
+
+	return std::wstring(buffer, size);
+}
