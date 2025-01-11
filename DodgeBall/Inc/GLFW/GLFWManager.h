@@ -147,6 +147,14 @@ enum class EKey
 	KEY_MENU = 348
 };
 
+/** 마우스 코드 값입니다. */
+enum class EMouse
+{
+	LEFT   = 0,
+	RIGHT  = 1,
+	MIDDLE = 2,
+};
+
 /**
  * GLFW 관련 처리를 수행하는 매니저입니다.
  * 이때, 이 매니저 클래스는 싱글턴입니다.
