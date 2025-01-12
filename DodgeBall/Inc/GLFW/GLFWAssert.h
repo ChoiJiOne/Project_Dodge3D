@@ -46,13 +46,7 @@
  * GLFW_EXP_CHECK(window != nullptr);
  */
 #ifndef GLFW_EXP_CHECK
-#define GLFW_EXP_CHECK(EXP)\
-{\
-	if (!(bool)(EXP))\
-	{\
-		std::string _text = PrintF("> Code: %d\n> Error: %s\n> Description: %s", GLFWError::GetErrorCode(),  GLFWError::GetErrorMessage(),  GLFWError::GetErrorDescription());\
-	}\
-}
+#define GLFW_EXP_CHECK(EXP) (void)(EXP)
 #endif
  /**
   * 이 매크로는 GLFW API의 API 호출 결과를 검사합니다. 주로, 반환 값이 없는 API를 대상으로 합니다.
@@ -60,13 +54,6 @@
   * GLFW_API_CHECK(glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_MAJOR_VERSION));
   */
 #ifndef GLFW_API_CHECK
-#define GLFW_API_CHECK(EXP)\
-{\
-	EXP;\
-	if (GLFWError::IsDetectError())\
-	{\
-		std::string _text = PrintF("> Code: %d\n> Error: %s\n> Description: %s", GLFWError::GetErrorCode(),  GLFWError::GetErrorMessage(),  GLFWError::GetErrorDescription());\
-	}\
-}
+#define GLFW_API_CHECK(EXP) (void)(EXP)
 #endif
 #endif
