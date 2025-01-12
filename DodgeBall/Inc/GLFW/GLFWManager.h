@@ -185,6 +185,9 @@ public:
 	static GLFWManager* GetPtr();
 
 private:
+	/** IApp에서 GLFW 매니저의 내부에 접근할 수 있도록 설정. */
+	friend class IApp;
+
 	/**
 	 * GLFW 매니저의 기본 생성자와 빈 가상 소멸자입니다.
 	 * 싱글턴으로 구현하기 위해 private으로 숨겼습니다.
