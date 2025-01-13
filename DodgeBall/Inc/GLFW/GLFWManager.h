@@ -166,6 +166,9 @@ enum class EWindowEvent
 	CLOSE_WINDOW = 0x05,
 };
 
+/** 윈도우 이벤트의 ID 값입니다. */
+using WindowEventID = uint32_t;
+
 /**
  * GLFW 관련 처리를 수행하는 매니저입니다.
  * 이때, 이 매니저 클래스는 싱글턴입니다.
