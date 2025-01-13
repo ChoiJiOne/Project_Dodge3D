@@ -23,3 +23,17 @@ void DebugPrintF(const char* format, ...)
 	OutputDebugStringA(buffer);
 #endif
 }
+
+void DebugPrintF(const wchar_t* format, ...)
+{
+#if defined(DEBUG_MODE) || defined(RELWITHDEBINFO_MODE)
+	wchar_t buffer[MAX_BUFFER_SIZE];
+
+	va_list args;
+	va_start(args, format);
+	int32_t size = _vsnwprintf_s(buffer, MAX_BUFFER_SIZE, format, args);
+	va_end(args);
+
+	OutputDebugStringW(buffer);
+#endif
+}
