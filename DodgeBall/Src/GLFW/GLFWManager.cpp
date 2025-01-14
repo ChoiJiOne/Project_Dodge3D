@@ -189,6 +189,9 @@ void GLFWManager::Startup(int32_t width, int32_t height, const char* title, bool
 	GLFW_API_CHECK(glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_MINOR_VERSION));
 	GLFW_API_CHECK(glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE));
 	GLFW_API_CHECK(glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE));
+#if defined(DEBUG_MODE) || defined(RELWITHDEBINFO_MODE)
+	GLFW_API_CHECK(glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE));
+#endif
 
 	mainWindowWidth_ = width;
 	mainWindowHeight_ = height;
