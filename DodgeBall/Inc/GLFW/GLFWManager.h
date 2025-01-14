@@ -242,9 +242,6 @@ private:
 
 	};
 
-	/** GLFW 에러 처리를 위한 콜백 함수입니다. */
-	static void ErrorCallback(int32_t errorCode, const char* description);
-
 	/** 마우스 커서가 움직일 때 호출되는 콜백 함수입니다. */
 	static void CursorMoveCallback(GLFWwindow* window, double x, double y);
 

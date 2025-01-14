@@ -137,11 +137,6 @@ static const std::array<EKey, 119> KEYS =
 	EKey::KEY_RIGHT_SUPER,
 };
 
-void GLFWManager::ErrorCallback(int32_t errorCode, const char* description)
-{
-	GLFWError::SetLastError(errorCode, description);
-}
-
 void GLFWManager::CursorMoveCallback(GLFWwindow* window, double x, double y)
 {
 	singleton_.SetCursorPosition(x, y);
@@ -180,7 +175,7 @@ GLFWManager* GLFWManager::GetPtr()
 
 void GLFWManager::Startup(int32_t width, int32_t height, const char* title, bool bIsWindowCentered)
 {
-	glfwSetErrorCallback(ErrorCallback);
+	glfwSetErrorCallback(GLFWError::SetLastError);
 
 	GLFWallocator allocator;
 	allocator.allocate = MemoryAlloc;
