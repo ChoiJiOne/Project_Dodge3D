@@ -233,6 +233,9 @@ private:
 	GLFWManager() = default;
 	virtual ~GLFWManager() {}
 
+	/** GL 매니저에서 GLFW 매니저의 내부에 접근할 수 있도록 설정. */
+	friend class GLManager;
+
 	/** 윈도우 이벤트 발생 시 실행할 동작입니다. */
 	struct WindowEventAction
 	{
